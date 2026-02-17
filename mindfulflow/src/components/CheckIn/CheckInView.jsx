@@ -1,0 +1,347 @@
+import { useState, useEffect, memo, useCallback, useMemo, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { variants, microInteractions } from '../../utils/animations';
+import { Sparkles, Plus, ChevronRight } from 'lucide-react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '../../utils/db';
+import Greeting from './Greeting';
+import MoodCards from './MoodCards';
+import ContextTags from './ContextTags';
+import DiaryField from './DiaryField';
+import SleepSlider from './SleepSlider';
+import SuccessOverlay from './SuccessOverlay';
+import { saveMoodEntry } from '../../utils/storage';
+import { CONTEXT_TAGS } from '../../utils/moodCalculations';
+import { useToast } from '../../context/ToastContext';
+import ConfirmModal from '../common/ConfirmModal';
+
+// Main check-in view for recording mood and context
+const CheckInView = memo(function CheckInView({ onEntryAdded }) {
+  const [selectedMood, setSelectedMood] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [diaryText, setDiaryText] = useState('');
+  const [sleepHours, setSleepHours] = useState(7);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successCycle, setSuccessCycle] = useState(0);
+  // Custom Tag State
+  const [isAddingTag, setIsAddingTag] = useState(false);
+  const [newTagLabel, setNewTagLabel] = useState('');
+  const [tempTags, setTempTags] = useState([]);
+  const [tagToDelete, setTagToDelete] = useState(null);
+  
+  const { error } = useToast();
+  const customTagsSettings = useLiveQuery(() => db.settings.get('customTags'));
+
+  // Refs for cleanup
+  const prevShowSuccessRef = useRef(false);
+  const scrollToTopAfterSuccessRef = useRef(false);
+
+  // Data preparation
+  const allTags = useMemo(() => {
+    const dbTags = customTagsSettings?.value || [];
+    const combined = [...dbTags, ...tempTags];
+    const unique = Array.from(new Map(combined.map(item => [item.id, item])).values());
+    return [...CONTEXT_TAGS, ...unique];
+  }, [customTagsSettings, tempTags]);
+
+  const [successParticles] = useState(() => {
+      // Generate particles once on mount
+      return [...Array(30)].map(() => ({
+        xOffset: (Math.random() - 0.5) * 1000,
+        yOffset: (Math.random() - 0.5) * 1000,
+        duration: 1.5 + Math.random(),
+        rotate: Math.random() * 360,
+        scale: [0, 1.5, 0]
+      }));
+  });
+
+   // Handlers
+  const handleMoodSelect = useCallback((mood) => {
+    setSelectedMood(prev => (prev === mood ? null : mood));
+  }, []);
+
+
+  // After success overlay truly closes (scroll unlocked), return to top smoothly
+  useEffect(() => {
+    const prev = prevShowSuccessRef.current;
+    if (prev && !showSuccess && scrollToTopAfterSuccessRef.current) {
+      scrollToTopAfterSuccessRef.current = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    prevShowSuccessRef.current = showSuccess;
+  }, [showSuccess]);
+
+
+  const handleTagToggle = useCallback((tagId) => {
+    setSelectedTags(prev =>
+      prev.includes(tagId) ? prev.filter(t => t !== tagId) : [...prev, tagId]
+    );
+  }, []);
+
+  const handleAddCustomTag = async () => {
+    if (!newTagLabel.trim()) return;
+    const newTag = { id: `custom_${Date.now()}`, label: newTagLabel.trim(), icon: 'Star' };
+    
+    // Optimistic update - IMMEDIATE UI FEEDBACK
+    setTempTags(prev => [...prev, newTag]);
+    setNewTagLabel('');
+    setIsAddingTag(false); // Close immediately
+    handleTagToggle(newTag.id);
+
+    // Background DB update
+    try {
+        const currentDbTags = await db.settings.get('customTags');
+        const existingTags = currentDbTags?.value || [];
+        await db.settings.put({ key: 'customTags', value: [...existingTags, newTag] });
+    } catch (_err) {
+        // Rollback on failure
+        setTempTags(prev => prev.filter(t => t.id !== newTag.id));
+        handleTagToggle(newTag.id); // Untoggle if it was toggled
+        if (error) error('Nepodařilo se uložit vlastní tag.');
+    }
+  };
+
+  const handleDeleteTag = useCallback(async (tagId, e) => {
+    e.stopPropagation(); // Prevent toggling the tag
+    setTagToDelete(tagId);
+  }, []);
+
+  const handleConfirmDeleteTag = useCallback(async () => {
+    const tagId = tagToDelete;
+    if (!tagId) return;
+
+    // Optimistic update
+    setTempTags(prev => prev.filter(t => t.id !== tagId));
+    if (selectedTags.includes(tagId)) {
+        handleTagToggle(tagId);
+    }
+
+    try {
+        const currentDbTags = await db.settings.get('customTags');
+        const existingTags = currentDbTags?.value || [];
+        const newTags = existingTags.filter(t => t.id !== tagId);
+        await db.settings.put({ key: 'customTags', value: newTags });
+    } catch (_err) {
+        error('Nepodařilo se smazat tag');
+    }
+    setTagToDelete(null);
+  }, [tagToDelete, selectedTags, handleTagToggle, error]);
+
+  const resetCheckInState = useCallback(() => {
+    setSelectedMood(null);
+    setSelectedTags([]);
+    setDiaryText('');
+    setSleepHours(7);
+    setIsAddingTag(false);
+    setNewTagLabel('');
+  }, []);
+
+  const handleSuccessClose = useCallback(() => {
+    // Avoid double-scroll: we want the "scroll-to-top" to happen after overlay unmounts.
+    scrollToTopAfterSuccessRef.current = true;
+
+    setShowSuccess(false);
+    resetCheckInState();
+  }, [resetCheckInState]);
+
+  const handleSubmit = useCallback(async () => {
+    if (!selectedMood) return;
+    try {
+      const entry = {
+        mood: selectedMood,
+        tags: selectedTags,
+        diary: diaryText,
+        sleep: sleepHours,
+        timestamp: new Date().toISOString(),
+      };
+      
+      await saveMoodEntry(entry);
+      setShowSuccess(true);
+      setSuccessCycle((c) => c + 1);
+      if (onEntryAdded) onEntryAdded(entry);
+    } catch (_err) {
+      if (error) error('Nepodařilo se uložit záznam.');
+    }
+  }, [selectedMood, selectedTags, diaryText, sleepHours, onEntryAdded, error]);
+
+  const canSubmit = selectedMood !== null;
+
+  return (
+    <motion.div 
+          key="checkin-content"
+          className="max-w-4xl mx-auto pb-20 px-4 md:px-0"
+          variants={variants.staggerContainer}
+          initial="hidden"
+          animate="show"
+          exit="exit"
+        >
+          {/* Section 1: Introduction & Mood */}
+          <div className="scroll-mt-4">
+              <motion.div layout variants={variants.item}>
+                <Greeting />
+              </motion.div>
+              
+              <motion.div layout variants={variants.item}>
+                <MoodCards
+                  onMoodSelect={handleMoodSelect}
+                  selectedMood={selectedMood}
+                />
+              </motion.div>
+          </div>
+
+          {/* Section 2: Progressive Disclosure Details */}
+          <AnimatePresence>
+            {selectedMood && (
+              <motion.div
+                layout // Enable layout animation for smooth resizing
+                initial={{ opacity: 0, height: 0, overflow: 'hidden' }}
+                animate={{ 
+                    opacity: 1, 
+                    height: 'auto',
+                    transition: { 
+                        height: { duration: 0.5, type: "spring", stiffness: 100, damping: 20 },
+                        opacity: { duration: 0.3, delay: 0.1 }
+                    } 
+                }}
+                exit={{ 
+                    opacity: 0, 
+                    height: 0,
+                    transition: { duration: 0.3, ease: "easeInOut" }
+                }}
+                className="overflow-hidden"
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                <div className="pt-8 scroll-mt-4">
+                     {/* Glass Container for Details */}
+                     <div 
+                        className="glass-panel p-5 sm:p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
+                        style={{ 
+                            transform: 'translateZ(0)',
+                            willChange: 'transform',
+                            WebkitFontSmoothing: 'antialiased',
+                            backfaceVisibility: 'hidden'
+                        }}
+                     >
+                        
+                        {/* Decorative background blurs */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl -z-10 pointer-events-none" />
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10 pointer-events-none" />
+
+                        {/* Sleep Slider */}
+                        <SleepSlider value={sleepHours} onChange={setSleepHours} />
+
+                        {/* Tags Section */}
+                        <div className="mb-10">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 text-amber-300" />
+                                    Co ovlivnilo tvou náladu?
+                                </h3>
+                                <motion.button 
+                                  whileHover={microInteractions.button.hover}
+                                  whileTap={microInteractions.button.tap}
+                                  onClick={() => setIsAddingTag(!isAddingTag)}
+                                  className="text-xs font-bold text-violet-200 hover:text-white px-4 py-2 bg-violet-500/20 hover:bg-violet-500/40 rounded-xl transition-colors flex items-center gap-1.5 group"
+                                >
+                                  <Plus className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" />
+                                  {isAddingTag ? 'Zavřít' : 'Vlastní tag'}
+                                </motion.button>
+                            </div>
+
+                            {/* Custom Tag Input */}
+                            <AnimatePresence>
+                                {isAddingTag && (
+                                    <motion.div 
+                                      initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                                      animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
+                                      exit={{ opacity: 0, height: 0, marginBottom: 0, transition: { duration: 0.15, ease: "easeOut" } }}
+                                      className="overflow-hidden"
+                                    >
+                                      <div className="flex gap-2 items-center bg-black/30 p-1.5 xs:p-2 rounded-2xl border border-white/10 pr-1.5 xs:pr-2">
+                                        <input
+                                          type="text"
+                                          value={newTagLabel}
+                                          onChange={(e) => setNewTagLabel(e.target.value)}
+                                          placeholder="Název nového tagu..."
+                                          className="flex-1 bg-transparent border-none px-3 py-2 text-sm xs:text-base text-white placeholder-white/30 focus:outline-none min-w-0"
+                                          onKeyDown={(e) => e.key === 'Enter' && handleAddCustomTag()}
+                                          autoFocus
+                                        />
+                                        <button
+                                          onClick={handleAddCustomTag}
+                                          className="bg-violet-600 hover:bg-violet-500 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-violet-600/20 text-sm xs:text-base whitespace-nowrap"
+                                        >
+                                          Přidat
+                                        </button>
+                                      </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            <ContextTags
+                                selectedTags={selectedTags}
+                                onTagToggle={handleTagToggle}
+                                availableTags={allTags}
+                                onDeleteTag={handleDeleteTag}
+                            />
+                        </div>
+
+                        {/* Diary */}
+                        <DiaryField value={diaryText} onChange={setDiaryText} />
+
+                        {/* Submit Button */}
+                        <div className="flex justify-center mt-8">
+                            <motion.button
+                                onClick={handleSubmit}
+                                disabled={!canSubmit}
+                                whileHover={microInteractions.button.hover}
+                                whileTap={microInteractions.button.tap}
+                                className="relative group overflow-hidden w-full md:w-auto min-w-[280px]"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl opacity-100 transition-opacity group-hover:opacity-90" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                
+                                {/* Button Content */}
+                                <div className="relative px-8 py-5 flex items-center justify-center gap-3">
+                                    <span className="text-xl font-bold text-white tracking-wide">Uložit záznam</span>
+                                    <div className="bg-white/20 p-1.5 rounded-lg">
+                                        <ChevronRight className="w-5 h-5 text-white" />
+                                    </div>
+                                </div>
+                                
+                                {/* Shine effect */}
+                                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20 group-hover:ring-white/40 transition-all" />
+                            </motion.button>
+                        </div>
+
+                     </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Ultimate Success Overlay */}
+          <AnimatePresence mode="wait" initial={false}>
+            {showSuccess && (
+              <SuccessOverlay
+                key={`success-${successCycle}`}
+                onClose={handleSuccessClose}
+                successParticles={successParticles}
+              />
+            )}
+          </AnimatePresence>
+          {/* Tag Delete Confirmation */}
+          <ConfirmModal
+            isOpen={!!tagToDelete}
+            onClose={() => setTagToDelete(null)}
+            onConfirm={handleConfirmDeleteTag}
+            title="Smazat tag"
+            message="Opravdu chceš smazat tento tag? Tuto akci nelze vrátit zpět."
+            confirmText="Smazat"
+            isDangerous={true}
+          />
+        </motion.div>
+  );
+});
+
+export default CheckInView;
