@@ -9,6 +9,7 @@ const CheckInView = lazy(() => import('./components/CheckIn/CheckInView'));
 const JournalView = lazy(() => import('./components/Journal/JournalView'));
 const StatisticsView = lazy(() => import('./components/Statistics/StatisticsView'));
 const BreathingOverlay = lazy(() => import('./components/Breathing/BreathingOverlay'));
+import InstallPrompt from './components/Layout/InstallPrompt';
 
 import React from 'react';
 
@@ -153,6 +154,8 @@ function AppContent() {
           onClose={handleBreathingClose}
         />
       </Suspense>
+
+      <InstallPrompt />
     </div>
   );
 }
