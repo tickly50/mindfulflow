@@ -1,6 +1,4 @@
 import { memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { variants } from '../../utils/animations';
 import { getDailyQuote } from '../../utils/quotes';
 
 /**
@@ -25,62 +23,50 @@ const Greeting = memo(function Greeting() {
   const quote = useMemo(() => getDailyQuote(), []);
 
   return (
-    <motion.div
-      variants={variants.staggerContainer}
-      initial="hidden"
-      animate="show"
-      className="text-center mb-12 relative z-10"
-    >
+    <div className="text-center mb-12 relative z-10">
       <div className="inline-flex flex-col items-center gap-4 mb-6">
-        <motion.span 
-          className="text-6xl md:text-7xl filter drop-shadow-lg"
-          variants={variants.pop}
-        >
+        <span className="text-6xl md:text-7xl filter drop-shadow-lg">
           {greeting.emoji}
-        </motion.span>
+        </span>
         
         <div className="relative">
-          <motion.h2 
+          <h2 
             className={`text-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent`}
             style={{
               textShadow: '0 0 40px rgba(139, 92, 246, 0.3)',
               lineHeight: 1.2
             }}
-            variants={variants.item}
           >
             {greeting.text}
-          </motion.h2>
+          </h2>
           
           {/* Subtle glow behind text */}
           <div className={`absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r ${greeting.gradient} -z-10 rounded-full transform scale-150`} />
         </div>
       </div>
 
-      <motion.div 
-        className="space-y-6"
-        variants={variants.item}
-      >
+      <div className="space-y-6">
         <p className="text-white/80 text-xl font-light tracking-wide">
           Jak se dnes cítíš?
         </p>
       
         {/* Daily Quote - Premium Glass Card */}
-        <motion.div
-          variants={variants.item}
-          className="max-w-xl mx-auto"
-        >
-          <div className="relative group perspective-1000">
+        <div className="max-w-xl mx-auto">
+          <div className="relative quote-hover">
             <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="relative glass-card px-8 py-6 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-md hover:bg-white/5 transition-all duration-500 group-hover:transform group-hover:scale-[1.02]">
+            <div 
+              className="relative glass px-8 py-6 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/5"
+              style={{ isolation: 'isolate' }}
+            >
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
                 <p className="text-white/90 text-lg italic font-medium leading-relaxed font-serif tracking-wide">
                   "{quote}"
                 </p>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 });
 

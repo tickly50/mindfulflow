@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Clock, Tag, Pencil, Trash2, Calendar } from 'lucide-react';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
-import { variants, easeConfig } from '../../utils/animations';
+import { variants, microInteractions } from '../../utils/animations';
 
 export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }) {
   const moodColor = MOOD_COLORS[Math.round(entry.mood)] || MOOD_COLORS[3];
@@ -15,13 +15,13 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
 
   return (
     <motion.div
-      layout
       variants={variants.item}
       initial="hidden"
       animate="show"
       exit="exit"
+      whileHover={microInteractions.card.hover}
       className="relative pl-8 sm:pl-0 group"
-      style={{ transform: 'translateZ(0)' }}
+      style={{ transform: 'translateZ(0)', willChange: 'auto' }}
     >
       {/* Timeline line for mobile */}
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-white/10 sm:hidden" />
@@ -42,17 +42,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
           boxShadow: `0 4px 30px rgba(0, 0, 0, 0.1)`,
           borderWidth: 0,
           borderColor: 'transparent',
-          transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-          transform: 'translateZ(0)',
-          willChange: 'transform'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-4px) translateZ(0)';
-          e.currentTarget.style.boxShadow = '0 8px 40px rgba(0, 0, 0, 0.2)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0) translateZ(0)';
-          e.currentTarget.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
+          transform: 'translateZ(0)'
         }}
       >
         <div className="flex flex-col sm:flex-row gap-4 sm:items-start justify-between">
@@ -117,15 +107,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                 style={{ 
                   background: moodColor.gradient,
                   boxShadow: `0 10px 25px -5px ${moodColor.primary}50`,
-                  transition: 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                  transform: 'translateZ(0)',
-                  willChange: 'transform'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.1) translateZ(0)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1) translateZ(0)';
+                  transform: 'translateZ(0)'
                 }}
              >
                {Math.round(entry.mood)}
@@ -142,14 +124,8 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                }}
              >
                <motion.button 
-                 whileHover={{ 
-                   scale: 1.1,
-                   transition: { duration: 0.2, ease: easeConfig.smooth }
-                 }}
-                 whileTap={{ 
-                   scale: 0.95,
-                   transition: { duration: 0.1 }
-                 }}
+                 whileHover={microInteractions.icon.hover}
+                 whileTap={microInteractions.icon.tap}
                  onClick={() => onEdit(entry)}
                  className="p-2 text-white/40 hover:text-violet-300 hover:bg-white/10 rounded-full focus:outline-none outline-none"
                  title="Upravit"
@@ -161,14 +137,8 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                  <Pencil className="w-4 h-4" />
                </motion.button>
                <motion.button 
-                 whileHover={{ 
-                   scale: 1.1,
-                   transition: { duration: 0.2, ease: easeConfig.smooth }
-                 }}
-                 whileTap={{ 
-                   scale: 0.95,
-                   transition: { duration: 0.1 }
-                 }}
+                 whileHover={microInteractions.icon.hover}
+                 whileTap={microInteractions.icon.tap}
                  onClick={() => onDelete(entry.id)}
                  className="p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-full focus:outline-none outline-none"
                  title="Smazat"

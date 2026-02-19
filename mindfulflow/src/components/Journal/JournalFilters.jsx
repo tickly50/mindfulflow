@@ -30,7 +30,10 @@ export default function JournalFilters({
               <span className="font-bold text-lg">{mood}</span>
               {filterMood === mood && (
                 <motion.div
-                  layoutId="activeFilter"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                   className="absolute inset-0 rounded-xl border-2 border-white/20"
                 />
               )}

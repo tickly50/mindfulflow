@@ -1,278 +1,230 @@
 // Premium Animation Configuration
-// Ultra-smooth animations with hardware acceleration
+// Pure opacity transitions — zero position jumping
 
-// Performance-optimized spring configurations
-// Performance-optimized spring configurations
 export const springConfig = {
   type: "spring",
-  stiffness: 120, // Lower stiffness for "buttery" feel (was 260)
-  damping: 20,    // Adjusted damping to prevent oscillation but keep it soft
-  mass: 1,
+  stiffness: 150,
+  damping: 20,
+  mass: 0.8,
   velocity: 0
 };
 
 export const springConfigFast = {
   type: "spring",
-  stiffness: 200, // Faster but still smooth (was 400)
-  damping: 25,
-  mass: 1,
+  stiffness: 240,
+  damping: 24,
+  mass: 0.7,
   velocity: 0
 };
 
 export const springConfigSlow = {
   type: "spring",
-  stiffness: 80,
-  damping: 20,
-  mass: 1.2,
+  stiffness: 90,
+  damping: 22,
+  mass: 1.0,
   velocity: 0
 };
 
-// Easing functions for smooth transitions
 export const easeConfig = {
-  smooth: [0.33, 1, 0.68, 1], // Smooth ease-out
-  butter: [0.2, 0.8, 0.2, 1], // Ultra-smooth custom bezier
-  bounce: [0.68, -0.55, 0.265, 1.55], // Subtle bounce
-  inOut: [0.65, 0, 0.35, 1] // Ease-in-out
+  smooth: [0.33, 1, 0.68, 1],
+  butter: [0.2, 0.8, 0.2, 1],
+  bounce: [0.68, -0.55, 0.265, 1.55],
+  inOut: [0.65, 0, 0.35, 1]
 };
 
-// Optimized transition configurations
 export const transitionConfig = {
-  fast: { duration: 0.2, ease: easeConfig.smooth },
-  base: { duration: 0.4, ease: easeConfig.butter }, // Slightly longer for premium feel
-  slow: { duration: 0.6, ease: easeConfig.smooth }
+  fast: { duration: 0.18, ease: [0.33, 1, 0.68, 1] },
+  base: { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] },
+  slow: { duration: 0.45, ease: [0.2, 0.8, 0.2, 1] }
 };
 
+// ─── All variants are PURE OPACITY ────────────────────────────
+// No y/x/scale changes = zero positional jumping
 export const variants = {
-  // Page/Container Transitions
   container: {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
+        staggerChildren: 0.04,
+        delayChildren: 0.02,
         when: "beforeChildren"
       }
     },
-    exit: { 
-      opacity: 0, 
-      transition: { 
-        duration: 0.2,
-        when: "afterChildren",
-      } 
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.18, ease: [0.33, 1, 0.68, 1] }
     }
   },
 
-  // Stagger Containers - dedicated for lists/grids
   staggerContainer: {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.08, // Slightly faster stagger
-        delayChildren: 0.05
-      }
+      transition: { staggerChildren: 0.025, delayChildren: 0.01 }
     },
-    exit: { opacity: 0 }
+    exit: { opacity: 0, transition: { duration: 0.12 } }
   },
 
   staggerContainerFast: {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.04,
-        delayChildren: 0.02
-      }
+      transition: { staggerChildren: 0.02, delayChildren: 0.005 }
     },
-    exit: { opacity: 0 }
+    exit: { opacity: 0, transition: { duration: 0.08 } }
   },
-  
-  // Element Entrances (Fade + Slide Up) - GPU optimized
+
+  // Pure fade — zero position movement
   item: {
-    hidden: { 
-      opacity: 0, 
-      y: 20, // Reduced travel distance for more subtle enter
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }
     },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: springConfigFast // Use fast spring for entrances
-    },
-    exit: { 
-      opacity: 0, 
-      y: -10,
-      transition: { duration: 0.2 } 
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
     }
   },
 
-  // Simple Fade - optimized for opacity-only changes
   fadeIn: {
     hidden: { opacity: 0 },
-    show: { 
+    show: {
       opacity: 1,
-      transition: { duration: 0.4, ease: easeConfig.butter }
+      transition: { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }
     },
-    exit: { 
+    exit: {
       opacity: 0,
-      transition: { duration: 0.2 } 
+      transition: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
     }
   },
 
-  // Scale Entrances (for cards/modals) - with transform optimization
+  // Very subtle scale (0.98 → 1) for cards/modals — no jump
   scale: {
-    hidden: { 
-      opacity: 0, 
-      scale: 0.95, // Subtle scale
-    },
-    show: { 
-      opacity: 1, 
-      scale: 1,
-      transition: springConfig
-    },
-    exit: { 
-      opacity: 0, 
-      scale: 0.95,
-      transition: { duration: 0.2 } 
-    }
-  },
-
-  // Slide In (for toasts/panels)
-  slideUp: {
-    hidden: { 
-      opacity: 0, 
-      y: 30,
-    },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: springConfigFast
-    },
-    exit: { 
-      opacity: 0, 
-      y: 20,
-      transition: { duration: 0.2 } 
-    }
-  },
-
-  // Slide from Right (for panels/drawers)
-  slideRight: {
-    hidden: { 
-      opacity: 0, 
-      x: 30,
-    },
-    show: { 
-      opacity: 1, 
-      x: 0,
-      transition: springConfigFast
-    },
-    exit: { 
-      opacity: 0, 
-      x: 20,
-      transition: { duration: 0.2 } 
-    }
-  },
-
-  // Pop effect (for buttons/interactive elements)
-  pop: {
-    hidden: { 
-      scale: 0.9,
-      opacity: 0
-    },
-    show: { 
-      scale: 1,
+    hidden: { opacity: 0, scale: 0.98 },
+    show: {
       opacity: 1,
-      transition: springConfig
+      scale: 1,
+      transition: { duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }
     },
-    exit: { 
-      scale: 0.9,
+    exit: {
       opacity: 0,
-      transition: { duration: 0.15 } 
+      scale: 0.98,
+      transition: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
+    }
+  },
+
+  // Modal scale — clean pop-in, very subtle
+  modalScale: {
+    hidden: { opacity: 0, scale: 0.96 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: { type: "spring", stiffness: 280, damping: 26, mass: 0.7 }
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.97,
+      transition: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
+    }
+  },
+
+  // Slide Up — for toasts only (enters from bottom edge of screen)
+  slideUp: {
+    hidden: { opacity: 0, y: 16 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }
+    },
+    exit: {
+      opacity: 0,
+      y: 8,
+      transition: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
+    }
+  },
+
+  slideRight: {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }
+    },
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
+    }
+  },
+
+  // List item removal — fade only, no x offset
+  listItem: {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }
+    },
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.18, ease: [0.33, 1, 0.68, 1] }
+    }
+  },
+
+  // Pop — subtle scale only
+  pop: {
+    hidden: { opacity: 0, scale: 0.96 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.2, ease: [0.2, 0.8, 0.2, 1] }
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.96,
+      transition: { duration: 0.12, ease: [0.33, 1, 0.68, 1] }
     }
   }
 };
 
-// Standardized Micro-interactions
+// Micro-interactions (hover/tap only — not entrance animations)
+// Using tween over spring for hover: avoids JS spring simulation on rapid pointer-enters
 export const microInteractions = {
   button: {
-    hover: { 
-      scale: 1.02, 
-      transition: { type: "spring", stiffness: 400, damping: 15 } 
+    hover: {
+      scale: 1.03,
+      transition: { type: "tween", duration: 0.12, ease: [0.33, 1, 0.68, 1] }
     },
-    tap: { 
-      scale: 0.97,
-      transition: { type: "spring", stiffness: 400, damping: 15 } 
+    tap: {
+      scale: 0.96,
+      transition: { type: "tween", duration: 0.08, ease: [0.33, 1, 0.68, 1] }
     }
   },
   card: {
-    hover: { 
-      y: -5, 
-      scale: 1.01,
-      transition: { type: "spring", stiffness: 300, damping: 20 }
+    hover: {
+      y: -3,
+      transition: { type: "tween", duration: 0.15, ease: [0.33, 1, 0.68, 1] }
     },
-    tap: { 
+    tap: {
       scale: 0.98,
-      y: -2,
-      transition: { type: "spring", stiffness: 400, damping: 20 }
+      transition: { type: "tween", duration: 0.1, ease: [0.33, 1, 0.68, 1] }
     }
   },
   icon: {
-    hover: { 
-      scale: 1.15, 
-      rotate: 5,
-      transition: { type: "spring", stiffness: 400, damping: 15 } 
+    hover: {
+      scale: 1.1,
+      transition: { type: "tween", duration: 0.12, ease: [0.33, 1, 0.68, 1] }
     },
-    tap: { 
+    tap: {
       scale: 0.9,
-      rotate: -5
+      transition: { type: "tween", duration: 0.08, ease: [0.33, 1, 0.68, 1] }
     }
   }
 };
 
-// Hover animation presets
 export const hoverVariants = {
   lift: {
-    rest: { y: 0, scale: 1 },
-    hover: { 
-      y: -4, 
-      scale: 1.02,
-      transition: { duration: 0.2, ease: easeConfig.smooth }
-    },
-    tap: { 
-      y: -2, 
-      scale: 0.98,
-      transition: { duration: 0.1 }
-    }
-  },
-  scale: {
-    rest: { scale: 1 },
-    hover: { 
-      scale: 1.05,
-      transition: { duration: 0.2, ease: easeConfig.smooth }
-    },
-    tap: { 
-      scale: 0.95,
-      transition: { duration: 0.1 }
-    }
-  },
-  glow: {
-    rest: { filter: "brightness(1)" },
-    hover: { 
-      filter: "brightness(1.2)",
-      transition: { duration: 0.2 }
-    }
-  }
-};
-
-// Gesture animation utilities
-export const gestureConfig = {
-  drag: {
-    dragConstraints: { left: 0, right: 0, top: 0, bottom: 0 },
-    dragElastic: 0.2,
-    dragTransition: { bounceStiffness: 600, bounceDamping: 20 }
-  },
-  tap: {
-    scale: 0.97,
-    transition: { duration: 0.1 }
+    rest: { y: 0 },
+    hover: { y: -3, transition: { duration: 0.16, ease: [0.33, 1, 0.68, 1] } },
+    tap: { y: -1, transition: { duration: 0.08 } }
   }
 };

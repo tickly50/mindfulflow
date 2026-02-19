@@ -58,9 +58,8 @@ export default function StatsOverview({ stats, streak, longestStreak }) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {cards.map((card) => (
-        <motion.div
+        <div
           key={card.label}
-          variants={variants.item}
           className={`glass p-4 rounded-2xl border ${card.border} relative overflow-hidden group`}
         >
           {/* Background decoration */}
@@ -83,7 +82,7 @@ export default function StatsOverview({ stats, streak, longestStreak }) {
               {card.desc}
             </div>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

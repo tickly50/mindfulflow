@@ -167,49 +167,36 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
   const canSubmit = selectedMood !== null;
 
   return (
-    <motion.div 
-          key="checkin-content"
-          className="max-w-4xl mx-auto pb-20 px-4 md:px-0"
-          variants={variants.staggerContainer}
-          initial="hidden"
-          animate="show"
-          exit="exit"
-        >
+    <div className="max-w-4xl mx-auto pb-20 px-4 md:px-0">
           {/* Section 1: Introduction & Mood */}
           <div className="scroll-mt-4">
-              <motion.div layout variants={variants.item}>
-                <Greeting />
-              </motion.div>
-              
-              <motion.div layout variants={variants.item}>
-                <MoodCards
-                  onMoodSelect={handleMoodSelect}
-                  selectedMood={selectedMood}
-                />
-              </motion.div>
+              <Greeting />
+              <MoodCards
+                onMoodSelect={handleMoodSelect}
+                selectedMood={selectedMood}
+              />
           </div>
 
           {/* Section 2: Progressive Disclosure Details */}
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {selectedMood && (
               <motion.div
-                layout // Enable layout animation for smooth resizing
-                initial={{ opacity: 0, height: 0, overflow: 'hidden' }}
+                initial={{ opacity: 0, height: 0 }}
                 animate={{ 
                     opacity: 1, 
                     height: 'auto',
                     transition: { 
-                        height: { duration: 0.5, type: "spring", stiffness: 100, damping: 20 },
-                        opacity: { duration: 0.3, delay: 0.1 }
+                        height: { type: "spring", stiffness: 140, damping: 22, mass: 0.8 },
+                        opacity: { duration: 0.25, delay: 0.08 }
                     } 
                 }}
                 exit={{ 
                     opacity: 0, 
                     height: 0,
-                    transition: { duration: 0.3, ease: "easeInOut" }
+                    transition: { duration: 0.25, ease: [0.33, 1, 0.68, 1] }
                 }}
                 className="overflow-hidden"
-                style={{ backfaceVisibility: 'hidden' }}
+                style={{ willChange: 'height, opacity' }}
               >
                 <div className="pt-8 scroll-mt-4">
                      {/* Glass Container for Details */}
@@ -340,7 +327,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
             confirmText="Smazat"
             isDangerous={true}
           />
-        </motion.div>
+        </div>
   );
 });
 

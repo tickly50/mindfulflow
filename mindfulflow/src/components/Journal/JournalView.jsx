@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/db';
 import { CONTEXT_TAGS } from '../../utils/moodCalculations';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { useToast } from '../../context/ToastContext';
 import JournalFilters from './JournalFilters';
 import JournalTimeline from './JournalTimeline';
@@ -9,7 +9,7 @@ import JournalEditor from './JournalEditor';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfirmModal from '../common/ConfirmModal';
 
-export default function JournalView() {
+const JournalView = memo(function JournalView() {
   const [filterMood, setFilterMood] = useState(null);
   const [filterTag, setFilterTag] = useState(null);
   const [editingEntry, setEditingEntry] = useState(null);
@@ -103,14 +103,10 @@ export default function JournalView() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 pb-20">
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-10 text-center"
-      >
+      <div className="mb-10 text-center">
         <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Tvůj Deník</h2>
         <p className="text-white/60 text-lg">Všechny tvé myšlenky a pocity na jednom místě</p>
-      </motion.div>
+      </div>
 
       <JournalFilters 
         filterMood={filterMood}
@@ -147,4 +143,6 @@ export default function JournalView() {
       />
     </div>
   );
-}
+});
+
+export default JournalView;

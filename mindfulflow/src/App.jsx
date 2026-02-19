@@ -96,17 +96,15 @@ function AppContent() {
           onViewChange={handleViewChange}
         />
 
-        {/* Enhanced page transitions with Suspense for lazy loading */}
+        {/* Page transitions — simultaneous crossfade, no gap */}
         <ErrorBoundary>
           <AnimatePresence mode="wait">
             {currentView === 'checkin' && (
               <motion.div
                 key="checkin"
-                variants={variants.container}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                style={{ transform: 'translateZ(0)' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.25, ease: 'easeOut' } }}
+                exit={{ opacity: 0, transition: { duration: 0 } }}
               >
                 <Suspense fallback={<LoadingFallback />}>
                   <CheckInView onEntryAdded={handleEntryAdded} />
@@ -117,11 +115,9 @@ function AppContent() {
             {currentView === 'journal' && (
               <motion.div
                 key="journal"
-                variants={variants.container}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                style={{ transform: 'translateZ(0)' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.25, ease: 'easeOut' } }}
+                exit={{ opacity: 0, transition: { duration: 0 } }}
               >
                 <Suspense fallback={<LoadingFallback />}>
                   <JournalView />
@@ -132,11 +128,9 @@ function AppContent() {
             {currentView === 'statistics' && (
               <motion.div
                 key="statistics"
-                variants={variants.container}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                style={{ transform: 'translateZ(0)' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.25, ease: 'easeOut' } }}
+                exit={{ opacity: 0, transition: { duration: 0 } }}
               >
                 <Suspense fallback={<LoadingFallback />}>
                   <StatisticsView />

@@ -202,18 +202,18 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-white/30"
               animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.3, 0.6, 0.3]
+                scale: [1, 1.08, 1],
+                opacity: [0.35, 0.6, 0.35]
               }}
               transition={{
-                duration: 2,
+                duration: 2.2,
                 repeat: Infinity,
-                ease: [0.4, 0, 0.6, 1]
+                ease: 'easeInOut',
+                repeatType: 'mirror'
               }}
               style={{ 
                 transform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-                willChange: 'transform, opacity'
+                willChange: 'transform'
               }}
             />
           </motion.div>
@@ -258,7 +258,7 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
 
 const BreathingOverlay = memo(function BreathingOverlay({ isOpen, onClose }) {
   return createPortal(
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && <BreathingSession onClose={onClose} />}
     </AnimatePresence>,
     document.body

@@ -12,12 +12,9 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
   
   return (
     <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ 
-        opacity: 1, 
-        height: 'auto',
-        transition: springConfig
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
       className="mb-10 w-full"
     >
       <div className="flex items-center justify-between mb-4 px-1">
@@ -36,12 +33,8 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
         </span>
       </div>
       
-      <motion.div 
+      <div 
         className="relative group"
-        animate={{
-          scale: isFocused ? 1.01 : 1
-        }}
-        transition={{ duration: 0.2 }}
       >
         {/* Animated Glow Border */}
         <div className={`absolute -inset-0.5 rounded-[1.2rem] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 opacity-0 blur transition duration-500 ${isFocused ? 'opacity-70' : 'group-hover:opacity-30'}`} />
@@ -60,7 +53,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
             className="w-full h-full min-h-[160px] bg-black/20 rounded-xl p-6 text-lg text-white placeholder-white/20 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
             />
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 });

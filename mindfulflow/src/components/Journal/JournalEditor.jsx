@@ -14,7 +14,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {editingEntry && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div

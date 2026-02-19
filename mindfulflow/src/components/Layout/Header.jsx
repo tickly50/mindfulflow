@@ -5,7 +5,7 @@ import { memo, useState, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { calculateStreak, downloadBackup, importData, clearAllEntries } from '../../utils/storage';
 import { useToast } from '../../context/ToastContext';
-import { springConfigFast, easeConfig } from '../../utils/animations';
+import { springConfigFast, easeConfig, variants, microInteractions } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
 
 /**
@@ -168,7 +168,11 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 {view === 'statistics' && 'Statistiky'}
                 {currentView === view && (
                   <motion.div
-                    layoutId="activeTab"
+                    key={view}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet-400 to-purple-400"
                     style={{ borderRadius: '2px' }}
                   />
@@ -181,20 +185,17 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             {/* SOS Breathing Button */}
             <button
               onClick={onBreathingClick}
-              className="bg-gradient-to-r from-orange-600 to-red-600 px-3 py-2 rounded-lg font-bold text-white flex items-center gap-2 shadow-lg relative overflow-hidden hover:from-orange-500 hover:to-red-500 transition-all duration-200 outline-none focus:outline-none"
+              className="bg-gradient-to-r from-orange-600 to-red-600 px-3 py-2 rounded-lg font-bold text-white flex items-center gap-2 shadow-lg relative overflow-hidden hover:from-orange-500 hover:to-red-500 outline-none focus:outline-none"
               style={{ 
                 transform: 'translateZ(0)'
               }}
             >
-              <motion.div
+              {/* CSS pulse — no JS animation loop */}
+              <span
                 className="absolute inset-0 bg-white/20"
-                animate={{ opacity: [0, 0.5, 0] }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity,
-                  ease: "easeInOut"
+                style={{
+                  animation: 'sos-pulse 2s ease-in-out infinite'
                 }}
-                style={{ transform: 'translateZ(0)' }}
               />
               <Wind className="w-5 h-5 relative z-10" />
               <span className="hidden lg:inline relative z-10">SOS</span>
@@ -221,7 +222,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
 
       {/* Settings Modal - Portalled to body to escape Header transforms */}
       {createPortal(
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {showSettings && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -241,10 +242,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 style={{ transform: 'translateZ(0)' }}
               />
               <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                transition={springConfigFast}
+                variants={variants.modalScale}
+                initial="hidden"
+                animate="show"
+                exit="exit"
                 className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto custom-scrollbar"
                 onClick={(e) => e.stopPropagation()}
                 style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
@@ -288,6 +289,8 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <motion.button
                         onClick={handleDownload}
+                        whileHover={microInteractions.button.hover}
+                        whileTap={microInteractions.button.tap}
                         className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-base whitespace-nowrap"
                         style={{ 
                           transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
@@ -298,6 +301,8 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       </motion.button>
                       <motion.button
                         onClick={() => fileInputRef.current?.click()}
+                        whileHover={microInteractions.button.hover}
+                        whileTap={microInteractions.button.tap}
                         className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-base whitespace-nowrap"
                         style={{ 
                           transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
@@ -322,6 +327,8 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                     
                     <motion.button
                       onClick={handleDeleteAllClick}
+                      whileHover={microInteractions.button.hover}
+                      whileTap={microInteractions.button.tap}
                       className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 font-medium border border-red-500/20 text-base outline-none focus:outline-none"
                       style={{ 
                         transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',

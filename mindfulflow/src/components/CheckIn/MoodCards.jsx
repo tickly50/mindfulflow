@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
 import { MOOD_LABELS } from '../../utils/moodCalculations';
-import { easeConfig, variants as globalVariants, microInteractions } from '../../utils/animations';
+import { variants as globalVariants, microInteractions } from '../../utils/animations';
 import { Frown, CloudRain, Meh, Smile, Sparkles } from 'lucide-react';
 
 /**
@@ -26,6 +26,40 @@ const MOOD_EMOJI = {
   5: '✨',
 };
 
+// Static config objects hoisted OUTSIDE the component —
+// these NEVER change, so they must not be recreated on every render.
+const MOOD_GRADIENTS = {
+  1: 'from-red-600/50 to-red-900/50',
+  2: 'from-blue-900/40 to-slate-900/40',
+  3: 'from-indigo-900/40 to-slate-900/40',
+  4: 'from-violet-600/30 to-fuchsia-600/30',
+  5: 'from-amber-400/30 to-orange-500/30'
+};
+
+const MOOD_BORDER_COLORS = {
+  1: 'group-hover:border-red-500/50',
+  2: 'group-hover:border-blue-400/50',
+  3: 'group-hover:border-indigo-400/50',
+  4: 'group-hover:border-violet-400/50',
+  5: 'group-hover:border-amber-400/50'
+};
+
+const MOOD_RING_COLORS = {
+  1: 'ring-red-500/50',
+  2: 'ring-blue-500/50',
+  3: 'ring-indigo-500/50',
+  4: 'ring-violet-500/50',
+  5: 'ring-amber-500/50'
+};
+
+const MOOD_INDICATOR_COLORS = {
+  1: 'bg-red-500 shadow-red-500/40',
+  2: 'bg-blue-500 shadow-blue-500/40',
+  3: 'bg-indigo-500 shadow-indigo-500/40',
+  4: 'bg-violet-500 shadow-violet-500/40',
+  5: 'bg-amber-500 shadow-amber-500/40'
+};
+
 /**
  * Interactive mood selection cards - Ultra-smooth Performance Edition
  */
@@ -46,39 +80,6 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
       {[1, 2, 3, 4, 5].map((mood) => {
         const Icon = MOOD_ICONS[mood];
         const isSelected = selectedMood === mood;
-        
-        // Dynamic gradient based on mood
-        const gradients = {
-            1: 'from-red-600/50 to-red-900/50',
-            2: 'from-blue-900/40 to-slate-900/40',
-            3: 'from-indigo-900/40 to-slate-900/40',
-            4: 'from-violet-600/30 to-fuchsia-600/30',
-            5: 'from-amber-400/30 to-orange-500/30'
-        };
-
-        const borderColors = {
-            1: 'group-hover:border-red-500/50',
-            2: 'group-hover:border-blue-400/50',
-            3: 'group-hover:border-indigo-400/50',
-            4: 'group-hover:border-violet-400/50',
-            5: 'group-hover:border-amber-400/50'
-        };
-
-        const ringColors = {
-            1: 'ring-red-500/50',
-            2: 'ring-blue-500/50',
-            3: 'ring-indigo-500/50',
-            4: 'ring-violet-500/50',
-            5: 'ring-amber-500/50'
-        };
-
-        const indicatorColors = {
-            1: 'bg-red-500 shadow-red-500/40',
-            2: 'bg-blue-500 shadow-blue-500/40',
-            3: 'bg-indigo-500 shadow-indigo-500/40',
-            4: 'bg-violet-500 shadow-violet-500/40',
-            5: 'bg-amber-500 shadow-amber-500/40'
-        };
 
         return (
           <motion.button
@@ -88,7 +89,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             whileTap={microInteractions.card.tap}
             onClick={() => onMoodSelect(mood)}
             className={`group relative overflow-hidden rounded-[2rem] p-1 h-full min-h-[160px] xs:min-h-[180px]
-                ${isSelected ? `ring-4 ring-offset-4 ring-offset-[#0f172a] ${ringColors[mood]}` : 'ring-0'}
+                ${isSelected ? `ring-4 ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}` : 'ring-0'}
             `}
             style={{ 
               transform: 'translateZ(0)',
@@ -98,7 +99,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
           >
             {/* Card Background with Glass effect */}
             <div 
-              className={`absolute inset-0 bg-gradient-to-br ${gradients[mood]} backdrop-blur-xl opacity-40 group-hover:opacity-60`}
+              className={`absolute inset-0 bg-gradient-to-br ${MOOD_GRADIENTS[mood]} backdrop-blur-xl opacity-40 group-hover:opacity-60`}
               style={{ 
                 transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
                 transform: 'translateZ(0)'
@@ -106,16 +107,16 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             />
             
             <div 
-              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-[1.8rem] border border-white/5 ${borderColors[mood]} flex flex-col items-center justify-center gap-4 p-4 xs:p-6 overflow-hidden`}
+              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-[1.8rem] border border-white/5 ${MOOD_BORDER_COLORS[mood]} flex flex-col items-center justify-center gap-4 p-4 xs:p-6 overflow-hidden`}
               style={{ 
-                transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                transition: 'border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
                 transform: 'translateZ(0)'
               }}
             >
                 
                 {/* Background Glow */}
                 <div 
-                  className={`absolute inset-0 bg-gradient-to-t ${gradients[mood]} opacity-0 group-hover:opacity-20`}
+                  className={`absolute inset-0 bg-gradient-to-t ${MOOD_GRADIENTS[mood]} opacity-0 group-hover:opacity-20`}
                   style={{ 
                     transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
                     transform: 'translateZ(0)'
@@ -125,22 +126,15 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                 {/* Emoji with 3D feel */}
                 <motion.div 
                   className="text-5xl xs:text-6xl drop-shadow-2xl filter"
-                  animate={isSelected ? { 
-                    scale: [1, 1.15, 1],
-                    rotate: [0, 8, -8, 0],
-                    filter: "drop-shadow(0 0 20px rgba(255,255,255,0.4))"
-                  } : { 
-                    scale: 1, 
-                    rotate: 0,
-                    filter: "drop-shadow(0 0 0px rgba(0,0,0,0))"
-                  }}
+                  animate={isSelected ? { scale: 1.18 } : { scale: 1 }}
                   transition={{ 
-                    duration: 0.5,
-                    ease: easeConfig.butter
+                    type: 'tween',
+                    duration: 0.18,
+                    ease: [0.33, 1, 0.68, 1]
                   }}
                   style={{ 
                     transform: 'translateZ(0)',
-                    willChange: isSelected ? 'transform, filter' : 'auto'
+                    willChange: isSelected ? 'transform' : 'auto'
                   }}
                 >
                   {MOOD_EMOJI[mood]}
@@ -155,7 +149,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                               isSelected ? 'text-white' : 'text-white/60 group-hover:text-white/90'
                             }`}
                             style={{ 
-                              transition: 'color 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                              transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                             }}
                           />
                         )}
@@ -164,8 +158,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                             isSelected ? 'text-white' : 'text-white/80 group-hover:text-white'
                           }`}
                           style={{ 
-                            transition: 'color 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                            willChange: 'transform',
+                            transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
                             transform: 'translateZ(0)',
                             WebkitFontSmoothing: 'antialiased'
                           }}
@@ -177,9 +170,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                      <span 
                        className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50"
                        style={{ 
-                         transition: 'color 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                         willChange: 'transform',
-                         WebkitFontSmoothing: 'antialiased'
+                         transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                        }}
                      >
                         Level {mood}
@@ -189,16 +180,14 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                 {/* Selection Indicator */}
                 {isSelected && (
                   <motion.div
-                    layoutId="selected-check"
-                    className={`absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${indicatorColors[mood]}`}
+                    className={`absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${MOOD_INDICATOR_COLORS[mood]}`}
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 25,
-                      mass: 0.5
+                      type: "tween",
+                      duration: 0.15,
+                      ease: [0.33, 1, 0.68, 1]
                     }}
                     style={{ 
                       transform: 'translateZ(0)',
@@ -209,8 +198,8 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 1 }}
                         transition={{ 
-                          pathLength: { duration: 0.3, delay: 0.15 },
-                          opacity: { duration: 0.2, delay: 0.15 }
+                          pathLength: { duration: 0.25, delay: 0.06 },
+                          opacity: { duration: 0.12, delay: 0.06 }
                         }}
                         className="w-5 h-5 text-white" 
                         fill="none" 

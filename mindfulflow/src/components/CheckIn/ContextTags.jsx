@@ -36,9 +36,8 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
             
             return (
               <motion.button
-                layout
                 key={tag.id}
-                initial={false} // Disable initial animation
+                initial={false}
                 whileHover={microInteractions.button.hover}
                 whileTap={microInteractions.button.tap}
                 onClick={() => onTagToggle(tag.id)}

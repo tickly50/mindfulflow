@@ -14,8 +14,9 @@ export default function JournalTimeline({
   if (entries.length === 0) {
     return (
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
         className="text-center py-20 bg-white/5 rounded-[2.5rem] border border-white/5 backdrop-blur-md shadow-2xl relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/5 pointer-events-none" />

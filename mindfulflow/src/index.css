@@ -76,6 +76,12 @@
   --shadow-glow-orange: 0 8px 32px var(--glow-orange);
 }
 
+html,
+body {
+  background-color: #0f172a;
+  min-height: 100%;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -111,7 +117,12 @@ html {
     -webkit-backdrop-filter: blur(var(--glass-blur));
     background-color: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    transition: all var(--transition-base) var(--ease-smooth);
+    transition:
+      background-color var(--transition-base) var(--ease-smooth),
+      border-color var(--transition-base) var(--ease-smooth),
+      box-shadow var(--transition-base) var(--ease-smooth);
+    transform: translateZ(0);
+    isolation: isolate;
   }
 
   /* Strong glass effect for emphasis */
@@ -120,6 +131,8 @@ html {
     -webkit-backdrop-filter: blur(var(--glass-blur-strong));
     background-color: var(--glass-bg-hover);
     border: 1px solid var(--glass-border-strong);
+    transform: translateZ(0);
+    isolation: isolate;
   }
 
   /* Interactive glass states */
@@ -149,6 +162,8 @@ html {
       var(--glass-bg) 100%
     );
     border: 1px solid var(--glass-border);
+    transform: translateZ(0);
+    isolation: isolate;
   }
 
   .glass-layered::before {
@@ -354,6 +369,7 @@ h3 {
   background: linear-gradient(-45deg, #3b4a6b, #4a5f7f, #5b6fa8, #6d5b97);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
+  will-change: background-position;
 }
 
 @keyframes gradient {
@@ -376,7 +392,12 @@ button,
 a,
 input,
 textarea {
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+    color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+    border-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+    opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* ============================================
@@ -510,6 +531,22 @@ body {
   50% {
     transform: scale(1.05) translateZ(0);
   }
+}
+
+@keyframes sos-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.5; }
+}
+
+/* Quote card hover — pure CSS, no JS event handlers (prevents border-flicker) */
+.quote-hover {
+  transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1);
+  transform: scale(1) translateZ(0);
+  will-change: transform;
+}
+
+.quote-hover:hover {
+  transform: scale(1.02) translateZ(0);
 }
 
 /* Animation utility classes - all GPU accelerated */

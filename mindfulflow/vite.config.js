@@ -58,11 +58,16 @@ export default defineConfig({
     
     // Optimize chunks
     rollupOptions: {
+      treeshake: {
+        preset: 'recommended',
+        moduleSideEffects: false
+      },
       output: {
         manualChunks: {
+          // React core — cached separately, changes rarely
+          'react-vendor': ['react', 'react-dom'],
           // Animation libraries
           'animation-vendor': ['framer-motion'],
-          
           // Chart libraries
           'chart-vendor': ['recharts'],
         }
@@ -75,8 +80,8 @@ export default defineConfig({
     // Minify with esbuild (faster and already included)
     minify: 'esbuild',
     
-    // Target modern browsers for better optimization
-    target: 'es2015',
+    // Target modern browsers — esnext gives smaller bundles and faster parsing
+    target: 'esnext',
     
     // CSS code splitting
     cssCodeSplit: true,

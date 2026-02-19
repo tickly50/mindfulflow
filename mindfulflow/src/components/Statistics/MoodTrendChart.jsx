@@ -60,9 +60,9 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={springConfigFast}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
       className="glass p-4 sm:p-6 rounded-[2rem] border-none h-[400px] w-full"
     >
       <div className="mb-6 flex justify-between items-center">

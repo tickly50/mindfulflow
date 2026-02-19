@@ -44,9 +44,9 @@ const ActivityCorrelation = memo(function ActivityCorrelation({ data }) {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={springConfigFast}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
       className="glass p-4 sm:p-6 rounded-[2rem] border-none h-[350px] flex flex-col"
     >
       <h3 className="text-lg font-bold text-white mb-1">Vliv Aktivit</h3>

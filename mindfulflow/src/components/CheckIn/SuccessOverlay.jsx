@@ -96,9 +96,9 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
           <motion.h2
             className="text-3xl font-black text-white mb-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
           >
             Skvělá práce!
           </motion.h2>
