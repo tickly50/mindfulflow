@@ -99,9 +99,10 @@ body {
   -ms-user-select: none;
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling and layout stabilization */
 html {
   scroll-behavior: smooth;
+  overflow-y: scroll; /* Force scrollbar to prevent layout shifts */
 }
 
 /* ============================================
@@ -121,7 +122,6 @@ html {
       background-color var(--transition-base) var(--ease-smooth),
       border-color var(--transition-base) var(--ease-smooth),
       box-shadow var(--transition-base) var(--ease-smooth);
-    transform: translateZ(0);
     isolation: isolate;
   }
 
@@ -131,7 +131,6 @@ html {
     -webkit-backdrop-filter: blur(var(--glass-blur-strong));
     background-color: var(--glass-bg-hover);
     border: 1px solid var(--glass-border-strong);
-    transform: translateZ(0);
     isolation: isolate;
   }
 
@@ -162,7 +161,6 @@ html {
       var(--glass-bg) 100%
     );
     border: 1px solid var(--glass-border);
-    transform: translateZ(0);
     isolation: isolate;
   }
 
@@ -534,8 +532,13 @@ body {
 }
 
 @keyframes sos-pulse {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Quote card hover — pure CSS, no JS event handlers (prevents border-flicker) */

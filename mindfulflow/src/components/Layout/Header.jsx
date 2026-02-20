@@ -102,7 +102,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
         className="glass-strong rounded-2xl p-4 mb-8 sticky top-0 z-40"
         style={{
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
-          transform: 'translateZ(0)',
           backfaceVisibility: 'hidden'
         }}
       >
@@ -110,7 +109,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
           {/* Logo and Title */}
           <div 
             className="flex items-center gap-3"
-            style={{ transform: 'translateZ(0)' }}
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-glow-violet">
               <span className="text-2xl">🧘</span>
@@ -134,7 +132,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 font-bold ml-2"
                 title={`${streak} dní v řadě!`}
                 style={{ 
-                  transform: 'translateZ(0)',
                   willChange: 'transform, opacity'
                 }}
               >
@@ -159,8 +156,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                   boxShadow: currentView === view 
                     ? '0 0 20px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.1)' 
                     : 'none',
-                  transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                  transform: 'translateZ(0)'
+                  transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
                 }}
               >
                 {view === 'checkin' && 'Check-In'}
@@ -186,9 +182,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             <button
               onClick={onBreathingClick}
               className="bg-gradient-to-r from-orange-600 to-red-600 px-3 py-2 rounded-lg font-bold text-white flex items-center gap-2 shadow-lg relative overflow-hidden hover:from-orange-500 hover:to-red-500 outline-none focus:outline-none"
-              style={{ 
-                transform: 'translateZ(0)'
-              }}
             >
               {/* CSS pulse — no JS animation loop */}
               <span
@@ -210,8 +203,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               }}
               className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white outline-none focus:outline-none focus:ring-0"
               style={{ 
-                transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                transform: 'translateZ(0)'
+                transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
               }}
             >
               <Settings className="w-5 h-5" />
@@ -230,7 +222,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, ease: easeConfig.smooth }}
               className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-              style={{ transform: 'translateZ(0)' }}
             >
               <motion.div 
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -239,7 +230,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                style={{ transform: 'translateZ(0)' }}
               />
               <motion.div
                 variants={variants.modalScale}
@@ -248,7 +238,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 exit="exit"
                 className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto custom-scrollbar"
                 onClick={(e) => e.stopPropagation()}
-                style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                style={{ backfaceVisibility: 'hidden' }}
               >
                 <div className="flex items-center justify-between mb-8 sticky top-0 bg-[#0f172a] z-10 pb-4 border-b border-white/5">
                   <h2 className="text-2xl font-bold text-white">Nastavení</h2>
@@ -260,8 +250,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       transition: { duration: 0.2, ease: easeConfig.smooth }
                     }}
                     style={{ 
-                      transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                      transform: 'translateZ(0)'
+                      transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                     }}
                   >
                     <X className="w-6 h-6 text-white/50" />
@@ -331,8 +320,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       whileTap={microInteractions.button.tap}
                       className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 font-medium border border-red-500/20 text-base outline-none focus:outline-none"
                       style={{ 
-                        transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                        transform: 'translateZ(0)'
+                        transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                       }}
                     >
                       <Trash2 className="w-5 h-5" />

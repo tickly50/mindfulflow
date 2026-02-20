@@ -25,7 +25,6 @@ export const Toast = ({ message, type, onClose }) => {
       transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
       className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border backdrop-blur-md shadow-lg min-w-[300px] ${bgColors[type] || bgColors.info} bg-[#0f172a]/90`}
       style={{ 
-        transform: 'translateZ(0)',
         willChange: 'opacity'
       }}
     >
@@ -39,8 +38,7 @@ export const Toast = ({ message, type, onClose }) => {
           transition: { duration: 0.2 }
         }}
         style={{ 
-          transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-          transform: 'translateZ(0)'
+          transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
         }}
       >
         <X className="w-4 h-4" />

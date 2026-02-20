@@ -1,12 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
 import { MOOD_LABELS } from '../../utils/moodCalculations';
 import { variants as globalVariants, microInteractions } from '../../utils/animations';
-import { Frown, CloudRain, Meh, Smile, Sparkles } from 'lucide-react';
+import { Frown, CloudRain, Meh, Smile, Sparkles, Check } from 'lucide-react';
 
-/**
- * Map mood levels to icons
- */
 const MOOD_ICONS = {
   1: Frown,
   2: CloudRain,
@@ -15,9 +12,6 @@ const MOOD_ICONS = {
   5: Sparkles,
 };
 
-/**
- * Map mood levels to emoji
- */
 const MOOD_EMOJI = {
   1: '😔',
   2: '😰',
@@ -26,30 +20,36 @@ const MOOD_EMOJI = {
   5: '✨',
 };
 
-// Static config objects hoisted OUTSIDE the component —
-// these NEVER change, so they must not be recreated on every render.
 const MOOD_GRADIENTS = {
   1: 'from-red-600/50 to-red-900/50',
   2: 'from-blue-900/40 to-slate-900/40',
   3: 'from-indigo-900/40 to-slate-900/40',
   4: 'from-violet-600/30 to-fuchsia-600/30',
-  5: 'from-amber-400/30 to-orange-500/30'
+  5: 'from-amber-400/30 to-orange-500/30',
 };
 
-const MOOD_BORDER_COLORS = {
-  1: 'group-hover:border-red-500/50',
-  2: 'group-hover:border-blue-400/50',
-  3: 'group-hover:border-indigo-400/50',
-  4: 'group-hover:border-violet-400/50',
-  5: 'group-hover:border-amber-400/50'
+const MOOD_BORDER_ACTIVE = {
+  1: 'border-red-500/60',
+  2: 'border-blue-400/60',
+  3: 'border-indigo-400/60',
+  4: 'border-violet-400/60',
+  5: 'border-amber-400/60',
 };
 
 const MOOD_RING_COLORS = {
-  1: 'ring-red-500/50',
-  2: 'ring-blue-500/50',
-  3: 'ring-indigo-500/50',
-  4: 'ring-violet-500/50',
-  5: 'ring-amber-500/50'
+  1: 'ring-red-500/60',
+  2: 'ring-blue-500/60',
+  3: 'ring-indigo-500/60',
+  4: 'ring-violet-500/60',
+  5: 'ring-amber-500/60',
+};
+
+const MOOD_GLOW_COLORS = {
+  1: 'rgba(239,68,68,0.25)',
+  2: 'rgba(59,130,246,0.20)',
+  3: 'rgba(99,102,241,0.20)',
+  4: 'rgba(139,92,246,0.25)',
+  5: 'rgba(245,158,11,0.25)',
 };
 
 const MOOD_INDICATOR_COLORS = {
@@ -57,25 +57,44 @@ const MOOD_INDICATOR_COLORS = {
   2: 'bg-blue-500 shadow-blue-500/40',
   3: 'bg-indigo-500 shadow-indigo-500/40',
   4: 'bg-violet-500 shadow-violet-500/40',
-  5: 'bg-amber-500 shadow-amber-500/40'
+  5: 'bg-amber-500 shadow-amber-500/40',
 };
 
-/**
- * Interactive mood selection cards - Ultra-smooth Performance Edition
- */
-const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
-  
-  // Using global variants for consistency
-  const container = globalVariants.staggerContainerFast;
-  const item = globalVariants.item;
+// Stagger container for mood cards
+const cardContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.1,
+    },
+  },
+};
 
+// Individual card entrance – rises from below with spring
+const cardItem = {
+  hidden: { opacity: 0, y: 24, scale: 0.93 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 220,
+      damping: 20,
+      mass: 0.7,
+    },
+  },
+};
+
+const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
   return (
     <motion.div
-      variants={container}
+      variants={cardContainer}
       initial="hidden"
       animate="show"
       className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-12 max-w-6xl mx-auto"
-      style={{ transform: 'translateZ(0)' }}
     >
       {[1, 2, 3, 4, 5].map((mood) => {
         const Icon = MOOD_ICONS[mood];
@@ -84,135 +103,118 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
         return (
           <motion.button
             key={mood}
-            variants={item}
+            variants={cardItem}
             whileHover={microInteractions.card.hover}
             whileTap={microInteractions.card.tap}
             onClick={() => onMoodSelect(mood)}
             className={`group relative overflow-hidden rounded-[2rem] p-1 h-full min-h-[160px] xs:min-h-[180px]
-                ${isSelected ? `ring-4 ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}` : 'ring-0'}
+              ${isSelected
+                ? `ring-4 ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
+                : 'ring-0'
+              }
             `}
-            style={{ 
-              transform: 'translateZ(0)',
+            style={{
               backfaceVisibility: 'hidden',
-              willChange: isSelected ? 'auto' : 'transform'
+              boxShadow: isSelected
+                ? `0 0 32px ${MOOD_GLOW_COLORS[mood]}, 0 8px 24px rgba(0,0,0,0.3)`
+                : '0 4px 16px rgba(0,0,0,0.2)',
+              transition: 'box-shadow 0.3s cubic-bezier(0.25,0.1,0.25,1)',
             }}
           >
-            {/* Card Background with Glass effect */}
-            <div 
-              className={`absolute inset-0 bg-gradient-to-br ${MOOD_GRADIENTS[mood]} backdrop-blur-xl opacity-40 group-hover:opacity-60`}
-              style={{ 
-                transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                transform: 'translateZ(0)'
+            {/* Card Background */}
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${MOOD_GRADIENTS[mood]} backdrop-blur-xl`}
+              style={{
+                opacity: isSelected ? 0.7 : 0.45,
+                transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
               }}
             />
-            
-            <div 
-              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-[1.8rem] border border-white/5 ${MOOD_BORDER_COLORS[mood]} flex flex-col items-center justify-center gap-4 p-4 xs:p-6 overflow-hidden`}
-              style={{ 
-                transition: 'border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                transform: 'translateZ(0)'
+
+            <div
+              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-[1.8rem] border
+                ${isSelected ? MOOD_BORDER_ACTIVE[mood] : 'border-white/5 group-hover:border-white/15'}
+                flex flex-col items-center justify-center gap-4 p-4 xs:p-6 overflow-hidden`}
+              style={{
+                transition: 'border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
               }}
             >
-                
-                {/* Background Glow */}
-                <div 
-                  className={`absolute inset-0 bg-gradient-to-t ${MOOD_GRADIENTS[mood]} opacity-0 group-hover:opacity-20`}
-                  style={{ 
-                    transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                    transform: 'translateZ(0)'
-                  }}
-                />
+              {/* Hover background glow */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-t ${MOOD_GRADIENTS[mood]} opacity-0 group-hover:opacity-25`}
+                style={{
+                  transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                }}
+              />
 
-                {/* Emoji with 3D feel */}
-                <motion.div 
-                  className="text-5xl xs:text-6xl drop-shadow-2xl filter"
-                  animate={isSelected ? { scale: 1.18 } : { scale: 1 }}
-                  transition={{ 
-                    type: 'tween',
-                    duration: 0.18,
-                    ease: [0.33, 1, 0.68, 1]
-                  }}
-                  style={{ 
-                    transform: 'translateZ(0)',
-                    willChange: isSelected ? 'transform' : 'auto'
-                  }}
-                >
-                  {MOOD_EMOJI[mood]}
-                </motion.div>
-                
-                {/* Icon and Label Container */}
-                <div className="flex flex-col items-center gap-1 z-10 text-center w-full px-2">
-                    <div className="flex items-center justify-center gap-2 w-full">
-                         {Icon && (
-                          <Icon 
-                            className={`w-4 h-4 xs:w-5 xs:h-5 flex-shrink-0 ${
-                              isSelected ? 'text-white' : 'text-white/60 group-hover:text-white/90'
-                            }`}
-                            style={{ 
-                              transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
-                            }}
-                          />
-                        )}
-                        <span 
-                          className={`text-base xs:text-lg font-bold tracking-wide whitespace-nowrap flex-shrink-0 ${
-                            isSelected ? 'text-white' : 'text-white/80 group-hover:text-white'
-                          }`}
-                          style={{ 
-                            transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                            transform: 'translateZ(0)',
-                            WebkitFontSmoothing: 'antialiased'
-                          }}
-                        >
-                          {MOOD_LABELS[mood]}
-                        </span>
-                    </div>
-                    {/* Mood Number */}
-                     <span 
-                       className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50"
-                       style={{ 
-                         transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
-                       }}
-                     >
-                        Level {mood}
-                    </span>
+              {/* Emoji */}
+              <motion.div
+                className="text-5xl xs:text-6xl drop-shadow-2xl filter relative z-10"
+                animate={isSelected ? { scale: 1.2, y: -2 } : { scale: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.6 }}
+                style={{ willChange: 'transform' }}
+              >
+                {MOOD_EMOJI[mood]}
+              </motion.div>
+
+              {/* Label + Icon */}
+              <div className="flex flex-col items-center gap-1 z-10 text-center w-full px-2">
+                <div className="flex items-center justify-center gap-2 w-full">
+                  {Icon && (
+                    <Icon
+                      className={`w-4 h-4 xs:w-5 xs:h-5 flex-shrink-0 ${
+                        isSelected ? 'text-white' : 'text-white/60 group-hover:text-white/90'
+                      }`}
+                      style={{ transition: 'color 0.2s' }}
+                    />
+                  )}
+                  <span
+                    className={`text-base xs:text-lg font-bold tracking-wide whitespace-nowrap flex-shrink-0 ${
+                      isSelected ? 'text-white' : 'text-white/80 group-hover:text-white'
+                    }`}
+                    style={{ transition: 'color 0.2s', WebkitFontSmoothing: 'antialiased' }}
+                  >
+                    {MOOD_LABELS[mood]}
+                  </span>
                 </div>
+                <span
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50"
+                  style={{ transition: 'color 0.2s' }}
+                >
+                  Level {mood}
+                </span>
+              </div>
 
-                {/* Selection Indicator */}
+              {/* Selection indicator – pops in */}
+              <AnimatePresence>
                 {isSelected && (
                   <motion.div
-                    className={`absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${MOOD_INDICATOR_COLORS[mood]}`}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    transition={{
-                      type: "tween",
-                      duration: 0.15,
-                      ease: [0.33, 1, 0.68, 1]
-                    }}
-                    style={{ 
-                      transform: 'translateZ(0)',
-                      willChange: 'transform, opacity'
-                    }}
+                    className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${MOOD_INDICATOR_COLORS[mood]}`}
+                    initial={{ scale: 0, opacity: 0, rotate: -45 }}
+                    animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                    exit={{ scale: 0, opacity: 0, rotate: 45 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 18, mass: 0.5 }}
+                    style={{ willChange: 'transform, opacity' }}
                   >
-                     <motion.svg 
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 1 }}
-                        transition={{ 
-                          pathLength: { duration: 0.25, delay: 0.06 },
-                          opacity: { duration: 0.12, delay: 0.06 }
-                        }}
-                        className="w-5 h-5 text-white" 
-                        fill="none" 
-                        viewBox="0 0 24 24" 
-                        stroke="currentColor"
-                        strokeWidth={3}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                     >
+                    <motion.svg
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{
+                        pathLength: { duration: 0.3, delay: 0.05, ease: 'easeOut' },
+                        opacity: { duration: 0.1 },
+                      }}
+                      className="w-5 h-5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
                       <path d="M5 13l4 4L19 7" />
                     </motion.svg>
                   </motion.div>
                 )}
+              </AnimatePresence>
             </div>
           </motion.button>
         );

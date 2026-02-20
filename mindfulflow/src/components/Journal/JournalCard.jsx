@@ -21,7 +21,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
       exit="exit"
       whileHover={microInteractions.card.hover}
       className="relative pl-8 sm:pl-0 group"
-      style={{ transform: 'translateZ(0)', willChange: 'auto' }}
+      style={{ willChange: 'auto' }}
     >
       {/* Timeline line for mobile */}
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-white/10 sm:hidden" />
@@ -30,8 +30,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
       <div 
         className="absolute left-[-5px] top-6 w-3 h-3 rounded-full sm:hidden ring-4 ring-[#1a1b26]"
         style={{ 
-          backgroundColor: moodColor.primary,
-          transform: 'translateZ(0)'
+          backgroundColor: moodColor.primary
         }} 
       />
 
@@ -41,8 +40,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
           background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
           boxShadow: `0 4px 30px rgba(0, 0, 0, 0.1)`,
           borderWidth: 0,
-          borderColor: 'transparent',
-          transform: 'translateZ(0)'
+          borderColor: 'transparent'
         }}
       >
         <div className="flex flex-col sm:flex-row gap-4 sm:items-start justify-between">
@@ -54,8 +52,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
               <span 
                 className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm border border-white/10 bg-white/5 flex items-center justify-center"
                 style={{ 
-                  color: moodColor.text,
-                  transform: 'translateZ(0)'
+                  color: moodColor.text
                 }}
               >
                 {MOOD_LABELS[Math.round(entry.mood)]}
@@ -87,8 +84,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                     key={ctxId}
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 text-xs text-white/60 border border-white/5 hover:bg-white/10"
                     style={{ 
-                      transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                      transform: 'translateZ(0)'
+                      transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                     }}
                   >
                     <Tag className="w-3 h-3 opacity-50" />
@@ -106,8 +102,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                 className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg ring-1 ring-white/10"
                 style={{ 
                   background: moodColor.gradient,
-                  boxShadow: `0 10px 25px -5px ${moodColor.primary}50`,
-                  transform: 'translateZ(0)'
+                  boxShadow: `0 10px 25px -5px ${moodColor.primary}50`
                 }}
              >
                {Math.round(entry.mood)}
@@ -119,7 +114,6 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                className="flex gap-2 sm:opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
                style={{
                  transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                 transform: 'translateZ(0)',
                  willChange: 'opacity, transform'
                }}
              >
@@ -130,8 +124,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                  className="p-2 text-white/40 hover:text-violet-300 hover:bg-white/10 rounded-full focus:outline-none outline-none"
                  title="Upravit"
                  style={{ 
-                   transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                   transform: 'translateZ(0)'
+                   transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                  }}
                >
                  <Pencil className="w-4 h-4" />
@@ -143,8 +136,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                  className="p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-full focus:outline-none outline-none"
                  title="Smazat"
                  style={{ 
-                   transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                   transform: 'translateZ(0)'
+                   transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                  }}
                >
                  <Trash2 className="w-4 h-4" />

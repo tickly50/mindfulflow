@@ -23,8 +23,11 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
   const container = variants.staggerContainerFast;
 
   return (
-    <div
+    <motion.div
       className="mb-8"
+      variants={container}
+      initial="hidden"
+      animate="show"
     >
       <div className="flex flex-wrap gap-3">
         {/* Removed AnimatePresence mode="popLayout" as it creates issues with static lists */}
@@ -37,7 +40,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
             return (
               <motion.button
                 key={tag.id}
-                initial={false}
+                variants={variants.pop}
                 whileHover={microInteractions.button.hover}
                 whileTap={microInteractions.button.tap}
                 onClick={() => onTagToggle(tag.id)}
@@ -50,8 +53,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                   ${isCustom ? 'pr-9' : ''} 
                 `}
                 style={{
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
+                  willChange: 'transform'
                 }}
               >
                 {/* Glow effect for selected items - removed layoutId to prevent conflicts */}
@@ -87,7 +89,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
             );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 });
 

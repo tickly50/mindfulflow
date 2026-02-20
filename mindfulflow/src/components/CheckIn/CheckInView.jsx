@@ -186,14 +186,17 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                     opacity: 1, 
                     height: 'auto',
                     transition: { 
-                        height: { type: "spring", stiffness: 140, damping: 22, mass: 0.8 },
-                        opacity: { duration: 0.25, delay: 0.08 }
+                        height: { type: "spring", stiffness: 160, damping: 24, mass: 0.8 },
+                        opacity: { duration: 0.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }
                     } 
                 }}
                 exit={{ 
                     opacity: 0, 
                     height: 0,
-                    transition: { duration: 0.25, ease: [0.33, 1, 0.68, 1] }
+                    transition: { 
+                      duration: 0.28,
+                      ease: [0.65, 0, 0.35, 1]
+                    }
                 }}
                 className="overflow-hidden"
                 style={{ willChange: 'height, opacity' }}
@@ -203,7 +206,6 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                      <div 
                         className="glass-panel p-5 sm:p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
                         style={{ 
-                            transform: 'translateZ(0)',
                             willChange: 'transform',
                             WebkitFontSmoothing: 'antialiased',
                             backfaceVisibility: 'hidden'
@@ -281,22 +283,36 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                             <motion.button
                                 onClick={handleSubmit}
                                 disabled={!canSubmit}
-                                whileHover={microInteractions.button.hover}
-                                whileTap={microInteractions.button.tap}
+                                whileHover={{ 
+                                  scale: 1.03,
+                                  y: -2,
+                                  transition: { type: 'spring', stiffness: 340, damping: 18 }
+                                }}
+                                whileTap={{ 
+                                  scale: 0.96,
+                                  y: 0,
+                                  transition: { type: 'spring', stiffness: 500, damping: 20 }
+                                }}
                                 className="relative group overflow-hidden w-full md:w-auto min-w-[280px]"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl opacity-100 transition-opacity group-hover:opacity-90" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                                {/* Shimmer */}
+                                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg]" />
                                 
                                 {/* Button Content */}
                                 <div className="relative px-8 py-5 flex items-center justify-center gap-3">
                                     <span className="text-xl font-bold text-white tracking-wide">Uložit záznam</span>
-                                    <div className="bg-white/20 p-1.5 rounded-lg">
+                                    <motion.div 
+                                      className="bg-white/20 p-1.5 rounded-lg"
+                                      animate={{ x: [0, 3, 0] }}
+                                      transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut', repeatDelay: 1 }}
+                                    >
                                         <ChevronRight className="w-5 h-5 text-white" />
-                                    </div>
+                                    </motion.div>
                                 </div>
                                 
-                                {/* Shine effect */}
+                                {/* Ring */}
                                 <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20 group-hover:ring-white/40 transition-all" />
                             </motion.button>
                         </div>
@@ -308,7 +324,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
           </AnimatePresence>
 
           {/* Ultimate Success Overlay */}
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="wait">
             {showSuccess && (
               <SuccessOverlay
                 key={`success-${successCycle}`}

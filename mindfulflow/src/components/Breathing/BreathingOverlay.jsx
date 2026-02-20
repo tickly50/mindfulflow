@@ -122,7 +122,7 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
       className="fixed inset-0 z-[100] flex items-center justify-center"
-      style={{ backdropFilter: 'blur(16px)', transform: 'translateZ(0)' }}
+      style={{ backdropFilter: 'blur(16px)' }}
     >
       {/* Background overlay */}
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
@@ -142,7 +142,6 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
             transition: { duration: 0.1 } 
           }}
           className="absolute top-4 right-4 glass-strong rounded-full p-3 hover:bg-white/25 transition-all"
-          style={{ transform: 'translateZ(0)' }}
         >
           <X className="w-6 h-6" />
         </motion.button>
@@ -172,7 +171,6 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
             className={`w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br ${phaseConfig.color} flex items-center justify-center relative`}
             style={{
               boxShadow: '0 0 80px rgba(139, 92, 246, 0.6)',
-              transform: 'translateZ(0)',
               backfaceVisibility: 'hidden',
               willChange: 'transform, opacity'
             }}
@@ -180,7 +178,6 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
             {/* Inner circle */}
             <div 
               className="w-48 h-48 md:w-60 md:h-60 rounded-full bg-gradient-to-br from-white/20 to-white/5 flex items-center justify-center"
-              style={{ transform: 'translateZ(0)' }}
             >
               {/* Count display */}
               <motion.div
@@ -190,7 +187,6 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
                 transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
                 className="text-6xl md:text-7xl font-bold text-white"
                 style={{ 
-                  transform: 'translateZ(0)',
                   willChange: 'transform, opacity'
                 }}
               >
@@ -212,7 +208,6 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
                 repeatType: 'mirror'
               }}
               style={{ 
-                transform: 'translateZ(0)',
                 willChange: 'transform'
               }}
             />
@@ -228,7 +223,6 @@ const BreathingSession = memo(function BreathingSession({ onClose }) {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
             className="text-center"
-            style={{ transform: 'translateZ(0)' }}
           >
             <div className="text-4xl md:text-5xl font-bold text-white mb-2">
               {phaseConfig.text}
