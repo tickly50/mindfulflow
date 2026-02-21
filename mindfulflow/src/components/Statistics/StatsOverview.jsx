@@ -23,7 +23,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: 'spring', stiffness: 220, damping: 22, mass: 0.7 },
+    transition: { type: 'spring', stiffness: 260, damping: 24, mass: 0.5 },
   },
 };
 

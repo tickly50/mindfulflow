@@ -186,8 +186,8 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                     opacity: 1, 
                     height: 'auto',
                     transition: { 
-                        height: { type: "spring", stiffness: 160, damping: 24, mass: 0.8 },
-                        opacity: { duration: 0.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }
+                        height: { type: "spring", stiffness: 260, damping: 24, mass: 0.5 },
+                        opacity: { duration: 0.25, delay: 0.05, ease: [0.32, 0.72, 0, 1] }
                     } 
                 }}
                 exit={{ 
@@ -284,14 +284,14 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                                 onClick={handleSubmit}
                                 disabled={!canSubmit || showSuccess}
                                 whileHover={{ 
-                                  scale: 1.03,
-                                  y: -2,
-                                  transition: { type: 'spring', stiffness: 340, damping: 18 }
+                                  scale: 1.02,
+                                  y: -1,
+                                  transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.5 }
                                 }}
                                 whileTap={{ 
                                   scale: 0.96,
                                   y: 0,
-                                  transition: { type: 'spring', stiffness: 500, damping: 20 }
+                                  transition: { type: 'spring', stiffness: 600, damping: 25, mass: 0.4 }
                                 }}
                                 className="relative group overflow-hidden w-full md:w-auto min-w-[280px]"
                             >

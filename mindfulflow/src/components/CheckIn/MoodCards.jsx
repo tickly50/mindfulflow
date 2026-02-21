@@ -81,9 +81,9 @@ const cardItem = {
     scale: 1,
     transition: {
       type: 'spring',
-      stiffness: 220,
-      damping: 20,
-      mass: 0.7,
+      stiffness: 260,
+      damping: 24,
+      mass: 0.5,
     },
   },
 };
@@ -150,7 +150,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               <motion.div
                 className="text-4xl xs:text-6xl drop-shadow-2xl filter relative z-10"
                 animate={isSelected ? { scale: 1.2, y: -2 } : { scale: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.6 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 15, mass: 0.5 }}
                 style={{ willChange: 'transform' }}
               >
                 {MOOD_EMOJI[mood]}
@@ -192,7 +192,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                     initial={{ scale: 0, opacity: 0, rotate: -45 }}
                     animate={{ scale: 1, opacity: 1, rotate: 0 }}
                     exit={{ scale: 0, opacity: 0, rotate: 45 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 18, mass: 0.5 }}
+                    transition={{ type: 'spring', stiffness: 450, damping: 20, mass: 0.4 }}
                     style={{ willChange: 'transform, opacity' }}
                   >
                     <motion.svg

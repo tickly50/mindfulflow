@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react';
+import { useState, useMemo, memo, useEffect } from 'react';
 import { useMoodEntries } from '../../utils/queries';
 import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateAverageSleep } from '../../utils/moodCalculations';
 import { motion } from 'framer-motion';
@@ -34,6 +34,22 @@ const StatisticsView = memo(function StatisticsView() {
   const longestStreak = useMemo(() => calculateLongestStreak(entries), [entries]);
   const avgSleep = useMemo(() => calculateAverageSleep(filteredEntries), [filteredEntries]);
 
+  // Zabránit scrollování na stránce statistik a poskakování layoutu (flickeringu)
+  useEffect(() => {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, []);
   if (!entries) return null;
   if (entries.length === 0) return <EmptyState />;
 
@@ -52,21 +68,19 @@ const StatisticsView = memo(function StatisticsView() {
         </div>
 
         {/* Time range pills */}
-        <div className="glass p-1 rounded-xl flex gap-1">
+        <div className="bg-white/5 border border-white/10 p-1 rounded-xl flex gap-1">
           {['7', '30', 'all'].map((range) => (
-            <motion.button
+            <button
               key={range}
               onClick={() => setTimeRange(range)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none border-none ring-0 hover:scale-105 active:scale-95 transform-gpu ${
                 timeRange === range
-                  ? 'bg-white/10 text-white shadow-lg'
+                  ? 'bg-white/10 text-white'
                   : 'text-white/40 hover:text-white hover:bg-white/5'
               }`}
             >
               {range === 'all' ? 'Vše' : `${range} dní`}
-            </motion.button>
+            </button>
           ))}
         </div>
       </motion.div>
@@ -98,9 +112,9 @@ const StatisticsView = memo(function StatisticsView() {
         </motion.div>
       ) : (
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+          transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
           className="glass p-12 rounded-[2rem] text-center border-none"
         >
           <p className="text-white/50">V tomto období nejsou žádná data.</p>

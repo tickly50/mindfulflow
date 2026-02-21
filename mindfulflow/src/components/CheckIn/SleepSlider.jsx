@@ -10,7 +10,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   // Motion value target (0-100)
   const x = useMotionValue(0);
   // Smooth spring physics for transitions between snaps - "jumps"
-  const smoothX = useSpring(x, { stiffness: 500, damping: 30 });
+  const smoothX = useSpring(x, { stiffness: 400, damping: 25, mass: 0.4 });
 
   const width = useTransform(smoothX, (v) => `${v}%`);
   const left = useTransform(smoothX, (v) => `${v}%`);

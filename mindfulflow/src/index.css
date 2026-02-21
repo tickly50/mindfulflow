@@ -48,12 +48,12 @@
   --radius-full: 9999px;
 
   /* ========== ANIMATION SYSTEM ========== */
-  --spring-stiffness: 100;
-  --spring-damping: 20;
+  --spring-stiffness: 260;
+  --spring-damping: 24;
   --transition-fast: 150ms;
   --transition-base: 250ms;
   --transition-slow: 350ms;
-  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ========== GLOW COLORS ========== */

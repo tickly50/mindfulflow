@@ -64,7 +64,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
   return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.25, ease: [0.2, 0.8, 0.2, 1] } }}
+      animate={{ opacity: 1, transition: { duration: 0.25, ease: [0.32, 0.72, 0, 1] } }}
       exit={{ opacity: 0, transition: { duration: 0.3, ease: [0.65, 0, 0.35, 1] } }}
       onClick={safeClose}
       role="dialog"
@@ -98,7 +98,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
               }}
               transition={{
                 duration: p.duration * 1.1,
-                ease: [0.2, 0.8, 0.2, 1],
+                ease: [0.32, 0.72, 0, 1],
                 times: [0, 0.5, 1],
               }}
             />
@@ -115,7 +115,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
           scale: 1,
           y: 0,
           opacity: 1,
-          transition: { type: 'spring', stiffness: 280, damping: 22, mass: 0.8 },
+          transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.6 },
         }}
         exit={{
           scale: 0.85,
@@ -134,12 +134,12 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
             className="w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-400 to-green-500 flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/40"
             initial={{ scale: 0, rotate: -90 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 14, mass: 0.8, delay: 0.08 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 16, mass: 0.6, delay: 0.08 }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.25, duration: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+              transition={{ delay: 0.25, duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
             >
               <Check className="w-12 h-12 text-white stroke-[4]" />
             </motion.div>
