@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import Header from './components/Layout/Header';
 import { ToastProvider } from './context/ToastContext';
 import { pageVariants } from './utils/animations';
@@ -12,7 +12,6 @@ import BreathingOverlay from './components/Breathing/BreathingOverlay';
 import InstallPrompt from './components/Layout/InstallPrompt';
 
 import React from 'react';
-import { Analytics } from '@vercel/analytics/react';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -141,7 +140,7 @@ function App() {
   return (
     <ToastProvider>
       <AppContent />
-      <Analytics />
+      <VercelAnalytics />
     </ToastProvider>
   );
 }
