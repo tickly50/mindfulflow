@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import Header from './components/Layout/Header';
 import { ToastProvider } from './context/ToastContext';
 import { pageVariants } from './utils/animations';
