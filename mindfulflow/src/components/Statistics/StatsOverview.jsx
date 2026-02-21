@@ -1,4 +1,4 @@
-import { Flame, BarChart3, TrendingUp, Activity } from 'lucide-react';
+import { Flame, BarChart3, TrendingUp, Activity, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { MOOD_ADJECTIVES } from '../../utils/moodCalculations';
 
@@ -27,7 +27,7 @@ const cardVariants = {
   },
 };
 
-export default function StatsOverview({ stats, streak, longestStreak }) {
+export default function StatsOverview({ stats, streak, longestStreak, avgSleep }) {
   if (!stats) return null;
 
   const cards = [
@@ -67,11 +67,20 @@ export default function StatsOverview({ stats, streak, longestStreak }) {
       border: 'border-violet-500/20',
       desc: 'Emoční vyrovnanost',
     },
+    {
+      label: 'Spánek',
+      value: avgSleep ? `${avgSleep}h` : '—',
+      icon: Moon,
+      color: 'text-indigo-400',
+      bg: 'bg-indigo-500/10',
+      border: 'border-indigo-500/20',
+      desc: 'Průměr / noc',
+    },
   ];
 
   return (
     <motion.div
-      className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8"
       variants={containerVariants}
       initial="hidden"
       animate="show"

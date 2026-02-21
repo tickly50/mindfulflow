@@ -29,7 +29,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
       initial="hidden"
       animate="show"
     >
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-2 xs:gap-3">
         {/* Removed AnimatePresence mode="popLayout" as it creates issues with static lists */}
         {availableTags.map((tag) => {
             const isSelected = selectedTags.includes(tag.id);
@@ -45,12 +45,12 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                 whileTap={microInteractions.button.tap}
                 onClick={() => onTagToggle(tag.id)}
                 className={`
-                  relative px-5 py-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 border overflow-hidden group/tag touch-none
+                  relative px-3 py-2 xs:px-5 xs:py-3 rounded-2xl flex items-center gap-2 xs:gap-2.5 transition-all duration-300 border overflow-hidden group/tag
                   ${isSelected 
                     ? 'bg-gradient-to-br from-violet-600 to-indigo-600 border-violet-400/50 text-white shadow-lg shadow-violet-500/25' 
                     : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20 hover:text-white'
                   }
-                  ${isCustom ? 'pr-9' : ''} 
+                  ${isCustom ? 'pr-8 xs:pr-9' : ''} 
                 `}
                 style={{
                   willChange: 'transform'
@@ -66,16 +66,16 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                     />
                 )}
 
-                {Icon && <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-white/90'}`} />}
+                {Icon && <Icon className={`w-3.5 h-3.5 xs:w-4 xs:h-4 ${isSelected ? 'text-white' : 'text-white/90'}`} />}
                 
-                <span className={`text-sm tracking-wide font-bold ${isSelected ? 'text-white' : 'text-white/60 group-hover:text-white'}`}>
+                <span className={`text-xs xs:text-sm tracking-wide font-bold ${isSelected ? 'text-white' : 'text-white/60 group-hover:text-white'}`}>
                     {tag.label}
                 </span>
 
                 {isCustom && onDeleteTag && (
                     <div
                         onClick={(e) => onDeleteTag(tag.id, e)}
-                        className={`absolute right-1 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors
+                        className={`absolute right-1 top-1/2 -translate-y-1/2 p-1 xs:p-1.5 rounded-full transition-colors
                             ${isSelected 
                                 ? 'hover:bg-white/20 text-white/70 hover:text-white' 
                                 : 'hover:bg-white/10 text-white/40 hover:text-white/90'

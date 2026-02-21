@@ -414,3 +414,25 @@ export const calculateDayOfWeekStats = (entries) => {
 
   return stats;
 };
+
+/**
+ * Calculate average sleep hours from entries
+ * @param {Array} entries - Array of mood entries
+ * @returns {number} Average sleep in hours
+ */
+export const calculateAverageSleep = (entries) => {
+  if (!entries || entries.length === 0) return 0;
+  
+  let totalSleep = 0;
+  let count = 0;
+
+  entries.forEach((entry) => {
+    if (typeof entry.sleep === 'number') {
+      totalSleep += entry.sleep;
+      count += 1;
+    }
+  });
+
+  if (count === 0) return 0;
+  return Math.round((totalSleep / count) * 10) / 10;
+};

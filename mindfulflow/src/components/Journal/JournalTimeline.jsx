@@ -82,6 +82,8 @@ export default function JournalTimeline({
           <motion.div
             key={entry.id || index}
             variants={variants.listItem}
+            initial="hidden"
+            animate="show"
             exit={{
               opacity: 0,
               x: 30,

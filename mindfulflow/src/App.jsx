@@ -11,6 +11,7 @@ import BreathingOverlay from './components/Breathing/BreathingOverlay';
 import InstallPrompt from './components/Layout/InstallPrompt';
 
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -72,7 +73,7 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-[100dvh] bg-[#0f172a]">
       <div className="container mx-auto px-4 py-6 md:py-8">
         <Header
           onBreathingClick={handleBreathingOpen}
@@ -139,6 +140,7 @@ function App() {
   return (
     <ToastProvider>
       <AppContent />
+      <Analytics />
     </ToastProvider>
   );
 }

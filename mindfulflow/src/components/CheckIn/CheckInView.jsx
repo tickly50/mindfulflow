@@ -201,10 +201,10 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                 className="overflow-hidden"
                 style={{ willChange: 'height, opacity' }}
               >
-                <div className="pt-8 scroll-mt-4">
+                <div className="pt-6 xs:pt-8 scroll-mt-4">
                      {/* Glass Container for Details */}
                      <div 
-                        className="glass-panel p-5 sm:p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
+                        className="glass-panel p-4 xs:p-5 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
                         style={{ 
                             willChange: 'transform',
                             WebkitFontSmoothing: 'antialiased',
@@ -282,7 +282,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                         <div className="flex justify-center mt-8">
                             <motion.button
                                 onClick={handleSubmit}
-                                disabled={!canSubmit}
+                                disabled={!canSubmit || showSuccess}
                                 whileHover={{ 
                                   scale: 1.03,
                                   y: -2,
@@ -301,8 +301,8 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg]" />
                                 
                                 {/* Button Content */}
-                                <div className="relative px-8 py-5 flex items-center justify-center gap-3">
-                                    <span className="text-xl font-bold text-white tracking-wide">Uložit záznam</span>
+                                <div className="relative px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3">
+                                    <span className="text-lg xs:text-xl font-bold text-white tracking-wide">Uložit záznam</span>
                                     <motion.div 
                                       className="bg-white/20 p-1.5 rounded-lg"
                                       animate={{ x: [0, 3, 0] }}

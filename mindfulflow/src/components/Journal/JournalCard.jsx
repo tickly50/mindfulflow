@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Clock, Tag, Pencil, Trash2, Calendar } from 'lucide-react';
+import { Clock, Tag, Pencil, Trash2, Calendar, Moon } from 'lucide-react';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
 import { variants, microInteractions } from '../../utils/animations';
 
@@ -64,6 +64,13 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                 <span className="text-white/20">•</span>
                 <Clock className="w-3 h-3" />
                 {date.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}
+                {typeof entry.sleep === 'number' && (
+                  <>
+                    <span className="text-white/20">•</span>
+                    <Moon className="w-3 h-3" />
+                    <span>{entry.sleep}h</span>
+                  </>
+                )}
               </div>
             </div>
             

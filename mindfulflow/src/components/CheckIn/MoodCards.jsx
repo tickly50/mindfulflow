@@ -94,7 +94,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
       variants={cardContainer}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-12 max-w-6xl mx-auto"
+      className="grid grid-cols-2 lg:grid-cols-5 gap-3 xs:gap-4 lg:gap-6 mb-12 max-w-6xl mx-auto [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1"
     >
       {[1, 2, 3, 4, 5].map((mood) => {
         const Icon = MOOD_ICONS[mood];
@@ -107,9 +107,9 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             whileHover={microInteractions.card.hover}
             whileTap={microInteractions.card.tap}
             onClick={() => onMoodSelect(mood)}
-            className={`group relative overflow-hidden rounded-[2rem] p-1 h-full min-h-[160px] xs:min-h-[180px]
+            className={`group relative overflow-hidden rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px]
               ${isSelected
-                ? `ring-4 ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
+                ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
                 : 'ring-0'
               }
             `}
@@ -131,9 +131,9 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             />
 
             <div
-              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-[1.8rem] border
+              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-xl xs:rounded-[1.8rem] border
                 ${isSelected ? MOOD_BORDER_ACTIVE[mood] : 'border-white/5 group-hover:border-white/15'}
-                flex flex-col items-center justify-center gap-4 p-4 xs:p-6 overflow-hidden`}
+                flex flex-col items-center justify-center gap-2 xs:gap-4 p-3 xs:p-6 overflow-hidden`}
               style={{
                 transition: 'border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
               }}
@@ -148,7 +148,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
 
               {/* Emoji */}
               <motion.div
-                className="text-5xl xs:text-6xl drop-shadow-2xl filter relative z-10"
+                className="text-4xl xs:text-6xl drop-shadow-2xl filter relative z-10"
                 animate={isSelected ? { scale: 1.2, y: -2 } : { scale: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.6 }}
                 style={{ willChange: 'transform' }}

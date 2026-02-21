@@ -14,7 +14,7 @@ const JournalView = memo(function JournalView() {
   const [filterMood, setFilterMood] = useState(null);
   const [filterTag, setFilterTag] = useState(null);
   const [editingEntry, setEditingEntry] = useState(null);
-  const [editForm, setEditForm] = useState({ mood: 3, tags: [], diary: '' });
+  const [editForm, setEditForm] = useState({ mood: 3, tags: [], diary: '', sleep: 7 });
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, entryId: null });
   const { success, error } = useToast();
 
@@ -63,7 +63,7 @@ const JournalView = memo(function JournalView() {
 
   const startEdit = (entry) => {
     setEditingEntry(entry);
-    setEditForm({ mood: entry.mood, tags: entry.tags || [], diary: entry.diary || '' });
+    setEditForm({ mood: entry.mood, tags: entry.tags || [], diary: entry.diary || '', sleep: entry.sleep || 7 });
   };
 
   const handleUpdate = async () => {
@@ -74,6 +74,7 @@ const JournalView = memo(function JournalView() {
         mood: editForm.mood,
         tags: editForm.tags,
         diary: editForm.diary,
+        sleep: editForm.sleep,
       });
       setEditingEntry(null);
       success('Záznam aktualizován');

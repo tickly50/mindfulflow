@@ -23,11 +23,29 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
     onClose?.();
   }, [onClose]);
 
-  // Lock scroll
+  // Lock scroll completely
   useEffect(() => {
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalBodyStyle = window.getComputedStyle(document.body).overflow;
+    const originalHtmlStyle = window.getComputedStyle(document.documentElement).overflow;
+    
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = originalStyle; };
+    document.documentElement.style.overflow = 'hidden';
+
+    const preventScroll = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    };
+
+    window.addEventListener('wheel', preventScroll, { passive: false });
+    window.addEventListener('touchmove', preventScroll, { passive: false });
+    
+    return () => {
+      document.body.style.overflow = originalBodyStyle === 'hidden' ? 'auto' : originalBodyStyle;
+      document.documentElement.style.overflow = originalHtmlStyle === 'hidden' ? 'auto' : originalHtmlStyle;
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+    };
   }, []);
 
   // Auto-close after 2.4s

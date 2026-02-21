@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Pencil, Save, X } from 'lucide-react';
 import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodCalculations';
 import { variants } from '../../utils/animations';
+import SleepSlider from '../CheckIn/SleepSlider';
 
 export default function JournalEditor({ editingEntry, setEditingEntry, editForm, setEditForm, handleUpdate }) {
   const toggleEditTag = (tagId) => {
@@ -29,7 +30,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
             initial="hidden"
             animate="show"
             exit="exit"
-            className="relative w-full max-w-2xl bg-[#1a1b26] p-8 rounded-[2rem] border border-white/10 shadow-2xl will-change-transform overflow-y-auto max-h-[90vh] custom-scrollbar"
+            className="relative w-full max-w-2xl bg-[#1a1b26] p-8 rounded-[2rem] border border-white/10 shadow-2xl will-change-transform overflow-y-auto max-h-[90vh] premium-scroll"
             style={{ 
               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
             }}
@@ -86,6 +87,14 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
                       {tag.label}
                     </button>
                   ))}
+                </div>
+              </div>
+
+              {/* Sleep Selection */}
+              <div className="space-y-3">
+                <label className="text-sm font-semibold text-white/40 uppercase tracking-wider">Spánek</label>
+                <div className="bg-black/20 p-2 sm:p-4 rounded-2xl border border-white/5">
+                  <SleepSlider value={editForm.sleep} onChange={(val) => setEditForm({ ...editForm, sleep: val })} />
                 </div>
               </div>
 

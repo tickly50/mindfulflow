@@ -1,6 +1,6 @@
 import { useState, useMemo, memo } from 'react';
 import { useMoodEntries } from '../../utils/queries';
-import { calculateMoodStats, calculateStreak, calculateLongestStreak } from '../../utils/moodCalculations';
+import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateAverageSleep } from '../../utils/moodCalculations';
 import { motion } from 'framer-motion';
 
 // Components
@@ -8,6 +8,7 @@ import EmptyState from './EmptyState';
 import StatsOverview from './StatsOverview';
 import MoodTrendChart from './MoodTrendChart';
 import MoodDistribution from './MoodDistribution';
+import ActivityStats from './ActivityStats';
 
 import { variants } from '../../utils/animations';
 
@@ -31,6 +32,7 @@ const StatisticsView = memo(function StatisticsView() {
   const stats = useMemo(() => calculateMoodStats(filteredEntries), [filteredEntries]);
   const streak = useMemo(() => calculateStreak(entries), [entries]);
   const longestStreak = useMemo(() => calculateLongestStreak(entries), [entries]);
+  const avgSleep = useMemo(() => calculateAverageSleep(filteredEntries), [filteredEntries]);
 
   if (!entries) return null;
   if (entries.length === 0) return <EmptyState />;
@@ -70,7 +72,7 @@ const StatisticsView = memo(function StatisticsView() {
       </motion.div>
 
       {/* Metric Cards */}
-      <StatsOverview stats={stats} streak={streak} longestStreak={longestStreak} />
+      <StatsOverview stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
 
       {stats.total > 0 ? (
         <motion.div
@@ -87,6 +89,11 @@ const StatisticsView = memo(function StatisticsView() {
           {/* Distribution */}
           <motion.div variants={variants.item}>
             <MoodDistribution data={filteredEntries} />
+          </motion.div>
+
+          {/* Activity Stats */}
+          <motion.div variants={variants.item} className="lg:col-span-full">
+            <ActivityStats data={filteredEntries} />
           </motion.div>
         </motion.div>
       ) : (

@@ -6,8 +6,8 @@ import Dexie from 'dexie';
 export const db = new Dexie('MindfulFlowDB');
 
 // Define schema
-db.version(2).stores({
-  moods: '++id, timestamp, mood, diary', // Primary key and indexed props
+db.version(3).stores({
+  moods: '++id, timestamp, mood, *tags, sleep, diary', // Primary key and indexed props
   settings: 'key' // Key-value store for preferences (customTags, notifications, etc.)
 });
 

@@ -72,7 +72,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   };
 
   return (
-    <div className="mb-10 w-full select-none touch-none">
+    <div className="mb-10 w-full select-none">
       <div className="flex items-center justify-between mb-4 px-1">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-500/20 rounded-xl text-blue-300">

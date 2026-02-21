@@ -236,7 +236,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 initial="hidden"
                 animate="show"
                 exit="exit"
-                className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto custom-scrollbar"
+                className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto premium-scroll"
                 onClick={(e) => e.stopPropagation()}
                 style={{ backfaceVisibility: 'hidden' }}
               >

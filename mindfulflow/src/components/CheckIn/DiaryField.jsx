@@ -50,7 +50,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder="Jak se cítíš? Co ti dnes udělalo radost, nebo naopak starosti? ..."
-            className="w-full h-full min-h-[160px] bg-black/20 rounded-xl p-6 text-lg text-white placeholder-white/20 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
+            className="w-full h-full min-h-[140px] xs:min-h-[160px] bg-black/20 rounded-xl p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
             />
         </div>
       </div>

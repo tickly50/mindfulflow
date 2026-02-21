@@ -91,8 +91,9 @@ body {
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+  -webkit-overflow-scrolling: touch; /* Enable momentum scrolling */
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -346,6 +347,15 @@ html {
 
   .press-effect:active {
     transform: scale(0.97) translateZ(0);
+  }
+
+  /* Hardware accelerated inside-container scroll */
+  .premium-scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    will-change: transform, scroll-position;
+    transform: translateZ(0);
   }
 }
 
