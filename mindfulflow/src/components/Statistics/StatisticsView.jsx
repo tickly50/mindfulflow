@@ -34,22 +34,7 @@ const StatisticsView = memo(function StatisticsView() {
   const longestStreak = useMemo(() => calculateLongestStreak(entries), [entries]);
   const avgSleep = useMemo(() => calculateAverageSleep(filteredEntries), [filteredEntries]);
 
-  // Zabránit scrollování na stránce statistik a poskakování layoutu (flickeringu)
-  useEffect(() => {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    
-    return () => {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      document.body.style.paddingRight = '';
-    };
-  }, []);
+
   if (!entries) return null;
   if (entries.length === 0) return <EmptyState />;
 

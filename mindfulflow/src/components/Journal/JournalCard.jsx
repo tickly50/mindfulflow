@@ -35,7 +35,7 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
       />
 
       <div 
-        className="glass p-6 rounded-3xl !border-0 !border-none ring-0 outline-none"
+        className="glass p-5 sm:p-6 rounded-3xl !border-0 !border-none ring-0 outline-none"
         style={{
           background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
           boxShadow: `0 4px 30px rgba(0, 0, 0, 0.1)`,
@@ -43,14 +43,14 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
           borderColor: 'transparent'
         }}
       >
-        <div className="flex flex-col sm:flex-row gap-4 sm:items-start justify-between">
+        <div className="flex gap-3 sm:gap-6 items-start justify-between">
           
           {/* Main Content */}
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 space-y-4">
             {/* Header: Badge & Time */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
               <span 
-                className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm border border-white/10 bg-white/5 flex items-center justify-center"
+                className="inline-flex w-fit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm border border-white/10 bg-white/5 items-center justify-center"
                 style={{ 
                   color: moodColor.text
                 }}
@@ -58,26 +58,28 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                 {MOOD_LABELS[Math.round(entry.mood)]}
               </span>
               
-              <div className="flex items-center gap-2 text-white/40 text-sm">
-                <Calendar className="w-3 h-3" />
-                <span className="capitalize">{formatDate(entry.timestamp)}</span>
-                <span className="text-white/20">•</span>
-                <Clock className="w-3 h-3" />
-                {date.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/40 text-[13px] sm:text-sm">
+                <div className="flex items-center gap-1.5 whitespace-nowrap">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span className="capitalize">{formatDate(entry.timestamp)}</span>
+                </div>
+                <div className="flex items-center gap-1.5 whitespace-nowrap">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{date.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}</span>
+                </div>
                 {typeof entry.sleep === 'number' && (
-                  <>
-                    <span className="text-white/20">•</span>
-                    <Moon className="w-3 h-3" />
+                  <div className="flex items-center gap-1.5 whitespace-nowrap">
+                    <Moon className="w-3.5 h-3.5" />
                     <span>{entry.sleep}h</span>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
             
             {/* Diary Entry */}
             {entry.diary && (
-              <div className="relative">
-                 <p className="text-white/90 text-lg leading-relaxed font-serif italic pl-4 border-l-2 border-white/10 break-all">
+              <div className="relative pt-1">
+                 <p className="text-white/90 text-[15px] sm:text-base leading-relaxed font-serif italic pl-4 border-l-2 border-white/10 break-words">
                   {entry.diary}
                 </p>
               </div>
@@ -103,10 +105,10 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
           </div>
 
           {/* Right Side: Mood Circle & Actions */}
-          <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-6">
+          <div className="flex flex-col items-center sm:items-end gap-3 shrink-0">
              {/* Mood Circle */}
              <div 
-                className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg ring-1 ring-white/10"
+                className="relative w-12 h-12 flex-shrink-0 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold shadow-lg ring-1 ring-white/10"
                 style={{ 
                   background: moodColor.gradient,
                   boxShadow: `0 10px 25px -5px ${moodColor.primary}50`
@@ -116,37 +118,30 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20" />
              </div>
              
-             {/* Action Buttons (Opacity transition on group hover) */}
+             {/* Action Buttons (Visible on mobile, hover on desktop) */}
              <div 
-               className="flex gap-2 sm:opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
+               className="flex gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity"
                style={{
-                 transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                 willChange: 'opacity, transform'
+                 transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
                }}
              >
                <motion.button 
                  whileHover={microInteractions.icon.hover}
                  whileTap={microInteractions.icon.tap}
                  onClick={() => onEdit(entry)}
-                 className="p-2 text-white/40 hover:text-violet-300 hover:bg-white/10 rounded-full focus:outline-none outline-none"
+                 className="p-2.5 sm:p-2 text-white/40 hover:text-violet-300 hover:bg-white/10 rounded-full focus:outline-none outline-none transition-colors"
                  title="Upravit"
-                 style={{ 
-                   transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
-                 }}
                >
-                 <Pencil className="w-4 h-4" />
+                 <Pencil className="w-4 h-4 sm:w-4 sm:h-4" />
                </motion.button>
                <motion.button 
                  whileHover={microInteractions.icon.hover}
                  whileTap={microInteractions.icon.tap}
                  onClick={() => onDelete(entry.id)}
-                 className="p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-full focus:outline-none outline-none"
+                 className="p-2.5 sm:p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-full focus:outline-none outline-none transition-colors"
                  title="Smazat"
-                 style={{ 
-                   transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
-                 }}
                >
-                 <Trash2 className="w-4 h-4" />
+                 <Trash2 className="w-4 h-4 sm:w-4 sm:h-4" />
                </motion.button>
              </div>
           </div>

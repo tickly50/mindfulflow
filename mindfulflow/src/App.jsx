@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import Header from './components/Layout/Header';
+import BottomNavigation from './components/Layout/BottomNavigation';
 import { ToastProvider } from './context/ToastContext';
 import { pageVariants } from './utils/animations';
 
@@ -62,6 +63,8 @@ function AppContent() {
 
   const handleViewChange = useCallback((view) => {
     setCurrentView(view);
+    // Smooth scroll to top when changing views
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleBreathingOpen = useCallback(() => {
@@ -73,8 +76,13 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-[#0f172a]">
-      <div className="container mx-auto px-4 py-6 md:py-8">
+    <div className="min-h-[100dvh] bg-[#0f172a] flex flex-col pt-safe">
+      {/* 
+        Adjusted padding for mobile vs desktop:
+        Mobile: px-2 py-4, Desktop: px-4 py-8
+        Added pb-24 (mobile) to avoid overlapping content with BottomNavigation
+      */}
+      <div className="container mx-auto px-2 sm:px-4 py-4 md:py-8 flex-1 pb-24 sm:pb-8 flex flex-col">
         <Header
           onBreathingClick={handleBreathingOpen}
           currentView={currentView}
@@ -83,48 +91,55 @@ function AppContent() {
 
         {/* Page transitions — slide + crossfade */}
         <ErrorBoundary>
-          <AnimatePresence mode="wait" initial={true}>
-            {currentView === 'checkin' && (
-              <motion.div
-                key="checkin"
-                variants={pageVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                style={{ willChange: 'opacity, transform' }}
-              >
-                <CheckInView onEntryAdded={handleEntryAdded} />
-              </motion.div>
-            )}
+          <main className="flex-1 w-full relative">
+            <AnimatePresence mode="wait" initial={true}>
+              {currentView === 'checkin' && (
+                <motion.div
+                  key="checkin"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  style={{ willChange: 'opacity, transform' }}
+                >
+                  <CheckInView onEntryAdded={handleEntryAdded} />
+                </motion.div>
+              )}
 
-            {currentView === 'journal' && (
-              <motion.div
-                key="journal"
-                variants={pageVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                style={{ willChange: 'opacity, transform' }}
-              >
-                <JournalView />
-              </motion.div>
-            )}
+              {currentView === 'journal' && (
+                <motion.div
+                  key="journal"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  style={{ willChange: 'opacity, transform' }}
+                >
+                  <JournalView />
+                </motion.div>
+              )}
 
-            {currentView === 'statistics' && (
-              <motion.div
-                key="statistics"
-                variants={pageVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                style={{ willChange: 'opacity, transform' }}
-              >
-                <StatisticsView />
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {currentView === 'statistics' && (
+                <motion.div
+                  key="statistics"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  style={{ willChange: 'opacity, transform' }}
+                >
+                  <StatisticsView />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </main>
         </ErrorBoundary>
       </div>
+
+      <BottomNavigation 
+        currentView={currentView} 
+        onViewChange={handleViewChange} 
+      />
 
       <BreathingOverlay
         isOpen={showBreathing}

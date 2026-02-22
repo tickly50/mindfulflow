@@ -141,8 +141,8 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             )}
           </div>
 
-          {/* Main navigation */}
-          <nav className="flex gap-1 sm:gap-2 overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
+          {/* Main navigation (hidden on mobile, moved to BottomNavigation) */}
+          <nav className="hidden sm:flex gap-2 overflow-x-auto hide-scrollbar">
             {['checkin', 'journal', 'statistics'].map((view) => (
               <button
                 key={view}

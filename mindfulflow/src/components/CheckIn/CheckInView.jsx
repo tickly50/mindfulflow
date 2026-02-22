@@ -201,10 +201,10 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                 className="overflow-hidden"
                 style={{ willChange: 'height, opacity' }}
               >
-                <div className="pt-6 xs:pt-8 scroll-mt-4">
+                <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
                      <div 
-                        className="glass-panel p-4 xs:p-5 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
+                        className="glass-panel p-4 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
                         style={{ 
                             willChange: 'transform',
                             WebkitFontSmoothing: 'antialiased',
@@ -220,9 +220,9 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                         <SleepSlider value={sleepHours} onChange={setSleepHours} />
 
                         {/* Tags Section */}
-                        <div className="mb-10">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                        <div className="mb-6 sm:mb-8">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
+                                <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
                                     <Sparkles className="w-5 h-5 text-amber-300" />
                                     Co ovlivnilo tvou náladu?
                                 </h3>
@@ -230,7 +230,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                                   whileHover={microInteractions.button.hover}
                                   whileTap={microInteractions.button.tap}
                                   onClick={() => setIsAddingTag(!isAddingTag)}
-                                  className="text-xs font-bold text-violet-200 hover:text-white px-4 py-2 bg-violet-500/20 hover:bg-violet-500/40 rounded-xl transition-colors flex items-center gap-1.5 group"
+                                  className="text-xs font-bold text-violet-200 hover:text-white px-4 py-2 bg-violet-500/20 hover:bg-violet-500/40 rounded-xl transition-colors flex items-center justify-center gap-1.5 group w-full sm:w-auto"
                                 >
                                   <Plus className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" />
                                   {isAddingTag ? 'Zavřít' : 'Vlastní tag'}
@@ -241,10 +241,26 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                             <AnimatePresence>
                                 {isAddingTag && (
                                     <motion.div 
-                                      initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                                      animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
-                                      exit={{ opacity: 0, height: 0, marginBottom: 0, transition: { duration: 0.15, ease: "easeOut" } }}
-                                      className="overflow-hidden"
+                                      initial={{ opacity: 0, height: 0, scale: 0.95, marginBottom: 0 }}
+                                      animate={{ 
+                                        opacity: 1, 
+                                        height: 'auto', 
+                                        scale: 1, 
+                                        marginBottom: 16,
+                                        transition: {
+                                          height: { type: 'spring', stiffness: 350, damping: 25, mass: 0.8 },
+                                          scale: { type: 'spring', stiffness: 400, damping: 20 },
+                                          opacity: { duration: 0.2 }
+                                        } 
+                                      }}
+                                      exit={{ 
+                                        opacity: 0, 
+                                        height: 0, 
+                                        scale: 0.95, 
+                                        marginBottom: 0, 
+                                        transition: { duration: 0.2, ease: 'easeInOut' } 
+                                      }}
+                                      className="overflow-hidden origin-top"
                                     >
                                       <div className="flex gap-2 items-center bg-black/30 p-1.5 xs:p-2 rounded-2xl border border-white/10 pr-1.5 xs:pr-2">
                                         <input
@@ -279,7 +295,8 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                         <DiaryField value={diaryText} onChange={setDiaryText} />
 
                         {/* Submit Button */}
-                        <div className="flex justify-center mt-8">
+                        {/* Made button extra wide on mobile (w-full) and stick to bottom inside its container */}
+                        <div className="flex justify-center mt-6 sm:mt-8">
                             <motion.button
                                 onClick={handleSubmit}
                                 disabled={!canSubmit || showSuccess}
@@ -293,7 +310,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                                   y: 0,
                                   transition: { type: 'spring', stiffness: 600, damping: 25, mass: 0.4 }
                                 }}
-                                className="relative group overflow-hidden w-full md:w-auto min-w-[280px]"
+                                className="relative group overflow-hidden w-full md:w-auto md:min-w-[280px]"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl" />
                                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400" />

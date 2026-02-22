@@ -80,7 +80,7 @@ export default function StatsOverview({ stats, streak, longestStreak, avgSleep }
 
   return (
     <motion.div
-      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8"
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8"
       variants={containerVariants}
       initial="hidden"
       animate="show"
@@ -94,7 +94,7 @@ export default function StatsOverview({ stats, streak, longestStreak, avgSleep }
             scale: 1.02,
             transition: { type: 'spring', stiffness: 300, damping: 20 },
           }}
-          className={`glass p-4 rounded-2xl border ${card.border} relative overflow-hidden group cursor-default`}
+          className={`glass p-3 sm:p-4 rounded-2xl border ${card.border} relative overflow-hidden group cursor-default flex flex-col justify-between`}
           style={{ willChange: 'transform' }}
         >
           {/* Background glow */}
@@ -103,25 +103,27 @@ export default function StatsOverview({ stats, streak, longestStreak, avgSleep }
             style={{ transition: 'opacity 0.4s ease' }}
           />
 
-          <div className="relative z-10">
+          <div className="relative z-10 flex flex-col h-full justify-between">
             <motion.div
-              className={`w-10 h-10 rounded-xl ${card.bg} flex items-center justify-center mb-3 ${card.color}`}
+              className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl ${card.bg} flex items-center justify-center mb-2 sm:mb-3 ${card.color}`}
               whileHover={{ rotate: 10, scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 360, damping: 16 }}
             >
-              <card.icon className="w-5 h-5" />
+              <card.icon className="w-4 h-4 sm:w-5 sm:h-5" />
             </motion.div>
 
-            <div className="text-2xl font-bold text-white mb-1">
-              {card.value}
-            </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-bold text-white mb-0.5 sm:mb-1">
+                {card.value}
+              </div>
 
-            <div className="text-sm text-white/60 font-medium mb-1">
-              {card.label}
-            </div>
+              <div className="text-xs sm:text-sm text-white/60 font-medium mb-1">
+                {card.label}
+              </div>
 
-            <div className="text-xs text-white/40">
-              {card.desc}
+              <div className="text-[10px] sm:text-xs text-white/40 leading-tight">
+                {card.desc}
+              </div>
             </div>
           </div>
         </motion.div>
