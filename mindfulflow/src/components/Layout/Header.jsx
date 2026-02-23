@@ -7,6 +7,7 @@ import { calculateStreak, downloadBackup, importData, clearAllEntries } from '..
 import { useToast } from '../../context/ToastContext';
 import { springConfigFast, easeConfig, variants, microInteractions } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
+import ThemeSelector from '../common/ThemeSelector';
 
 /**
  * Main application header with navigation, streak badge and settings.
@@ -143,7 +144,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
 
           {/* Main navigation (hidden on mobile, moved to BottomNavigation) */}
           <nav className="hidden sm:flex gap-2 overflow-x-auto hide-scrollbar">
-            {['checkin', 'journal', 'statistics'].map((view) => (
+            {['checkin', 'journal', 'statistics', 'achievements'].map((view) => (
               <button
                 key={view}
                 onClick={() => onViewChange(view)}
@@ -162,6 +163,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 {view === 'checkin' && 'Check-In'}
                 {view === 'journal' && 'Deník'}
                 {view === 'statistics' && 'Statistiky'}
+                {view === 'achievements' && 'Úspěchy'}
                 {currentView === view && (
                   <motion.div
                     key={view}
@@ -271,7 +273,9 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                     </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
+                  <ThemeSelector />
+
+                  <div className="p-6 rounded-2xl bg-white/5 border border-white/5 mb-4">
                     <h3 className="font-semibold text-lg text-white mb-2">Záloha dat</h3>
                     <p className="text-sm text-white/60 mb-6">Stáhni si zálohu svých záznamů nebo nahraj data ze zálohy.</p>
                     

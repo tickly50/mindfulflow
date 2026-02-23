@@ -11,6 +11,10 @@ db.version(3).stores({
   settings: 'key' // Key-value store for preferences (customTags, notifications, etc.)
 });
 
+db.version(4).stores({
+  achievements: 'id, unlockedAt' // id of the badge
+});
+
 /**
  * Migrate data from localStorage if it exists and hasn't been migrated yet
  */

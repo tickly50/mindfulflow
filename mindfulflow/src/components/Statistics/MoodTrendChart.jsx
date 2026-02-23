@@ -30,6 +30,22 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
+const CustomActiveDot = ({ cx, cy, payload }) => {
+  if (!payload) return null;
+  const color = MOOD_COLORS[payload.mood]?.primary || '#8b5cf6';
+  return (
+    <circle 
+      cx={cx} 
+      cy={cy} 
+      r={5} 
+      fill={color} 
+      stroke="rgba(255,255,255,0.8)" 
+      strokeWidth={2} 
+      style={{ filter: `drop-shadow(0 0 6px ${color})` }}
+    />
+  );
+};
+
 /**
  * Mood Trend Chart
  * Visualizes mood history with a smooth area chart
@@ -99,7 +115,11 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
               axisLine={false}
               width={30}
             />
-            <Tooltip content={CustomTooltip} cursor={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: 1, strokeDasharray: '5 5' }} />
+            <Tooltip 
+              content={CustomTooltip} 
+              cursor={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: 1, strokeDasharray: '5 5' }} 
+              isAnimationActive={false}
+            />
             <Area 
               type="monotone" 
               dataKey="mood" 
@@ -108,7 +128,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
               fillOpacity={1} 
               fill="url(#colorMood)" 
               dot={false}
-              activeDot={{ r: 4 }}
+              activeDot={<CustomActiveDot />}
               isAnimationActive={shouldAnimate}
               animationDuration={shouldAnimate ? 650 : 0}
             />

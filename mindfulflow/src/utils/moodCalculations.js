@@ -436,3 +436,83 @@ export const calculateAverageSleep = (entries) => {
   if (count === 0) return 0;
   return Math.round((totalSleep / count) * 10) / 10;
 };
+
+/**
+ * Calculate simple insights based on entry correlations (Tags vs Mood)
+ */
+export const calculateInsights = (entries) => {
+  if (!entries || entries.length < 5) return []; // Require at least 5 entries for meaningful correlations
+
+  const insights = [];
+  const tagMoods = {};
+
+  const avgMood = calculateMoodStats(entries).average;
+
+  entries.forEach(e => {
+    const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+    tags.forEach(tag => {
+      if (!tagMoods[tag]) tagMoods[tag] = { sum: 0, count: 0 };
+      tagMoods[tag].sum += e.mood;
+      tagMoods[tag].count += 1;
+    });
+  });
+
+  Object.keys(tagMoods).forEach(tag => {
+    const stat = tagMoods[tag];
+    if (stat.count >= 3) {
+      const tagAvg = stat.sum / stat.count;
+      const tagInfo = CONTEXT_TAGS.find(t => t.id === tag) || { label: tag };
+      
+      const diff = tagAvg - avgMood;
+      if (diff >= 0.6) {
+        insights.push({
+          id: `insight-pos-${tag}`,
+          type: 'positive',
+          title: 'Zlepšovač nálady',
+          text: `Dny, kdy používáte štítek "${tagInfo.label}", máte průměrně o dost lepší náladu. Pokračujte v tom!`,
+          icon: tagInfo.icon
+        });
+      } else if (diff <= -0.6) {
+        insights.push({
+          id: `insight-neg-${tag}`,
+          type: 'negative',
+          title: 'Možný stresor',
+          text: `Podle dat bývá "${tagInfo.label}" spojen s náročnějšími dny. Zkuste si najít čas na chvíli klidu.`,
+          icon: tagInfo.icon
+        });
+      }
+    }
+  });
+
+  // Sort logically or return top ones
+  return insights.slice(0, 3);
+};
+
+/**
+ * Generate data specifically for the Monthly Report (Wrapped style)
+ */
+export const generateMonthlyReportData = (entries, targetMonth, targetYear) => {
+  const monthData = entries.filter(e => {
+    const d = new Date(e.timestamp);
+    return d.getMonth() === targetMonth && d.getFullYear() === targetYear;
+  });
+
+  if (monthData.length === 0) return null;
+
+  const stats = calculateMoodStats(monthData);
+  const activities = calculateActivityStats(monthData);
+  
+  // Find the highest mood day
+  let bestDayObj = monthData[0];
+  monthData.forEach(d => {
+    if (d.mood > bestDayObj.mood) bestDayObj = d;
+  });
+
+  return {
+    totalEntries: monthData.length,
+    averageMood: stats.average,
+    topTags: activities.slice(0, 3),
+    bestDayDate: new Date(bestDayObj.timestamp).toLocaleDateString('cs-CZ'),
+    bestDayMood: bestDayObj.mood
+  };
+};

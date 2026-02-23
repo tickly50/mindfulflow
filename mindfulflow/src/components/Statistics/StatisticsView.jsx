@@ -1,14 +1,16 @@
-import { useState, useMemo, memo, useEffect } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { useMoodEntries } from '../../utils/queries';
 import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateAverageSleep } from '../../utils/moodCalculations';
 import { motion } from 'framer-motion';
 
-// Components
 import EmptyState from './EmptyState';
 import StatsOverview from './StatsOverview';
 import MoodTrendChart from './MoodTrendChart';
 import MoodDistribution from './MoodDistribution';
 import ActivityStats from './ActivityStats';
+import InsightsCard from './InsightsCard';
+import MonthlyReportView from './MonthlyReportView';
+import MoodCalendar from './MoodCalendar';
 
 import { variants } from '../../utils/animations';
 
@@ -18,6 +20,7 @@ import { variants } from '../../utils/animations';
 const StatisticsView = memo(function StatisticsView() {
   const entries = useMoodEntries(false);
   const [timeRange, setTimeRange] = useState('30');
+  const [showMonthlyReport, setShowMonthlyReport] = useState(false);
 
   const filteredEntries = useMemo(() => {
     if (!entries) return [];
@@ -33,6 +36,12 @@ const StatisticsView = memo(function StatisticsView() {
   const streak = useMemo(() => calculateStreak(entries), [entries]);
   const longestStreak = useMemo(() => calculateLongestStreak(entries), [entries]);
   const avgSleep = useMemo(() => calculateAverageSleep(filteredEntries), [filteredEntries]);
+
+  const isEndOfMonth = useMemo(() => {
+    const today = new Date();
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    return today.getDate() >= lastDayOfMonth - 2; // Show in the last 3 days (e.g., 29..31 for a 31-day month)
+  }, []);
 
 
   if (!entries) return null;
@@ -52,8 +61,18 @@ const StatisticsView = memo(function StatisticsView() {
           <p className="text-white/60">Komplexní analýza tvé duševní pohody</p>
         </div>
 
-        {/* Time range pills */}
-        <div className="bg-white/5 border border-white/10 p-1 rounded-xl flex gap-1">
+        <div className="flex items-center gap-4 flex-wrap justify-center">
+          {isEndOfMonth && (
+            <button 
+              onClick={() => setShowMonthlyReport(true)}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 font-medium hover:from-indigo-500/30 hover:to-purple-500/30 transition-all border border-indigo-500/30 flex items-center gap-2"
+            >
+              <span className="text-lg">✨</span> Měsíční report
+            </button>
+          )}
+
+          {/* Time range pills */}
+          <div className="bg-white/5 border border-white/10 p-1 rounded-xl flex gap-1">
           {['7', '30', 'all'].map((range) => (
             <button
               key={range}
@@ -67,44 +86,49 @@ const StatisticsView = memo(function StatisticsView() {
               {range === 'all' ? 'Vše' : `${range} dní`}
             </button>
           ))}
+          </div>
         </div>
       </motion.div>
 
       {/* Metric Cards */}
       <StatsOverview stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
 
-      {stats.total > 0 ? (
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6"
-          variants={variants.staggerContainer}
-          initial="hidden"
-          animate="show"
-        >
-          {/* Main Trend Chart -  2 cols */}
-          <motion.div variants={variants.item} className="lg:col-span-2">
-            <MoodTrendChart data={filteredEntries} />
-          </motion.div>
-
-          {/* Distribution */}
-          <motion.div variants={variants.item}>
-            <MoodDistribution data={filteredEntries} />
-          </motion.div>
-
-          {/* Activity Stats */}
-          <motion.div variants={variants.item} className="lg:col-span-full">
-            <ActivityStats data={filteredEntries} />
-          </motion.div>
+      <motion.div
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+        variants={variants.staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Left Column: Calendar & Insights (Always visible) */}
+        <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-1 relative z-20 transform-gpu" style={{ willChange: 'opacity, transform' }}>
+          <MoodCalendar entries={entries} />
+          <InsightsCard entries={filteredEntries} />
         </motion.div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-          className="glass p-12 rounded-[2rem] text-center border-none"
-        >
-          <p className="text-white/50">V tomto období nejsou žádná data.</p>
+
+        {/* Right Column: Charts */}
+        <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-2 transform-gpu" style={{ willChange: 'opacity, transform' }}>
+          {stats.total > 0 ? (
+            <>
+              <MoodTrendChart data={filteredEntries} />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <MoodDistribution data={filteredEntries} />
+                <ActivityStats data={filteredEntries} />
+              </div>
+            </>
+          ) : (
+            <div className="glass p-12 rounded-[2rem] text-center border-none h-full flex flex-col justify-center items-center">
+              <p className="text-white/50">Zatím tu nejsou žádná data pro grafy.</p>
+            </div>
+          )}
         </motion.div>
-      )}
+      </motion.div>
+
+      <MonthlyReportView 
+        isOpen={showMonthlyReport} 
+        onClose={() => setShowMonthlyReport(false)} 
+        entries={entries} 
+      />
     </div>
   );
 });

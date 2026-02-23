@@ -1,0 +1,63 @@
+
+> mindfulflow@0.0.0 lint
+> eslint .
+
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\CheckIn\CheckInView.jsx
+  3:10  error  'variants' is defined but never used. Allowed unused vars must match /^(motion|[A-Z_])/u  no-unused-vars
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\CheckIn\MoodCards.jsx
+  4:22  error  'globalVariants' is defined but never used. Allowed unused vars must match /^(motion|[A-Z_])/u  no-unused-vars
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\Statistics\ActivityCorrelation.jsx
+  6:10  error  'springConfigFast' is defined but never used. Allowed unused vars must match /^(motion|[A-Z_])/u  no-unused-vars
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\Statistics\MonthlyReportView.jsx
+  15:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  13 |     // Default to current month
+  14 |     const data = generateMonthlyReportData(entries, now.getMonth(), now.getFullYear());
+> 15 |     setReportData(data);
+     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  16 |   }, [entries]);
+  17 |
+  18 |   const nextSlide = useCallback(() => {  react-hooks/set-state-in-effect
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\Statistics\MoodCalendar.jsx
+  57:15  error  'dateStr' is assigned a value but never used. Allowed unused vars must match /^(motion|[A-Z_])/u  no-unused-vars
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\Statistics\MoodTrendChart.jsx
+  5:10  error  'springConfigFast' is defined but never used. Allowed unused vars must match /^(motion|[A-Z_])/u  no-unused-vars
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\Toast.jsx
+  3:10  error  'springConfigFast' is defined but never used. Allowed unused vars must match /^(motion|[A-Z_])/u  no-unused-vars
+  3:28  error  'easeConfig' is defined but never used. Allowed unused vars must match /^(motion|[A-Z_])/u        no-unused-vars
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\components\common\ConfirmModal.jsx
+  37:6  warning  React Hook useEffect has a missing dependency: 'onConfirm'. Either include it or remove the dependency array. If 'onConfirm' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+C:\Users\tickly\Desktop\aplikace - nálady\mindfulflow\src\hooks\usePWAInstall.js
+  15:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  13 |                            document.referrer.includes('android-app://');
+  14 |     
+> 15 |     setIsStandalone(isStandaloneMode);
+     |     ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  16 |
+  17 |     // Detect iOS
+  18 |     const userAgent = window.navigator.userAgent.toLowerCase();  react-hooks/set-state-in-effect
+
+✖ 10 problems (9 errors, 1 warning)
+

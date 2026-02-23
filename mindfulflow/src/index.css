@@ -74,11 +74,55 @@
   --shadow-glow-violet: 0 8px 32px var(--glow-violet);
   --shadow-glow-emerald: 0 8px 32px var(--glow-emerald);
   --shadow-glow-orange: 0 8px 32px var(--glow-orange);
+
+  /* ========== PREMIUM THEMES ========== */
+  --theme-bg: #0f172a;
+  --theme-gradient-bg: linear-gradient(
+    -45deg,
+    #3b4a6b,
+    #4a5f7f,
+    #5b6fa8,
+    #6d5b97
+  );
+}
+
+[data-theme="forest"] {
+  --theme-bg: #064e3b;
+  --theme-gradient-bg: linear-gradient(
+    -45deg,
+    #064e3b,
+    #047857,
+    #059669,
+    #10b981
+  );
+}
+
+[data-theme="sunset"] {
+  --theme-bg: #450a0a;
+  --theme-gradient-bg: linear-gradient(
+    -45deg,
+    #450a0a,
+    #7f1d1d,
+    #b91c1c,
+    #ea580c
+  );
+}
+
+[data-theme="amethyst"] {
+  --theme-bg: #2e1065;
+  --theme-gradient-bg: linear-gradient(
+    -45deg,
+    #2e1065,
+    #4c1d95,
+    #5b21b6,
+    #8b5cf6
+  );
 }
 
 html,
 body {
-  background-color: #0f172a;
+  background-color: var(--theme-bg);
+  transition: background-color 0.5s ease;
   min-height: 100%;
 }
 
@@ -374,7 +418,7 @@ h3 {
    ============================================ */
 
 .gradient-bg {
-  background: linear-gradient(-45deg, #3b4a6b, #4a5f7f, #5b6fa8, #6d5b97);
+  background: var(--theme-gradient-bg);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
   will-change: background-position;

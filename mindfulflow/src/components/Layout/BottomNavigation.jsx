@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Home, BookHeart, BarChart3 } from 'lucide-react';
+import { Home, BookHeart, BarChart3, Award } from 'lucide-react';
 import { microInteractions } from '../../utils/animations';
 
 const BottomNavigation = memo(function BottomNavigation({ currentView, onViewChange }) {
@@ -8,6 +8,7 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
     { id: 'checkin', icon: Home, label: 'Check-In' },
     { id: 'journal', icon: BookHeart, label: 'Deník' },
     { id: 'statistics', icon: BarChart3, label: 'Statistiky' },
+    { id: 'achievements', icon: Award, label: 'Úspěchy' },
   ];
 
   return (

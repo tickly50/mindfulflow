@@ -5,10 +5,12 @@ import Header from './components/Layout/Header';
 import BottomNavigation from './components/Layout/BottomNavigation';
 import { ToastProvider } from './context/ToastContext';
 import { pageVariants } from './utils/animations';
+import { db } from './utils/db';
 
 import CheckInView from './components/CheckIn/CheckInView';
 import JournalView from './components/Journal/JournalView';
 import StatisticsView from './components/Statistics/StatisticsView';
+import AchievementsView from './components/Achievements/AchievementsView';
 import BreathingOverlay from './components/Breathing/BreathingOverlay';
 import InstallPrompt from './components/Layout/InstallPrompt';
 
@@ -57,6 +59,19 @@ function AppContent() {
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
+    
+    // Load persisted theme
+    const loadTheme = async () => {
+      try {
+        const themeSetting = await db.settings.get('theme');
+        if (themeSetting && themeSetting.value) {
+          document.documentElement.setAttribute('data-theme', themeSetting.value);
+        }
+      } catch (err) {
+        console.error("Failed to load theme", err);
+      }
+    };
+    loadTheme();
   }, []);
 
   const handleEntryAdded = useCallback(() => {}, []);
@@ -76,7 +91,7 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-[#0f172a] flex flex-col pt-safe">
+    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe">
       {/* 
         Adjusted padding for mobile vs desktop:
         Mobile: px-2 py-4, Desktop: px-4 py-8
@@ -129,6 +144,19 @@ function AppContent() {
                   style={{ willChange: 'opacity, transform' }}
                 >
                   <StatisticsView />
+                </motion.div>
+              )}
+
+              {currentView === 'achievements' && (
+                <motion.div
+                  key="achievements"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  style={{ willChange: 'opacity, transform' }}
+                >
+                  <AchievementsView />
                 </motion.div>
               )}
             </AnimatePresence>
