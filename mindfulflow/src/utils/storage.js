@@ -137,8 +137,15 @@ export const clearAllEntries = async () => {
  * @returns {Promise<string>}
  */
 export const exportData = async () => {
-  const entries = await db.moods.toArray();
-  return JSON.stringify(entries, null, 2);
+  const moods = await db.moods.toArray();
+  const achievements = await db.achievements.toArray();
+  
+  const backupData = {
+    version: 2,
+    moods: moods,
+    achievements: achievements
+  };
+  return JSON.stringify(backupData, null, 2);
 };
 
 /**
@@ -169,24 +176,41 @@ export const downloadBackup = async () => {
  */
 export const importData = async (jsonString) => {
   try {
-    const entries = JSON.parse(jsonString);
+    const rawData = JSON.parse(jsonString);
     
-    // Validate entries
-    if (!Array.isArray(entries)) {
+    let entriesToImport = [];
+    let achievementsToImport = [];
+
+    // Zpětná kompatibilita (starší zálohy byly pouze pole nálad)
+    if (Array.isArray(rawData)) {
+      entriesToImport = rawData;
+    } 
+    // Nový formát (objekt obsahující moods a achievements)
+    else if (rawData && typeof rawData === 'object' && Array.isArray(rawData.moods)) {
+      entriesToImport = rawData.moods;
+      if (Array.isArray(rawData.achievements)) {
+        achievementsToImport = rawData.achievements;
+      }
+    } else {
       throw new Error('Invalid data format');
     }
 
     // Clean entries before import (remove old IDs if necessary)
     // eslint-disable-next-line no-unused-vars
-    const cleanEntries = entries.map(({ id, ...rest }) => ({
+    const cleanEntries = entriesToImport.map(({ id, ...rest }) => ({
       ...rest,
       timestamp: rest.timestamp || new Date().toISOString()
     }));
     
     // Clear existing data before import (as requested by user to overwrite)
     await db.moods.clear();
-    
     await db.moods.bulkAdd(cleanEntries);
+    
+    if (achievementsToImport.length > 0) {
+      // Clear existujících úspěchů a vložení nových
+      await db.achievements.clear();
+      await db.achievements.bulkAdd(achievementsToImport);
+    }
     
     return true;
   } catch (error) {
