@@ -398,11 +398,11 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 initial="hidden"
                 animate="show"
                 exit="exit"
-                className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto premium-scroll"
+                className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl pb-8 px-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto premium-scroll"
                 onClick={(e) => e.stopPropagation()}
                 style={{ backfaceVisibility: 'hidden' }}
               >
-                <div className="flex items-center justify-between mb-8 sticky top-0 bg-[#0f172a] z-10 pb-4 border-b border-white/5">
+                <div className="flex items-center justify-between mb-8 sticky top-0 bg-[#0f172a] pt-8 z-10 pb-4 border-b border-white/5">
                   <h2 className="text-2xl font-bold text-white">Nastavení</h2>
                   <motion.button 
                     onClick={() => setShowSettings(false)}
