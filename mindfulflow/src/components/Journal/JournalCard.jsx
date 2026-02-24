@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { Clock, Tag, Pencil, Trash2, Calendar, Moon } from 'lucide-react';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
 import { variants, microInteractions } from '../../utils/animations';
 
-export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }) {
+const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getContextLabel }) {
   const moodColor = MOOD_COLORS[Math.round(entry.mood)] || MOOD_COLORS[3];
   const date = new Date(entry.timestamp);
 
@@ -149,4 +150,6 @@ export default function JournalCard({ entry, onEdit, onDelete, getContextLabel }
       </div>
     </motion.div>
   );
-}
+});
+
+export default JournalCard;

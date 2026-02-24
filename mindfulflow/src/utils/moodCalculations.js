@@ -295,41 +295,52 @@ export const calculateLongestStreak = (entries) => {
  * @returns {Array} Sorted array of { id, label, icon, average, count }
  */
 export const calculateActivityStats = (entries) => {
-  if (!entries || entries.length === 0) return [];
-
   const activityMap = {};
 
-  entries.forEach((entry) => {
-    // Prefer new `tags` field, but keep backward compatibility with old `activities`
-    const sourceIds = Array.isArray(entry.tags) && entry.tags.length > 0
-      ? entry.tags
-      : Array.isArray(entry.activities)
-        ? entry.activities
-        : [];
-
-    sourceIds.forEach((activityId) => {
-      if (!activityMap[activityId]) {
-        // Find label/icon from CONTEXT_TAGS
-        const tagInfo = CONTEXT_TAGS.find((t) => t.id === activityId) || {
-          label: activityId,
-          icon: "Activity",
-        };
-        activityMap[activityId] = {
-          id: activityId,
-          label: tagInfo.label,
-          icon: tagInfo.icon,
-          totalMood: 0,
-          count: 0,
-        };
-      }
-      activityMap[activityId].totalMood += entry.mood;
-      activityMap[activityId].count += 1;
-    });
+  // Always pre-fill with core tags so the widget never looks empty
+  CONTEXT_TAGS.forEach(tag => {
+    activityMap[tag.id] = {
+      id: tag.id,
+      label: tag.label,
+      icon: tag.icon,
+      totalMood: 0,
+      count: 0
+    };
   });
+
+  if (entries && entries.length > 0) {
+    entries.forEach((entry) => {
+      // Prefer new `tags` field, but keep backward compatibility with old `activities`
+      const sourceIds = Array.isArray(entry.tags) && entry.tags.length > 0
+        ? entry.tags
+        : Array.isArray(entry.activities)
+          ? entry.activities
+          : [];
+
+      sourceIds.forEach((activityId) => {
+        if (!activityMap[activityId]) {
+          // Find label/icon from CONTEXT_TAGS
+          const tagInfo = CONTEXT_TAGS.find((t) => t.id === activityId) || {
+            label: activityId,
+            icon: "Activity",
+          };
+          activityMap[activityId] = {
+            id: activityId,
+            label: tagInfo.label,
+            icon: tagInfo.icon,
+            totalMood: 0,
+            count: 0,
+          };
+        }
+        activityMap[activityId].totalMood += entry.mood;
+        activityMap[activityId].count += 1;
+      });
+    });
+  }
 
   const stats = Object.values(activityMap).map((item) => ({
     ...item,
-    average: Math.round((item.totalMood / item.count) * 10) / 10,
+    average: item.count > 0 ? Math.round((item.totalMood / item.count) * 10) / 10 : 0,
   }));
 
   // Sort by count (most frequent) then average (highest mood)

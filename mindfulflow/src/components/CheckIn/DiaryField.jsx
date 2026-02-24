@@ -74,7 +74,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
         {/* Animated Glow Border */}
         <div className={`absolute -inset-0.5 rounded-[1.2rem] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 opacity-0 blur transition duration-500 ${isFocused ? 'opacity-70' : 'group-hover:opacity-30'}`} />
         
-        <div className="relative glass-card rounded-2xl p-1 bg-[#0f172a] h-full">
+        <div className="relative glass-card rounded-[1.2rem] p-0.5 bg-[#0f172a] h-full overflow-hidden">
             <textarea
             value={value}
             onChange={(e) => {
@@ -85,7 +85,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder="Jak se cítíš? Co ti dnes udělalo radost, nebo naopak starosti? ..."
-            className="w-full h-full min-h-[140px] xs:min-h-[160px] bg-black/20 rounded-xl p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
+            className="w-full h-full min-h-[140px] xs:min-h-[160px] bg-transparent rounded-[1.1rem] p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
             />
         </div>
       </div>

@@ -65,7 +65,7 @@ const CalendarHeatmap = memo(function CalendarHeatmap({ data }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={reducedMotion ? { duration: 0 } : springConfigFast}
-      className="glass p-4 sm:p-6 rounded-[2rem] border-none lg:col-span-2 overflow-hidden"
+      className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent lg:col-span-2 overflow-hidden"
     >
       <h3 className="text-lg font-bold text-white mb-4">Roční Přehled</h3>
       

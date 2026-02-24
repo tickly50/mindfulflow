@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
 import { X } from 'lucide-react';
 
-export default function JournalFilters({ 
+const JournalFilters = memo(function JournalFilters({ 
   filterMood, 
   setFilterMood, 
   filterTag, 
@@ -77,4 +78,6 @@ export default function JournalFilters({
       )}
     </div>
   );
-}
+});
+
+export default JournalFilters;

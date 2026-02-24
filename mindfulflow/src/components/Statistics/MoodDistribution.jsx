@@ -10,7 +10,7 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="glass-strong p-2 rounded-lg border border-white/20 text-xs">
+      <div className="glass-strong p-2 rounded-lg  text-xs">
         <p className="font-bold text-white">{data.name}</p>
         <p className="text-white/70">{data.value} záznamů</p>
       </div>
@@ -55,7 +55,7 @@ const MoodDistribution = memo(function MoodDistribution({ data }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={springConfigFast}
-      className="glass p-4 sm:p-6 rounded-[2rem] border-none h-[350px] flex flex-col"
+      className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent h-[350px] flex flex-col"
     >
       <h3 className="text-lg font-bold text-white mb-4">Rozložení Nálad</h3>
       

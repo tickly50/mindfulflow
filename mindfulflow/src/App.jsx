@@ -13,6 +13,7 @@ import StatisticsView from './components/Statistics/StatisticsView';
 import AchievementsView from './components/Achievements/AchievementsView';
 import BreathingOverlay from './components/Breathing/BreathingOverlay';
 import InstallPrompt from './components/Layout/InstallPrompt';
+import { useNotifications } from './hooks/useNotifications';
 
 import React from 'react';
 
@@ -55,23 +56,16 @@ function AppContent() {
   const [currentView, setCurrentView] = useState('checkin');
   const [showBreathing, setShowBreathing] = useState(false);
 
+  // Initialize background notification polling
+  useNotifications();
+
   useEffect(() => {
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
     
-    // Load persisted theme
-    const loadTheme = async () => {
-      try {
-        const themeSetting = await db.settings.get('theme');
-        if (themeSetting && themeSetting.value) {
-          document.documentElement.setAttribute('data-theme', themeSetting.value);
-        }
-      } catch (err) {
-        console.error("Failed to load theme", err);
-      }
-    };
-    loadTheme();
+    // Enforce default theme
+    document.documentElement.removeAttribute('data-theme');
   }, []);
 
   const handleEntryAdded = useCallback(() => {}, []);

@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { memo } from 'react';
 import { MessageSquare } from 'lucide-react';
 import JournalCard from './JournalCard';
 import { variants } from '../../utils/animations';
@@ -15,7 +16,7 @@ const listContainer = {
   },
 };
 
-export default function JournalTimeline({
+const JournalTimeline = memo(function JournalTimeline({
   entries,
   filterMood,
   filterTag,
@@ -77,18 +78,18 @@ export default function JournalTimeline({
         transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: 0.15 }}
       />
 
-      <AnimatePresence mode="popLayout">
+      <AnimatePresence mode="wait">
         {entries.map((entry, index) => (
           <motion.div
-            key={entry.id || index}
+            key={entry.id}
+            layout="position"
             variants={variants.listItem}
             initial="hidden"
             animate="show"
             exit={{
               opacity: 0,
-              x: 30,
               scale: 0.95,
-              transition: { duration: 0.25, ease: [0.65, 0, 0.35, 1] },
+              transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
             }}
             className="relative pl-0 sm:pl-20"
           >
@@ -115,4 +116,6 @@ export default function JournalTimeline({
       </AnimatePresence>
     </motion.div>
   );
-}
+});
+
+export default JournalTimeline;

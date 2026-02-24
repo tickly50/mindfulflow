@@ -121,7 +121,10 @@ export const calculateStreak = async () => {
  */
 export const clearAllEntries = async () => {
   try {
+    // Clear moods, achievements, and settings to fully reset the app state
     await db.moods.clear();
+    await db.achievements.clear();
+    await db.settings.clear();
     return true;
   } catch (error) {
     if (import.meta.env.DEV) console.error('Error clearing entries:', error);
@@ -179,6 +182,9 @@ export const importData = async (jsonString) => {
       ...rest,
       timestamp: rest.timestamp || new Date().toISOString()
     }));
+    
+    // Clear existing data before import (as requested by user to overwrite)
+    await db.moods.clear();
     
     await db.moods.bulkAdd(cleanEntries);
     

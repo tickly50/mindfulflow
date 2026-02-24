@@ -12,7 +12,7 @@ const CustomTooltip = ({ active, payload }) => {
     const moodColor = MOOD_COLORS[data.mood]?.primary || '#8b5cf6';
     
     return (
-      <div className="glass-strong p-3 rounded-xl border border-white/20 shadow-xl backdrop-blur-md">
+      <div className="glass-strong p-3 rounded-xl  shadow-xl backdrop-blur-md">
         <p className="text-white/60 text-xs mb-1">{data.fullDate}</p>
         <div className="flex items-center gap-2 mb-1">
           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: moodColor }} />
@@ -20,7 +20,7 @@ const CustomTooltip = ({ active, payload }) => {
           <span className="text-white/40 text-xs">({data.mood}/5)</span>
         </div>
         {data.note && (
-          <p className="text-white/80 text-sm max-w-[200px] mt-2 italic border-t border-white/10 pt-2">
+          <p className="text-white/80 text-sm max-w-[200px] mt-2 italic pt-2">
             "{data.note}"
           </p>
         )}
@@ -79,7 +79,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-      className="glass p-4 sm:p-6 rounded-[2rem] border-none h-[400px] w-full"
+      className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent h-[400px] w-full"
     >
       <div className="mb-6 flex justify-between items-center">
         <div>

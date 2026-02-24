@@ -90,7 +90,7 @@ export default function MoodCalendar({ entries }) {
   }
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-5 relative">
+    <div className="bg-white/5  rounded-2xl p-4 sm:p-5 relative">
       {/* Background Blurs */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none overflow-hidden" />
       <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl pointer-events-none overflow-hidden" />
@@ -104,7 +104,7 @@ export default function MoodCalendar({ entries }) {
           </h3>
         </div>
 
-        <div className="flex items-center gap-1 bg-black/20 rounded-xl p-1 border border-white/5">
+        <div className="flex items-center gap-1 bg-black/20 rounded-xl p-1 ">
           <button 
             onClick={prevMonth} 
             className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
@@ -159,7 +159,7 @@ export default function MoodCalendar({ entries }) {
                   whileHover={{ scale: 1.1, zIndex: 10 }}
                   whileTap={{ scale: 0.95 }}
                   className={`w-full h-full rounded-md sm:rounded-lg transition-colors duration-300 flex items-center justify-center relative cursor-default transform-gpu ${
-                    dayData ? '' : 'bg-white/5 border border-white/5 hover:bg-white/10'
+                    dayData ? '' : 'bg-white/5  hover:bg-white/10'
                   }`}
                   style={dayData ? { 
                     background: MOOD_COLORS[dayData.average]?.gradient || '#333',
@@ -193,7 +193,7 @@ export default function MoodCalendar({ entries }) {
                       className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 pointer-events-none transform-gpu"
                       style={{ willChange: 'transform, opacity' }}
                     >
-                      <div className="glass-panel px-5 py-3 rounded-2xl text-center whitespace-nowrap min-w-[140px] bg-[#0f172a]/95 backdrop-blur-xl border border-white/20 shadow-2xl">
+                      <div className="glass-panel px-5 py-3 rounded-2xl text-center whitespace-nowrap min-w-[140px] bg-[#0f172a]/95 backdrop-blur-xl  shadow-2xl">
                         <p className="text-white/60 text-[10px] sm:text-xs font-medium mb-1 uppercase tracking-widest">
                           {date.toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'short' })}
                         </p>
@@ -216,7 +216,7 @@ export default function MoodCalendar({ entries }) {
       {/* Legend */}
       <div className="mt-6 flex flex-col items-center justify-center gap-3 text-[10px] sm:text-xs font-medium relative z-10">
         <span className="text-white/40">Zabarvení podle průměrné nálady</span>
-        <div className="flex items-center justify-center gap-1.5 glass bg-black/20 rounded-full px-4 py-2 border border-white/5">
+        <div className="flex items-center justify-center gap-1.5 glass bg-black/20 rounded-full px-4 py-2 ">
           {Object.entries(MOOD_COLORS).map(([level, color]) => (
             <div 
               key={level} 

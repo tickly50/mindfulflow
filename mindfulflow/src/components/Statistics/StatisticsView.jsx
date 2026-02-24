@@ -72,12 +72,12 @@ const StatisticsView = memo(function StatisticsView() {
           )}
 
           {/* Time range pills */}
-          <div className="bg-white/5 border border-white/10 p-1 rounded-xl flex gap-1">
+          <div className="bg-white/5  p-1 rounded-xl flex gap-1">
           {['7', '30', 'all'].map((range) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none border-none ring-0 hover:scale-105 active:scale-95 transform-gpu ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none !border-transparent ring-0 hover:scale-105 active:scale-95 transform-gpu ${
                 timeRange === range
                   ? 'bg-white/10 text-white'
                   : 'text-white/40 hover:text-white hover:bg-white/5'
@@ -117,7 +117,7 @@ const StatisticsView = memo(function StatisticsView() {
               </div>
             </>
           ) : (
-            <div className="glass p-12 rounded-[2rem] text-center border-none h-full flex flex-col justify-center items-center">
+            <div className="glass p-12 rounded-[2rem] text-center !border-transparent h-full flex flex-col justify-center items-center">
               <p className="text-white/50">Zatím tu nejsou žádná data pro grafy.</p>
             </div>
           )}

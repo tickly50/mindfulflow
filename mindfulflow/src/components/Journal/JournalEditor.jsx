@@ -1,10 +1,30 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pencil, Save, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
 import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodCalculations';
 import { variants } from '../../utils/animations';
 import SleepSlider from '../CheckIn/SleepSlider';
 
 export default function JournalEditor({ editingEntry, setEditingEntry, editForm, setEditForm, handleUpdate }) {
+  // Lock body scroll and handle Escape key
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setEditingEntry(null);
+    };
+
+    if (editingEntry) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [editingEntry, setEditingEntry]);
   const toggleEditTag = (tagId) => {
     setEditForm(prev => {
       const tags = prev.tags.includes(tagId)
@@ -15,14 +35,16 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
   };
 
   return (
-    <AnimatePresence mode="wait">
-      {editingEntry && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 pb-safe">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setEditingEntry(null)}
+    <>
+      {createPortal(
+        <AnimatePresence mode="wait">
+          {editingEntry && (
+            <div className="fixed inset-0 z-[150] flex items-center justify-center p-2 sm:p-4 pb-safe">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setEditingEntry(null)}
             className="absolute inset-0 bg-black/80 backdrop-blur-md"
           />
           <motion.div
@@ -104,7 +126,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
                 <textarea
                   value={editForm.diary}
                   onChange={(e) => setEditForm({ ...editForm, diary: e.target.value })}
-                  className="w-full h-32 sm:h-40 bg-black/20 border border-white/10 rounded-2xl p-4 sm:p-5 text-base sm:text-lg text-white resize-none focus:outline-none focus:ring-2 focus:ring-violet-500/50 hover:border-white/20 transition-colors select-text"
+                  className="w-full h-32 sm:h-40 bg-black/20 border border-white/10 rounded-2xl p-4 sm:p-5 text-base sm:text-lg text-white resize-none focus:outline-none focus:ring-2 focus:ring-violet-500/50 ring-inset focus:border-transparent hover:border-white/20 transition-colors select-text"
                   placeholder="Co se ti honí hlavou?"
                 />
               </div>
@@ -129,6 +151,9 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
+    )}
+    </>
   );
 }

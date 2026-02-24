@@ -86,38 +86,7 @@
   );
 }
 
-[data-theme="forest"] {
-  --theme-bg: #064e3b;
-  --theme-gradient-bg: linear-gradient(
-    -45deg,
-    #064e3b,
-    #047857,
-    #059669,
-    #10b981
-  );
-}
 
-[data-theme="sunset"] {
-  --theme-bg: #450a0a;
-  --theme-gradient-bg: linear-gradient(
-    -45deg,
-    #450a0a,
-    #7f1d1d,
-    #b91c1c,
-    #ea580c
-  );
-}
-
-[data-theme="amethyst"] {
-  --theme-bg: #2e1065;
-  --theme-gradient-bg: linear-gradient(
-    -45deg,
-    #2e1065,
-    #4c1d95,
-    #5b21b6,
-    #8b5cf6
-  );
-}
 
 html,
 body {
@@ -661,4 +630,131 @@ body {
 .animate-scale-pulse {
   animation: scale-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   will-change: transform;
+}
+
+/* Remove focus outline from Recharts */
+.recharts-wrapper,
+.recharts-surface,
+.recharts-cartesian-grid,
+.recharts-tooltip-wrapper,
+.recharts-responsive-container,
+.recharts-layer {
+  outline: none !important;
+}
+
+/* Remove stroke from pie chart active slice / dot */
+.recharts-pie-sector,
+.recharts-dot,
+.recharts-active-dot,
+path.recharts-sector {
+  outline: none !important;
+}
+.recharts-pie-sector:focus {
+  outline: none !important;
+}
+
+g.recharts-layer:focus,
+path:focus,
+svg:focus {
+  outline: none !important;
+}
+
+/* Force absolutely no focus outlines on SVG elements from Recharts */
+.recharts-pie-sector:focus-visible,
+.recharts-pie-sector:focus,
+path.recharts-sector:focus,
+path.recharts-sector,
+.recharts-pie-sector path {
+  outline: none !important;
+  stroke: none !important;
+}
+
+svg, svg *, svg:focus, svg:focus-visible, svg:active {
+  outline: none !important;
+}
+
+path.recharts-sector {
+  outline: none !important;
+}
+
+/* Force absolutely no focus outlines on SVG elements from Recharts */
+* {
+  --focus-ring-color: transparent !important;
+}
+
+svg.recharts-surface * {
+  outline: none !important;
+}
+
+.recharts-pie-sector path {
+  outline: none !important;
+  stroke: none !important;
+}
+
+path:focus {
+  outline: none !important;
+  stroke-width: 0 !important;
+}
+
+.recharts-bar-rectangle:focus,
+.recharts-pie-sector:focus,
+.recharts-curve:focus {
+  outline: none !important;
+}
+
+g:focus {
+  outline: none !important;
+}
+
+/* Definitively disable SVG interactivity outlines for Recharts on the pie chart */
+.recharts-pie-sector:focus-visible,
+.recharts-pie-sector:focus,
+path.recharts-sector:focus {
+  outline: none !important;
+}
+
+g.recharts-layer {
+  outline: none !important;
+}
+
+/* Global override for ALL SVG focus outlines causing the white boxes */
+svg *, svg:focus, svg:focus-visible, svg:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.recharts-sector,
+.recharts-curve {
+  outline: none !important;
+}
+
+/* Definitively disable SVG interactivity outlines for Recharts on the pie chart */
+.recharts-pie-sector:focus-visible,
+.recharts-pie-sector:focus,
+path.recharts-sector:focus,
+path.recharts-sector {
+  outline: none !important;
+}
+
+g.recharts-layer {
+  outline: none !important;
+}
+
+svg, svg * {
+  outline: none !important;
+}
+
+/* Definitively disable SVG interactivity outlines for Recharts on the pie chart */
+*.recharts-surface,
+*.recharts-surface:focus,
+*.recharts-surface:focus-visible,
+*.recharts-wrapper,
+*.recharts-wrapper:focus,
+*.recharts-wrapper:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+path {
+  outline: none !important;
 }

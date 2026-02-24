@@ -6,6 +6,7 @@ import { Moon } from 'lucide-react';
 const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   const trackRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [internalValue, setInternalValue] = useState(value);
 
   // Motion value target (0-100)
   const x = useMotionValue(0);
@@ -15,11 +16,14 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   const width = useTransform(smoothX, (v) => `${v}%`);
   const left = useTransform(smoothX, (v) => `${v}%`);
 
-  // Sync external value changes
+  // Sync external value changes ONLY when not dragging
   useEffect(() => {
-    const percentage = Math.min(100, Math.max(0, (value / 12) * 100));
-    x.set(percentage);
-  }, [value, x]);
+    if (!isDragging) {
+      setInternalValue(value);
+      const percentage = Math.min(100, Math.max(0, (value / 12) * 100));
+      x.set(percentage);
+    }
+  }, [value, isDragging, x]);
 
   const handlePointerAction = useCallback(
     (e) => {
@@ -41,13 +45,10 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
 
       // Update motion target to snapped value - this causes the "jump"
       x.set(snappedPercentage);
-
-      // Update data state
-      if (newValue !== value) {
-        onChange(newValue);
-      }
+      // Update internal state instantly for smooth rendering
+      setInternalValue(newValue);
     },
-    [onChange, value, x],
+    [x],
   );
 
   const handlePointerDown = (e) => {
@@ -66,9 +67,14 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
     setIsDragging(false);
     e.currentTarget.releasePointerCapture(e.pointerId);
 
-    // Ensure perfect snap on release (redundant but safe)
-    const percentage = Math.min(100, Math.max(0, (value / 12) * 100));
+    // Ensure perfect snap on release
+    const percentage = Math.min(100, Math.max(0, (internalValue / 12) * 100));
     x.set(percentage);
+    
+    // Update parent only once drag is finished
+    if (internalValue !== value) {
+      onChange(internalValue);
+    }
   };
 
   return (
@@ -81,7 +87,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
           <h3 className="text-xl font-bold text-white">Spánek</h3>
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-black text-blue-300 tabular-nums">{value}</span>
+          <span className="text-3xl font-black text-blue-300 tabular-nums">{internalValue}</span>
           <span className="text-sm font-medium text-blue-300/50">hodin</span>
         </div>
       </div>
@@ -115,12 +121,12 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
               <div key={tick} className="flex flex-col items-center gap-2.5">
                 <div
                   className={`w-0.5 h-8 -mt-0.5 rounded-full transition-colors duration-300 ${
-                    tick <= value ? 'bg-blue-400/50' : 'bg-white/5'
+                    tick <= internalValue ? 'bg-blue-400/50' : 'bg-white/5'
                   }`}
                 />
                 <span
                   className={`absolute top-10 text-xs font-bold transition-colors duration-300 ${
-                    tick <= value ? 'text-white' : 'text-white/40'
+                    tick <= internalValue ? 'text-white' : 'text-white/40'
                   }`}
                 >
                   {tick}

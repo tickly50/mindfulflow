@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="glass-strong p-3 rounded-xl border border-white/20">
+      <div className="glass-strong p-3 rounded-xl ">
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xl">{/** icon placeholder */}</span>
           <p className="font-bold text-white">{data.label}</p>
@@ -47,7 +47,7 @@ const ActivityCorrelation = memo(function ActivityCorrelation({ data }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-      className="glass p-4 sm:p-6 rounded-[2rem] border-none h-[350px] flex flex-col"
+      className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent h-[350px] flex flex-col"
     >
       <h3 className="text-lg font-bold text-white mb-1">Vliv Aktivit</h3>
       <p className="text-white/40 text-xs mb-4">Co ti dělá největší radost?</p>

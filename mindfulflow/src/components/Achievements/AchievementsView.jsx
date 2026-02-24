@@ -35,7 +35,7 @@ const AchievementsView = memo(function AchievementsView() {
           <Icons.Award className="w-8 h-8 text-amber-400" />
           Tvé Úspěchy
         </h2>
-        <p className="text-white/60">Sbírej odznaky za plnění milníků a péči o své zdraví</p>
+        <p className="text-white/60">Sbírej odznaky za plnění svých cílů a péči o zdraví.</p>
       </motion.div>
 
       <motion.div 

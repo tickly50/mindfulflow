@@ -14,7 +14,7 @@ export default function InsightsCard({ entries }) {
   if (insights.length === 0) return null;
 
   return (
-    <div className="bg-white/5 border border-white/5 rounded-3xl p-6 mb-8">
+    <div className="bg-white/5  rounded-3xl p-6 mb-8">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-glow-violet">
           <Icons.Lightbulb className="w-5 h-5 text-white" />
