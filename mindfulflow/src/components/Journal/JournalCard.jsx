@@ -36,13 +36,7 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
       />
 
       <div 
-        className="glass p-5 sm:p-6 rounded-3xl !border-0 !border-none ring-0 outline-none"
-        style={{
-          background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-          boxShadow: `0 4px 30px rgba(0, 0, 0, 0.1)`,
-          borderWidth: 0,
-          borderColor: 'transparent'
-        }}
+        className="glass p-5 sm:p-6 rounded-3xl !border-0 !border-none ring-0 outline-none transform-gpu will-change-transform shadow-md"
       >
         <div className="flex gap-3 sm:gap-6 items-start justify-between">
           
@@ -109,10 +103,9 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
           <div className="flex flex-col items-center sm:items-end gap-3 shrink-0">
              {/* Mood Circle */}
              <div 
-                className="relative w-12 h-12 flex-shrink-0 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold shadow-lg ring-1 ring-white/10"
+                className="relative w-12 h-12 flex-shrink-0 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold ring-1 ring-white/10 shadow-sm"
                 style={{ 
                   background: moodColor.gradient,
-                  boxShadow: `0 10px 25px -5px ${moodColor.primary}50`
                 }}
              >
                {Math.round(entry.mood)}

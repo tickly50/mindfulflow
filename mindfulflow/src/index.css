@@ -22,13 +22,18 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* ========== GLASSMORPHISM SYSTEM ========== */
-  --glass-blur: 16px;
-  --glass-blur-strong: 24px;
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-bg-hover: rgba(255, 255, 255, 0.12);
-  --glass-bg-active: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-border-strong: rgba(255, 255, 255, 0.25);
+  --glass-blur: 8px; /* Reduced for performance */
+  --glass-blur-strong: 12px; /* Reduced for performance */
+  --glass-bg: rgba(
+    255,
+    255,
+    255,
+    0.05
+  ); /* Lighter for better contrast without heavy blur */
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-bg-active: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-strong: rgba(255, 255, 255, 0.15);
 
   /* ========== SPACING SYSTEM ========== */
   --spacing-xs: 0.5rem; /* 8px */
@@ -86,8 +91,6 @@
   );
 }
 
-
-
 html,
 body {
   background-color: var(--theme-bg);
@@ -128,8 +131,6 @@ html {
 
   /* Primary glass effect */
   .glass {
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
     background-color: var(--glass-bg);
     border: 1px solid var(--glass-border);
     transition:
@@ -139,13 +140,26 @@ html {
     isolation: isolate;
   }
 
+  /* Apply blur only on larger screens for performance */
+  @media (min-width: 768px) {
+    .glass {
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    }
+  }
+
   /* Strong glass effect for emphasis */
   .glass-strong {
-    backdrop-filter: blur(var(--glass-blur-strong));
-    -webkit-backdrop-filter: blur(var(--glass-blur-strong));
     background-color: var(--glass-bg-hover);
     border: 1px solid var(--glass-border-strong);
     isolation: isolate;
+  }
+
+  @media (min-width: 768px) {
+    .glass-strong {
+      backdrop-filter: blur(var(--glass-blur-strong));
+      -webkit-backdrop-filter: blur(var(--glass-blur-strong));
+    }
   }
 
   /* Interactive glass states */
@@ -164,11 +178,9 @@ html {
     transform: translateY(0);
   }
 
-  /* Multi-layer glass effect */
+  /* Multi-layer glass effect - simplified for performance */
   .glass-layered {
     position: relative;
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
     background: linear-gradient(
       135deg,
       var(--glass-bg-hover) 0%,
@@ -178,27 +190,14 @@ html {
     isolation: isolate;
   }
 
-  .glass-layered::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.05)
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
+  @media (min-width: 768px) {
+    .glass-layered {
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    }
   }
+
+  /* Removed expensive composite mask layer representing glass reflection to improve FPS */
 
   /* ========== GPU ACCELERATION ========== */
   .transform-gpu {
@@ -259,9 +258,7 @@ html {
   /* Smooth hover lift - GPU accelerated */
   .hover-lift {
     transform: translateZ(0);
-    transition:
-      transform 0.25s cubic-bezier(0.33, 1, 0.68, 1),
-      box-shadow 0.25s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: transform 0.25s cubic-bezier(0.33, 1, 0.68, 1);
     will-change: transform;
   }
 
@@ -317,11 +314,9 @@ html {
     transform: scale(1.02) translateZ(0);
   }
 
-  /* Glow on hover - optimized for performance */
+  /* Glow on hover - optimized to avoid filter recalculations during runtime */
   .hover-glow-violet {
-    transition:
-      box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-      filter 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   .hover-glow-violet:hover {
@@ -669,7 +664,11 @@ path.recharts-sector,
   stroke: none !important;
 }
 
-svg, svg *, svg:focus, svg:focus-visible, svg:active {
+svg,
+svg *,
+svg:focus,
+svg:focus-visible,
+svg:active {
   outline: none !important;
 }
 
@@ -718,7 +717,10 @@ g.recharts-layer {
 }
 
 /* Global override for ALL SVG focus outlines causing the white boxes */
-svg *, svg:focus, svg:focus-visible, svg:active {
+svg *,
+svg:focus,
+svg:focus-visible,
+svg:active {
   outline: none !important;
   box-shadow: none !important;
 }
@@ -740,7 +742,8 @@ g.recharts-layer {
   outline: none !important;
 }
 
-svg, svg * {
+svg,
+svg * {
   outline: none !important;
 }
 

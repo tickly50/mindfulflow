@@ -8,123 +8,8 @@ import { useToast } from '../../context/ToastContext';
 import { springConfigFast, easeConfig, variants, microInteractions } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
-import { useNotifications } from '../../hooks/useNotifications';
 
-/**
- * Custom 24-hour Time Picker to enforce European format avoiding AM/PM OS locale issues
- * Uses a fully custom dropdown UI to match the application's premium dark theme
- */
-const CustomTimePicker = ({ value, onChange }) => {
-  const [h, m] = (value || '20:00').split(':');
-  const [showHours, setShowHours] = useState(false);
-  const [showMinutes, setShowMinutes] = useState(false);
-  const containerRef = useRef(null);
-  
-  const hours = Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0'));
-  const minutes = Array.from({length: 60}, (_, i) => i.toString().padStart(2, '0'));
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setShowHours(false);
-        setShowMinutes(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleHourSelect = (selectedHour) => {
-    onChange(`${selectedHour}:${m}`);
-    setShowHours(false);
-  };
-
-  const handleMinuteSelect = (selectedMinute) => {
-    onChange(`${h}:${selectedMinute}`);
-    setShowMinutes(false);
-  };
-
-  return (
-    <div ref={containerRef} className="flex items-center gap-1.5 relative">
-      
-      {/* Hours Selector */}
-      <div className="relative">
-        <button 
-          onClick={() => { setShowHours(!showHours); setShowMinutes(false); }}
-          className={`w-14 py-2 bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/20 text-white font-mono text-lg text-center rounded-xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)] transition-all duration-300 outline-none focus:ring-2 focus:ring-indigo-500/50 ${showHours ? 'ring-2 ring-indigo-500/50 bg-black/60 border-indigo-500/30' : ''}`}
-        >
-          {h}
-        </button>
-        
-        <AnimatePresence>
-          {showHours && (
-            <motion.div 
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute top-full right-0 mt-3 w-16 h-56 overflow-y-auto overscroll-contain bg-[#0f172a]/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] z-[150] hide-scrollbar py-2"
-            >
-              {hours.map(hour => (
-                <button
-                  key={hour}
-                  onClick={() => handleHourSelect(hour)}
-                  className={`w-[calc(100%-12px)] mx-auto text-center py-2.5 my-0.5 text-base font-mono transition-all duration-200 block rounded-xl outline-none ${
-                    hour === h 
-                    ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 font-bold border border-indigo-500/20 shadow-inner' 
-                    : 'text-white/60 hover:bg-white/10 hover:text-white border border-transparent'
-                  }`}
-                >
-                  {hour}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-      
-      <span className="text-white/30 font-bold text-xl select-none animate-pulse">:</span>
-      
-      {/* Minutes Selector */}
-      <div className="relative">
-        <button 
-          onClick={() => { setShowMinutes(!showMinutes); setShowHours(false); }}
-          className={`w-14 py-2 bg-black/40 hover:bg-black/60 border border-white/5 hover:border-white/20 text-white font-mono text-lg text-center rounded-xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)] transition-all duration-300 outline-none focus:ring-2 focus:ring-indigo-500/50 ${showMinutes ? 'ring-2 ring-indigo-500/50 bg-black/60 border-indigo-500/30' : ''}`}
-        >
-          {m}
-        </button>
-        
-        <AnimatePresence>
-          {showMinutes && (
-            <motion.div 
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute top-full right-0 mt-3 w-16 h-56 overflow-y-auto overscroll-contain bg-[#0f172a]/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] z-[150] hide-scrollbar py-2"
-            >
-              {minutes.map(min => (
-                <button
-                  key={min}
-                  onClick={() => handleMinuteSelect(min)}
-                  className={`w-[calc(100%-12px)] mx-auto text-center py-2.5 my-0.5 text-base font-mono transition-all duration-200 block rounded-xl outline-none ${
-                    min === m 
-                    ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 font-bold border border-indigo-500/20 shadow-inner' 
-                    : 'text-white/60 hover:bg-white/10 hover:text-white border border-transparent'
-                  }`}
-                >
-                  {min}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-      
-    </div>
-  );
-};
 
 /**
  * Main application header with navigation, streak badge and settings.
@@ -140,48 +25,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
     return await calculateStreak();
   }, []) || 0;
 
-  const [notifSettings, setNotifSettings] = useState({ enabled: false, time: '20:00' });
-
-  // Fetch settings on mount without live reacting to every single database write to avoid lag
+  // Fetch settings on mount (e.g., if we added other settings)
   useEffect(() => {
-    const fetchSettings = async () => {
-      const enabled = await db.settings.get('notificationsEnabled');
-      const time = await db.settings.get('notificationTime');
-      setNotifSettings({
-        enabled: enabled?.value || false,
-        time: time?.value || '20:00'
-      });
-    };
-    fetchSettings();
+    // Other setup logic could go here
   }, [showSettings]);
-
-  const { requestPermission } = useNotifications();
-
-  const handleToggleNotifications = async () => {
-    const isCurrentlyEnabled = notifSettings?.enabled;
-    
-    if (!isCurrentlyEnabled) {
-      // Trying to enable
-      const granted = await requestPermission();
-      if (granted) {
-        setNotifSettings(prev => ({ ...prev, enabled: true }));
-        await db.settings.put({ key: 'notificationsEnabled', value: true });
-        success('Notifikace byly úspěšně zapnuty.');
-      } else {
-        error('Prohlížeč notifikace zablokoval nebo nepodporuje.');
-      }
-    } else {
-      // Trying to disable
-      setNotifSettings(prev => ({ ...prev, enabled: false }));
-      await db.settings.put({ key: 'notificationsEnabled', value: false });
-    }
-  };
-
-  const handleTimeChange = async (e) => {
-    const newTime = e.target.value;
-    setNotifSettings(prev => ({ ...prev, time: newTime }));
-    await db.settings.put({ key: 'notificationTime', value: newTime });
-  };
 
   const handleImport = async (e) => {
     const file = e.target.files?.[0];
@@ -431,41 +278,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       <span>•</span>
                       <span>Offline Ready</span>
                     </div>
-                  </div>
-
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/5 mb-4">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Bell className="w-5 h-5 text-indigo-400" />
-                      <h3 className="font-semibold text-lg text-white">Denní připomenutí</h3>
-                    </div>
-                    <p className="text-sm text-white/60 mb-6">Nech se upozornit na večerní zapsání nálady. Funguje pouze na tomto zařízení.</p>
-                    
-                    <div className="flex items-center justify-between bg-black/20 p-4 rounded-xl border border-white/5 mb-4">
-                      <span className="text-white font-medium">Zapnout upozornění</span>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="sr-only peer"
-                          checked={notifSettings?.enabled || false}
-                          onChange={handleToggleNotifications}
-                        />
-                        <div className="w-12 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-indigo-500"></div>
-                      </label>
-                    </div>
-
-                    {notifSettings?.enabled && (
-                      <div className="mb-4">
-                        <div className="flex items-center justify-between bg-black/20 p-4 rounded-xl border border-white/5">
-                          <span className="text-white/80 text-sm">Čas upozornění</span>
-                          <div className="relative">
-                            <CustomTimePicker 
-                              value={notifSettings?.time}
-                              onChange={(newTime) => handleTimeChange({ target: { value: newTime }})}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   <div className="p-6 rounded-2xl bg-white/5 border border-white/5 mb-4">

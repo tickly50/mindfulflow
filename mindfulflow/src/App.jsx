@@ -13,7 +13,6 @@ import StatisticsView from './components/Statistics/StatisticsView';
 import AchievementsView from './components/Achievements/AchievementsView';
 import BreathingOverlay from './components/Breathing/BreathingOverlay';
 import InstallPrompt from './components/Layout/InstallPrompt';
-import { useNotifications } from './hooks/useNotifications';
 
 import React from 'react';
 
@@ -55,9 +54,6 @@ class ErrorBoundary extends React.Component {
 function AppContent() {
   const [currentView, setCurrentView] = useState('checkin');
   const [showBreathing, setShowBreathing] = useState(false);
-
-  // Initialize background notification polling
-  useNotifications();
 
   useEffect(() => {
     if (navigator.storage && navigator.storage.persist) {

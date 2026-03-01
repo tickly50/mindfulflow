@@ -82,7 +82,6 @@ const JournalTimeline = memo(function JournalTimeline({
         {entries.map((entry, index) => (
           <motion.div
             key={entry.id}
-            layout="position"
             variants={variants.listItem}
             initial="hidden"
             animate="show"
@@ -91,7 +90,7 @@ const JournalTimeline = memo(function JournalTimeline({
               scale: 0.95,
               transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
             }}
-            className="relative pl-0 sm:pl-20"
+            className="relative pl-0 sm:pl-20 will-change-transform will-change-opacity"
           >
             {/* Timeline dot */}
             <motion.div
