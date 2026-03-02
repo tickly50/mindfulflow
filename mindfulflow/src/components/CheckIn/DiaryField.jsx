@@ -42,10 +42,10 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
     >
       <div className="flex items-center justify-between mb-4 px-1 flex-wrap gap-2">
         <h3 className="text-xl font-bold text-white flex items-center gap-3">
-          <div className="p-2 bg-white/10 rounded-xl backdrop-blur-sm">
-             <PenTool className="w-5 h-5 text-purple-300" />
+          <div className="p-2.5 bg-gradient-to-br from-purple-500/30 to-fuchsia-500/10 rounded-xl md:backdrop-blur-md shadow-glow-violet ring-1 ring-white/10">
+             <PenTool className="w-5 h-5 text-purple-200" />
           </div>
-          <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Osobní poznámka</span>
+          <span className="bg-gradient-to-r from-purple-100 to-fuchsia-200 bg-clip-text text-transparent">Osobní poznámka</span>
         </h3>
         
         <div className="flex items-center gap-3">
@@ -71,10 +71,10 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
       <div 
         className="relative group"
       >
-        {/* Animated Glow Border */}
-        <div className={`absolute -inset-0.5 rounded-[1.2rem] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 opacity-0 blur transition duration-500 ${isFocused ? 'opacity-70' : 'group-hover:opacity-30'}`} />
+        {/* Subtle Outer Glow on Focus */}
+        <div className={`absolute -inset-1 rounded-[1.5rem] bg-violet-500/20 blur-xl transition-opacity duration-500 pointer-events-none ${isFocused ? 'opacity-100' : 'opacity-0'}`} />
         
-        <div className="relative glass-card rounded-[1.2rem] p-0.5 bg-[#0f172a] h-full overflow-hidden">
+        <div className={`relative rounded-[1.2rem] h-full overflow-hidden backdrop-blur-xl border transition-all duration-300 shadow-inner ${isFocused ? 'border-violet-400/50 bg-black/40 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]' : 'border-white/10 bg-black/20 hover:border-white/20 hover:bg-black/30'}`}>
             <textarea
             value={value}
             onChange={(e) => {
@@ -85,7 +85,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder="Jak se cítíš? Co ti dnes udělalo radost, nebo naopak starosti? ..."
-            className="w-full h-full min-h-[140px] xs:min-h-[160px] bg-transparent rounded-[1.1rem] p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
+            className="w-full h-full min-h-[140px] xs:min-h-[160px] bg-transparent p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
             />
         </div>
       </div>

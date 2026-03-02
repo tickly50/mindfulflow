@@ -16,7 +16,7 @@ import { useToast } from '../../context/ToastContext';
 import ConfirmModal from '../common/ConfirmModal';
 
 // Main check-in view for recording mood and context
-const CheckInView = memo(function CheckInView({ onEntryAdded }) {
+const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [diaryText, setDiaryText] = useState('');
@@ -57,8 +57,12 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
 
    // Handlers
   const handleMoodSelect = useCallback((mood) => {
-    setSelectedMood(prev => (prev === mood ? null : mood));
-  }, []);
+    setSelectedMood(prev => {
+      const newMood = prev === mood ? null : mood;
+      if (onMoodChange) onMoodChange(newMood);
+      return newMood;
+    });
+  }, [onMoodChange]);
 
 
   // After success overlay truly closes (scroll unlocked), return to top smoothly
@@ -129,6 +133,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
 
   const resetCheckInState = useCallback(() => {
     setSelectedMood(null);
+    if (onMoodChange) onMoodChange(null);
     setSelectedTags([]);
     setDiaryText('');
     setSleepHours(7);
@@ -204,7 +209,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                 <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
                      <div 
-                        className="glass-panel p-4 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-md shadow-2xl overflow-hidden relative w-full"
+                        className="glass-panel p-4 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent shadow-2xl overflow-hidden relative w-full"
                         style={{ 
                             willChange: 'transform',
                             WebkitFontSmoothing: 'antialiased',
@@ -212,9 +217,9 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                         }}
                      >
                         
-                        {/* Decorative background blurs */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl -z-10 pointer-events-none" />
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10 pointer-events-none" />
+                        {/* Decorative background gradients (no blur for performance) */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/8 rounded-full -z-10 pointer-events-none" />
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/8 rounded-full -z-10 pointer-events-none" />
 
                         {/* Sleep Slider */}
                         <SleepSlider value={sleepHours} onChange={setSleepHours} />
@@ -312,10 +317,10 @@ const CheckInView = memo(function CheckInView({ onEntryAdded }) {
                                 }}
                                 className="relative group overflow-hidden w-full md:w-auto md:min-w-[280px]"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 rounded-2xl shadow-glow-violet" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-400 group-hover:scale-[1.02]" />
                                 {/* Shimmer */}
-                                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg]" />
+                                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg]" />
                                 
                                 {/* Button Content */}
                                 <div className="relative px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3">

@@ -1,9 +1,9 @@
 import { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
-import * as Icons from 'lucide-react';
+import { Award, Sun, BookOpen, Flame, Wind } from 'lucide-react';
 import { db } from '../../utils/db';
 import { ACHIEVEMENTS, checkAndUnlockAchievements } from '../../utils/achievements';
-import { microInteractions, variants } from '../../utils/animations';
+import { variants } from '../../utils/animations';
 import { useMoodEntries } from '../../utils/queries';
 
 const AchievementsView = memo(function AchievementsView() {
@@ -32,7 +32,7 @@ const AchievementsView = memo(function AchievementsView() {
         className="mb-8"
       >
         <h2 className="text-3xl font-bold text-white flex items-center gap-3 mb-2">
-          <Icons.Award className="w-8 h-8 text-amber-400" />
+          <Award className="w-8 h-8 text-amber-400" />
           Tvé Úspěchy
         </h2>
         <p className="text-white/60">Sbírej odznaky za plnění svých cílů a péči o zdraví.</p>
@@ -46,20 +46,24 @@ const AchievementsView = memo(function AchievementsView() {
       >
         {ACHIEVEMENTS.map((achievement, i) => {
           const isUnlocked = unlockedIds.has(achievement.id);
-          const Icon = Icons[achievement.icon] || Icons.Award;
+          const iconMap = { Sun, BookOpen, Flame, Wind, Award };
+          const Icon = iconMap[achievement.icon] || Award;
 
           return (
             <motion.div
               key={achievement.id}
               variants={variants.item}
               whileHover={isUnlocked ? { scale: 1.05, y: -5, transition: { type: "spring", stiffness: 300, damping: 20 } } : {}}
-              className={`relative flex flex-col items-center p-6 rounded-[2rem] border transition-colors duration-300 transform-gpu ${
+              className={`relative flex flex-col items-center p-6 sm:p-8 rounded-[2.5rem] border transition-all duration-500 transform-gpu overflow-hidden ${
                 isUnlocked 
-                  ? 'bg-white/10 border-white/20 shadow-lg ' + (achievement.shadow || 'shadow-glow-violet')
-                  : 'bg-black/20 border-white/5 opacity-50 grayscale hover:opacity-100 hover:grayscale-0'
+                  ? 'bg-white/10 border-white/20 shadow-glass-lg ' + (achievement.shadow || 'shadow-glow-violet')
+                  : 'glass bg-black/40 border-white/5 opacity-60 grayscale hover:opacity-100 hover:grayscale-[0.5]'
               }`}
               style={{ willChange: 'transform, opacity' }}
             >
+              {isUnlocked && (
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[2.5rem]" />
+              )}
               <motion.div 
                 className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-4 ${
                   isUnlocked ? `bg-gradient-to-br ${achievement.gradient} shadow-lg` : 'bg-white/10'

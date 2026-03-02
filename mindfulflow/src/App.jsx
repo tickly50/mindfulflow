@@ -1,20 +1,20 @@
-import { useState, useCallback, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
-import Header from './components/Layout/Header';
-import BottomNavigation from './components/Layout/BottomNavigation';
-import { ToastProvider } from './context/ToastContext';
-import { pageVariants } from './utils/animations';
-import { db } from './utils/db';
+import { useState, useCallback, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import Header from "./components/Layout/Header";
+import BottomNavigation from "./components/Layout/BottomNavigation";
+import { ToastProvider } from "./context/ToastContext";
+import { pageVariants } from "./utils/animations";
+import { db } from "./utils/db";
 
-import CheckInView from './components/CheckIn/CheckInView';
-import JournalView from './components/Journal/JournalView';
-import StatisticsView from './components/Statistics/StatisticsView';
-import AchievementsView from './components/Achievements/AchievementsView';
-import BreathingOverlay from './components/Breathing/BreathingOverlay';
-import InstallPrompt from './components/Layout/InstallPrompt';
+import CheckInView from "./components/CheckIn/CheckInView";
+import JournalView from "./components/Journal/JournalView";
+import StatisticsView from "./components/Statistics/StatisticsView";
+import AchievementsView from "./components/Achievements/AchievementsView";
+import BreathingOverlay from "./components/Breathing/BreathingOverlay";
+import BackgroundAurora from "./components/Layout/BackgroundAurora";
 
-import React from 'react';
+import React from "react";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -52,24 +52,28 @@ class ErrorBoundary extends React.Component {
 }
 
 function AppContent() {
-  const [currentView, setCurrentView] = useState('checkin');
+  const [currentView, setCurrentView] = useState("checkin");
   const [showBreathing, setShowBreathing] = useState(false);
+  const [activeMood, setActiveMood] = useState(null);
 
   useEffect(() => {
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
-    
+
     // Enforce default theme
-    document.documentElement.removeAttribute('data-theme');
+    document.documentElement.removeAttribute("data-theme");
   }, []);
 
   const handleEntryAdded = useCallback(() => {}, []);
 
   const handleViewChange = useCallback((view) => {
     setCurrentView(view);
+    if (view !== 'checkin') {
+      setActiveMood(null); // Reset mood glow when leaving check-in
+    }
     // Smooth scroll to top when changing views
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const handleBreathingOpen = useCallback(() => {
@@ -81,13 +85,22 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe">
+    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative">
+      
+      {/* Dynamic Aurora Background - syncs with checkin mood or sets general themes per view */}
+      <BackgroundAurora currentMood={
+        currentView === 'checkin' ? activeMood : 
+        currentView === 'journal' ? 4 : 
+        currentView === 'statistics' ? 5 : 
+        currentView === 'achievements' ? 3 : null
+      } />
+
       {/* 
         Adjusted padding for mobile vs desktop:
         Mobile: px-2 py-4, Desktop: px-4 py-8
         Added pb-24 (mobile) to avoid overlapping content with BottomNavigation
       */}
-      <div className="container mx-auto px-2 sm:px-4 py-4 md:py-8 flex-1 pb-24 sm:pb-8 flex flex-col">
+      <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-10 py-3 md:py-6 flex-1 pb-28 sm:pb-10 flex flex-col relative z-10">
         <Header
           onBreathingClick={handleBreathingOpen}
           currentView={currentView}
@@ -98,53 +111,56 @@ function AppContent() {
         <ErrorBoundary>
           <main className="flex-1 w-full relative">
             <AnimatePresence mode="wait" initial={true}>
-              {currentView === 'checkin' && (
+              {currentView === "checkin" && (
                 <motion.div
                   key="checkin"
                   variants={pageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  style={{ willChange: 'opacity, transform' }}
+                  style={{ willChange: "opacity, transform" }}
                 >
-                  <CheckInView onEntryAdded={handleEntryAdded} />
+                  <CheckInView 
+                    onEntryAdded={handleEntryAdded} 
+                    onMoodChange={setActiveMood} 
+                  />
                 </motion.div>
               )}
 
-              {currentView === 'journal' && (
+              {currentView === "journal" && (
                 <motion.div
                   key="journal"
                   variants={pageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  style={{ willChange: 'opacity, transform' }}
+                  style={{ willChange: "opacity, transform" }}
                 >
                   <JournalView />
                 </motion.div>
               )}
 
-              {currentView === 'statistics' && (
+              {currentView === "statistics" && (
                 <motion.div
                   key="statistics"
                   variants={pageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  style={{ willChange: 'opacity, transform' }}
+                  style={{ willChange: "opacity, transform" }}
                 >
                   <StatisticsView />
                 </motion.div>
               )}
 
-              {currentView === 'achievements' && (
+              {currentView === "achievements" && (
                 <motion.div
                   key="achievements"
                   variants={pageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  style={{ willChange: 'opacity, transform' }}
+                  style={{ willChange: "opacity, transform" }}
                 >
                   <AchievementsView />
                 </motion.div>
@@ -154,17 +170,12 @@ function AppContent() {
         </ErrorBoundary>
       </div>
 
-      <BottomNavigation 
-        currentView={currentView} 
-        onViewChange={handleViewChange} 
+      <BottomNavigation
+        currentView={currentView}
+        onViewChange={handleViewChange}
       />
 
-      <BreathingOverlay
-        isOpen={showBreathing}
-        onClose={handleBreathingClose}
-      />
-
-      <InstallPrompt />
+      <BreathingOverlay isOpen={showBreathing} onClose={handleBreathingClose} />
     </div>
   );
 }

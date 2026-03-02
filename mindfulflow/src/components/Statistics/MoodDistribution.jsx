@@ -10,8 +10,8 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="glass-strong p-2 rounded-lg  text-xs">
-        <p className="font-bold text-white">{data.name}</p>
+      <div className="glass-card p-3 rounded-xl border border-white/10 bg-[#0f172a]/80 backdrop-blur-md shadow-glass-lg text-xs ring-1 ring-white/5">
+        <p className="font-bold text-white mb-1">{data.name}</p>
         <p className="text-white/70">{data.value} záznamů</p>
       </div>
     );
@@ -55,11 +55,12 @@ const MoodDistribution = memo(function MoodDistribution({ data }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={springConfigFast}
-      className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent h-[350px] flex flex-col"
+      className="glass-card p-5 sm:p-6 rounded-[2rem] border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 shadow-glass-lg h-[350px] flex flex-col relative overflow-hidden"
     >
-      <h3 className="text-lg font-bold text-white mb-4">Rozložení Nálad</h3>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-[2rem]" />
+      <h3 className="text-lg font-bold text-white mb-4 relative z-10">Rozložení Nálad</h3>
       
-      <div className="flex-1 w-full min-h-0">
+      <div className="flex-1 w-full min-h-0 relative z-10">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

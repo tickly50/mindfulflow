@@ -94,7 +94,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
       variants={cardContainer}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-2 lg:grid-cols-5 gap-3 xs:gap-4 lg:gap-6 mb-12 max-w-6xl mx-auto [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1"
+      className="grid grid-cols-2 lg:grid-cols-5 gap-3 xs:gap-4 lg:gap-5 mb-8 lg:mb-12 max-w-5xl mx-auto"
     >
       {[1, 2, 3, 4, 5].map((mood) => {
         const Icon = MOOD_ICONS[mood];
@@ -107,7 +107,8 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             whileHover={microInteractions.card.hover}
             whileTap={microInteractions.card.tap}
             onClick={() => onMoodSelect(mood)}
-            className={`group relative overflow-hidden rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px]
+            className={`group relative overflow-hidden rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px]
+              ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
                 ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
                 : 'ring-0'
@@ -121,21 +122,23 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               transition: 'box-shadow 0.3s cubic-bezier(0.25,0.1,0.25,1)',
             }}
           >
-            {/* Card Background */}
+            {/* Card Background (Frosted Glass Base) */}
             <div
-              className={`absolute inset-0 bg-gradient-to-br ${MOOD_GRADIENTS[mood]} backdrop-blur-xl`}
+              className={`absolute inset-0 bg-gradient-to-br ${MOOD_GRADIENTS[mood]}`}
               style={{
-                opacity: isSelected ? 0.7 : 0.45,
-                transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                opacity: isSelected ? 0.8 : 0.3,
+                transition: 'opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
               }}
             />
 
+            {/* Inner Content Container */}
             <div
-              className={`relative h-full w-full bg-[#1a1b26]/40 rounded-xl xs:rounded-[1.8rem] border
-                ${isSelected ? MOOD_BORDER_ACTIVE[mood] : 'border-white/5 group-hover:border-white/15'}
+              className={`relative h-full w-full bg-white/5 rounded-xl xs:rounded-[1.8rem] border
+                ${isSelected ? MOOD_BORDER_ACTIVE[mood] : 'border-white/10 group-hover:border-white/20'}
                 flex flex-col items-center justify-center gap-2 xs:gap-4 p-3 xs:p-6 overflow-hidden`}
               style={{
-                transition: 'border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.2)'
               }}
             >
               {/* Hover background glow */}
@@ -146,11 +149,11 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                 }}
               />
 
-              {/* Emoji */}
+              {/* Emoji with 3D Pop */}
               <motion.div
-                className="text-4xl xs:text-6xl drop-shadow-2xl filter relative z-10"
-                animate={isSelected ? { scale: 1.2, y: -2 } : { scale: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 15, mass: 0.5 }}
+                className="text-4xl xs:text-6xl relative z-10"
+                animate={isSelected ? { scale: 1.25, y: -4, rotate: [-2, 2, 0] } : { scale: 1, y: 0, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 15, mass: 0.6 }}
                 style={{ willChange: 'transform' }}
               >
                 {MOOD_EMOJI[mood]}

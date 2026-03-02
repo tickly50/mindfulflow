@@ -8,7 +8,14 @@
 
 /* Root variables and base styles */
 :root {
-  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:
+    "Outfit",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -108,18 +115,39 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100dvh;
-  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
-  -webkit-overflow-scrolling: touch; /* Enable momentum scrolling */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Smooth scrolling and layout stabilization */
 html {
   scroll-behavior: smooth;
-  overflow-y: scroll; /* Force scrollbar to prevent layout shifts */
+}
+
+/* Remove outline on mouse click, keep for keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Allow text selection in specific elements */
+input, textarea, [contenteditable] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+
+
+/* 
+ * ULTIMATE PERFORMANCE OPTIMIZATION 
+ * Completely disable expensive backdrop filters globally to prevent mobile lag
+ */
+* {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* ============================================
@@ -143,8 +171,9 @@ html {
   /* Apply blur only on larger screens for performance */
   @media (min-width: 768px) {
     .glass {
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
+      /* Disabled for global performance optimization */
+      /* backdrop-filter: blur(var(--glass-blur)); */
+      /* -webkit-backdrop-filter: blur(var(--glass-blur)); */
     }
   }
 
@@ -157,8 +186,9 @@ html {
 
   @media (min-width: 768px) {
     .glass-strong {
-      backdrop-filter: blur(var(--glass-blur-strong));
-      -webkit-backdrop-filter: blur(var(--glass-blur-strong));
+      /* Disabled for global performance optimization */
+      /* backdrop-filter: blur(var(--glass-blur-strong)); */
+      /* -webkit-backdrop-filter: blur(var(--glass-blur-strong)); */
     }
   }
 
@@ -192,8 +222,9 @@ html {
 
   @media (min-width: 768px) {
     .glass-layered {
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
+      /* Disabled for global performance optimization */
+      /* backdrop-filter: blur(var(--glass-blur)); */
+      /* -webkit-backdrop-filter: blur(var(--glass-blur)); */
     }
   }
 
@@ -559,6 +590,54 @@ body {
   }
 }
 
+/* ============================================
+   AURORA ORB ANIMATIONS – CSS-ONLY, GPU COMPOSITED
+   No JS overhead, transform-only → compositor thread
+   ============================================ */
+
+.aurora-orb {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes aurora-drift-1 {
+  0%   { transform: translate3d(0px, 0px, 0) scale(1); }
+  25%  { transform: translate3d(50px, 30px, 0) scale(1.08); }
+  50%  { transform: translate3d(20px, -20px, 0) scale(0.93); }
+  75%  { transform: translate3d(-20px, 15px, 0) scale(1.04); }
+  100% { transform: translate3d(0px, 0px, 0) scale(1); }
+}
+
+@keyframes aurora-drift-2 {
+  0%   { transform: translate3d(0px, 0px, 0) scale(1); }
+  25%  { transform: translate3d(-60px, -40px, 0) scale(1.15); }
+  50%  { transform: translate3d(20px, 10px, 0) scale(0.88); }
+  75%  { transform: translate3d(-40px, -20px, 0) scale(1.08); }
+  100% { transform: translate3d(0px, 0px, 0) scale(1); }
+}
+
+@keyframes aurora-drift-3 {
+  0%   { transform: translate3d(0px, 0px, 0) scale(0.85); }
+  25%  { transform: translate3d(90px, -50px, 0) scale(1); }
+  50%  { transform: translate3d(-50px, 75px, 0) scale(0.9); }
+  75%  { transform: translate3d(60px, -30px, 0) scale(1.05); }
+  100% { transform: translate3d(0px, 0px, 0) scale(0.85); }
+}
+
+.aurora-orb-1 {
+  animation: aurora-drift-1 15s ease-in-out infinite;
+}
+
+.aurora-orb-2 {
+  animation: aurora-drift-2 18s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+.aurora-orb-3 {
+  animation: aurora-drift-3 22s ease-in-out infinite;
+  animation-delay: -10s;
+}
+
 /* Quote card hover — pure CSS, no JS event handlers (prevents border-flicker) */
 .quote-hover {
   transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1);
@@ -627,137 +706,32 @@ body {
   will-change: transform;
 }
 
-/* Remove focus outline from Recharts */
+/* ============================================
+   RECHARTS – Remove all focus outlines (consolidated)
+   ============================================ */
 .recharts-wrapper,
+.recharts-wrapper *,
 .recharts-surface,
-.recharts-cartesian-grid,
-.recharts-tooltip-wrapper,
-.recharts-responsive-container,
-.recharts-layer {
-  outline: none !important;
-}
-
-/* Remove stroke from pie chart active slice / dot */
+.recharts-surface *,
+.recharts-layer,
 .recharts-pie-sector,
-.recharts-dot,
-.recharts-active-dot,
-path.recharts-sector {
-  outline: none !important;
-}
-.recharts-pie-sector:focus {
-  outline: none !important;
-}
-
-g.recharts-layer:focus,
-path:focus,
-svg:focus {
-  outline: none !important;
-}
-
-/* Force absolutely no focus outlines on SVG elements from Recharts */
-.recharts-pie-sector:focus-visible,
-.recharts-pie-sector:focus,
-path.recharts-sector:focus,
-path.recharts-sector,
-.recharts-pie-sector path {
-  outline: none !important;
-  stroke: none !important;
-}
-
+.recharts-pie-sector path,
+.recharts-bar-rectangle,
+.recharts-curve,
 svg,
 svg *,
-svg:focus,
-svg:focus-visible,
-svg:active {
+path,
+g {
   outline: none !important;
+  box-shadow: none !important;
 }
 
-path.recharts-sector {
-  outline: none !important;
-}
-
-/* Force absolutely no focus outlines on SVG elements from Recharts */
-* {
-  --focus-ring-color: transparent !important;
-}
-
-svg.recharts-surface * {
-  outline: none !important;
-}
-
+path.recharts-sector,
 .recharts-pie-sector path {
-  outline: none !important;
   stroke: none !important;
 }
 
 path:focus {
   outline: none !important;
   stroke-width: 0 !important;
-}
-
-.recharts-bar-rectangle:focus,
-.recharts-pie-sector:focus,
-.recharts-curve:focus {
-  outline: none !important;
-}
-
-g:focus {
-  outline: none !important;
-}
-
-/* Definitively disable SVG interactivity outlines for Recharts on the pie chart */
-.recharts-pie-sector:focus-visible,
-.recharts-pie-sector:focus,
-path.recharts-sector:focus {
-  outline: none !important;
-}
-
-g.recharts-layer {
-  outline: none !important;
-}
-
-/* Global override for ALL SVG focus outlines causing the white boxes */
-svg *,
-svg:focus,
-svg:focus-visible,
-svg:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.recharts-sector,
-.recharts-curve {
-  outline: none !important;
-}
-
-/* Definitively disable SVG interactivity outlines for Recharts on the pie chart */
-.recharts-pie-sector:focus-visible,
-.recharts-pie-sector:focus,
-path.recharts-sector:focus,
-path.recharts-sector {
-  outline: none !important;
-}
-
-g.recharts-layer {
-  outline: none !important;
-}
-
-svg,
-svg * {
-  outline: none !important;
-}
-
-/* Definitively disable SVG interactivity outlines for Recharts on the pie chart */
-*.recharts-surface,
-*.recharts-surface:focus,
-*.recharts-surface:focus-visible,
-*.recharts-wrapper,
-*.recharts-wrapper:focus,
-*.recharts-wrapper:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-path {
-  outline: none !important;
 }

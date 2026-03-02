@@ -48,7 +48,7 @@ export default function ConfirmModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/60 md:backdrop-blur-md"
           />
 
           {/* Modal */}
@@ -56,7 +56,7 @@ export default function ConfirmModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#1a1f2e]/90 p-8 shadow-2xl backdrop-blur-xl"
+            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#1a1f2e]/90 p-8 shadow-2xl md:backdrop-blur-xl"
           >
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-white mb-3">{title}</h3>

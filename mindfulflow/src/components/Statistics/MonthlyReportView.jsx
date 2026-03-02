@@ -49,7 +49,7 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md px-4"
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 md:backdrop-blur-md px-4"
       >
         <div className="bg-[#0f172a] p-8 rounded-3xl max-w-sm w-full text-center relative  shadow-2xl">
           <button onClick={onClose} className="absolute top-4 right-4 p-2 text-white/50 hover:text-white bg-white/5 rounded-full">
@@ -128,7 +128,7 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
             <motion.div 
               key={tag.id}
               initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.2 }}
-              className="bg-white/10 backdrop-blur-md rounded-2xl p-5 flex items-center justify-between  shadow-md"
+              className="bg-white/10 md:backdrop-blur-md rounded-2xl p-5 flex items-center justify-between  shadow-md"
             >
               <div className="flex items-center gap-4">
                 <span className="text-3xl">{i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}</span>
@@ -180,7 +180,7 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
       {/* Close Button */}
       <button 
         onClick={onClose} 
-        className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-all shadow-lg "
+        className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white md:backdrop-blur-md transition-all shadow-lg "
       >
         <X className="w-6 h-6" />
       </button>
@@ -205,7 +205,7 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
       </div>
 
       {/* Slides Area */}
-      <div className="relative w-full max-w-md h-[40rem] sm:h-[45rem] max-h-screen bg-black/20 sm:rounded-[3rem] overflow-hidden shadow-2xl backdrop-blur-xl">
+      <div className="relative w-full max-w-md h-[40rem] sm:h-[45rem] max-h-screen bg-black/20 sm:rounded-[3rem] overflow-hidden shadow-2xl md:backdrop-blur-xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide}

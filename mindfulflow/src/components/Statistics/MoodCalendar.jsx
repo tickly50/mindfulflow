@@ -193,7 +193,7 @@ export default function MoodCalendar({ entries }) {
                       className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 pointer-events-none transform-gpu"
                       style={{ willChange: 'transform, opacity' }}
                     >
-                      <div className="glass-panel px-5 py-3 rounded-2xl text-center whitespace-nowrap min-w-[140px] bg-[#0f172a]/95 backdrop-blur-xl  shadow-2xl">
+                      <div className="glass-panel px-5 py-3 rounded-2xl text-center whitespace-nowrap min-w-[140px] bg-[#0f172a]/95 md:backdrop-blur-xl  shadow-2xl">
                         <p className="text-white/60 text-[10px] sm:text-xs font-medium mb-1 uppercase tracking-widest">
                           {date.toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'short' })}
                         </p>

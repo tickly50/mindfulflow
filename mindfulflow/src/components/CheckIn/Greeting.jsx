@@ -42,7 +42,7 @@ const Greeting = memo(function Greeting() {
       <motion.div variants={variants.heroTitle} className="relative mb-3">
         <h2
           className={`text-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent`}
-          style={{ lineHeight: 1.2 }}
+          style={{ lineHeight: 1.2, letterSpacing: '0.03em' }}
         >
           {greeting.text}
         </h2>

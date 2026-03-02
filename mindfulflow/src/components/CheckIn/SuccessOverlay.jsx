@@ -70,7 +70,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
       role="dialog"
       aria-modal="true"
       aria-label="Uloženo"
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md touch-none"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 touch-none"
     >
       {/* Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

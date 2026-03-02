@@ -94,12 +94,12 @@ export default function StatsOverview({ stats, streak, longestStreak, avgSleep }
             scale: 1.02,
             transition: { type: 'spring', stiffness: 300, damping: 20 },
           }}
-          className={`glass p-3 sm:p-4 rounded-2xl border ${card.border} relative overflow-hidden group cursor-default flex flex-col justify-between`}
+          className={`glass-card p-4 sm:p-5 rounded-[1.5rem] border ${card.border} relative overflow-hidden group cursor-default flex flex-col justify-between backdrop-blur-xl bg-white/5 shadow-glass hover:shadow-glow-violet transition-all duration-500`}
           style={{ willChange: 'transform' }}
         >
           {/* Background glow */}
           <div
-            className={`absolute -right-4 -top-4 w-24 h-24 rounded-full ${card.bg} blur-2xl opacity-50 group-hover:opacity-100`}
+            className={`absolute -right-4 -top-4 w-28 h-28 rounded-full ${card.bg} blur-[32px] opacity-40 group-hover:opacity-80`}
             style={{ transition: 'opacity 0.4s ease' }}
           />
 

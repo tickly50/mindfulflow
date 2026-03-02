@@ -14,18 +14,21 @@ export default function InsightsCard({ entries }) {
   if (insights.length === 0) return null;
 
   return (
-    <div className="bg-white/5  rounded-3xl p-6 mb-8">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-glow-violet">
-          <Icons.Lightbulb className="w-5 h-5 text-white" />
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold text-white">Chytré postřehy</h3>
-          <p className="text-sm text-white/50">Analýza tvých dat</p>
-        </div>
-      </div>
+    <div className="glass-card rounded-[2rem] p-6 sm:p-8 mb-8 border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 shadow-glass-lg relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-[2rem]" />
       
-      <div className="space-y-4">
+      <div className="relative z-10">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-glow-violet ring-1 ring-white/20">
+            <Icons.Lightbulb className="w-6 h-6 text-white drop-shadow-md" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-white">Chytré postřehy</h3>
+            <p className="text-sm font-medium text-white/50">Analýza tvých dat</p>
+          </div>
+        </div>
+        
+        <div className="space-y-4">
         {insights.map((insight, i) => {
           const Icon = Icons[insight.icon] || Icons.Info;
           const isPositive = insight.type === 'positive';
@@ -60,6 +63,7 @@ export default function InsightsCard({ entries }) {
             </motion.div>
           );
         })}
+        </div>
       </div>
     </div>
   );

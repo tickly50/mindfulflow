@@ -36,9 +36,10 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
       />
 
       <div 
-        className="glass p-5 sm:p-6 rounded-3xl !border-0 !border-none ring-0 outline-none transform-gpu will-change-transform shadow-md"
+        className="glass-card p-5 sm:p-6 rounded-[2rem] border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 transform-gpu will-change-transform shadow-glass-lg hover:shadow-glow-violet transition-all duration-500 overflow-hidden"
       >
-        <div className="flex gap-3 sm:gap-6 items-start justify-between">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+        <div className="relative flex gap-3 sm:gap-6 items-start justify-between z-10">
           
           {/* Main Content */}
           <div className="flex-1 space-y-4">

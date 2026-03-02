@@ -113,15 +113,16 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
           backfaceVisibility: 'hidden'
         }}
       >
-        <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex items-center justify-between gap-3">
           {/* Logo and Title */}
           <div 
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 group"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-glow-violet">
-              <span className="text-2xl">🧘</span>
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-glow-violet overflow-hidden">
+              <div className="absolute inset-0 bg-white/10 group-hover:bg-white/20 transition-colors" />
+              <span className="text-2xl relative z-10 drop-shadow-md">🧘</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent tracking-wide hidden sm:block">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-violet-300 via-fuchsia-300 to-indigo-300 bg-clip-text text-transparent tracking-tight hidden md:block drop-shadow-sm">
               MindfulFlow
             </h1>
 
@@ -155,7 +156,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               <button
                 key={view}
                 onClick={() => onViewChange(view)}
-                className={`px-3 sm:px-4 py-2 rounded-lg font-medium relative whitespace-nowrap ${
+                className={`px-2 sm:px-3 lg:px-4 py-2 rounded-lg text-sm font-medium relative whitespace-nowrap ${
                   currentView === view
                     ? 'bg-gradient-to-r from-violet-500/30 to-purple-500/30 text-white'
                     : 'text-white/60 hover:text-white hover:bg-white/10'
@@ -190,17 +191,12 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             {/* SOS Breathing Button */}
             <button
               onClick={onBreathingClick}
-              className="bg-gradient-to-r from-orange-600 to-red-600 px-3 py-2 rounded-lg font-bold text-white flex items-center gap-2 shadow-lg relative overflow-hidden hover:from-orange-500 hover:to-red-500 outline-none focus:outline-none"
+              className="group bg-gradient-to-r from-orange-500 to-rose-600 px-4 py-2 rounded-xl font-bold text-white flex items-center gap-2 shadow-glow-orange relative overflow-hidden transition-all hover:scale-105 active:scale-95 outline-none focus:outline-none"
             >
-              {/* CSS pulse — no JS animation loop */}
-              <span
-                className="absolute inset-0 bg-white/20"
-                style={{
-                  animation: 'sos-pulse 2s ease-in-out infinite'
-                }}
-              />
-              <Wind className="w-5 h-5 relative z-10" />
-              <span className="hidden lg:inline relative z-10">Dýchání</span>
+              {/* Animated glimmer effect */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <Wind className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 drop-shadow-md animate-pulse" />
+              <span className="hidden lg:inline relative z-10 drop-shadow-md tracking-wide">Dýchání</span>
             </button>
           
             {/* Settings Toggle */}
@@ -233,7 +229,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             >
               <motion.div 
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/60"
                 onClick={() => setShowSettings(false)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

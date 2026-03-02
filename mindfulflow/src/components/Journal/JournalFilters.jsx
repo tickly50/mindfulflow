@@ -14,13 +14,13 @@ const JournalFilters = memo(function JournalFilters({
     <div className="mb-8 flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-center gap-2">
         {/* Mood Filters */}
-        <div className="flex bg-white/5 p-1 rounded-2xl border border-white/5 backdrop-blur-md shadow-inner">
+        <div className="flex bg-white/5 p-1.5 rounded-3xl border border-white/10 md:backdrop-blur-xl shadow-glass">
           {[1, 2, 3, 4, 5].map(mood => (
             <button
               key={mood}
               onClick={() => setFilterMood(filterMood === mood ? null : mood)}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all relative ${
-                filterMood === mood ? 'shadow-lg ring-1 ring-white/20' : 'opacity-40 hover:opacity-100'
+              className={`w-10 h-10 xs:w-12 xs:h-12 rounded-[1.1rem] flex items-center justify-center transition-all relative outline-none ${
+                filterMood === mood ? 'shadow-lg scale-110 z-10' : 'opacity-40 hover:opacity-100'
               }`}
               style={{ 
                 backgroundColor: filterMood === mood ? MOOD_COLORS[mood].primary : 'transparent',
@@ -31,11 +31,11 @@ const JournalFilters = memo(function JournalFilters({
               <span className="font-bold text-lg">{mood}</span>
               {filterMood === mood && (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute inset-0 rounded-xl border-2 border-white/20"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="absolute inset-0 rounded-[1.1rem] border-[3px] border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                 />
               )}
             </button>
@@ -65,10 +65,10 @@ const JournalFilters = memo(function JournalFilters({
               <button
                 key={tag.id}
                 onClick={() => setFilterTag(filterTag === tag.id ? null : tag.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all border outline-none ${
                   filterTag === tag.id 
-                    ? 'bg-violet-500/20 text-violet-300 border-violet-500/30 shadow-[0_0_15px_-5px_var(--tw-shadow-color)] shadow-violet-500/30' 
-                    : 'bg-white/5 text-white/50 border-transparent hover:border-white/10 hover:text-white/80 hover:bg-white/10'
+                    ? 'bg-violet-500 text-white border-violet-400/50 shadow-glow-violet scale-105' 
+                    : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20 hover:text-white/90 hover:bg-white/10'
                 }`}
               >
                 {tag.label}

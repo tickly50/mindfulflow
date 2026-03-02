@@ -53,12 +53,10 @@ export const pageVariants = {
   initial: {
     opacity: 0,
     scale: 0.98,
-    filter: "blur(4px)",
   },
   animate: {
     opacity: 1,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.4,
       ease: [0.32, 0.72, 0, 1],
@@ -67,7 +65,6 @@ export const pageVariants = {
   exit: {
     opacity: 0,
     scale: 0.98,
-    filter: "blur(2px)",
     transition: {
       duration: 0.2,
       ease: [0.65, 0, 0.35, 1],
