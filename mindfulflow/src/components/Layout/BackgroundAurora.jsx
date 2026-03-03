@@ -19,7 +19,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
 
   return (
     <div
-      className="fixed inset-0 -z-50 overflow-hidden bg-[#0f172a]"
+      className="fixed inset-0 -z-50 overflow-hidden bg-[#0f172a] pointer-events-none"
       aria-hidden="true"
       style={{
         '--aurora-p': c.p,
