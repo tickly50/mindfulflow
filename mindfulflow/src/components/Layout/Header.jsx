@@ -195,7 +195,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             >
               {/* Animated glimmer effect */}
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              <Wind className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 drop-shadow-md animate-pulse" />
+              <Wind className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 drop-shadow-md" />
               <span className="hidden lg:inline relative z-10 drop-shadow-md tracking-wide">Dýchání</span>
             </button>
           

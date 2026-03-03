@@ -87,19 +87,17 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
                 x: window.innerWidth / 2,
                 y: window.innerHeight / 2,
                 opacity: 1,
-                scale: 0,
               }}
               animate={{
                 x: window.innerWidth / 2 + p.xOffset,
                 y: window.innerHeight / 2 + p.yOffset,
-                opacity: [1, 1, 0],
-                scale: [0, 1.6, 0.8],
+                opacity: [1, 0.8, 0],
                 rotate: p.rotate,
               }}
               transition={{
-                duration: p.duration * 1.1,
+                duration: p.duration,
                 ease: [0.32, 0.72, 0, 1],
-                times: [0, 0.5, 1],
+                times: [0, 0.4, 1],
               }}
             />
           );

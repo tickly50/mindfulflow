@@ -103,6 +103,8 @@ body {
   background-color: var(--theme-bg);
   transition: background-color 0.5s ease;
   min-height: 100%;
+  overscroll-behavior: none;
+  overflow: hidden;
 }
 
 * {
@@ -116,6 +118,8 @@ body {
   min-width: 320px;
   min-height: 100dvh;
   overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
   user-select: none;
   -webkit-user-select: none;

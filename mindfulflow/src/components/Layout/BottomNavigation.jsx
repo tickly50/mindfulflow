@@ -45,10 +45,11 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 <Icon 
                   className={`w-6 h-6 transition-all duration-300 ease-out ${
                     isActive 
-                      ? 'scale-110 drop-shadow-[0_0_12px_rgba(139,92,246,0.8)] text-violet-300' 
+                      ? 'scale-110 text-violet-300' 
                       : 'scale-100'
                   }`} 
-                  strokeWidth={isActive ? 2.5 : 2} 
+                  strokeWidth={isActive ? 2.5 : 2}
+                  style={isActive ? { filter: 'drop-shadow(0 0 6px rgba(139,92,246,0.6))' } : undefined}
                 />
                 
                 <span 

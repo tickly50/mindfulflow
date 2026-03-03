@@ -45,13 +45,12 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
   }, [customTagsSettings, tempTags]);
 
   const [successParticles] = useState(() => {
-      // Generate particles once on mount
-      return [...Array(30)].map(() => ({
-        xOffset: (Math.random() - 0.5) * 1000,
-        yOffset: (Math.random() - 0.5) * 1000,
-        duration: 1.5 + Math.random(),
+      // 14 particles – enough visual impact, lighter on mobile GPU
+      return [...Array(14)].map(() => ({
+        xOffset: (Math.random() - 0.5) * 900,
+        yOffset: (Math.random() - 0.5) * 900,
+        duration: 1.2 + Math.random() * 0.6,
         rotate: Math.random() * 360,
-        scale: [0, 1.5, 0]
       }));
   });
 

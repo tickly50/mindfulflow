@@ -29,7 +29,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
     >
       {/* Base radial gradient – colour transition only, no layout change */}
       <div
-        className="absolute inset-0 opacity-40 mix-blend-screen"
+        className="absolute inset-0 opacity-40"
         style={{
           background: 'radial-gradient(circle at 50% 50%, var(--aurora-p) 0%, transparent 80%)',
           transition: 'background 2s ease-in-out',
@@ -37,7 +37,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
       />
 
       {/* Moving Aurora Orbs – pure CSS keyframe animations, GPU-only */}
-      <div className="absolute inset-0 mix-blend-screen opacity-60">
+      <div className="absolute inset-0 opacity-60">
         {/* Orb 1: Top Left */}
         <div
           className="aurora-orb aurora-orb-1 absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full"
