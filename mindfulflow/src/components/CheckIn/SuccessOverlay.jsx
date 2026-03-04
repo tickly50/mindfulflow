@@ -23,16 +23,6 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
     onClose?.();
   }, [onClose]);
 
-  // Lock body scroll while overlay is visible
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
-
   // Auto-close after 2.4s
   useEffect(() => {
     const t = window.setTimeout(() => safeClose(), 2400);
@@ -55,7 +45,19 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
       role="dialog"
       aria-modal="true"
       aria-label="Uloženo"
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 touch-none"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.75)',
+      }}
+      className="touch-none"
     >
       {/* Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -112,7 +114,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-400/30 to-transparent" />
 
         <div className="relative z-10 flex flex-col items-center">
-          {/* Check circle – overshoots then settles */}
+          {/* Check circle */}
           <motion.div
             className="w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-400 to-green-500 flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/40"
             initial={{ scale: 0, rotate: -90 }}

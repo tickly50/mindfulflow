@@ -56,12 +56,13 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
 
    // Handlers
   const handleMoodSelect = useCallback((mood) => {
-    setSelectedMood(prev => {
-      const newMood = prev === mood ? null : mood;
-      if (onMoodChange) onMoodChange(newMood);
-      return newMood;
-    });
-  }, [onMoodChange]);
+    const newMood = selectedMood === mood ? null : mood;
+    setSelectedMood(newMood);
+    if (onMoodChange) {
+      // Defer parent update to avoid 'Cannot update during render' error
+      setTimeout(() => onMoodChange(newMood), 0);
+    }
+  }, [selectedMood, onMoodChange]);
 
 
   // After success overlay truly closes (scroll unlocked), return to top smoothly
@@ -344,7 +345,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
             )}
           </AnimatePresence>
 
-          {/* Ultimate Success Overlay */}
+          {/* Success Overlay */}
           <AnimatePresence mode="wait">
             {showSuccess && (
               <SuccessOverlay
@@ -354,6 +355,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
               />
             )}
           </AnimatePresence>
+
           {/* Tag Delete Confirmation */}
           <ConfirmModal
             isOpen={!!tagToDelete}

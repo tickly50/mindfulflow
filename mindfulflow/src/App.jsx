@@ -4,6 +4,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
 import BottomNavigation from "./components/Layout/BottomNavigation";
 import { ToastProvider } from "./context/ToastContext";
+import { SettingsProvider } from "./context/SettingsContext";
 import { pageVariants } from "./utils/animations";
 import { db } from "./utils/db";
 
@@ -182,10 +183,12 @@ function AppContent() {
 
 function App() {
   return (
-    <ToastProvider>
-      <AppContent />
-      <VercelAnalytics />
-    </ToastProvider>
+    <SettingsProvider>
+      <ToastProvider>
+        <AppContent />
+        <VercelAnalytics />
+      </ToastProvider>
+    </SettingsProvider>
   );
 }
 
