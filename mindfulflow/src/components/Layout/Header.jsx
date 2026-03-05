@@ -9,6 +9,7 @@ import { springConfigFast, easeConfig, variants, microInteractions } from '../..
 import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
 import { useSettings } from '../../context/SettingsContext';
+import { haptics } from '../../utils/haptics';
 
 
 
@@ -157,7 +158,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             {['checkin', 'journal', 'statistics', 'achievements'].map((view) => (
               <button
                 key={view}
-                onClick={() => onViewChange(view)}
+                onClick={() => {
+                  if (currentView !== view) haptics.light();
+                  onViewChange(view);
+                }}
                 className={`px-2 sm:px-3 lg:px-4 py-2 rounded-lg text-sm font-medium relative whitespace-nowrap ${
                   currentView === view
                     ? 'bg-gradient-to-r from-violet-500/30 to-purple-500/30 text-white'
@@ -192,7 +196,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
           <div className="flex items-center gap-2 ml-auto sm:ml-0">
             {/* SOS Breathing Button */}
             <button
-              onClick={onBreathingClick}
+              onClick={() => {
+                haptics.medium();
+                onBreathingClick();
+              }}
               className="group bg-gradient-to-r from-orange-500 to-rose-600 px-4 py-2 rounded-xl font-bold text-white flex items-center gap-2 shadow-glow-orange relative overflow-hidden transition-all hover:scale-105 active:scale-95 outline-none focus:outline-none"
             >
               {/* Animated glimmer effect */}
@@ -203,7 +210,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
           
             {/* Settings Toggle */}
             <motion.button
-              onClick={() => setShowSettings(true)}
+              onClick={() => {
+                haptics.light();
+                setShowSettings(true);
+              }}
               whileHover={{ 
                 rotate: 90,
                 transition: { duration: 0.2, ease: easeConfig.smooth }
@@ -228,10 +238,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, ease: easeConfig.smooth }}
-              className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 pt-20 sm:pt-4"
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             >
               <motion.div 
-                className="absolute inset-0 bg-black/60"
+                className="absolute inset-0 bg-black/60 pointer-events-auto"
                 onClick={() => setShowSettings(false)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -243,7 +253,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 initial="hidden"
                 animate="show"
                 exit="exit"
-                className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl pb-8 px-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto premium-scroll"
+                className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl pb-8 px-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto premium-scroll pointer-events-auto"
                 onClick={(e) => e.stopPropagation()}
                 style={{ backfaceVisibility: 'hidden' }}
               >

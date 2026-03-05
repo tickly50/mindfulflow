@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft } from 'lucide-react';
 // Settings context and soundscape hooks removed.
+import { haptics } from '../../utils/haptics';
 
 /* ─────────────────────────────────────────────
    Techniques
@@ -174,8 +175,6 @@ const TechCard = memo(function TechCard({ t, index, onSelect }) {
    Selector screen
 ────────────────────────────────────────────── */
 const TechniqueSelector = memo(function TechniqueSelector({ onSelect, onClose }) {
-  const { settings } = useSettings();
-  
   const allTechniques = TECHNIQUES;
 
   return (
@@ -241,7 +240,6 @@ const TechniqueSelector = memo(function TechniqueSelector({ onSelect, onClose })
 ────────────────────────────────────────────── */
 const BreathingSession = memo(function BreathingSession({ technique, onClose, onBack }) {
   const { phases, accent, bg, glow, fact } = technique;
-  const { settings, updateSettings } = useSettings();
   
   const [isPreparing, setIsPreparing] = useState(true);
   const [prepCount, setPrepCount]     = useState(3);
@@ -286,10 +284,11 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
       
       if (left <= 0) {
         setIsPreparing(false);
+        haptics.breathingIn();
       } else {
         setPrepCount(left);
       }
-    }, 50); 
+    }, 250); 
     return () => clearInterval(interval);
   }, [isPreparing]);
 
@@ -307,13 +306,23 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
       if (left <= 0) {
         setPhaseIdx(prev => {
           const next = (prev + 1) % phases.length;
+          const nextPhase = phases[next];
+          
+          if (nextPhase.name.startsWith('inhale')) {
+            haptics.breathingIn();
+          } else if (nextPhase.name.startsWith('exhale')) {
+            haptics.breathingOut();
+          } else {
+            haptics.light();
+          }
+          
           if (next === 0) setCycles(c => c + 1);
           return next;
         });
       } else {
         setRemaining(left);
       }
-    }, 50);
+    }, 250);
 
     return () => clearInterval(interval);
   }, [isPreparing, phaseIdx, phase.seconds, phases.length]);
@@ -325,8 +334,8 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
   const displayLabel = isPreparing ? 'Připrav se' : phase.label;
   const displayHint  = isPreparing ? 'Zaujměte pohodlnou pozici' : phase.hint;
   const displayNum   = isPreparing ? prepCount : remaining;
-  const displayTargetScale = isPreparing ? 0.9 : phase.name.startsWith('inhale') ? 1.25 : phase.name.startsWith('hold') ? 1.25 : 0.75;
-  const easingConfig = isPreparing ? 'easeInOut' : phase.name.startsWith('hold') ? 'linear' : [0.4, 0, 0.2, 1];
+  const displayTargetScale = isPreparing ? 0.9 : phase.name.startsWith('inhale') ? 1.45 : phase.name.startsWith('hold') ? 1.45 : 0.65;
+  const easingConfig = isPreparing ? 'easeInOut' : phase.name.startsWith('hold') ? 'linear' : [0.25, 1, 0.5, 1];
 
   return (
     <motion.div
@@ -408,8 +417,8 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
             className="rounded-full flex items-center justify-center"
             style={{
               width: 170, height: 170,
-              background: `radial-gradient(circle at 35% 35%, ${accent}e6, ${glow}99)`,
-              boxShadow: `0 0 45px ${glow}40, inset 0 2px 25px ${accent}a0, inset 0 -5px 30px rgba(0,0,0,0.25)`,
+              background: `radial-gradient(circle at 35% 35%, ${accent}f2, ${glow}99)`,
+              boxShadow: `0 0 80px ${glow}60, inset 0 2px 35px ${accent}d0, inset 0 -10px 40px rgba(0,0,0,0.4)`,
               willChange: 'transform',
             }}
             animate={{ scale: displayTargetScale }}
@@ -422,8 +431,8 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 1.3, opacity: 0, y: -5 }}
                 transition={{ duration: 0.25 }}
-                className="text-6xl font-bold text-white tabular-nums select-none tracking-tighter"
-                style={{ textShadow: `0 4px 20px ${glow}80, 0 0 40px ${accent}` }}
+                className="text-7xl font-bold text-white tabular-nums select-none tracking-tighter"
+                style={{ textShadow: `0 6px 30px ${glow}99, 0 0 60px ${accent}` }}
               >
                 {displayNum}
               </motion.div>
@@ -453,8 +462,8 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
             className="flex flex-col items-center gap-1.5 text-center px-4"
           >
             <h2
-              className="text-4xl font-bold tracking-tight"
-              style={{ color: isPreparing ? '#fff' : accent, textShadow: isPreparing ? 'none' : `0 0 24px ${glow}99` }}
+              className="text-4xl font-extrabold tracking-tight"
+              style={{ color: isPreparing ? '#fff' : accent, textShadow: isPreparing ? '0 0 10px rgba(255,255,255,0.2)' : `0 0 32px ${glow}cc` }}
             >
               {displayLabel}
             </h2>

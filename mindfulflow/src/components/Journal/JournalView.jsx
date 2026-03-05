@@ -9,6 +9,7 @@ import JournalEditor from './JournalEditor';
 import { motion, AnimatePresence } from 'framer-motion';
 import { variants } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
+import SkeletonLoader from '../common/SkeletonLoader';
 
 const JournalView = memo(function JournalView() {
   const [filterMood, setFilterMood] = useState(null);
@@ -107,7 +108,20 @@ const JournalView = memo(function JournalView() {
     }
   };
 
-  if (allEntries === undefined) return null;
+  if (allEntries === undefined) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 pb-20 pt-8 flex flex-col gap-6">
+        <div className="flex flex-col items-center gap-2 mb-10">
+          <SkeletonLoader className="h-10 w-48 rounded-2xl" />
+          <SkeletonLoader className="h-6 w-72 rounded-xl" />
+        </div>
+        <SkeletonLoader className="h-16 w-full rounded-2xl mb-8" />
+        <div className="space-y-4">
+           {[...Array(3)].map((_, i) => <SkeletonLoader key={i} className="h-32 w-full rounded-2xl" />)}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 pb-20">

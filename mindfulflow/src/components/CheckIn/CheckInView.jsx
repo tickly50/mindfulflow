@@ -14,6 +14,7 @@ import { saveMoodEntry } from '../../utils/storage';
 import { CONTEXT_TAGS } from '../../utils/moodCalculations';
 import { useToast } from '../../context/ToastContext';
 import ConfirmModal from '../common/ConfirmModal';
+import { haptics } from '../../utils/haptics';
 
 // Main check-in view for recording mood and context
 const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
@@ -35,6 +36,13 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
   // Refs for cleanup
   const prevShowSuccessRef = useRef(false);
   const scrollToTopAfterSuccessRef = useRef(false);
+  const moodTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (moodTimeoutRef.current) clearTimeout(moodTimeoutRef.current);
+    };
+  }, []);
 
   // Data preparation
   const allTags = useMemo(() => {
@@ -60,7 +68,8 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
     setSelectedMood(newMood);
     if (onMoodChange) {
       // Defer parent update to avoid 'Cannot update during render' error
-      setTimeout(() => onMoodChange(newMood), 0);
+      if (moodTimeoutRef.current) clearTimeout(moodTimeoutRef.current);
+      moodTimeoutRef.current = setTimeout(() => onMoodChange(newMood), 0);
     }
   }, [selectedMood, onMoodChange]);
 
@@ -77,6 +86,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
 
 
   const handleTagToggle = useCallback((tagId) => {
+    haptics.light();
     setSelectedTags(prev =>
       prev.includes(tagId) ? prev.filter(t => t !== tagId) : [...prev, tagId]
     );
@@ -87,6 +97,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
     const newTag = { id: `custom_${Date.now()}`, label: newTagLabel.trim(), icon: 'Star' };
     
     // Optimistic update - IMMEDIATE UI FEEDBACK
+    haptics.success();
     setTempTags(prev => [...prev, newTag]);
     setNewTagLabel('');
     setIsAddingTag(false); // Close immediately
@@ -107,6 +118,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
 
   const handleDeleteTag = useCallback(async (tagId, e) => {
     e.stopPropagation(); // Prevent toggling the tag
+    haptics.heavy();
     setTagToDelete(tagId);
   }, []);
 
@@ -151,6 +163,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
 
   const handleSubmit = useCallback(async () => {
     if (!selectedMood) return;
+    haptics.medium();
     try {
       const entry = {
         mood: selectedMood,

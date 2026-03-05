@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { haptics } from '../../utils/haptics';
 
 const PARTICLE_COLORS = [
   'from-yellow-300 to-amber-500',
@@ -23,6 +24,10 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
     onClose?.();
   }, [onClose]);
 
+  useEffect(() => {
+    haptics.success();
+  }, []);
+
   // Auto-close after 2.4s
   useEffect(() => {
     const t = window.setTimeout(() => safeClose(), 2400);
@@ -30,11 +35,36 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
   }, [safeClose]);
 
   // ESC to close
+  // ESC to close
   useEffect(() => {
     const onKeyDown = (e) => { if (e.key === 'Escape') safeClose(); };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [safeClose]);
+
+  // Robust scroll lock for mobile
+  useEffect(() => {
+    // Save original styles
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalHtmlStyle = window.getComputedStyle(document.documentElement).overflow;
+    
+    // Lock both html and body
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    
+    // Prevent touch scrolling on mobile (iOS Safari workaround)
+    const preventTouch = (e) => {
+      e.preventDefault();
+    };
+    
+    document.addEventListener('touchmove', preventTouch, { passive: false });
+
+    return () => {
+      document.documentElement.style.overflow = originalHtmlStyle;
+      document.body.style.overflow = originalStyle;
+      document.removeEventListener('touchmove', preventTouch);
+    };
+  }, []);
 
   return createPortal(
     <motion.div

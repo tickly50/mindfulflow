@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
@@ -9,9 +9,12 @@ import { pageVariants } from "./utils/animations";
 import { db } from "./utils/db";
 
 import CheckInView from "./components/CheckIn/CheckInView";
-import JournalView from "./components/Journal/JournalView";
-import StatisticsView from "./components/Statistics/StatisticsView";
-import AchievementsView from "./components/Achievements/AchievementsView";
+
+// Lazy load heavy views
+const JournalView = lazy(() => import("./components/Journal/JournalView"));
+const StatisticsView = lazy(() => import("./components/Statistics/StatisticsView"));
+const AchievementsView = lazy(() => import("./components/Achievements/AchievementsView"));
+
 import BreathingOverlay from "./components/Breathing/BreathingOverlay";
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
 
@@ -137,7 +140,13 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <JournalView />
+                  <Suspense fallback={
+                    <div className="w-full flex justify-center py-20">
+                      <div className="w-8 h-8 rounded-full border-t-2 border-violet-500 animate-spin" />
+                    </div>
+                  }>
+                    <JournalView />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -150,7 +159,13 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <StatisticsView />
+                  <Suspense fallback={
+                    <div className="w-full h-full flex items-center justify-center min-h-[50vh]">
+                      <div className="w-8 h-8 rounded-full border-t-2 border-violet-500 animate-spin" />
+                    </div>
+                  }>
+                    <StatisticsView />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -163,7 +178,13 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <AchievementsView />
+                  <Suspense fallback={
+                    <div className="w-full flex justify-center py-20">
+                      <div className="w-8 h-8 rounded-full border-t-2 border-violet-500 animate-spin" />
+                    </div>
+                  }>
+                    <AchievementsView />
+                  </Suspense>
                 </motion.div>
               )}
             </AnimatePresence>

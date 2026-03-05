@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { MOOD_LABELS } from '../../utils/moodCalculations';
 import { variants as globalVariants, microInteractions } from '../../utils/animations';
 import { Frown, CloudRain, Meh, Smile, Sparkles, Check } from 'lucide-react';
+import { haptics } from '../../utils/haptics';
 
 const MOOD_ICONS = {
   1: Frown,
@@ -106,7 +107,10 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             variants={cardItem}
             whileHover={microInteractions.card.hover}
             whileTap={microInteractions.card.tap}
-            onClick={() => onMoodSelect(mood)}
+            onClick={() => {
+              haptics.medium();
+              onMoodSelect(mood);
+            }}
             className={`group relative overflow-hidden rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px]
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected

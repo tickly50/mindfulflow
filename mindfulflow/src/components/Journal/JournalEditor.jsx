@@ -39,7 +39,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
       {createPortal(
         <AnimatePresence mode="wait">
           {editingEntry && (
-            <div className="fixed inset-0 z-[150] flex items-center justify-center p-2 sm:p-4 pb-safe">
+            <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

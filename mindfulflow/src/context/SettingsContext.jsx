@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 const SettingsContext = createContext();
 
@@ -37,8 +37,10 @@ export function SettingsProvider({ children }) {
     setSettings(prev => ({ ...prev, ...updates }));
   };
 
+  const contextValue = useMemo(() => ({ settings, updateSettings }), [settings]);
+
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings }}>
+    <SettingsContext.Provider value={contextValue}>
       {children}
     </SettingsContext.Provider>
   );

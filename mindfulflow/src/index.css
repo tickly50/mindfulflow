@@ -88,7 +88,7 @@
   --shadow-glow-orange: 0 8px 32px var(--glow-orange);
 
   /* ========== PREMIUM THEMES ========== */
-  --theme-bg: #0f172a;
+  --theme-bg: #0b1120; /* Darker slate for higher contrast and pop */
   --theme-gradient-bg: linear-gradient(
     -45deg,
     #3b4a6b,
@@ -120,11 +120,8 @@ body {
   min-height: 100dvh;
   max-width: 100vw;
   width: 100%;
-  
-  /* Critical for Safari iOS smooth scrolling */
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+
+  /* Allowed standard scrolling for proper fixed positioning */
   
   /* Prevent ghost taps and text selection */
   user-select: none;
@@ -132,9 +129,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   -webkit-tap-highlight-color: transparent;
-  
-  /* Optimize layer composition for Safari */
-  transform: translateZ(0);
 }
 
 /* Remove outline on mouse click, keep for keyboard */
@@ -143,12 +137,12 @@ body {
 }
 
 /* Allow text selection in specific elements */
-input, textarea, [contenteditable] {
+input,
+textarea,
+[contenteditable] {
   user-select: text !important;
   -webkit-user-select: text !important;
 }
-
-
 
 /* 
  * ULTIMATE PERFORMANCE OPTIMIZATION 
@@ -414,7 +408,13 @@ input, textarea, [contenteditable] {
 h1,
 h2,
 h3 {
-  letter-spacing: 0.025em; /* tracking-wide */
+  letter-spacing: -0.015em; /* Tighter tracking for modern premium headers */
+  line-height: 1.2;
+}
+
+p, 
+span {
+  letter-spacing: 0.01em; /* Increased legibility for body */
 }
 
 /* ============================================
@@ -422,22 +422,29 @@ h3 {
    ============================================ */
 
 .gradient-bg {
-  background: var(--theme-gradient-bg);
-  background-size: 400% 400%;
-  animation: gradient 8s ease infinite;
-  will-change: background-position;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.gradient-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: var(--theme-gradient-bg);
+  background-size: 50% 50%;
+  animation: gradient-transform 15s ease-in-out infinite alternate;
+  will-change: transform;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes gradient-transform {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(25%, 25%, 0); }
 }
 
 /* ============================================
@@ -610,27 +617,57 @@ body {
 }
 
 @keyframes aurora-drift-1 {
-  0%   { transform: translate3d(0px, 0px, 0) scale(1); }
-  25%  { transform: translate3d(50px, 30px, 0) scale(1.08); }
-  50%  { transform: translate3d(20px, -20px, 0) scale(0.93); }
-  75%  { transform: translate3d(-20px, 15px, 0) scale(1.04); }
-  100% { transform: translate3d(0px, 0px, 0) scale(1); }
+  0% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(50px, 30px, 0) scale(1.08);
+  }
+  50% {
+    transform: translate3d(20px, -20px, 0) scale(0.93);
+  }
+  75% {
+    transform: translate3d(-20px, 15px, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
 }
 
 @keyframes aurora-drift-2 {
-  0%   { transform: translate3d(0px, 0px, 0) scale(1); }
-  25%  { transform: translate3d(-60px, -40px, 0) scale(1.15); }
-  50%  { transform: translate3d(20px, 10px, 0) scale(0.88); }
-  75%  { transform: translate3d(-40px, -20px, 0) scale(1.08); }
-  100% { transform: translate3d(0px, 0px, 0) scale(1); }
+  0% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(-60px, -40px, 0) scale(1.15);
+  }
+  50% {
+    transform: translate3d(20px, 10px, 0) scale(0.88);
+  }
+  75% {
+    transform: translate3d(-40px, -20px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
 }
 
 @keyframes aurora-drift-3 {
-  0%   { transform: translate3d(0px, 0px, 0) scale(0.85); }
-  25%  { transform: translate3d(90px, -50px, 0) scale(1); }
-  50%  { transform: translate3d(-50px, 75px, 0) scale(0.9); }
-  75%  { transform: translate3d(60px, -30px, 0) scale(1.05); }
-  100% { transform: translate3d(0px, 0px, 0) scale(0.85); }
+  0% {
+    transform: translate3d(0px, 0px, 0) scale(0.85);
+  }
+  25% {
+    transform: translate3d(90px, -50px, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-50px, 75px, 0) scale(0.9);
+  }
+  75% {
+    transform: translate3d(60px, -30px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0) scale(0.85);
+  }
 }
 
 .aurora-orb-1 {

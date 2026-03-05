@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Home, BookHeart, BarChart3, Award } from 'lucide-react';
 import { microInteractions } from '../../utils/animations';
+import { haptics } from '../../utils/haptics';
 
 const BottomNavigation = memo(function BottomNavigation({ currentView, onViewChange }) {
   const navItems = [
@@ -33,7 +34,10 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
           return (
             <button
               key={item.id}
-              onClick={() => onViewChange(item.id)}
+              onClick={() => {
+                if (!isActive) haptics.light();
+                onViewChange(item.id);
+              }}
               className={`group relative flex flex-col items-center justify-center min-w-[64px] h-[52px] rounded-2xl transition-all duration-300 outline-none focus:outline-none touch-manipulation ${
                 isActive ? 'text-[var(--theme-accent,#a78bfa)]' : 'text-white/40 hover:text-white/70'
               }`}
