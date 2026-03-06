@@ -9,10 +9,10 @@ import { haptics } from '../../utils/haptics';
 
 const BottomNavigation = memo(function BottomNavigation({ currentView, onViewChange }) {
   const navItems = [
-    { id: 'checkin', icon: Home, label: 'Check-In' },
-    { id: 'journal', icon: BookHeart, label: 'Deník' },
-    { id: 'statistics', icon: BarChart3, label: 'Statistiky' },
-    { id: 'achievements', icon: Award, label: 'Úspěchy' },
+    { id: 'checkin', icon: Home, label: 'Check-In', ariaLabel: 'Domů' },
+    { id: 'journal', icon: BookHeart, label: 'Deník', ariaLabel: 'Deník' },
+    { id: 'statistics', icon: BarChart3, label: 'Statistiky', ariaLabel: 'Statistiky' },
+    { id: 'achievements', icon: Award, label: 'Úspěchy', ariaLabel: 'Úspěchy' },
   ];
 
   return (
@@ -41,6 +41,7 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 if (!isActive) haptics.light();
                 onViewChange(item.id);
               }}
+              aria-label={item.ariaLabel}
               className={`group relative flex flex-col items-center justify-center min-w-[64px] h-[52px] rounded-2xl transition-all duration-300 outline-none focus:outline-none touch-manipulation ${
                 isActive ? 'text-[var(--theme-accent,#a78bfa)]' : 'text-white/60 hover:text-white/70'
               }`}

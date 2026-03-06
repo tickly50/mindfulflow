@@ -27,6 +27,7 @@ const JournalFilters = memo(function JournalFilters({
                 color: filterMood === mood ? MOOD_COLORS[mood].text : MOOD_COLORS[mood].primary
               }}
               title={MOOD_LABELS[mood]}
+              aria-label={`Filtrovat ${MOOD_LABELS[mood]}`}
             >
               <span className="font-bold text-lg">{mood}</span>
               {filterMood === mood && (
