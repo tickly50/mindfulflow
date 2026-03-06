@@ -198,7 +198,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                   </span>
                 </div>
                 <span
-                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 group-hover:text-white/60"
                   style={{ transition: 'color 0.2s' }}
                 >
                   Level {mood}

@@ -35,7 +35,7 @@ export default function InsightsCard({ entries }) {
           </div>
           <div>
             <h3 className="text-2xl font-bold text-white">Chytré postřehy</h3>
-            <p className="text-sm font-medium text-white/50">Analýza tvých dat</p>
+            <p className="text-sm font-medium text-white/60">Analýza tvých dat</p>
           </div>
         </div>
         

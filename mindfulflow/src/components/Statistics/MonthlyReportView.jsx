@@ -55,10 +55,10 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
         className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 md:backdrop-blur-md px-4"
       >
         <div className="bg-[#0f172a] p-8 rounded-3xl max-w-sm w-full text-center relative  shadow-2xl">
-          <button onClick={onClose} className="absolute top-4 right-4 p-2 text-white/50 hover:text-white bg-white/5 rounded-full">
+          <button onClick={onClose} aria-label="Zavřít" className="absolute top-2 right-2 p-3 text-white/60 hover:text-white bg-white/5 rounded-full">
             <X className="w-5 h-5"/>
           </button>
-          <Calendar className="w-12 h-12 text-white/30 mx-auto mb-4" />
+          <Calendar className="w-12 h-12 text-white/60 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white mb-2">Nedostatek dat</h3>
           <p className="text-white/60">Pro vytvoření měsíčního reportu potřebujeme více záznamů v tomto měsíci.</p>
         </div>
@@ -137,7 +137,7 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
                 <span className="text-3xl">{i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}</span>
                 <span className="text-xl font-medium text-white">{tag.label}</span>
               </div>
-              <span className="text-white/50 text-lg">{tag.count}x</span>
+              <span className="text-white/60 text-lg">{tag.count}x</span>
             </motion.div>
           ))}
         </div>
@@ -183,7 +183,8 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
       {/* Close Button */}
       <button 
         onClick={onClose} 
-        className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white md:backdrop-blur-md transition-all shadow-lg "
+        aria-label="Zavřít"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white md:backdrop-blur-md transition-all shadow-lg "
       >
         <X className="w-6 h-6" />
       </button>

@@ -64,7 +64,7 @@ const ActivityStats = memo(function ActivityStats({ data }) {
                 </div>
                 <div>
                   <div className="text-white font-medium text-sm">{stat.label}</div>
-                  <div className="text-white/40 text-xs">{stat.count} záznamů</div>
+                  <div className="text-white/60 text-xs">{stat.count} záznamů</div>
                 </div>
               </div>
               
@@ -82,7 +82,7 @@ const ActivityStats = memo(function ActivityStats({ data }) {
           );
         })}
         {stats.length > 6 && (
-           <div className="text-center text-white/40 text-xs pt-2">
+           <div className="text-center text-white/60 text-xs pt-2">
              a {stats.length - 6} dalších...
            </div>
         )}

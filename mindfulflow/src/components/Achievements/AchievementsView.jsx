@@ -77,7 +77,7 @@ const AchievementsView = memo(function AchievementsView() {
                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: i * 0.05 + 0.2 }}
                 whileHover={isUnlocked ? { rotate: [0, -10, 10, -10, 0], scale: 1.1, transition: { duration: 0.5 } } : {}}
               >
-                <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${isUnlocked ? 'text-white' : 'text-white/40'}`} />
+                <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${isUnlocked ? 'text-white' : 'text-white/60'}`} />
               </motion.div>
               <h4 className="text-lg font-bold text-white text-center leading-tight mb-2">
                 {achievement.title}

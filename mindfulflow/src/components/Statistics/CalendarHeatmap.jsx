@@ -91,7 +91,7 @@ const CalendarHeatmap = memo(function CalendarHeatmap({ data }) {
         </div>
       </div>
       
-      <div className="flex justify-end items-center gap-2 mt-4 text-xs text-white/40">
+      <div className="flex justify-end items-center gap-2 mt-4 text-xs text-white/60">
         <span>Méně</span>
         <div className="w-3 h-3 rounded-[2px] bg-white/5" />
         <div className="w-3 h-3 rounded-[2px] bg-indigo-900" />

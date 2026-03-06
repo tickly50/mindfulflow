@@ -58,7 +58,7 @@ const TimeAnalysis = memo(function TimeAnalysis({ data }) {
       className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent h-[350px] flex flex-col"
     >
       <h3 className="text-lg font-bold text-white mb-1">Denní Rytmus</h3>
-      <p className="text-white/40 text-xs mb-4">Kdy se cítíš nejlépe?</p>
+      <p className="text-white/60 text-xs mb-4">Kdy se cítíš nejlépe?</p>
       
       <div className="flex-1 w-full min-h-0">
         <ResponsiveContainer width="100%" height="100%">

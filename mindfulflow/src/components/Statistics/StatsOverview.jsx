@@ -125,7 +125,7 @@ export default function StatsOverview({ stats, streak, longestStreak, avgSleep }
                 {card.label}
               </div>
 
-              <div className="text-[10px] sm:text-xs text-white/40 leading-tight">
+              <div className="text-[10px] sm:text-xs text-white/60 leading-tight">
                 {card.desc}
               </div>
             </div>

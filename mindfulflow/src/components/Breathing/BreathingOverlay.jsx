@@ -157,7 +157,7 @@ const TechCard = memo(function TechCard({ t, index, onSelect }) {
       <div className="flex-1 min-w-0">
         <div className="font-semibold text-white text-base leading-tight">{t.name} Dýchání</div>
         <div className="text-sm mt-0.5" style={{ color: `${t.accent}cc` }}>{t.subtitle}</div>
-        <div className="text-xs mt-1.5 text-white/30">{timing}</div>
+        <div className="text-xs mt-1.5 text-white/60">{timing}</div>
       </div>
 
       <motion.div
@@ -199,7 +199,7 @@ const TechniqueSelector = memo(function TechniqueSelector({ onSelect, onClose })
         >
           <div className="text-3xl mb-2" aria-hidden="true">🌬️</div>
           <h1 className="text-xl font-bold text-white tracking-tight">Dýchací cvičení</h1>
-          <p className="text-sm text-white/40 mt-1">Vyber techniku pro tuto chvíli</p>
+          <p className="text-sm text-white/60 mt-1">Vyber techniku pro tuto chvíli</p>
         </motion.div>
 
         <motion.button
@@ -373,7 +373,7 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
           style={{ background: 'rgba(255,255,255,0.07)' }}
           aria-label="Zavřít cvičení"
         >
-          <X className="w-5 h-5 text-white/50" />
+          <X className="w-5 h-5 text-white/60" />
         </motion.button>
       </div>
 
@@ -514,7 +514,7 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
             border: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          <p className="text-white/40 text-[13px] leading-relaxed font-medium">{fact}</p>
+          <p className="text-white/60 text-[13px] leading-relaxed font-medium">{fact}</p>
         </motion.div>
       </div>
     </motion.div>

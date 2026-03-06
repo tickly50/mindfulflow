@@ -115,7 +115,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
                 />
                 <span
                   className={`absolute top-10 text-xs font-bold transition-colors duration-300 ${
-                    tick <= displayValue ? 'text-white' : 'text-white/40'
+                    tick <= displayValue ? 'text-white' : 'text-white/60'
                   }`}
                 >
                   {tick}

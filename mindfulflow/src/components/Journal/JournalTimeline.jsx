@@ -39,7 +39,7 @@ const JournalTimeline = memo(function JournalTimeline({
           transition={{ delay: 0.15, type: 'spring', stiffness: 350, damping: 15, mass: 0.5 }}
           className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner ring-1 ring-white/20"
         >
-          <MessageSquare className="w-10 h-10 text-white/50" />
+          <MessageSquare className="w-10 h-10 text-white/60" />
         </motion.div>
         <motion.h3
           initial={{ opacity: 0, y: 12 }}
@@ -53,7 +53,7 @@ const JournalTimeline = memo(function JournalTimeline({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-          className="text-white/50 max-w-md mx-auto leading-relaxed px-6"
+          className="text-white/60 max-w-md mx-auto leading-relaxed px-6"
         >
           {(filterMood || filterTag)
             ? 'Zkus upravit filtry, možná se tvé myšlenky skrývají jinde.'

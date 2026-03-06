@@ -283,7 +283,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
                     }}
                   >
-                    <X className="w-6 h-6 text-white/50" />
+                    <X className="w-6 h-6 text-white/60" />
                   </motion.button>
                 </div>
 
@@ -361,7 +361,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                   </div>
                 </div>
                 
-                <div className="mt-8 text-center text-sm text-white/30">
+                <div className="mt-8 text-center text-sm text-white/60">
                   MindfulFlow v1.0 • Built with ❤️
                 </div>
               </motion.div>

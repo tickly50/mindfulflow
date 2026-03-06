@@ -99,7 +99,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                           className={`absolute right-1 top-1/2 -translate-y-1/2 p-1 xs:p-1.5 rounded-full transition-colors
                               ${isSelected 
                                   ? 'hover:bg-white/20 text-white/70 hover:text-white' 
-                                  : 'hover:bg-white/10 text-white/40 hover:text-white/90'
+                                  : 'hover:bg-white/10 text-white/60 hover:text-white/90'
                               }
                           `}
                       >

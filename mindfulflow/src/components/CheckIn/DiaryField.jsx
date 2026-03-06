@@ -62,7 +62,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
             <span className={`text-xs font-mono font-medium py-1 px-3 rounded-full border transition-colors duration-300 ${
                 remainingChars < 20 
                     ? 'text-rose-300 border-rose-500/30 bg-rose-500/10' 
-                    : 'text-white/40 border-white/10 bg-white/5'
+                    : 'text-white/60 border-white/10 bg-white/5'
             }`}>
                 {remainingChars}
             </span>

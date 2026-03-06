@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload }) => {
         <div className="flex items-center gap-2 mb-1">
           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: moodColor }} />
           <p className="text-white font-bold">{data.moodLabel}</p>
-          <span className="text-white/40 text-xs">({data.mood}/5)</span>
+          <span className="text-white/60 text-xs">({data.mood}/5)</span>
         </div>
         {data.note && (
           <p className="text-white/80 text-sm max-w-[200px] mt-2 italic pt-2">
@@ -85,7 +85,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
       <div className="mb-6 flex justify-between items-center relative z-10">
         <div>
           <h3 className="text-xl font-bold text-white">Vývoj Nálady</h3>
-          <p className="text-white/50 text-sm">Tvoje emoční křivka v čase</p>
+          <p className="text-white/60 text-sm">Tvoje emoční křivka v čase</p>
         </div>
       </div>
 

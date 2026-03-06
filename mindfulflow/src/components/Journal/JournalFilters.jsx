@@ -19,7 +19,7 @@ const JournalFilters = memo(function JournalFilters({
             <button
               key={mood}
               onClick={() => setFilterMood(filterMood === mood ? null : mood)}
-              className={`w-10 h-10 xs:w-12 xs:h-12 rounded-[1.1rem] flex items-center justify-center transition-all relative outline-none ${
+              className={`w-11 h-11 xs:w-12 xs:h-12 rounded-[1.1rem] flex items-center justify-center transition-all relative outline-none ${
                 filterMood === mood ? 'shadow-lg scale-110 z-10' : 'opacity-40 hover:opacity-100'
               }`}
               style={{ 
@@ -68,7 +68,7 @@ const JournalFilters = memo(function JournalFilters({
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all border outline-none ${
                   filterTag === tag.id 
                     ? 'bg-violet-500 text-white border-violet-400/50 shadow-glow-violet scale-105' 
-                    : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20 hover:text-white/90 hover:bg-white/10'
+                    : 'bg-white/5 text-white/60 border-white/10 hover:border-white/20 hover:text-white/90 hover:bg-white/10'
                 }`}
               >
                 {tag.label}

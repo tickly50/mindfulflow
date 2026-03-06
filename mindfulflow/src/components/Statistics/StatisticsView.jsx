@@ -101,7 +101,7 @@ const StatisticsView = memo(function StatisticsView() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none !border-transparent ring-0 hover:scale-105 active:scale-95 transform-gpu ${
                 timeRange === range
                   ? 'bg-white/10 text-white'
-                  : 'text-white/40 hover:text-white hover:bg-white/5'
+                  : 'text-white/60 hover:text-white hover:bg-white/5'
               }`}
             >
               {range === 'all' ? 'Vše' : `${range} dní`}
@@ -143,7 +143,7 @@ const StatisticsView = memo(function StatisticsView() {
             </Suspense>
           ) : (
             <div className="glass p-12 rounded-[2rem] text-center !border-transparent h-full flex flex-col justify-center items-center">
-              <p className="text-white/50">Zatím tu nejsou žádná data pro grafy.</p>
+              <p className="text-white/60">Zatím tu nejsou žádná data pro grafy.</p>
             </div>
           )}
         </motion.div>

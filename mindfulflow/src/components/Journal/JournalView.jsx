@@ -177,7 +177,7 @@ const JournalView = memo(function JournalView() {
                 className={`w-10 h-10 rounded-xl font-medium transition-all ${
                   currentPage === pageNumber
                     ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/30'
-                    : 'bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 hover:text-white'
+                    : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {pageNumber}

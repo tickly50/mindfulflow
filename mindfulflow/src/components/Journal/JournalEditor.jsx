@@ -62,7 +62,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
             {/* Close Button */}
             <button aria-label="Zavřít úpravu" 
               onClick={() => setEditingEntry(null)}
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-white/40 hover:text-white rounded-full hover:bg-white/10 transition-colors z-10"
+              className="absolute top-2 right-2 sm:top-6 sm:right-6 p-3 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors z-10"
             >
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -77,7 +77,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
             <div className="space-y-6 sm:space-y-8 select-none flex-1 overflow-y-auto premium-scroll pr-1 sm:pr-2">
               {/* Mood Selection */}
               <div className="space-y-2 sm:space-y-3">
-                <label className="text-xs sm:text-sm font-semibold text-white/40 uppercase tracking-wider">Nálada</label>
+                <label className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-wider">Nálada</label>
                 <div className="flex justify-between gap-1 sm:gap-2 bg-black/20 p-2 rounded-2xl border border-white/5">
                   {[1, 2, 3, 4, 5].map(mood => (
                     <button
@@ -96,7 +96,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
 
               {/* Tags Selection */}
               <div className="space-y-2 sm:space-y-3">
-                <label className="text-xs sm:text-sm font-semibold text-white/40 uppercase tracking-wider">Kategorie</label>
+                <label className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-wider">Kategorie</label>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {CONTEXT_TAGS.map(tag => (
                     <button
@@ -105,7 +105,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
                       className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all border ${
                         editForm.tags.includes(tag.id)
                           ? 'bg-violet-500/20 text-violet-200 border-violet-500/30 shadow-[0_0_10px_-3px_var(--tw-shadow-color)] shadow-violet-500/30'
-                          : 'bg-white/5 text-white/40 border-transparent hover:bg-white/10 hover:text-white/80'
+                          : 'bg-white/5 text-white/60 border-transparent hover:bg-white/10 hover:text-white/80'
                       }`}
                     >
                       {tag.label}
@@ -116,7 +116,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
 
               {/* Sleep Selection */}
               <div className="space-y-2 sm:space-y-3">
-                <label className="text-xs sm:text-sm font-semibold text-white/40 uppercase tracking-wider">Spánek</label>
+                <label className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-wider">Spánek</label>
                 <div className="bg-black/20 p-2 sm:p-4 rounded-2xl border border-white/5">
                   <SleepSlider value={editForm.sleep} onChange={(val) => setEditForm({ ...editForm, sleep: val })} />
                 </div>
@@ -124,7 +124,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
 
               {/* Diary Text */}
               <div className="space-y-2 sm:space-y-3">
-                <label className="text-xs sm:text-sm font-semibold text-white/40 uppercase tracking-wider">Poznámka</label>
+                <label className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-wider">Poznámka</label>
                 <textarea
                   value={editForm.diary}
                   onChange={(e) => setEditForm({ ...editForm, diary: e.target.value })}

@@ -59,7 +59,7 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
                 {MOOD_LABELS[Math.round(entry.mood)]}
               </span>
               
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/40 text-[13px] sm:text-sm">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/60 text-[13px] sm:text-sm">
                 <div className="flex items-center gap-1.5 whitespace-nowrap">
                   <Calendar className="w-3.5 h-3.5" />
                   <span className="capitalize">{formatDate(entry.timestamp)}</span>
@@ -129,7 +129,8 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
                  whileHover={microInteractions.icon.hover}
                  whileTap={microInteractions.icon.tap}
                  onClick={() => onEdit(entry)}
-                 className="p-2.5 sm:p-2 text-white/40 hover:text-violet-300 hover:bg-white/10 rounded-full focus:outline-none outline-none transition-colors"
+                 aria-label="Upravit záznam"
+                 className="p-3.5 sm:p-2.5 text-white/60 hover:text-violet-300 hover:bg-white/10 rounded-full focus:outline-none outline-none transition-colors"
                  title="Upravit"
                >
                  <Pencil className="w-4 h-4 sm:w-4 sm:h-4" />
@@ -138,7 +139,8 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
                  whileHover={microInteractions.icon.hover}
                  whileTap={microInteractions.icon.tap}
                  onClick={() => onDelete(entry.id)}
-                 className="p-2.5 sm:p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-full focus:outline-none outline-none transition-colors"
+                 aria-label="Smazat záznam"
+                 className="p-3.5 sm:p-2.5 text-white/60 hover:text-red-400 hover:bg-red-500/10 rounded-full focus:outline-none outline-none transition-colors"
                  title="Smazat"
                >
                  <Trash2 className="w-4 h-4 sm:w-4 sm:h-4" />

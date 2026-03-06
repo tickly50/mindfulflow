@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload }) => {
           <p className="font-bold text-white">{data.label}</p>
         </div>
         <p className="text-white/60 text-sm">Průměrná nálada: <span className="text-white font-bold">{data.average}</span></p>
-        <p className="text-white/40 text-xs">{data.count} záznamů</p>
+        <p className="text-white/60 text-xs">{data.count} záznamů</p>
       </div>
     );
   }
@@ -50,7 +50,7 @@ const ActivityCorrelation = memo(function ActivityCorrelation({ data }) {
       className="glass p-4 sm:p-6 rounded-[2rem] !border-transparent h-[350px] flex flex-col"
     >
       <h3 className="text-lg font-bold text-white mb-1">Vliv Aktivit</h3>
-      <p className="text-white/40 text-xs mb-4">Co ti dělá největší radost?</p>
+      <p className="text-white/60 text-xs mb-4">Co ti dělá největší radost?</p>
       
       <div className="flex-1 w-full min-h-0">
         <ResponsiveContainer width="100%" height="100%">

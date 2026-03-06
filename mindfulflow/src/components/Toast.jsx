@@ -35,7 +35,8 @@ export const Toast = ({ message, type, onClose }) => {
       <p className="text-white/90 text-sm font-medium flex-1">{message}</p>
       <motion.button 
         onClick={onClose} 
-        className="text-white/40 hover:text-white"
+        aria-label="Zavřít okno"
+        className="text-white/60 hover:text-white p-2 sm:p-3 -mr-2"
         whileHover={{ 
           rotate: 90,
           transition: { duration: 0.2 }
@@ -44,7 +45,7 @@ export const Toast = ({ message, type, onClose }) => {
           transition: 'color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
         }}
       >
-        <X className="w-4 h-4" />
+        <X className="w-5 h-5" />
       </motion.button>
     </motion.div>
   );

@@ -134,7 +134,7 @@ export default function MoodCalendar({ entries }) {
         {/* Day Names Header */}
         <div className="grid grid-cols-7 gap-1 sm:gap-1.5 mb-2">
           {DAY_NAMES.map(day => (
-            <div key={day} className="text-center font-bold text-white/40 text-[10px] sm:text-xs uppercase tracking-wider">
+            <div key={day} className="text-center font-bold text-white/60 text-[10px] sm:text-xs uppercase tracking-wider">
               {day}
             </div>
           ))}
@@ -174,7 +174,7 @@ export default function MoodCalendar({ entries }) {
                   }}
                 >
                   <span className={`text-[11px] sm:text-xs font-bold drop-shadow-md ${
-                    dayData ? 'text-white' : (isToday ? 'text-white/80' : 'text-white/30')
+                    dayData ? 'text-white' : (isToday ? 'text-white/80' : 'text-white/60')
                   }`}>
                     {date.getDate()}
                   </span>
@@ -202,7 +202,7 @@ export default function MoodCalendar({ entries }) {
                         <p className="text-white font-black text-lg sm:text-xl drop-shadow-lg" style={{ color: MOOD_COLORS[dayData.average]?.text }}>
                            {MOOD_LABELS[dayData.average]}
                         </p>
-                        <p className="text-white/40 text-[10px] sm:text-xs mt-1.5 font-medium">
+                        <p className="text-white/60 text-[10px] sm:text-xs mt-1.5 font-medium">
                            {dayData.count} {dayData.count === 1 ? 'záznam' : dayData.count > 1 && dayData.count < 5 ? 'záznamy' : 'záznamů'}
                         </p>
                       </div>
@@ -217,7 +217,7 @@ export default function MoodCalendar({ entries }) {
       
       {/* Legend */}
       <div className="mt-6 flex flex-col items-center justify-center gap-3 text-[10px] sm:text-xs font-medium relative z-10">
-        <span className="text-white/40">Zabarvení podle průměrné nálady</span>
+        <span className="text-white/60">Zabarvení podle průměrné nálady</span>
         <div className="flex items-center justify-center gap-1.5 glass bg-black/20 rounded-full px-4 py-2 ">
           {Object.entries(MOOD_COLORS).map(([level, color]) => (
             <div 
