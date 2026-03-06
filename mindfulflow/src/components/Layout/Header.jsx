@@ -225,6 +225,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 haptics.light();
                 setShowSettings(true);
               }}
+              aria-label="Nastavení"
               whileHover={{ 
                 rotate: 90,
                 transition: { duration: 0.2, ease: easeConfig.smooth }
@@ -272,6 +273,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                   <h2 className="text-2xl font-bold text-white">Nastavení</h2>
                   <motion.button 
                     onClick={() => setShowSettings(false)}
+                    aria-label="Zavřít"
                     className="p-2 hover:bg-white/10 rounded-full"
                     whileHover={{ 
                       rotate: 90,

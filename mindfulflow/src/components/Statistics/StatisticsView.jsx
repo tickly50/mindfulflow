@@ -1,17 +1,20 @@
-import { useState, useMemo, memo } from 'react';
+import { useState, useMemo, memo, lazy, Suspense } from 'react';
 import { useMoodEntries } from '../../utils/queries';
 import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateAverageSleep } from '../../utils/moodCalculations';
 import { motion } from 'framer-motion';
 
 import EmptyState from './EmptyState';
 import StatsOverview from './StatsOverview';
-import MoodTrendChart from './MoodTrendChart';
-import MoodDistribution from './MoodDistribution';
 import MonthlyReportView from './MonthlyReportView';
 import MoodCalendar from './MoodCalendar';
 import SkeletonLoader from '../common/SkeletonLoader';
 
 import { variants } from '../../utils/animations';
+
+// Lazy loading heavy chart components to reduce TBT
+const MoodTrendChart = lazy(() => import('./MoodTrendChart'));
+const MoodDistribution = lazy(() => import('./MoodDistribution'));
+const ActivityStats = lazy(() => import('./ActivityStats'));
 
 /**
  * Statistics view – central dashboard with all mood insights.
@@ -126,14 +129,18 @@ const StatisticsView = memo(function StatisticsView() {
         {/* Right Column: Charts */}
         <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-2 transform-gpu" style={{ willChange: 'opacity, transform' }}>
           {stats.total > 0 ? (
-            <>
+            <Suspense fallback={<SkeletonLoader className="h-[400px] w-full rounded-[2rem]" />}>
               <MoodTrendChart data={filteredEntries} />
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <MoodDistribution data={filteredEntries} />
-                <ActivityStats data={filteredEntries} />
+                <Suspense fallback={<SkeletonLoader className="h-64 w-full rounded-[2rem]" />}>
+                  <MoodDistribution data={filteredEntries} />
+                </Suspense>
+                <Suspense fallback={<SkeletonLoader className="h-64 w-full rounded-[2rem]" />}>
+                  <ActivityStats data={filteredEntries} />
+                </Suspense>
               </div>
-            </>
+            </Suspense>
           ) : (
             <div className="glass p-12 rounded-[2rem] text-center !border-transparent h-full flex flex-col justify-center items-center">
               <p className="text-white/50">Zatím tu nejsou žádná data pro grafy.</p>

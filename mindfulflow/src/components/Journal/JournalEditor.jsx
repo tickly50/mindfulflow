@@ -60,7 +60,7 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
             }}
           >
             {/* Close Button */}
-            <button 
+            <button aria-label="Zavřít úpravu" 
               onClick={() => setEditingEntry(null)}
               className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-white/40 hover:text-white rounded-full hover:bg-white/10 transition-colors z-10"
             >

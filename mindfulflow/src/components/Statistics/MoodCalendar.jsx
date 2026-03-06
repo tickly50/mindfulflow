@@ -107,7 +107,7 @@ export default function MoodCalendar({ entries }) {
         </div>
 
         <div className="flex items-center gap-1 bg-black/20 rounded-xl p-1 ">
-          <button 
+          <button aria-label="Předchozí měsíc" 
             onClick={prevMonth} 
             className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
           >
@@ -118,7 +118,7 @@ export default function MoodCalendar({ entries }) {
             {MONTH_NAMES[currentMonth]} {currentYear}
           </span>
           
-          <button 
+          <button aria-label="Další měsíc" 
             onClick={nextMonth} 
             className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
             disabled={currentYear === new Date().getFullYear() && currentMonth === new Date().getMonth()}

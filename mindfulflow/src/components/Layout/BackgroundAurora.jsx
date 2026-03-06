@@ -30,7 +30,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
     >
       {/* Base radial gradient – colour transition only, no layout change */}
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-30"
         style={{
           background: 'radial-gradient(circle at 50% 50%, var(--aurora-p) 0%, transparent 80%)',
           transition: 'background 2s ease-in-out',
@@ -38,30 +38,30 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
       />
 
       {/* Moving Aurora Orbs – pure CSS keyframe animations, GPU-only */}
-      <div className="absolute inset-0 opacity-60">
+      <div className="absolute inset-0 opacity-40">
         {/* Orb 1: Top Left */}
         <div
-          className="aurora-orb aurora-orb-1 absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full"
+          className="aurora-orb aurora-orb-1 absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full"
           style={{
-            background: 'radial-gradient(circle, var(--aurora-s) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--aurora-s) 0%, transparent 60%)',
             transition: 'background 2s ease-in-out',
           }}
         />
 
         {/* Orb 2: Bottom Right */}
         <div
-          className="aurora-orb aurora-orb-2 absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full"
+          className="aurora-orb aurora-orb-2 absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full"
           style={{
-            background: 'radial-gradient(circle, var(--aurora-t) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--aurora-t) 0%, transparent 60%)',
             transition: 'background 2s ease-in-out',
           }}
         />
 
         {/* Orb 3: Center drifting */}
         <div
-          className="aurora-orb aurora-orb-3 absolute top-[30%] left-[20%] w-[40%] h-[40%] rounded-full opacity-50"
+          className="aurora-orb aurora-orb-3 absolute top-[30%] left-[20%] w-[30%] h-[30%] rounded-full opacity-30"
           style={{
-            background: 'radial-gradient(circle, var(--aurora-p) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--aurora-p) 0%, transparent 60%)',
             transition: 'background 2s ease-in-out',
           }}
         />
