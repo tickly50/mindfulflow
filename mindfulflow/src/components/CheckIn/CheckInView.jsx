@@ -66,14 +66,16 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
 
    // Handlers
   const handleMoodSelect = useCallback((mood) => {
-    const newMood = selectedMood === mood ? null : mood;
-    setSelectedMood(newMood);
-    if (onMoodChange) {
-      // Defer parent update to avoid 'Cannot update during render' error
-      if (moodTimeoutRef.current) clearTimeout(moodTimeoutRef.current);
-      moodTimeoutRef.current = setTimeout(() => onMoodChange(newMood), 0);
-    }
-  }, [selectedMood, onMoodChange]);
+    setSelectedMood((prevSelected) => {
+      const newMood = prevSelected === mood ? null : mood;
+      if (onMoodChange) {
+        // Defer parent update to avoid 'Cannot update during render' error
+        if (moodTimeoutRef.current) clearTimeout(moodTimeoutRef.current);
+        moodTimeoutRef.current = setTimeout(() => onMoodChange(newMood), 0);
+      }
+      return newMood;
+    });
+  }, [onMoodChange]);
 
 
   // After success overlay truly closes (scroll unlocked), return to top smoothly
@@ -225,7 +227,6 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
                      <div 
                         className="glass-panel p-4 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent shadow-2xl overflow-hidden relative w-full"
                         style={{ 
-                            willChange: 'transform',
                             WebkitFontSmoothing: 'antialiased',
                             backfaceVisibility: 'hidden'
                         }}

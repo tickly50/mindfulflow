@@ -24,6 +24,12 @@ const ICON_MAP = {
   Hash
 };
 
+const tagVariants = {
+  hidden: { opacity: 0, scale: 0.85, y: 15 },
+  show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25, mass: 0.5 } },
+  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.15, ease: 'easeOut' } }
+};
+
 /**
  * Context tags selector - Premium Enhanced
  */
@@ -39,7 +45,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
       animate="show"
     >
       <div className="flex flex-wrap gap-2 xs:gap-3">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence>
           {availableTags.map((tag) => {
               const isSelected = selectedTags.includes(tag.id);
               // Fallback to Hash if icon not found
@@ -47,21 +53,8 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
               const isCustom = tag.id.toString().startsWith('custom_');
               return (
                 <motion.button
-                  layout
                   key={tag.id}
-                  initial={{ opacity: 0, scale: 0.4, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ 
-                    opacity: 0, 
-                    scale: 0.7, 
-                    transition: { duration: 0.2, ease: 'easeOut' } 
-                  }}
-                  transition={{
-                    layout: { type: "spring", stiffness: 350, damping: 25, mass: 0.8 },
-                    scale: { type: "spring", stiffness: 450, damping: 20, mass: 0.5 },
-                    y: { type: "spring", stiffness: 450, damping: 20, mass: 0.5 },
-                    opacity: { duration: 0.2 }
-                  }}
+                  variants={tagVariants}
                   whileHover={microInteractions.button.hover}
                   whileTap={microInteractions.button.tap}
                   onClick={() => onTagToggle(tag.id)}
@@ -74,10 +67,10 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                     ${isCustom ? 'pr-8 xs:pr-9' : ''} 
                   `}
                   style={{
-                    willChange: 'transform'
+                    willChange: 'transform, opacity'
                   }}
                 >
-                  {/* Glow effect for selected items - removed layoutId to prevent conflicts */}
+                  {/* Glow effect for selected items */}
                   {isSelected && (
                       <motion.div 
                           className="absolute inset-0 rounded-2xl bg-violet-400/20 blur-md -z-10"

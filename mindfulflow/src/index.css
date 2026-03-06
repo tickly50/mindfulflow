@@ -119,9 +119,10 @@ body {
   min-height: 100vh;
   /* Supports iOS Safari optimal height calculation */
   min-height: 100dvh;
-  max-width: 100vw;
+  max-width: 100%;
   width: 100%;
   overscroll-behavior: none;
+  overflow-x: clip;
 
   /* Allowed standard scrolling for proper fixed positioning */
   
