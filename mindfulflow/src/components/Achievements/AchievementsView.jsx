@@ -1,6 +1,10 @@
 import { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Sun, BookOpen, Flame, Wind } from 'lucide-react';
+import Award from 'lucide-react/dist/esm/icons/award';
+import Sun from 'lucide-react/dist/esm/icons/sun';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import Flame from 'lucide-react/dist/esm/icons/flame';
+import Wind from 'lucide-react/dist/esm/icons/wind';
 import { db } from '../../utils/db';
 import { ACHIEVEMENTS, checkAndUnlockAchievements } from '../../utils/achievements';
 import { variants } from '../../utils/animations';

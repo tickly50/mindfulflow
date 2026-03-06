@@ -59,8 +59,12 @@ function AppContent() {
   const [currentView, setCurrentView] = useState("checkin");
   const [showBreathing, setShowBreathing] = useState(false);
   const [activeMood, setActiveMood] = useState(null);
+  const [backgroundMounted, setBackgroundMounted] = useState(false);
 
   useEffect(() => {
+    // Defer rendering the heavy background to optimize LCP
+    setBackgroundMounted(true);
+    
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
@@ -92,12 +96,14 @@ function AppContent() {
     <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative">
       
       {/* Dynamic Aurora Background - syncs with checkin mood or sets general themes per view */}
-      <BackgroundAurora currentMood={
-        currentView === 'checkin' ? activeMood : 
-        currentView === 'journal' ? 4 : 
-        currentView === 'statistics' ? 5 : 
-        currentView === 'achievements' ? 3 : null
-      } />
+      {backgroundMounted && (
+        <BackgroundAurora currentMood={
+          currentView === 'checkin' ? activeMood : 
+          currentView === 'journal' ? 4 : 
+          currentView === 'statistics' ? 5 : 
+          currentView === 'achievements' ? 3 : null
+        } />
+      )}
 
       {/* 
         Adjusted padding for mobile vs desktop:

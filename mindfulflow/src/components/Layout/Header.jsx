@@ -1,4 +1,15 @@
-import { Wind, Trash2, Flame, Settings, Download, Upload, X, Bell, Volume2, VolumeX, Smartphone, MonitorSmartphone } from 'lucide-react';
+import Wind from 'lucide-react/dist/esm/icons/wind';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Flame from 'lucide-react/dist/esm/icons/flame';
+import Settings from 'lucide-react/dist/esm/icons/settings';
+import Download from 'lucide-react/dist/esm/icons/download';
+import Upload from 'lucide-react/dist/esm/icons/upload';
+import X from 'lucide-react/dist/esm/icons/x';
+import Bell from 'lucide-react/dist/esm/icons/bell';
+import Volume2 from 'lucide-react/dist/esm/icons/volume-2';
+import VolumeX from 'lucide-react/dist/esm/icons/volume-x';
+import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
+import MonitorSmartphone from 'lucide-react/dist/esm/icons/monitor-smartphone';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo, useState, useRef, useEffect } from 'react';

@@ -2,7 +2,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
 import { MOOD_LABELS } from '../../utils/moodCalculations';
 import { variants as globalVariants, microInteractions } from '../../utils/animations';
-import { Frown, CloudRain, Meh, Smile, Sparkles, Check } from 'lucide-react';
+import Frown from 'lucide-react/dist/esm/icons/frown';
+import CloudRain from 'lucide-react/dist/esm/icons/cloud-rain';
+import Meh from 'lucide-react/dist/esm/icons/meh';
+import Smile from 'lucide-react/dist/esm/icons/smile';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Check from 'lucide-react/dist/esm/icons/check';
 import { haptics } from '../../utils/haptics';
 
 const MOOD_ICONS = {
@@ -111,7 +116,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               haptics.medium();
               onMoodSelect(mood);
             }}
-            className={`group relative overflow-hidden rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px]
+            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px]
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
                 ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
@@ -120,15 +125,24 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             `}
             style={{
               backfaceVisibility: 'hidden',
-              boxShadow: isSelected
-                ? `0 0 32px ${MOOD_GLOW_COLORS[mood]}, 0 8px 24px rgba(0,0,0,0.3)`
-                : '0 4px 16px rgba(0,0,0,0.2)',
-              transition: 'box-shadow 0.3s cubic-bezier(0.25,0.1,0.25,1)',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+              transform: 'translateZ(0)',
             }}
           >
+            {/* Active Glow Layer (GPU accelerated opacity instead of box-shadow transition) */}
+            <div
+              className="absolute inset-0 rounded-2xl xs:rounded-[2rem] pointer-events-none"
+              style={{
+                boxShadow: `0 0 32px ${MOOD_GLOW_COLORS[mood]}, 0 8px 24px rgba(0,0,0,0.3)`,
+                opacity: isSelected ? 1 : 0,
+                transition: 'opacity 0.3s cubic-bezier(0.25,0.1,0.25,1)',
+                willChange: 'opacity'
+              }}
+            />
+
             {/* Card Background (Frosted Glass Base) */}
             <div
-              className={`absolute inset-0 bg-gradient-to-br ${MOOD_GRADIENTS[mood]}`}
+              className={`absolute inset-0 rounded-2xl xs:rounded-[2rem] bg-gradient-to-br ${MOOD_GRADIENTS[mood]}`}
               style={{
                 opacity: isSelected ? 0.8 : 0.3,
                 transition: 'opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'

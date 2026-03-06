@@ -22,6 +22,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
       className="fixed inset-0 -z-50 overflow-hidden bg-[#0f172a] pointer-events-none"
       aria-hidden="true"
       style={{
+        contain: 'paint style',
         '--aurora-p': c.p,
         '--aurora-s': c.s,
         '--aurora-t': c.t,

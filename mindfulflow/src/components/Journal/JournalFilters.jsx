@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
-import { X } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
 
 const JournalFilters = memo(function JournalFilters({ 
   filterMood, 

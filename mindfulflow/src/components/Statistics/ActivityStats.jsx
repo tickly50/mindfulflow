@@ -1,6 +1,13 @@
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Moon, Users, Heart, DollarSign, MessageCircle, Activity as ActivityIcon, Tag } from 'lucide-react';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
+import Moon from 'lucide-react/dist/esm/icons/moon';
+import Users from 'lucide-react/dist/esm/icons/users';
+import Heart from 'lucide-react/dist/esm/icons/heart';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign';
+import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
+import ActivityIcon from 'lucide-react/dist/esm/icons/activity';
+import Tag from 'lucide-react/dist/esm/icons/tag';
 import { calculateActivityStats, MOOD_COLORS } from '../../utils/moodCalculations';
 import { springConfigFast } from '../../utils/animations';
 

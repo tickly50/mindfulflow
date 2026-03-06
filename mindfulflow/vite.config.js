@@ -68,6 +68,10 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom'],
           // Animation libraries
           'animation-vendor': ['framer-motion'],
+          // Icons (now heavily tree-shaken but good to split anyway)
+          'icons-vendor': ['lucide-react'],
+          // Database
+          'db-vendor': ['dexie', 'dexie-react-hooks'],
           // Chart libraries
           'chart-vendor': ['recharts'],
         }
@@ -119,6 +123,7 @@ export default defineConfig({
   
   // Enable esbuild for faster builds
   esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+    logOverride: { 'this-is-undefined-in-esm': 'silent' },
+    drop: ['console', 'debugger']
   }
 });

@@ -1,6 +1,6 @@
 import { memo, useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { Moon } from 'lucide-react';
+import Moon from 'lucide-react/dist/esm/icons/moon';
 
 const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   const [displayValue, setDisplayValue] = useState(value);

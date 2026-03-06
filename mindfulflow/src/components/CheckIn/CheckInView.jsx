@@ -1,7 +1,9 @@
 import { useState, useEffect, memo, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { variants, microInteractions } from '../../utils/animations';
-import { Sparkles, Plus, ChevronRight } from 'lucide-react';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/db';
 import Greeting from './Greeting';
@@ -199,25 +201,24 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
           <AnimatePresence mode="wait">
             {selectedMood && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ 
                     opacity: 1, 
-                    height: 'auto',
+                    y: 0,
                     transition: { 
-                        height: { type: "spring", stiffness: 260, damping: 24, mass: 0.5 },
-                        opacity: { duration: 0.25, delay: 0.05, ease: [0.32, 0.72, 0, 1] }
+                        y: { type: "spring", stiffness: 300, damping: 25 },
+                        opacity: { duration: 0.3, ease: [0.32, 0.72, 0, 1] }
                     } 
                 }}
                 exit={{ 
                     opacity: 0, 
-                    height: 0,
+                    y: 20,
                     transition: { 
-                      duration: 0.28,
+                      duration: 0.2,
                       ease: [0.65, 0, 0.35, 1]
                     }
                 }}
-                className="overflow-hidden"
-                style={{ willChange: 'height, opacity' }}
+                style={{ willChange: 'transform, opacity' }}
               >
                 <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
@@ -259,26 +260,23 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
                             <AnimatePresence>
                                 {isAddingTag && (
                                     <motion.div 
-                                      initial={{ opacity: 0, height: 0, scale: 0.95, marginBottom: 0 }}
+                                      initial={{ opacity: 0, scale: 0.95, marginBottom: 0 }}
                                       animate={{ 
                                         opacity: 1, 
-                                        height: 'auto', 
                                         scale: 1, 
                                         marginBottom: 16,
                                         transition: {
-                                          height: { type: 'spring', stiffness: 350, damping: 25, mass: 0.8 },
                                           scale: { type: 'spring', stiffness: 400, damping: 20 },
                                           opacity: { duration: 0.2 }
                                         } 
                                       }}
                                       exit={{ 
                                         opacity: 0, 
-                                        height: 0, 
                                         scale: 0.95, 
                                         marginBottom: 0, 
                                         transition: { duration: 0.2, ease: 'easeInOut' } 
                                       }}
-                                      className="overflow-hidden origin-top"
+                                      className="origin-top"
                                     >
                                       <div className="flex gap-2 items-center bg-black/30 p-1.5 xs:p-2 rounded-2xl border border-white/10 pr-1.5 xs:pr-2">
                                         <input

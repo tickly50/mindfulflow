@@ -1,6 +1,17 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import * as Icons from 'lucide-react';
+import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
+import Info from 'lucide-react/dist/esm/icons/info';
+import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
+import Moon from 'lucide-react/dist/esm/icons/moon';
+import Users from 'lucide-react/dist/esm/icons/users';
+import Heart from 'lucide-react/dist/esm/icons/heart';
+import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign';
+import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
+
+const IconMap = {
+  Lightbulb, Info, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle
+};
 import { calculateInsights } from '../../utils/moodCalculations';
 
 export default function InsightsCard({ entries }) {
@@ -20,7 +31,7 @@ export default function InsightsCard({ entries }) {
       <div className="relative z-10">
         <div className="flex items-center gap-4 mb-8">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-glow-violet ring-1 ring-white/20">
-            <Icons.Lightbulb className="w-6 h-6 text-white drop-shadow-md" />
+            <Lightbulb className="w-6 h-6 text-white drop-shadow-md" />
           </div>
           <div>
             <h3 className="text-2xl font-bold text-white">Chytré postřehy</h3>
@@ -30,7 +41,7 @@ export default function InsightsCard({ entries }) {
         
         <div className="space-y-4">
         {insights.map((insight, i) => {
-          const Icon = Icons[insight.icon] || Icons.Info;
+          const Icon = IconMap[insight.icon] || Info;
           const isPositive = insight.type === 'positive';
           
           return (

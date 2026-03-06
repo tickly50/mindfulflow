@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
-import { MessageSquare } from 'lucide-react';
+import MessageSquare from 'lucide-react/dist/esm/icons/message-square';
 import JournalCard from './JournalCard';
 import { variants } from '../../utils/animations';
 

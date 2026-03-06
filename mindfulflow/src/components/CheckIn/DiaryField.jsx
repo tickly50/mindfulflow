@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { memo, useState } from 'react';
-import { PenTool, Sparkles } from 'lucide-react';
+import PenTool from 'lucide-react/dist/esm/icons/pen-tool';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
 import { microInteractions } from '../../utils/animations';
 
 const JOURNAL_PROMPTS = [

@@ -1,7 +1,8 @@
 import { useEffect, useState, memo, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
+import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
 // Settings context and soundscape hooks removed.
 import { haptics } from '../../utils/haptics';
 
@@ -288,7 +289,7 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
       } else {
         setPrepCount(left);
       }
-    }, 250); 
+    }, 1000); 
     return () => clearInterval(interval);
   }, [isPreparing]);
 
@@ -322,7 +323,7 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
       } else {
         setRemaining(left);
       }
-    }, 250);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [isPreparing, phaseIdx, phase.seconds, phases.length]);

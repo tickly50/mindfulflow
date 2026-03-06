@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import Check from 'lucide-react/dist/esm/icons/check';
 import { haptics } from '../../utils/haptics';
 
 const PARTICLE_COLORS = [

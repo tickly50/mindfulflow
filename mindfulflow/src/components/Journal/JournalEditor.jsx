@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Pencil, Save, X } from 'lucide-react';
+import Pencil from 'lucide-react/dist/esm/icons/pencil';
+import Save from 'lucide-react/dist/esm/icons/save';
+import X from 'lucide-react/dist/esm/icons/x';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodCalculations';
