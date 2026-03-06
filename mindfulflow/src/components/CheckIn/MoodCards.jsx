@@ -110,14 +110,12 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
           <motion.button
             key={mood}
             variants={cardItem}
-            whileHover={microInteractions.card.hover}
-            whileTap={microInteractions.card.tap}
             onClick={() => {
               haptics.medium();
               onMoodSelect(mood);
             }}
             aria-label={`Vybrat náladu: ${MOOD_LABELS[mood]}`}
-            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px]
+            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px] hover-lift press-effect
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
                 ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
@@ -136,7 +134,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               style={{
                 boxShadow: `0 0 32px ${MOOD_GLOW_COLORS[mood]}, 0 8px 24px rgba(0,0,0,0.3)`,
                 opacity: isSelected ? 1 : 0,
-                transition: 'opacity 0.3s cubic-bezier(0.25,0.1,0.25,1)',
+                transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 willChange: 'opacity'
               }}
             />
@@ -146,7 +144,8 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               className={`absolute inset-0 rounded-2xl xs:rounded-[2rem] bg-gradient-to-br ${MOOD_GRADIENTS[mood]}`}
               style={{
                 opacity: isSelected ? 0.8 : 0.3,
-                transition: 'opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                willChange: 'opacity'
               }}
             />
 
@@ -156,7 +155,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                 ${isSelected ? MOOD_BORDER_ACTIVE[mood] : 'border-white/10 group-hover:border-white/20'}
                 flex flex-col items-center justify-center gap-2 xs:gap-4 p-3 xs:p-6 overflow-hidden`}
               style={{
-                transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                transition: 'background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.2)'
               }}
             >
@@ -164,7 +163,8 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               <div
                 className={`absolute inset-0 bg-gradient-to-t ${MOOD_GRADIENTS[mood]} opacity-0 group-hover:opacity-25`}
                 style={{
-                  transition: 'opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                  transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  willChange: 'opacity'
                 }}
               />
 

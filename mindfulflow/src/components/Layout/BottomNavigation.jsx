@@ -42,16 +42,15 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 onViewChange(item.id);
               }}
               aria-label={item.ariaLabel}
-              className={`group relative flex flex-col items-center justify-center min-w-[64px] h-[52px] rounded-2xl transition-all duration-300 outline-none focus:outline-none touch-manipulation ${
+              className={`group relative flex flex-col items-center justify-center min-w-[64px] h-[52px] rounded-2xl transition-colors duration-300 outline-none focus:outline-none touch-manipulation ${
                 isActive ? 'text-[var(--theme-accent,#a78bfa)]' : 'text-white/60 hover:text-white/70'
               }`}
             >
-              <motion.div 
-                whileTap={microInteractions.icon.tap}
-                className="relative z-10 flex flex-col items-center gap-1 w-full h-full justify-center"
+              <div 
+                className="relative z-10 flex flex-col items-center gap-1 w-full h-full justify-center press-effect"
               >
                 <Icon 
-                  className={`w-6 h-6 transition-all duration-300 ease-out ${
+                  className={`w-6 h-6 transition-transform duration-300 ease-out will-change-transform ${
                     isActive 
                       ? 'scale-110 text-violet-300' 
                       : 'scale-100'
@@ -61,7 +60,7 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 />
                 
                 <span 
-                  className={`text-[10px] font-bold tracking-wide transition-all duration-300 ease-out ${
+                  className={`text-[10px] font-bold tracking-wide transition-[transform,opacity,color] duration-300 ease-out will-change-transform ${
                     isActive 
                       ? 'opacity-100 translate-y-0 text-violet-200' 
                       : 'opacity-0 translate-y-1 absolute -bottom-4'
@@ -71,11 +70,10 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 </span>
 
 
-              </motion.div>
+              </div>
 
-              {/* Seamless CSS active background instead of layoutId lag */}
               <div 
-                className={`absolute inset-0 bg-white/5 rounded-2xl -z-10 transition-all duration-300 pointer-events-none origin-bottom ${
+                className={`absolute inset-0 bg-white/5 rounded-2xl -z-10 transition-[transform,opacity] duration-300 pointer-events-none origin-bottom will-change-transform ${
                    isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
                 }`} 
               />

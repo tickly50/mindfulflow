@@ -10,10 +10,9 @@ import { db } from "./utils/db";
 
 import CheckInView from "./components/CheckIn/CheckInView";
 
-// Lazy load heavy views
-const JournalView = lazy(() => import("./components/Journal/JournalView"));
-const StatisticsView = lazy(() => import("./components/Statistics/StatisticsView"));
-const AchievementsView = lazy(() => import("./components/Achievements/AchievementsView"));
+import JournalView from "./components/Journal/JournalView";
+import StatisticsView from "./components/Statistics/StatisticsView";
+import AchievementsView from "./components/Achievements/AchievementsView";
 
 import BreathingOverlay from "./components/Breathing/BreathingOverlay";
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
@@ -146,13 +145,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <Suspense fallback={
-                    <div className="w-full flex justify-center py-20">
-                      <div className="w-8 h-8 rounded-full border-t-2 border-violet-500 animate-spin" />
-                    </div>
-                  }>
-                    <JournalView />
-                  </Suspense>
+                  <JournalView />
                 </motion.div>
               )}
 
@@ -165,13 +158,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <Suspense fallback={
-                    <div className="w-full h-full flex items-center justify-center min-h-[50vh]">
-                      <div className="w-8 h-8 rounded-full border-t-2 border-violet-500 animate-spin" />
-                    </div>
-                  }>
-                    <StatisticsView />
-                  </Suspense>
+                  <StatisticsView />
                 </motion.div>
               )}
 
@@ -184,13 +171,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <Suspense fallback={
-                    <div className="w-full flex justify-center py-20">
-                      <div className="w-8 h-8 rounded-full border-t-2 border-violet-500 animate-spin" />
-                    </div>
-                  }>
-                    <AchievementsView />
-                  </Suspense>
+                  <AchievementsView />
                 </motion.div>
               )}
             </AnimatePresence>

@@ -6,45 +6,45 @@
 // ─── Spring Presets ──────────────────────────────────────────────────────────
 export const springConfig = {
   type: "spring",
-  stiffness: 260,
-  damping: 24,
+  stiffness: 240, // Softer for less jitter
+  damping: 26,
   mass: 0.5,
 };
 
 export const springConfigFast = {
   type: "spring",
-  stiffness: 300,
-  damping: 26,
+  stiffness: 280, // Reduced from 300
+  damping: 28,
   mass: 0.4,
 };
 
 export const springConfigSlow = {
   type: "spring",
-  stiffness: 180,
+  stiffness: 160,
   damping: 24,
   mass: 0.8,
 };
 
 export const springBounce = {
   type: "spring",
-  stiffness: 350,
-  damping: 15,
+  stiffness: 300,
+  damping: 18, // Reduced bounce
   mass: 0.5,
 };
 
 // ─── Easing Curves ───────────────────────────────────────────────────────────
 export const easeConfig = {
-  smooth: [0.32, 0.72, 0, 1], // Out-Expo, very premium
-  butter: [0.25, 1, 0.5, 1], // Deceleration
+  smooth: [0.4, 0.0, 0.2, 1.0], // Material standard, extremely organic
+  butter: [0.4, 0.0, 0.2, 1.0], 
   bounce: [0.34, 1.56, 0.64, 1],
-  inOut: [0.65, 0, 0.35, 1],
-  out: [0.0, 0.0, 0.2, 1],
+  inOut: [0.4, 0.0, 0.2, 1.0],
+  out: [0.0, 0.0, 0.2, 1.0],
 };
 
 export const transitionConfig = {
-  fast: { duration: 0.15, ease: [0.32, 0.72, 0, 1] },
-  base: { duration: 0.25, ease: [0.25, 1, 0.5, 1] },
-  slow: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
+  fast: { duration: 0.15, ease: [0.4, 0.0, 0.2, 1.0] },
+  base: { duration: 0.25, ease: [0.4, 0.0, 0.2, 1.0] },
+  slow: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1.0] },
 };
 
 // ─── Page Transition Variants ─────────────────────────────────────────────────
@@ -59,7 +59,7 @@ export const pageVariants = {
     scale: 1,
     transition: {
       duration: 0.4,
-      ease: [0.32, 0.72, 0, 1],
+      ease: [0.4, 0.0, 0.2, 1.0],
     },
   },
   exit: {
@@ -67,7 +67,7 @@ export const pageVariants = {
     scale: 0.98,
     transition: {
       duration: 0.2,
-      ease: [0.65, 0, 0.35, 1],
+      ease: [0.4, 0.0, 0.2, 1.0],
     },
   },
 };
@@ -88,7 +88,7 @@ export const variants = {
     },
     exit: {
       opacity: 0,
-      transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
+      transition: { duration: 0.2, ease: [0.4, 0.0, 0.2, 1.0] },
     },
   },
 
@@ -136,12 +136,12 @@ export const variants = {
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.35, ease: [0.2, 0.8, 0.2, 1] },
+      transition: { duration: 0.35, ease: [0.4, 0.0, 0.2, 1.0] },
     },
     exit: {
       opacity: 0,
       y: -4,
-      transition: { duration: 0.18, ease: [0.65, 0, 0.35, 1] },
+      transition: { duration: 0.18, ease: [0.4, 0.0, 0.2, 1.0] },
     },
   },
 

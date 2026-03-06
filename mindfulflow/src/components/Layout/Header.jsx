@@ -182,7 +182,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                   boxShadow: currentView === view 
                     ? '0 0 20px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.1)' 
                     : 'none',
-                  transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                  transition: 'background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
               >
                 {view === 'checkin' && 'Check-In'}
@@ -233,7 +233,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               }}
               className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white outline-none focus:outline-none focus:ring-0"
               style={{ 
-                transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                transition: 'background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
               }}
             >
               <Settings className="w-5 h-5" />
@@ -281,7 +281,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       transition: { duration: 0.2, ease: easeConfig.smooth }
                     }}
                     style={{ 
-                      transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                      transition: 'background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                   >
                     <X className="w-6 h-6 text-white/60" />
@@ -340,7 +340,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       whileTap={microInteractions.button.tap}
                       className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 font-medium border border-red-500/20 text-base outline-none focus:outline-none"
                       style={{ 
-                        transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                        transition: 'background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
                       }}
                     >
                       <Trash2 className="w-5 h-5" />
