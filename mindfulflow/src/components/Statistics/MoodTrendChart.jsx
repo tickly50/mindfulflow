@@ -102,7 +102,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
             <XAxis 
               dataKey="date" 
               stroke="rgba(255,255,255,0.2)" 
-              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12 }}
+              tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 12 }}
               tickLine={false}
               axisLine={false}
               minTickGap={30}
@@ -111,7 +111,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
               domain={[1, 5]} 
               ticks={[1, 2, 3, 4, 5]}
               stroke="rgba(255,255,255,0.2)"
-              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12 }}
+              tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 12 }}
               tickLine={false}
               axisLine={false}
               width={30}

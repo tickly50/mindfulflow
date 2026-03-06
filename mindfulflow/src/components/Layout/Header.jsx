@@ -211,6 +211,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 haptics.medium();
                 onBreathingClick();
               }}
+              aria-label="Dechová cvičení"
               className="group bg-gradient-to-r from-orange-500 to-rose-600 px-4 py-2 rounded-xl font-bold text-white flex items-center gap-2 shadow-glow-orange relative overflow-hidden transition-all hover:scale-105 active:scale-95 outline-none focus:outline-none"
             >
               {/* Animated glimmer effect */}

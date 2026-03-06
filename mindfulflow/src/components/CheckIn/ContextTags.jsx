@@ -95,6 +95,8 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
 
                   {isCustom && onDeleteTag && (
                       <div
+                          role="button"
+                          aria-label={`Smazat tag ${tag.label}`}
                           onClick={(e) => onDeleteTag(tag.id, e)}
                           className={`absolute right-1 top-1/2 -translate-y-1/2 p-1 xs:p-1.5 rounded-full transition-colors
                               ${isSelected 

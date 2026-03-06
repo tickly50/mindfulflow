@@ -116,7 +116,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               haptics.medium();
               onMoodSelect(mood);
             }}
-            aria-label={`Vybrat náladu ${MOOD_LABELS[mood]}`}
+            aria-label={`Vybrat náladu: ${MOOD_LABELS[mood]}`}
             className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px]
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
