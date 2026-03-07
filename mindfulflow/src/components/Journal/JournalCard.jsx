@@ -1,13 +1,9 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import Clock from 'lucide-react/dist/esm/icons/clock';
-import Tag from 'lucide-react/dist/esm/icons/tag';
-import Pencil from 'lucide-react/dist/esm/icons/pencil';
-import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
-import Calendar from 'lucide-react/dist/esm/icons/calendar';
-import Moon from 'lucide-react/dist/esm/icons/moon';
-import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
+
+import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
 import { variants, microInteractions } from '../../utils/animations';
+import { Clock, Tag, Pencil, Trash2, Calendar, Moon } from 'lucide-react';
 
 const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getContextLabel }) {
   const moodColor = MOOD_COLORS[Math.round(entry.mood)] || MOOD_COLORS[3];

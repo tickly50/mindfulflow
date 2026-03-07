@@ -1,15 +1,5 @@
-import Wind from 'lucide-react/dist/esm/icons/wind';
-import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
-import Flame from 'lucide-react/dist/esm/icons/flame';
-import Settings from 'lucide-react/dist/esm/icons/settings';
-import Download from 'lucide-react/dist/esm/icons/download';
-import Upload from 'lucide-react/dist/esm/icons/upload';
-import X from 'lucide-react/dist/esm/icons/x';
-import Bell from 'lucide-react/dist/esm/icons/bell';
-import Volume2 from 'lucide-react/dist/esm/icons/volume-2';
-import VolumeX from 'lucide-react/dist/esm/icons/volume-x';
-import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
-import MonitorSmartphone from 'lucide-react/dist/esm/icons/monitor-smartphone';
+
+
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo, useState, useRef, useEffect } from 'react';
@@ -21,8 +11,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
 import { useSettings } from '../../context/SettingsContext';
 import { haptics } from '../../utils/haptics';
-
-
+import { Wind, Trash2, Flame, Settings, Download, Upload, X, Bell, Volume2, VolumeX, Smartphone, MonitorSmartphone } from 'lucide-react';
 
 /**
  * Main application header with navigation, streak badge and settings.
@@ -327,8 +316,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       />
                     </div>
                   </div>
-
-
 
                   <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/10 mb-4">
                     <h3 className="font-semibold text-lg text-red-400 mb-2">Nebezpečná zóna</h3>

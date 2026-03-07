@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from 'recharts';
 import { motion, useReducedMotion } from 'framer-motion';
-import { MOOD_COLORS } from '../../utils/moodCalculations';
+import { MOOD_COLORS } from '../../utils/moodConstants';
 import { calculateActivityStats } from '../../utils/moodCalculations';
 import { springConfigFast } from '../../utils/animations';
 

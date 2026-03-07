@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { motion, useReducedMotion } from 'framer-motion';
-import { MOOD_LABELS, MOOD_COLORS } from '../../utils/moodCalculations';
+import { MOOD_LABELS, MOOD_COLORS } from '../../utils/moodConstants';
 import { springConfigFast } from '../../utils/animations';
 
 const EMPTY = [];

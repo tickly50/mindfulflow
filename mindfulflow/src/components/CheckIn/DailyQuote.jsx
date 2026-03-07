@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Quote from 'lucide-react/dist/esm/icons/quote';
+import { Quote } from 'lucide-react';
 
 const QUOTES = [
   "Nadechni klid, vydechni napětí.",

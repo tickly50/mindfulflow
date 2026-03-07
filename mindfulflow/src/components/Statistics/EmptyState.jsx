@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import { Sparkles } from 'lucide-react';
 
 /**
  * Empty state component for when no mood data exists

@@ -63,18 +63,7 @@ export default defineConfig({
         moduleSideEffects: false
       },
       output: {
-        manualChunks: {
-          // React core — cached separately, changes rarely
-          'react-vendor': ['react', 'react-dom'],
-          // Animation libraries
-          'animation-vendor': ['framer-motion'],
-          // Icons (now heavily tree-shaken but good to split anyway)
-          'icons-vendor': ['lucide-react'],
-          // Database
-          'db-vendor': ['dexie', 'dexie-react-hooks'],
-          // Chart libraries
-          'chart-vendor': ['recharts'],
-        }
+        manualChunks: undefined
       }
     },
     

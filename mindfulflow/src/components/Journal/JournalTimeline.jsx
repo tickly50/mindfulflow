@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
-import MessageSquare from 'lucide-react/dist/esm/icons/message-square';
+
 import JournalCard from './JournalCard';
 import { variants } from '../../utils/animations';
+import { MessageSquare } from 'lucide-react';
 
 // Container: stagger each card from the left
 const listContainer = {

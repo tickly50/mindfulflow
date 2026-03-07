@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { memo, useMemo } from 'react';
-import { MOOD_COLORS } from '../../utils/moodCalculations';
+import { MOOD_COLORS } from '../../utils/moodConstants';
 import { springConfigFast } from '../../utils/animations';
 
 const EMPTY = [];

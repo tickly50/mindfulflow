@@ -1,11 +1,9 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import Home from 'lucide-react/dist/esm/icons/home';
-import BookHeart from 'lucide-react/dist/esm/icons/book-heart';
-import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3';
-import Award from 'lucide-react/dist/esm/icons/award';
+
 import { microInteractions } from '../../utils/animations';
 import { haptics } from '../../utils/haptics';
+import { Home, BookHeart, BarChart3, Award } from 'lucide-react';
 
 const BottomNavigation = memo(function BottomNavigation({ currentView, onViewChange }) {
   const navItems = [
@@ -68,7 +66,6 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 >
                   {item.label}
                 </span>
-
 
               </div>
 

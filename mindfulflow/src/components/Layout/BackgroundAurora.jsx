@@ -34,6 +34,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
         style={{
           background: 'radial-gradient(circle at 50% 50%, var(--aurora-p) 0%, transparent 80%)',
           transition: 'background 2s ease-in-out',
+          willChange: 'background',
         }}
       />
 
@@ -45,6 +46,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
           style={{
             background: 'radial-gradient(circle, var(--aurora-s) 0%, transparent 60%)',
             transition: 'background 2s ease-in-out',
+            willChange: 'transform, background',
           }}
         />
 
@@ -54,6 +56,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
           style={{
             background: 'radial-gradient(circle, var(--aurora-t) 0%, transparent 60%)',
             transition: 'background 2s ease-in-out',
+            willChange: 'transform, background',
           }}
         />
 
@@ -63,6 +66,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
           style={{
             background: 'radial-gradient(circle, var(--aurora-p) 0%, transparent 60%)',
             transition: 'background 2s ease-in-out',
+            willChange: 'transform, background',
           }}
         />
       </div>

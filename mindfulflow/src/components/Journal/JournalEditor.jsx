@@ -1,12 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import Pencil from 'lucide-react/dist/esm/icons/pencil';
-import Save from 'lucide-react/dist/esm/icons/save';
-import X from 'lucide-react/dist/esm/icons/x';
+
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
-import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodCalculations';
+import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodConstants';
 import { variants } from '../../utils/animations';
 import SleepSlider from '../CheckIn/SleepSlider';
+import { Pencil, Save, X } from 'lucide-react';
 
 export default function JournalEditor({ editingEntry, setEditingEntry, editForm, setEditForm, handleUpdate }) {
   // Lock body scroll and handle Escape key

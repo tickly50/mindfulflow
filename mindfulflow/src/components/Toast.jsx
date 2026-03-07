@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
-import Check from 'lucide-react/dist/esm/icons/check';
-import X from 'lucide-react/dist/esm/icons/x';
-import Info from 'lucide-react/dist/esm/icons/info';
-import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
+
 import { springConfigFast, easeConfig } from '../utils/animations';
+import { Check, X, Info, AlertTriangle } from 'lucide-react';
 
 export const Toast = ({ message, type, onClose }) => {
   const icons = {

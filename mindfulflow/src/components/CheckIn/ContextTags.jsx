@@ -1,16 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
 import { variants, microInteractions } from '../../utils/animations';
-import Check from 'lucide-react/dist/esm/icons/check';
-import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
-import Moon from 'lucide-react/dist/esm/icons/moon';
-import Users from 'lucide-react/dist/esm/icons/users';
-import Heart from 'lucide-react/dist/esm/icons/heart';
-import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign';
-import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
-import Star from 'lucide-react/dist/esm/icons/star';
-import Hash from 'lucide-react/dist/esm/icons/hash';
-import X from 'lucide-react/dist/esm/icons/x';
+import { Check, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle, Star, Hash, X } from 'lucide-react';
 
 // Icon mapping to avoid importing the entire library
 const ICON_MAP = {

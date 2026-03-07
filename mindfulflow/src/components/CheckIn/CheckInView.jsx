@@ -1,9 +1,7 @@
 import { useState, useEffect, memo, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { variants, microInteractions } from '../../utils/animations';
-import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
-import Plus from 'lucide-react/dist/esm/icons/plus';
-import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/db';
 import Greeting from './Greeting';
@@ -13,10 +11,11 @@ import DiaryField from './DiaryField';
 import SleepSlider from './SleepSlider';
 import SuccessOverlay from './SuccessOverlay';
 import { saveMoodEntry } from '../../utils/storage';
-import { CONTEXT_TAGS } from '../../utils/moodCalculations';
+import { CONTEXT_TAGS } from '../../utils/moodConstants';
 import { useToast } from '../../context/ToastContext';
 import ConfirmModal from '../common/ConfirmModal';
 import { haptics } from '../../utils/haptics';
+import { Sparkles, Plus, ChevronRight } from 'lucide-react';
 
 // Main check-in view for recording mood and context
 const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
@@ -77,7 +76,6 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
     });
   }, [onMoodChange]);
 
-
   // After success overlay truly closes (scroll unlocked), return to top smoothly
   useEffect(() => {
     const prev = prevShowSuccessRef.current;
@@ -87,7 +85,6 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
     }
     prevShowSuccessRef.current = showSuccess;
   }, [showSuccess]);
-
 
   const handleTagToggle = useCallback((tagId) => {
     haptics.light();

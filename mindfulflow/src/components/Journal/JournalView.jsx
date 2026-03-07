@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/db';
-import { CONTEXT_TAGS } from '../../utils/moodCalculations';
+import { CONTEXT_TAGS } from '../../utils/moodConstants';
 import { useState, useMemo, memo, useCallback, useEffect } from 'react';
 import { useToast } from '../../context/ToastContext';
 import JournalFilters from './JournalFilters';

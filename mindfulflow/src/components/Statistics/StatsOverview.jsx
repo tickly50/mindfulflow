@@ -1,10 +1,8 @@
-import Flame from 'lucide-react/dist/esm/icons/flame';
-import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3';
-import TrendingUp from 'lucide-react/dist/esm/icons/trending-up';
-import Activity from 'lucide-react/dist/esm/icons/activity';
-import Moon from 'lucide-react/dist/esm/icons/moon';
+
+
 import { motion } from 'framer-motion';
-import { MOOD_ADJECTIVES } from '../../utils/moodCalculations';
+import { MOOD_ADJECTIVES } from '../../utils/moodConstants';
+import { Flame, BarChart3, TrendingUp, Activity, Moon } from 'lucide-react';
 
 const formatDays = (count) => {
   if (count === 1) return '1 den';

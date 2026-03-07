@@ -10,11 +10,11 @@ import { db } from "./utils/db";
 
 import CheckInView from "./components/CheckIn/CheckInView";
 
-import JournalView from "./components/Journal/JournalView";
-import StatisticsView from "./components/Statistics/StatisticsView";
-import AchievementsView from "./components/Achievements/AchievementsView";
+const JournalView = lazy(() => import("./components/Journal/JournalView"));
+const StatisticsView = lazy(() => import("./components/Statistics/StatisticsView"));
+const AchievementsView = lazy(() => import("./components/Achievements/AchievementsView"));
 
-import BreathingOverlay from "./components/Breathing/BreathingOverlay";
+const BreathingOverlay = lazy(() => import("./components/Breathing/BreathingOverlay"));
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
 
 import React from "react";
@@ -145,7 +145,9 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <JournalView />
+                  <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="w-8 h-8 rounded-full border-t-2 border-white/50 animate-spin"></div></div>}>
+                    <JournalView />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -158,7 +160,9 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <StatisticsView />
+                  <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="w-8 h-8 rounded-full border-t-2 border-white/50 animate-spin"></div></div>}>
+                    <StatisticsView />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -171,7 +175,9 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <AchievementsView />
+                  <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="w-8 h-8 rounded-full border-t-2 border-white/50 animate-spin"></div></div>}>
+                    <AchievementsView />
+                  </Suspense>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -184,7 +190,9 @@ function AppContent() {
         onViewChange={handleViewChange}
       />
 
-      <BreathingOverlay isOpen={showBreathing} onClose={handleBreathingClose} />
+      <Suspense fallback={null}>
+        <BreathingOverlay isOpen={showBreathing} onClose={handleBreathingClose} />
+      </Suspense>
     </div>
   );
 }

@@ -1,14 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
-import { MOOD_LABELS } from '../../utils/moodCalculations';
+import { MOOD_LABELS } from '../../utils/moodConstants';
 import { variants as globalVariants, microInteractions } from '../../utils/animations';
-import Frown from 'lucide-react/dist/esm/icons/frown';
-import CloudRain from 'lucide-react/dist/esm/icons/cloud-rain';
-import Meh from 'lucide-react/dist/esm/icons/meh';
-import Smile from 'lucide-react/dist/esm/icons/smile';
-import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
-import Check from 'lucide-react/dist/esm/icons/check';
+
 import { haptics } from '../../utils/haptics';
+import { Frown, CloudRain, Meh, Smile, Sparkles, Check } from 'lucide-react';
 
 const MOOD_ICONS = {
   1: Frown,

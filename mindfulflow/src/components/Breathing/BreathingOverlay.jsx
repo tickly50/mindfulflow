@@ -1,10 +1,10 @@
 import { useEffect, useState, memo, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import X from 'lucide-react/dist/esm/icons/x';
-import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
+
 // Settings context and soundscape hooks removed.
 import { haptics } from '../../utils/haptics';
+import { X, ChevronLeft } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
    Techniques
@@ -363,8 +363,6 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
           <ChevronLeft className="w-4 h-4" />
           Změnit
         </motion.button>
-
-
 
         <motion.button
           onClick={onClose}

@@ -1,11 +1,10 @@
 import { useState, memo, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import X from 'lucide-react/dist/esm/icons/x';
-import Award from 'lucide-react/dist/esm/icons/award';
-import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
-import Calendar from 'lucide-react/dist/esm/icons/calendar';
-import { generateMonthlyReportData, MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
+
+import { generateMonthlyReportData } from '../../utils/moodCalculations';
+import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
+import { X, Award, Sparkles, Calendar } from 'lucide-react';
 
 const ReportSession = memo(function ReportSession({ onClose, entries }) {
   const [slide, setSlide] = useState(0);

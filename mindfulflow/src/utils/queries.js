@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks';
+import { useMemo } from 'react';
 import { db } from './db';
 
 /**
@@ -7,7 +8,7 @@ import { db } from './db';
  * @returns {number} Average mood (1-5) or default (3)
  */
 export const useAverageMood = (days = 3) => {
-  return useLiveQuery(async () => {
+  const result = useLiveQuery(async () => {
     const now = new Date();
     const cutoffDate = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
     const cutoffISO = cutoffDate.toISOString();
@@ -24,6 +25,8 @@ export const useAverageMood = (days = 3) => {
     const sum = recentEntries.reduce((acc, entry) => acc + entry.mood, 0);
     return sum / recentEntries.length;
   }, [days], 3);
+
+  return useMemo(() => result, [result]);
 };
 
 /**
@@ -32,13 +35,14 @@ export const useAverageMood = (days = 3) => {
  * @returns {Array|undefined} Array of entries
  */
 export const useMoodEntries = (reverse = true) => {
-  return useLiveQuery(
+  const result = useLiveQuery(
     () => {
       const collection = db.moods.orderBy('timestamp');
       return reverse ? collection.reverse().toArray() : collection.toArray();
     },
     [reverse]
   );
+  return useMemo(() => result, [result]);
 };
 
 /**

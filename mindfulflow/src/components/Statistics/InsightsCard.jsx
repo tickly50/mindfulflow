@@ -1,18 +1,11 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
-import Info from 'lucide-react/dist/esm/icons/info';
-import Briefcase from 'lucide-react/dist/esm/icons/briefcase';
-import Moon from 'lucide-react/dist/esm/icons/moon';
-import Users from 'lucide-react/dist/esm/icons/users';
-import Heart from 'lucide-react/dist/esm/icons/heart';
-import DollarSign from 'lucide-react/dist/esm/icons/dollar-sign';
-import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
 
 const IconMap = {
   Lightbulb, Info, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle
 };
 import { calculateInsights } from '../../utils/moodCalculations';
+import { Lightbulb, Info, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle } from 'lucide-react';
 
 export default function InsightsCard({ entries }) {
   const insights = useMemo(() => {

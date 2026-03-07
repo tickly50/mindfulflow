@@ -1,9 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodCalculations';
-import Calendar from 'lucide-react/dist/esm/icons/calendar';
-import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
-import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Generates an array of date strings (YYYY-MM-DD) safely
 const formatDate = (date) => {

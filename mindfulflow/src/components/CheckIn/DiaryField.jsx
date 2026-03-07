@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { memo, useState } from 'react';
-import PenTool from 'lucide-react/dist/esm/icons/pen-tool';
-import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+
 import { microInteractions } from '../../utils/animations';
+import { PenTool, Sparkles } from 'lucide-react';
 
 const JOURNAL_PROMPTS = [
   'Za co jsi dne vděčný?',
