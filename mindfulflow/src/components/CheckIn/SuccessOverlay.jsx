@@ -45,10 +45,6 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
   // Robust scroll lock for mobile
   useEffect(() => {
-    // Save original styles
-    const originalStyle = window.getComputedStyle(document.body).overflow;
-    const originalHtmlStyle = window.getComputedStyle(document.documentElement).overflow;
-    
     // Lock both html and body
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
@@ -61,8 +57,8 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
     document.addEventListener('touchmove', preventTouch, { passive: false });
 
     return () => {
-      document.documentElement.style.overflow = originalHtmlStyle;
-      document.body.style.overflow = originalStyle;
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
       document.removeEventListener('touchmove', preventTouch);
     };
   }, []);

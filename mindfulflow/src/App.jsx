@@ -191,7 +191,7 @@ function AppContent() {
       />
 
       <Suspense fallback={null}>
-        <BreathingOverlay isOpen={showBreathing} onClose={handleBreathingClose} />
+        {showBreathing && <BreathingOverlay isOpen={showBreathing} onClose={handleBreathingClose} />}
       </Suspense>
     </div>
   );
