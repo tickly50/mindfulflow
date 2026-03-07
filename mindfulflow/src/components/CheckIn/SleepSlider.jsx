@@ -109,12 +109,12 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
             {[0, 2, 4, 6, 8, 10, 12].map((tick) => (
               <div key={tick} className="flex flex-col items-center gap-2.5">
                 <div
-                  className={`w-0.5 h-8 -mt-0.5 rounded-full transition-colors duration-300 ${
+                  className={`w-0.5 h-8 -mt-0.5 rounded-full transition-colors duration-100 ${
                     tick <= displayValue ? 'bg-blue-400/50' : 'bg-white/5'
                   }`}
                 />
                 <span
-                  className={`absolute top-10 text-xs font-bold transition-colors duration-300 ${
+                  className={`absolute top-10 text-xs font-bold transition-colors duration-100 ${
                     tick <= displayValue ? 'text-white' : 'text-white/60'
                   }`}
                 >

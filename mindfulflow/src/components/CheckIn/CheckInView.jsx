@@ -205,8 +205,8 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
                     opacity: 1, 
                     y: 0,
                     transition: { 
-                        y: { type: "spring", stiffness: 300, damping: 25 },
-                        opacity: { duration: 0.3, ease: [0.32, 0.72, 0, 1] }
+                        y: { type: "spring", stiffness: 400, damping: 25 },
+                        opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
                     } 
                 }}
                 exit={{ 
@@ -214,7 +214,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
                     y: 20,
                     transition: { 
                       duration: 0.2,
-                      ease: [0.65, 0, 0.35, 1]
+                      ease: [0.4, 0, 0.2, 1]
                     }
                 }}
                 style={{ willChange: 'transform, opacity' }}
@@ -320,9 +320,9 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
                                   transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.5 }
                                 }}
                                 whileTap={{ 
-                                  scale: 0.96,
+                                  scale: 1.05,
                                   y: 0,
-                                  transition: { type: 'spring', stiffness: 600, damping: 25, mass: 0.4 }
+                                  transition: { type: 'spring', stiffness: 400, damping: 20, mass: 0.4 }
                                 }}
                                 className="relative group overflow-hidden w-full md:w-auto md:min-w-[280px]"
                             >
