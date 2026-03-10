@@ -1,4 +1,4 @@
-import { useState, useMemo, memo, lazy, Suspense } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { useMoodEntries } from '../../utils/queries';
 import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateAverageSleep } from '../../utils/moodCalculations';
 import { motion } from 'framer-motion';
@@ -7,14 +7,12 @@ import EmptyState from './EmptyState';
 import StatsOverview from './StatsOverview';
 import MonthlyReportView from './MonthlyReportView';
 import MoodCalendar from './MoodCalendar';
-import SkeletonLoader from '../common/SkeletonLoader';
 
 import { variants } from '../../utils/animations';
 
-// Lazy loading heavy chart components to reduce TBT
-const MoodTrendChart = lazy(() => import('./MoodTrendChart'));
-const MoodDistribution = lazy(() => import('./MoodDistribution'));
-const ActivityStats = lazy(() => import('./ActivityStats'));
+import MoodTrendChart from './MoodTrendChart';
+import MoodDistribution from './MoodDistribution';
+import ActivityStats from './ActivityStats';
 
 /**
  * Statistics view – central dashboard with all mood insights.
@@ -48,21 +46,7 @@ const StatisticsView = memo(function StatisticsView() {
 
   if (!entries) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-24 pt-8">
-        <div className="flex justify-between items-center mb-8">
-          <div className="space-y-2">
-            <SkeletonLoader className="h-10 w-48 rounded-2xl" />
-            <SkeletonLoader className="h-6 w-64 rounded-xl" />
-          </div>
-          <SkeletonLoader className="h-10 w-32 rounded-xl" />
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {[...Array(4)].map((_, i) => <SkeletonLoader key={i} className="h-32 w-full rounded-[2rem]" />)}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-           <SkeletonLoader className="h-[400px] w-full lg:col-span-1 rounded-[2rem]" />
-           <SkeletonLoader className="h-[400px] w-full lg:col-span-2 rounded-[2rem]" />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-24 pt-8 min-h-screen">
       </div>
     );
   }
@@ -129,18 +113,14 @@ const StatisticsView = memo(function StatisticsView() {
         {/* Right Column: Charts */}
         <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-2 transform-gpu" style={{ willChange: 'opacity, transform' }}>
           {stats.total > 0 ? (
-            <Suspense fallback={<SkeletonLoader className="h-[400px] w-full rounded-[2rem]" />}>
+            <>
               <MoodTrendChart data={filteredEntries} />
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Suspense fallback={<SkeletonLoader className="h-64 w-full rounded-[2rem]" />}>
                   <MoodDistribution data={filteredEntries} />
-                </Suspense>
-                <Suspense fallback={<SkeletonLoader className="h-64 w-full rounded-[2rem]" />}>
                   <ActivityStats data={filteredEntries} />
-                </Suspense>
               </div>
-            </Suspense>
+            </>
           ) : (
             <div className="glass p-12 rounded-[2rem] text-center !border-transparent h-full flex flex-col justify-center items-center">
               <p className="text-white/60">Zatím tu nejsou žádná data pro grafy.</p>

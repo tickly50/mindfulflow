@@ -164,6 +164,12 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
 
   const handleSubmit = useCallback(async () => {
     if (!selectedMood) return;
+    
+    if (diaryText.trim() === '') {
+      if (error) error('Pro uložení záznamu musíš napsat osobní poznámku.');
+      return;
+    }
+    
     haptics.medium();
     try {
       const entry = {
@@ -324,9 +330,9 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
                                   y: 0,
                                   transition: { type: 'spring', stiffness: 400, damping: 20, mass: 0.4 }
                                 }}
-                                className="relative group overflow-hidden w-full md:w-auto md:min-w-[280px]"
+                                className="relative group overflow-hidden rounded-2xl w-full md:w-auto md:min-w-[280px]"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 rounded-2xl shadow-glow-violet" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 shadow-glow-violet" />
                                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-400 group-hover:scale-[1.02]" />
                                 {/* Shimmer */}
                                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg]" />

@@ -12,6 +12,15 @@ export const ACHIEVEMENTS = [
     condition: (entries) => entries.some(e => new Date(e.timestamp).getHours() < 8)
   },
   {
+    id: 'night-owl',
+    title: 'Noční sova',
+    description: 'Záznam vytvořený po 22:00.',
+    icon: 'Moon',
+    gradient: 'from-indigo-400 to-purple-600',
+    shadow: 'shadow-glow-violet',
+    condition: (entries) => entries.some(e => new Date(e.timestamp).getHours() >= 22)
+  },
+  {
     id: 'writer',
     title: 'Spisovatel',
     description: 'Deníkový záznam delší než 50 slov.',
@@ -30,6 +39,15 @@ export const ACHIEVEMENTS = [
     condition: (entries) => calculateLongestStreak(entries) >= 7
   },
   {
+    id: 'marathon',
+    title: 'Maratonec',
+    description: 'Zaznamenávání nálady 30 dní v řadě.',
+    icon: 'Trophy',
+    gradient: 'from-yellow-400 to-amber-600',
+    shadow: 'shadow-glow-orange',
+    condition: (entries) => calculateLongestStreak(entries) >= 30
+  },
+  {
     id: 'zen-master',
     title: 'Zen Master',
     description: 'Časté využívání štítku Zdraví nebo Spánek (alespoň 5x).',
@@ -44,6 +62,105 @@ export const ACHIEVEMENTS = [
        return calmEntries.length >= 5;
     }
   },
+  {
+    id: 'novice',
+    title: 'Nováček',
+    description: 'První úspěšně vytvořený záznam.',
+    icon: 'Star',
+    gradient: 'from-sky-300 to-blue-500',
+    shadow: 'shadow-glow-cyan',
+    condition: (entries) => entries.length >= 1
+  },
+  {
+    id: 'dedicated',
+    title: 'Oddaný',
+    description: 'Zaznamenáno celkem 50 dnů.',
+    icon: 'Heart',
+    gradient: 'from-rose-400 to-pink-600',
+    shadow: 'shadow-glow-red',
+    condition: (entries) => entries.length >= 50
+  },
+  {
+    id: 'century',
+    title: 'Stovka',
+    description: 'Zaznamenáno celkem 100 dnů.',
+    icon: 'Crown',
+    gradient: 'from-fuchsia-400 to-purple-600',
+    shadow: 'shadow-glow-violet',
+    condition: (entries) => entries.length >= 100
+  },
+  {
+    id: 'weekend-warrior',
+    title: 'Víkendový chill',
+    description: 'Záznam vytvořený o víkendu.',
+    icon: 'Coffee',
+    gradient: 'from-orange-300 to-amber-500',
+    shadow: 'shadow-glow-orange',
+    condition: (entries) => entries.some(e => {
+      const day = new Date(e.timestamp).getDay();
+      return day === 0 || day === 6;
+    })
+  },
+  {
+    id: 'emotional-rollercoaster',
+    title: 'Na houpačce',
+    description: 'Zaznamenáno 5 různých nálad.',
+    icon: 'Activity',
+    gradient: 'from-indigo-300 to-cyan-500',
+    shadow: 'shadow-glow-cyan',
+    condition: (entries) => new Set(entries.map(e => Math.round(e.score))).size >= 5
+  },
+  {
+    id: 'perfect-week',
+    title: 'Skvělý týden',
+    description: '7 dní v řadě se skvělou náladou (4 nebo 5).',
+    icon: 'Sparkles',
+    gradient: 'from-amber-300 to-yellow-500',
+    shadow: 'shadow-glow-orange',
+    condition: (entries) => {
+      const goodEntries = entries.filter(e => e.score >= 4);
+      return calculateLongestStreak(goodEntries) >= 7;
+    }
+  },
+  {
+    id: 'optimist',
+    title: 'Optimista',
+    description: 'Zaznamenána nálada s nejvyšším skóre (5) alespoň 10x.',
+    icon: 'Smile',
+    gradient: 'from-green-400 to-emerald-600',
+    shadow: 'shadow-glow-emerald',
+    condition: (entries) => entries.filter(e => Math.round(e.score) === 5).length >= 10
+  },
+  {
+    id: 'social-butterfly',
+    title: 'Společenský typ',
+    description: 'Alespoň 10 záznamů s tagy Rodina nebo Sociální život.',
+    icon: 'Users',
+    gradient: 'from-pink-400 to-rose-600',
+    shadow: 'shadow-glow-red',
+    condition: (entries) => {
+       const socialEntries = entries.filter(e => {
+         const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+         return tags.includes('family') || tags.includes('social');
+       });
+       return socialEntries.length >= 10;
+    }
+  },
+  {
+    id: 'workaholic',
+    title: 'Pracant',
+    description: 'Alespoň 10 záznamů s tagem Práce.',
+    icon: 'Briefcase',
+    gradient: 'from-slate-400 to-gray-600',
+    shadow: 'shadow-glow-cyan',
+    condition: (entries) => {
+       const workEntries = entries.filter(e => {
+         const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+         return tags.includes('work');
+       });
+       return workEntries.length >= 10;
+    }
+  }
 ];
 
 /**

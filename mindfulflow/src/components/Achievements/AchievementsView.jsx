@@ -5,7 +5,7 @@ import { db } from '../../utils/db';
 import { ACHIEVEMENTS, checkAndUnlockAchievements } from '../../utils/achievements';
 import { variants } from '../../utils/animations';
 import { useMoodEntries } from '../../utils/queries';
-import { Award, Sun, BookOpen, Flame, Wind } from 'lucide-react';
+import { Award, Sun, BookOpen, Flame, Wind, Moon, Trophy, Star, Heart, Crown, Coffee, Activity, Sparkles, Smile, Users, Briefcase } from 'lucide-react';
 
 const AchievementsView = memo(function AchievementsView() {
   const [unlockedIds, setUnlockedIds] = useState(new Set());
@@ -47,7 +47,7 @@ const AchievementsView = memo(function AchievementsView() {
       >
         {ACHIEVEMENTS.map((achievement, i) => {
           const isUnlocked = unlockedIds.has(achievement.id);
-          const iconMap = { Sun, BookOpen, Flame, Wind, Award };
+          const iconMap = { Sun, BookOpen, Flame, Wind, Award, Moon, Trophy, Star, Heart, Crown, Coffee, Activity, Sparkles, Smile, Users, Briefcase };
           const Icon = iconMap[achievement.icon] || Award;
 
           return (

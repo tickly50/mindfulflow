@@ -278,6 +278,19 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 </div>
 
                 <div className="space-y-6 select-none">
+                  <div className="p-6 rounded-2xl bg-violet-500/5 border border-violet-500/10 mb-4">
+                    <h3 className="font-semibold text-lg text-violet-400 mb-2">O aplikaci</h3>
+                    <p className="text-sm text-violet-400/80 leading-relaxed mb-4">
+                      MindfulFlow je tvůj osobní průvodce pro sledování nálady a péči o duševní zdraví. 
+                      Vytvořeno s důrazem na soukromí a klid.
+                    </p>
+                    <div className="flex items-center gap-3 text-sm text-violet-400/60">
+                      <span className="px-2 py-1 rounded-md bg-violet-500/10 border border-violet-500/20 font-mono">v1.0</span>
+                      <span>•</span>
+                      <span>Offline Ready</span>
+                    </div>
+                  </div>
+
                   <div className="p-6 rounded-2xl bg-white/5 border border-white/5 mb-4">
                     <h3 className="font-semibold text-lg text-white mb-2">Záloha dat</h3>
                     <p className="text-sm text-white/60 mb-6">Stáhni si zálohu svých záznamů nebo nahraj data ze zálohy.</p>
@@ -333,19 +346,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       <Trash2 className="w-5 h-5" />
                       Smazat všechna data
                     </motion.button>
-                  </div>
-
-                  <div className="p-6 rounded-2xl bg-violet-500/5 border border-violet-500/10 mb-4">
-                    <h3 className="font-semibold text-lg text-violet-400 mb-2">O aplikaci</h3>
-                    <p className="text-sm text-violet-400/80 leading-relaxed mb-4">
-                      MindfulFlow je tvůj osobní průvodce pro sledování nálady a péči o duševní zdraví. 
-                      Vytvořeno s důrazem na soukromí a klid.
-                    </p>
-                    <div className="flex items-center gap-3 text-sm text-violet-400/60">
-                      <span className="px-2 py-1 rounded-md bg-violet-500/10 border border-violet-500/20 font-mono">v1.0</span>
-                      <span>•</span>
-                      <span>Offline Ready</span>
-                    </div>
                   </div>
                 </div>
                 

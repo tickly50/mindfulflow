@@ -134,9 +134,13 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Remove outline on mouse click, keep for keyboard */
-:focus:not(:focus-visible) {
-  outline: none;
+/* Remove all focus outlines globally as requested by user */
+*,
+*:focus,
+*:focus-visible,
+*:focus-within {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 /* Allow text selection in specific elements */

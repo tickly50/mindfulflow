@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { memo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { memo, useState, useRef, useEffect } from 'react';
 
 import { microInteractions } from '../../utils/animations';
 import { PenTool, Sparkles } from 'lucide-react';
@@ -22,17 +22,23 @@ const JOURNAL_PROMPTS = [
  */
 const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }) {
   const [isFocused, setIsFocused] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
   const remainingChars = maxLength - value.length;
 
-  const insertRandomPrompt = () => {
-    const randomPrompt = JOURNAL_PROMPTS[Math.floor(Math.random() * JOURNAL_PROMPTS.length)];
-    const currentValue = value.trim();
-    if (currentValue) {
-        onChange(`${currentValue}\n\n${randomPrompt}\n`);
-    } else {
-        onChange(`${randomPrompt}\n`);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
     }
-  };
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
   
   return (
     <motion.div
@@ -50,15 +56,41 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
         </h3>
         
         <div className="flex items-center gap-3">
-            <motion.button
-                whileHover={microInteractions.button.hover}
-                whileTap={microInteractions.button.tap}
-                onClick={insertRandomPrompt}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white rounded-lg transition-colors text-sm font-medium"
-            >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                Inspirace
-            </motion.button>
+            <div className="relative" ref={menuRef}>
+                <motion.button
+                    whileHover={microInteractions.button.hover}
+                    whileTap={microInteractions.button.tap}
+                    onClick={() => setIsMenuOpen((prev) => !prev)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative"
+                >
+                    <Sparkles className="w-4 h-4 text-amber-300" />
+                    Inspirace
+                </motion.button>
+                
+                <AnimatePresence>
+                    {isMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-72 max-h-72 overflow-y-auto rounded-2xl bg-[#0f111a]/95 backdrop-blur-xl border border-white/10 shadow-2xl scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent"
+                        >
+                            <div className="p-3 flex flex-col gap-2">
+                                <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1 px-1">Otázky k zamyšlení</h4>
+                                {JOURNAL_PROMPTS.map((prompt, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="text-left px-3 py-2.5 text-sm text-slate-300 bg-white/5 rounded-xl border border-white/5 leading-relaxed"
+                                    >
+                                        {prompt}
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
             <span className={`text-xs font-mono font-medium py-1 px-3 rounded-full border transition-colors duration-300 ${
                 remainingChars < 20 
                     ? 'text-rose-300 border-rose-500/30 bg-rose-500/10' 

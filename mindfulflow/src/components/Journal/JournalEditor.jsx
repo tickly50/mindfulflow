@@ -141,7 +141,13 @@ export default function JournalEditor({ editingEntry, setEditingEntry, editForm,
                   Zrušit
                 </button>
                 <button
-                  onClick={handleUpdate}
+                  onClick={() => {
+                    if (!editForm.diary || editForm.diary.trim() === '') {
+                        alert('Pro uložení změn musíš napsat osobní poznámku.'); // Or handle via toast context if you inject it into JournalEditor
+                        return;
+                    }
+                    handleUpdate();
+                  }}
                   className="flex-[2] px-4 py-3 sm:py-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold hover:shadow-lg hover:shadow-violet-600/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   <Save className="w-4 h-4 sm:w-5 sm:h-5" />
