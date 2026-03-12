@@ -2,6 +2,12 @@
 // Framer Motion variants & configs – MindfulFlow
 // Principle: every entrance has intentional motion (Y + opacity + optional scale)
 // Exits are always faster than entrances.
+//
+// Usage with useReducedMotion:
+//   import { useReducedMotion } from 'framer-motion';
+//   import { reducedMotionVariants } from './animations';
+//   const prefersReduced = useReducedMotion();
+//   const myVariants = prefersReduced ? reducedMotionVariants.item : variants.item;
 
 // ─── Spring Presets ──────────────────────────────────────────────────────────
 export const springConfigFast = {
@@ -280,6 +286,46 @@ export const variants = {
       y: 0,
       transition: { duration: 0.45, ease: [0.2, 0.8, 0.2, 1], delay: 0.28 },
     },
+  },
+};
+
+// ─── Reduced Motion Variants ─────────────────────────────────────────────────
+// Opacity-only variants for users with prefers-reduced-motion.
+// GPU composited (opacity only) — zero layout impact, zero jank.
+export const reducedMotionVariants = {
+  container: {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+    },
+    exit: { opacity: 0, transition: { duration: 0.15 } },
+  },
+  item: {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } },
+    exit: { opacity: 0, transition: { duration: 0.12 } },
+  },
+  scale: {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.2 } },
+    exit: { opacity: 0, transition: { duration: 0.15 } },
+  },
+  slideUp: {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.2 } },
+    exit: { opacity: 0, transition: { duration: 0.12 } },
+  },
+  listItem: {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.15 } },
+    exit: { opacity: 0, transition: { duration: 0.1 } },
+  },
+  // Page transition — just a fast crossfade
+  page: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } },
+    exit: { opacity: 0, transition: { duration: 0.12 } },
   },
 };
 

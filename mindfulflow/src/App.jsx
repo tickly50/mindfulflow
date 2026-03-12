@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
 import BottomNavigation from "./components/Layout/BottomNavigation";
 import { ToastProvider } from "./context/ToastContext";
 import { SettingsProvider } from "./context/SettingsContext";
-import { pageVariants } from "./utils/animations";
+import { pageVariants, reducedMotionVariants } from "./utils/animations";
 
 import CheckInView from "./components/CheckIn/CheckInView";
 
@@ -58,6 +58,8 @@ function AppContent() {
   const [showBreathing, setShowBreathing] = useState(false);
   const [activeMood, setActiveMood] = useState(null);
   const [backgroundMounted, setBackgroundMounted] = useState(false);
+  const prefersReduced = useReducedMotion();
+  const activePageVariants = prefersReduced ? reducedMotionVariants.page : pageVariants;
 
   useEffect(() => {
     // Defer rendering the heavy background to optimize LCP
@@ -120,7 +122,7 @@ function AppContent() {
               {currentView === "checkin" && (
                 <motion.div
                   key="checkin"
-                  variants={pageVariants}
+                  variants={activePageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
@@ -135,7 +137,7 @@ function AppContent() {
               {currentView === "journal" && (
                 <motion.div
                   key="journal"
-                  variants={pageVariants}
+                  variants={activePageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
@@ -148,7 +150,7 @@ function AppContent() {
               {currentView === "statistics" && (
                 <motion.div
                   key="statistics"
-                  variants={pageVariants}
+                  variants={activePageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
@@ -161,7 +163,7 @@ function AppContent() {
               {currentView === "achievements" && (
                 <motion.div
                   key="achievements"
-                  variants={pageVariants}
+                  variants={activePageVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"

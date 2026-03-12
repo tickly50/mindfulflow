@@ -263,11 +263,10 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                             <AnimatePresence>
                                 {isAddingTag && (
                                     <motion.div 
-                                      initial={{ opacity: 0, scale: 0.95, marginBottom: 0 }}
+                                      initial={{ opacity: 0, scale: 0.95 }}
                                       animate={{ 
                                         opacity: 1, 
-                                        scale: 1, 
-                                        marginBottom: 16,
+                                        scale: 1,
                                         transition: {
                                           scale: { type: 'spring', stiffness: 400, damping: 20 },
                                           opacity: { duration: 0.2 }
@@ -275,11 +274,11 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                       }}
                                       exit={{ 
                                         opacity: 0, 
-                                        scale: 0.95, 
-                                        marginBottom: 0, 
-                                        transition: { duration: 0.2, ease: 'easeInOut' } 
+                                        scale: 0.95,
+                                        transition: { duration: 0.18, ease: [0.65, 0, 0.35, 1] } 
                                       }}
-                                      className="origin-top"
+                                      className="origin-top mb-4"
+                                      style={{ willChange: 'transform, opacity' }}
                                     >
                                       <div className="flex gap-2 items-center bg-black/30 p-1.5 xs:p-2 rounded-2xl border border-white/10 pr-1.5 xs:pr-2">
                                         <input
@@ -325,14 +324,14 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                   transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.5 }
                                 }}
                                 whileTap={{ 
-                                  scale: 1.05,
+                                  scale: 0.97,
                                   y: 0,
-                                  transition: { type: 'spring', stiffness: 400, damping: 20, mass: 0.4 }
+                                  transition: { type: 'spring', stiffness: 600, damping: 25, mass: 0.4 }
                                 }}
                                 className="relative group overflow-hidden rounded-2xl w-full md:w-auto md:min-w-[280px]"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 shadow-glow-violet" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-400 group-hover:scale-[1.02]" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
                                 {/* Shimmer */}
                                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg]" />
                                 

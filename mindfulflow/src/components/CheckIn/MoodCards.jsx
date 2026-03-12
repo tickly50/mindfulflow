@@ -1,7 +1,7 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { memo } from 'react';
 import { MOOD_LABELS } from '../../utils/moodConstants';
-import { microInteractions } from '../../utils/animations';
+import { microInteractions, reducedMotionVariants } from '../../utils/animations';
 
 import { haptics } from '../../utils/haptics';
 import { Frown, CloudRain, Meh, Smile, Sparkles, Check } from 'lucide-react';
@@ -91,9 +91,13 @@ const cardItem = {
 };
 
 const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
+  const prefersReduced = useReducedMotion();
+  const containerVariant = prefersReduced ? reducedMotionVariants.container : cardContainer;
+  const itemVariant = prefersReduced ? reducedMotionVariants.item : cardItem;
+
   return (
     <motion.div
-      variants={cardContainer}
+      variants={containerVariant}
       initial="hidden"
       animate="show"
       className="grid grid-cols-2 lg:grid-cols-5 gap-3 xs:gap-4 lg:gap-5 mb-8 lg:mb-12 max-w-5xl mx-auto"
@@ -105,7 +109,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
         return (
           <motion.button
             key={mood}
-            variants={cardItem}
+            variants={itemVariant}
             onClick={() => {
               haptics.medium();
               onMoodSelect(mood);
@@ -152,9 +156,8 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
                 ${isSelected ? MOOD_BORDER_ACTIVE[mood] : 'border-white/10 group-hover:border-white/20'}
                 flex flex-col items-center justify-center gap-2 xs:gap-4 p-3 xs:p-6 overflow-hidden`}
               style={{
-                transition: 'background-color 0.1s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.1s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: 'border-color 0.1s cubic-bezier(0.4, 0, 0.2, 1)',
                 boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.2)',
-                willChange: 'background-color, border-color'
               }}
             >
               {/* Hover background glow */}
@@ -169,8 +172,14 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               {/* Emoji with 3D Pop */}
               <motion.div
                 className="text-4xl xs:text-6xl relative z-10"
-                animate={isSelected ? { scale: 1.25, y: -4, rotate: [-2, 2, 0] } : { scale: 1, y: 0, rotate: 0 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 15, mass: 0.6 }}
+                animate={
+                  prefersReduced
+                    ? { opacity: isSelected ? 1 : 0.85 }
+                    : isSelected
+                      ? { scale: 1.25, y: -4, rotate: [-2, 2, 0] }
+                      : { scale: 1, y: 0, rotate: 0 }
+                }
+                transition={{ type: 'spring', stiffness: 300, damping: 18, mass: 0.5 }}
                 style={{ willChange: 'transform' }}
               >
                 {MOOD_EMOJI[mood]}

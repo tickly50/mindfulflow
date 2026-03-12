@@ -1,12 +1,13 @@
 import { memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { getDailyQuote } from '../../utils/quotes';
-import { variants } from '../../utils/animations';
+import { variants, reducedMotionVariants } from '../../utils/animations';
 
 /**
  * Dynamic greeting based on time of day – animated hero entrance
  */
 const Greeting = memo(function Greeting() {
+  const prefersReduced = useReducedMotion();
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12)
@@ -24,13 +25,13 @@ const Greeting = memo(function Greeting() {
   return (
     <motion.div
       className="text-center mb-12 relative z-10"
-      variants={variants.container}
+      variants={prefersReduced ? reducedMotionVariants.container : variants.container}
       initial="hidden"
       animate="show"
     >
       {/* Emoji – bounces in from above */}
       <motion.div
-        variants={variants.heroEmoji}
+        variants={prefersReduced ? reducedMotionVariants.item : variants.heroEmoji}
         className="inline-block mb-4"
       >
         <span className="text-6xl md:text-7xl filter drop-shadow-lg select-none">
@@ -39,7 +40,10 @@ const Greeting = memo(function Greeting() {
       </motion.div>
 
       {/* Title */}
-      <motion.div variants={variants.heroTitle} className="relative mb-3">
+      <motion.div
+        variants={prefersReduced ? reducedMotionVariants.item : variants.heroTitle}
+        className="relative mb-3"
+      >
         <h2
           className={`text-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent`}
           style={{ lineHeight: 1.2, letterSpacing: '0.03em' }}
@@ -54,7 +58,7 @@ const Greeting = memo(function Greeting() {
 
       {/* Subtitle */}
       <motion.p
-        variants={variants.heroSubtitle}
+        variants={prefersReduced ? reducedMotionVariants.item : variants.heroSubtitle}
         className="text-white/70 text-xl font-light tracking-wide mb-8"
       >
         Jak se dnes cítíš?
@@ -62,7 +66,7 @@ const Greeting = memo(function Greeting() {
 
       {/* Daily Quote Card */}
       <motion.div
-        variants={variants.heroQuote}
+        variants={prefersReduced ? reducedMotionVariants.item : variants.heroQuote}
         className="max-w-xl mx-auto"
       >
         <div className="relative">

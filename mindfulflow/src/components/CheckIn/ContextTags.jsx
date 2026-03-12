@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { memo } from 'react';
-import { variants, microInteractions } from '../../utils/animations';
+import { variants, microInteractions, reducedMotionVariants } from '../../utils/animations';
 import { Check, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle, Star, Hash, X } from 'lucide-react';
 
 // Icon mapping to avoid importing the entire library
@@ -18,15 +18,15 @@ const ICON_MAP = {
 const tagVariants = {
   hidden: { opacity: 0, scale: 0.85, y: 15 },
   show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25, mass: 0.5 } },
-  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.15, ease: 'easeOut' } }
+  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] } }
 };
 
 /**
  * Context tags selector - Premium Enhanced
  */
 const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, availableTags, onDeleteTag }) {
-
-  const container = variants.staggerContainerFast;
+  const prefersReduced = useReducedMotion();
+  const container = prefersReduced ? reducedMotionVariants.container : variants.staggerContainerFast;
 
   return (
     <motion.div
@@ -45,8 +45,8 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
               return (
                 <motion.button
                   key={tag.id}
-                  variants={tagVariants}
-                  whileHover={microInteractions.button.hover}
+                  variants={prefersReduced ? reducedMotionVariants.item : tagVariants}
+                  whileHover={prefersReduced ? undefined : microInteractions.button.hover}
                   whileTap={microInteractions.button.tap}
                   onClick={() => onTagToggle(tag.id)}
                   className={`

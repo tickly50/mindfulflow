@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef } from 'react';
 import useScrollLock from '../../hooks/useScrollLock';
 import { createPortal } from 'react-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 import { haptics } from '../../utils/haptics';
 import { Check } from 'lucide-react';
@@ -18,6 +18,7 @@ const PARTICLE_COLORS = [
 const PARTICLE_SHAPES = ['rounded-full', 'rounded-sm', 'rounded-md'];
 
 const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose }) {
+  const prefersReduced = useReducedMotion();
   const closedRef = useRef(false);
 
   const safeClose = useCallback(() => {
@@ -69,55 +70,56 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
       }}
       className="touch-none"
     >
-      {/* Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {successParticles.map((p, i) => {
-          const colorClass = PARTICLE_COLORS[i % PARTICLE_COLORS.length];
-          const shapeClass = PARTICLE_SHAPES[i % PARTICLE_SHAPES.length];
-          const size = 6 + (i % 4) * 3;
-          return (
-            <motion.div
-              key={i}
-              className={`absolute bg-gradient-to-r ${colorClass} ${shapeClass}`}
-              style={{ width: size, height: size }}
-              initial={{
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
-                opacity: 1,
-              }}
-              animate={{
-                x: window.innerWidth / 2 + p.xOffset,
-                y: window.innerHeight / 2 + p.yOffset,
-                opacity: [1, 0.8, 0],
-                rotate: p.rotate,
-              }}
-              transition={{
-                duration: p.duration,
-                ease: [0.32, 0.72, 0, 1],
-                times: [0, 0.4, 1],
-              }}
-            />
-          );
-        })}
-      </div>
+      {/* Particles — skipped for reduced motion */}
+      {!prefersReduced && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {successParticles.map((p, i) => {
+            const colorClass = PARTICLE_COLORS[i % PARTICLE_COLORS.length];
+            const shapeClass = PARTICLE_SHAPES[i % PARTICLE_SHAPES.length];
+            const size = 6 + (i % 4) * 3;
+            return (
+              <motion.div
+                key={i}
+                className={`absolute bg-gradient-to-r ${colorClass} ${shapeClass}`}
+                style={{ width: size, height: size, willChange: 'transform, opacity' }}
+                initial={{
+                  x: window.innerWidth / 2,
+                  y: window.innerHeight / 2,
+                  opacity: 1,
+                }}
+                animate={{
+                  x: window.innerWidth / 2 + p.xOffset,
+                  y: window.innerHeight / 2 + p.yOffset,
+                  opacity: [1, 0.8, 0],
+                  rotate: p.rotate,
+                }}
+                transition={{
+                  duration: p.duration,
+                  ease: [0.32, 0.72, 0, 1],
+                  times: [0, 0.4, 1],
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
 
       {/* Main dialog card */}
       <motion.div
         className="relative bg-[#0f172a] border border-white/10 rounded-[3rem] p-12 text-center max-w-sm w-full overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
-        initial={{ scale: 0.7, y: 60, opacity: 0 }}
-        animate={{
-          scale: 1,
-          y: 0,
-          opacity: 1,
-          transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.6 },
-        }}
-        exit={{
-          scale: 0.85,
-          y: 30,
-          opacity: 0,
-          transition: { duration: 0.25, ease: [0.65, 0, 0.35, 1] },
-        }}
+        initial={prefersReduced ? { opacity: 0 } : { scale: 0.7, y: 60, opacity: 0 }}
+        animate={
+          prefersReduced
+            ? { opacity: 1, transition: { duration: 0.2 } }
+            : { scale: 1, y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.6 } }
+        }
+        exit={
+          prefersReduced
+            ? { opacity: 0, transition: { duration: 0.15 } }
+            : { scale: 0.85, y: 30, opacity: 0, transition: { duration: 0.25, ease: [0.65, 0, 0.35, 1] } }
+        }
+        style={{ willChange: 'transform, opacity' }}
       >
         {/* BG gradient */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-emerald-500/15 to-teal-500/5 z-0" />
@@ -127,9 +129,14 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
           {/* Check circle */}
           <motion.div
             className="w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-400 to-green-500 flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/40"
-            initial={{ scale: 0, rotate: -90 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', stiffness: 280, damping: 16, mass: 0.6, delay: 0.08 }}
+            initial={prefersReduced ? { opacity: 0 } : { scale: 0, rotate: -90 }}
+            animate={prefersReduced ? { opacity: 1 } : { scale: 1, rotate: 0 }}
+            transition={
+              prefersReduced
+                ? { duration: 0.2, delay: 0.1 }
+                : { type: 'spring', stiffness: 300, damping: 20, mass: 0.5, delay: 0.08 }
+            }
+            style={{ willChange: 'transform, opacity' }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
