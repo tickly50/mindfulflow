@@ -1,5 +1,9 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
+import GlassCard from '../common/GlassCard';
+
+const formatDate = (date) =>
+  date.toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'long' });
 
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
 import { variants, microInteractions } from '../../utils/animations';
@@ -8,12 +12,6 @@ import { Clock, Tag, Pencil, Trash2, Calendar, Moon } from 'lucide-react';
 const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getContextLabel }) {
   const moodColor = MOOD_COLORS[Math.round(entry.mood)] || MOOD_COLORS[3];
   const date = new Date(entry.timestamp);
-
-  // Helper to format date nicely
-  const formatDate = (timestamp) => {
-    const d = new Date(timestamp);
-    return d.toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'long' });
-  };
 
   return (
     <motion.div
@@ -36,11 +34,8 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
         }} 
       />
 
-      <div 
-        className="glass-card p-5 sm:p-6 rounded-[2rem] border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 transform-gpu will-change-transform shadow-glass-lg hover:shadow-glow-violet transition-all duration-500 overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
-        <div className="relative flex gap-3 sm:gap-6 items-start justify-between z-10">
+      <GlassCard className="p-5 sm:p-6 transform-gpu will-change-transform hover:shadow-glow-violet transition-all duration-500">
+        <div className="flex gap-3 sm:gap-6 items-start justify-between">
           
           {/* Main Content */}
           <div className="flex-1 space-y-4">
@@ -58,7 +53,7 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/60 text-[13px] sm:text-sm">
                 <div className="flex items-center gap-1.5 whitespace-nowrap">
                   <Calendar className="w-3.5 h-3.5" />
-                  <span className="capitalize">{formatDate(entry.timestamp)}</span>
+                  <span className="capitalize">{formatDate(date)}</span>
                 </div>
                 <div className="flex items-center gap-1.5 whitespace-nowrap">
                   <Clock className="w-3.5 h-3.5" />
@@ -144,7 +139,7 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
              </div>
           </div>
         </div>
-      </div>
+      </GlassCard>
     </motion.div>
   );
 });

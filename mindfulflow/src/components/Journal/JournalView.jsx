@@ -71,7 +71,7 @@ const JournalView = memo(function JournalView() {
     setDeleteModal({ isOpen: true, entryId: id });
   }, []);
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = useCallback(async () => {
     const id = deleteModal.entryId;
     if (!id) return;
     try {
@@ -82,14 +82,14 @@ const JournalView = memo(function JournalView() {
       error('Nepodařilo se smazat záznam');
     }
     setDeleteModal({ isOpen: false, entryId: null });
-  };
+  }, [deleteModal.entryId, success, error]);
 
   const startEdit = useCallback((entry) => {
     setEditingEntry(entry);
     setEditForm({ mood: entry.mood, tags: entry.tags || [], diary: entry.diary || '', sleep: entry.sleep || 7 });
   }, []);
 
-  const handleUpdate = async () => {
+  const handleUpdate = useCallback(async () => {
     if (!editingEntry) return;
     try {
       const { updateMoodEntry } = await import('../../utils/storage');
@@ -105,7 +105,7 @@ const JournalView = memo(function JournalView() {
       if (import.meta.env.DEV) console.error('Failed to update entry:', err);
       error('Nepodařilo se aktualizovat záznam');
     }
-  };
+  }, [editingEntry, editForm, success, error]);
 
   if (allEntries === undefined) {
     return (

@@ -1,5 +1,6 @@
 
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { MOOD_ADJECTIVES } from '../../utils/moodConstants';
 import { Flame, BarChart3, TrendingUp, Activity, Moon } from 'lucide-react';
@@ -29,7 +30,7 @@ const cardVariants = {
   },
 };
 
-export default function StatsOverview({ stats, streak, longestStreak, avgSleep }) {
+const StatsOverview = memo(function StatsOverview({ stats, streak, longestStreak, avgSleep }) {
   if (!stats) return null;
 
   const cards = [
@@ -132,4 +133,6 @@ export default function StatsOverview({ stats, streak, longestStreak, avgSleep }
       ))}
     </motion.div>
   );
-}
+});
+
+export default StatsOverview;

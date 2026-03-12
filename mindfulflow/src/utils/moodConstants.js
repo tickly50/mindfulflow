@@ -1,4 +1,5 @@
 // Mood constants and UI utilities
+import { Briefcase, Moon, Users, Heart, DollarSign, MessageCircle } from 'lucide-react';
 
 /**
  * Mood labels in Czech (1-5 scale)
@@ -61,6 +62,19 @@ export const MOOD_COLORS = {
 };
 
 /**
+ * Map from icon name string (as stored in CONTEXT_TAGS) to Lucide React component.
+ * Used by ActivityStats and InsightsCard to resolve icon components.
+ */
+export const CONTEXT_TAG_ICONS = {
+  Briefcase,
+  Moon,
+  Users,
+  Heart,
+  DollarSign,
+  MessageCircle,
+};
+
+/**
  * Context tags available for mood entries
  */
 export const CONTEXT_TAGS = [
@@ -72,57 +86,3 @@ export const CONTEXT_TAGS = [
   { id: "social", label: "Sociální život", icon: "MessageCircle" },
 ];
 
-/**
- * Generate premium gradient based on mood
- * @param {number} avgMood - Average mood (1-5)
- * @returns {string} CSS gradient string
- */
-export const getGradientForMood = (avgMood) => {
-  // Round to nearest integer for color selection
-  const moodLevel = Math.round(Math.max(1, Math.min(5, avgMood)));
-
-  // If undefined (e.g. loading), return a neutral dark gradient
-  if (!MOOD_COLORS[moodLevel])
-    return "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)";
-
-  return MOOD_COLORS[moodLevel].gradient;
-};
-
-/**
- * Interpolate between two colors based on a factor
- * @param {string} color1 - First hex color
- * @param {string} color2 - Second hex color
- * @param {number} factor - Interpolation factor (0-1)
- * @returns {string} Interpolated hex color
- */
-export const interpolateColor = (color1, color2, factor) => {
-  const c1 = hexToRgb(color1);
-  const c2 = hexToRgb(color2);
-
-  const r = Math.round(c1.r + (c2.r - c1.r) * factor);
-  const g = Math.round(c1.g + (c2.g - c1.g) * factor);
-  const b = Math.round(c1.b + (c2.b - c1.b) * factor);
-
-  return rgbToHex(r, g, b);
-};
-
-/**
- * Convert hex color to RGB object
- */
-export const hexToRgb = (hex) => {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
-    : { r: 0, g: 0, b: 0 };
-};
-
-/**
- * Convert RGB values to hex color
- */
-export const rgbToHex = (r, g, b) => {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-};

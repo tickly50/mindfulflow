@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo } from 'react';
 import { MOOD_LABELS } from '../../utils/moodConstants';
-import { variants as globalVariants, microInteractions } from '../../utils/animations';
+import { microInteractions } from '../../utils/animations';
 
 import { haptics } from '../../utils/haptics';
 import { Frown, CloudRain, Meh, Smile, Sparkles, Check } from 'lucide-react';

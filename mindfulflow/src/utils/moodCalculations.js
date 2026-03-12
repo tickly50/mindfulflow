@@ -1,6 +1,18 @@
 import { CONTEXT_TAGS } from './moodConstants';
 
 /**
+ * Normalize tags from an entry — handles backward compatibility with old `activities` field.
+ * @param {Object} entry - Mood entry
+ * @returns {string[]} Array of tag ids
+ */
+export const getTags = (entry) =>
+  Array.isArray(entry.tags) && entry.tags.length > 0
+    ? entry.tags
+    : Array.isArray(entry.activities)
+      ? entry.activities
+      : [];
+
+/**
  * Calculate mood statistics from an array of entries
  * @param {Array} entries - Array of mood entries
  * @returns {Object} Statistics object
@@ -182,12 +194,7 @@ export const calculateActivityStats = (entries) => {
 
   if (entries && entries.length > 0) {
     entries.forEach((entry) => {
-      // Prefer new `tags` field, but keep backward compatibility with old `activities`
-      const sourceIds = Array.isArray(entry.tags) && entry.tags.length > 0
-        ? entry.tags
-        : Array.isArray(entry.activities)
-          ? entry.activities
-          : [];
+      const sourceIds = getTags(entry);
 
       sourceIds.forEach((activityId) => {
         if (!activityMap[activityId]) {
@@ -217,85 +224,6 @@ export const calculateActivityStats = (entries) => {
 
   // Sort by count (most frequent) then average (highest mood)
   return stats.sort((a, b) => b.count - a.count || b.average - a.average);
-};
-
-/**
- * Calculate average mood by hour of day (0-23)
- * @param {Array} entries
- * @returns {Array} Array of { hour, average, count } sorted by hour
- */
-export const calculateHourlyStats = (entries) => {
-  if (!entries || entries.length === 0) return [];
-
-  const hourMap = {};
-
-  entries.forEach((entry) => {
-    const date = new Date(entry.timestamp);
-    const hour = date.getHours();
-
-    if (!hourMap[hour]) {
-      hourMap[hour] = { totalMood: 0, count: 0 };
-    }
-    hourMap[hour].totalMood += entry.mood;
-    hourMap[hour].count += 1;
-  });
-
-  const stats = [];
-  for (let i = 0; i < 24; i++) {
-    if (hourMap[i]) {
-      stats.push({
-        hour: i,
-        average: Math.round((hourMap[i].totalMood / hourMap[i].count) * 10) / 10,
-        count: hourMap[i].count,
-      });
-    } else {
-      stats.push({ hour: i, average: 0, count: 0 });
-    }
-  }
-
-  return stats;
-};
-
-/**
- * Calculate average mood by day of week (0-6, Sunday-Saturday)
- * @param {Array} entries
- * @returns {Array} Array of { dayIndex, dayName, average, count }
- */
-export const calculateDayOfWeekStats = (entries) => {
-  if (!entries || entries.length === 0) return [];
-
-  const dayMap = {};
-  const dayNames = ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"];
-
-  entries.forEach((entry) => {
-    const date = new Date(entry.timestamp);
-    const day = date.getDay();
-
-    if (!dayMap[day]) {
-      dayMap[day] = { totalMood: 0, count: 0 };
-    }
-    dayMap[day].totalMood += entry.mood;
-    dayMap[day].count += 1;
-  });
-
-  const stats = [];
-  // Start from Monday (1) to Sunday (0) for European week
-  const order = [1, 2, 3, 4, 5, 6, 0];
-  
-  order.forEach(dayIndex => {
-     if (dayMap[dayIndex]) {
-      stats.push({
-        dayIndex,
-        dayName: dayNames[dayIndex],
-        average: Math.round((dayMap[dayIndex].totalMood / dayMap[dayIndex].count) * 10) / 10,
-        count: dayMap[dayIndex].count,
-      });
-    } else {
-      stats.push({ dayIndex, dayName: dayNames[dayIndex], average: 0, count: 0 });
-    }
-  });
-
-  return stats;
 };
 
 /**
@@ -332,7 +260,7 @@ export const calculateInsights = (entries) => {
   const avgMood = calculateMoodStats(entries).average;
 
   entries.forEach(e => {
-    const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+    const tags = getTags(e);
     tags.forEach(tag => {
       if (!tagMoods[tag]) tagMoods[tag] = { sum: 0, count: 0 };
       tagMoods[tag].sum += e.mood;

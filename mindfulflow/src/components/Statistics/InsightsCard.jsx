@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
-
-const IconMap = {
-  Lightbulb, Info, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle
-};
 import { calculateInsights } from '../../utils/moodCalculations';
-import { Lightbulb, Info, Briefcase, Moon, Users, Heart, DollarSign, MessageCircle } from 'lucide-react';
+import { CONTEXT_TAG_ICONS } from '../../utils/moodConstants';
+import { Lightbulb, Info } from 'lucide-react';
+import GlassCard from '../common/GlassCard';
 
-export default function InsightsCard({ entries }) {
+const IconMap = { ...CONTEXT_TAG_ICONS, Lightbulb, Info };
+
+const InsightsCard = memo(function InsightsCard({ entries }) {
   const insights = useMemo(() => {
     if (entries && entries.length > 0) {
       return calculateInsights(entries);
@@ -18,10 +18,8 @@ export default function InsightsCard({ entries }) {
   if (insights.length === 0) return null;
 
   return (
-    <div className="glass-card rounded-[2rem] p-6 sm:p-8 mb-8 border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 shadow-glass-lg relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-[2rem]" />
-      
-      <div className="relative z-10">
+    <GlassCard className="p-6 sm:p-8 mb-8">
+      <div>
         <div className="flex items-center gap-4 mb-8">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-glow-violet ring-1 ring-white/20">
             <Lightbulb className="w-6 h-6 text-white drop-shadow-md" />
@@ -69,6 +67,8 @@ export default function InsightsCard({ entries }) {
         })}
         </div>
       </div>
-    </div>
+    </GlassCard>
   );
-}
+});
+
+export default InsightsCard;

@@ -4,15 +4,15 @@ import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateA
 import { motion } from 'framer-motion';
 
 import EmptyState from './EmptyState';
+import InsightsCard from './InsightsCard';
 import StatsOverview from './StatsOverview';
 import MonthlyReportView from './MonthlyReportView';
 import MoodCalendar from './MoodCalendar';
-
-import { variants } from '../../utils/animations';
-
 import MoodTrendChart from './MoodTrendChart';
 import MoodDistribution from './MoodDistribution';
 import ActivityStats from './ActivityStats';
+
+import { variants } from '../../utils/animations';
 
 /**
  * Statistics view – central dashboard with all mood insights.
@@ -26,9 +26,8 @@ const StatisticsView = memo(function StatisticsView() {
     if (!entries) return [];
     if (timeRange === 'all') return entries;
 
-    const now = new Date();
     const days = parseInt(timeRange);
-    const cutoff = new Date(now.setDate(now.getDate() - days));
+    const cutoff = new Date(Date.now() - days * 86_400_000);
     return entries.filter((e) => new Date(e.timestamp) >= cutoff);
   }, [entries, timeRange]);
 

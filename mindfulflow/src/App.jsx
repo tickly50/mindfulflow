@@ -6,7 +6,6 @@ import BottomNavigation from "./components/Layout/BottomNavigation";
 import { ToastProvider } from "./context/ToastContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { pageVariants } from "./utils/animations";
-import { db } from "./utils/db";
 
 import CheckInView from "./components/CheckIn/CheckInView";
 
@@ -72,8 +71,6 @@ function AppContent() {
     document.documentElement.removeAttribute("data-theme");
   }, []);
 
-  const handleEntryAdded = useCallback(() => {}, []);
-
   const handleViewChange = useCallback((view) => {
     setCurrentView(view);
     if (view !== 'checkin') {
@@ -130,7 +127,6 @@ function AppContent() {
                   style={{ willChange: "opacity, transform" }}
                 >
                   <CheckInView 
-                    onEntryAdded={handleEntryAdded} 
                     onMoodChange={setActiveMood} 
                   />
                 </motion.div>

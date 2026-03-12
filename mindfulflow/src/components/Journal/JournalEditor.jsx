@@ -3,28 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodConstants';
+import useScrollLock from '../../hooks/useScrollLock';
 import { variants } from '../../utils/animations';
 import SleepSlider from '../CheckIn/SleepSlider';
 import { Pencil, Save, X } from 'lucide-react';
 
 export default function JournalEditor({ editingEntry, setEditingEntry, editForm, setEditForm, handleUpdate }) {
-  // Lock body scroll and handle Escape key
+  useScrollLock(!!editingEntry);
+
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') setEditingEntry(null);
     };
-
     if (editingEntry) {
-      document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleEsc);
-    } else {
-      document.body.style.overflow = '';
     }
-
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleEsc);
-    };
+    return () => window.removeEventListener('keydown', handleEsc);
   }, [editingEntry, setEditingEntry]);
   const toggleEditTag = (tagId) => {
     setEditForm(prev => {

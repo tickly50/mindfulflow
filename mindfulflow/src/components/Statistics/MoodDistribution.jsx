@@ -3,6 +3,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recha
 import { motion, useReducedMotion } from 'framer-motion';
 import { MOOD_LABELS, MOOD_COLORS } from '../../utils/moodConstants';
 import { springConfigFast } from '../../utils/animations';
+import GlassCard from '../common/GlassCard';
 
 const EMPTY = [];
 
@@ -55,12 +56,11 @@ const MoodDistribution = memo(function MoodDistribution({ data }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={springConfigFast}
-      className="glass-card p-5 sm:p-6 rounded-[2rem] border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 shadow-glass-lg h-[350px] flex flex-col relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-[2rem]" />
-      <h3 className="text-lg font-bold text-white mb-4 relative z-10">Rozložení Nálad</h3>
+      <GlassCard className="p-5 sm:p-6 h-[350px] flex flex-col">
+      <h3 className="text-lg font-bold text-white mb-4">Rozložení Nálad</h3>
       
-      <div className="flex-1 w-full min-h-0 relative z-10">
+      <div className="flex-1 w-full min-h-0">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -91,6 +91,7 @@ const MoodDistribution = memo(function MoodDistribution({ data }) {
           </PieChart>
         </ResponsiveContainer>
       </div>
+      </GlassCard>
     </motion.div>
   );
 });

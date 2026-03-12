@@ -1,6 +1,6 @@
 import { useState, useEffect, memo, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { variants, microInteractions } from '../../utils/animations';
+import { microInteractions } from '../../utils/animations';
 
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/db';
@@ -18,7 +18,7 @@ import { haptics } from '../../utils/haptics';
 import { Sparkles, Plus, ChevronRight } from 'lucide-react';
 
 // Main check-in view for recording mood and context
-const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
+const CheckInView = memo(function CheckInView({ onMoodChange }) {
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [diaryText, setDiaryText] = useState('');
@@ -152,7 +152,7 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
     setSleepHours(7);
     setIsAddingTag(false);
     setNewTagLabel('');
-  }, []);
+  }, [onMoodChange]);
 
   const handleSuccessClose = useCallback(() => {
     // Avoid double-scroll: we want the "scroll-to-top" to happen after overlay unmounts.
@@ -183,11 +183,10 @@ const CheckInView = memo(function CheckInView({ onEntryAdded, onMoodChange }) {
       await saveMoodEntry(entry);
       setShowSuccess(true);
       setSuccessCycle((c) => c + 1);
-      if (onEntryAdded) onEntryAdded(entry);
     } catch (_err) {
       if (error) error('Nepodařilo se uložit záznam.');
     }
-  }, [selectedMood, selectedTags, diaryText, sleepHours, onEntryAdded, error]);
+  }, [selectedMood, selectedTags, diaryText, sleepHours, error]);
 
   const canSubmit = selectedMood !== null;
 

@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
+import { getTags } from '../../utils/moodCalculations';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Generates an array of date strings (YYYY-MM-DD) safely
@@ -28,12 +29,17 @@ const MONTH_NAMES = [
 
 const DAY_NAMES = ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'];
 
-export default function MoodCalendar({ entries }) {
+const MoodCalendar = memo(function MoodCalendar({ entries }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [hoveredDay, setHoveredDay] = useState(null);
 
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
+
+  const isCurrentMonth = useMemo(() => {
+    const now = new Date();
+    return currentYear === now.getFullYear() && currentMonth === now.getMonth();
+  }, [currentYear, currentMonth]);
 
   const { dateData } = useMemo(() => {
     if (!entries) return { dateData: new Map() };
@@ -49,7 +55,7 @@ export default function MoodCalendar({ entries }) {
       dayData.sum += e.mood;
       dayData.count += 1;
       
-      const allTags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+      const allTags = getTags(e);
       allTags.forEach(tag => dayData.tags.add(tag));
     });
 
@@ -119,8 +125,8 @@ export default function MoodCalendar({ entries }) {
           <button aria-label="Další měsíc" 
             onClick={nextMonth} 
             className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
-            disabled={currentYear === new Date().getFullYear() && currentMonth === new Date().getMonth()}
-            style={{ opacity: currentYear === new Date().getFullYear() && currentMonth === new Date().getMonth() ? 0.3 : 1 }}
+            disabled={isCurrentMonth}
+            style={{ opacity: isCurrentMonth ? 0.3 : 1 }}
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -229,4 +235,6 @@ export default function MoodCalendar({ entries }) {
       </div>
     </div>
   );
-}
+});
+
+export default MoodCalendar;

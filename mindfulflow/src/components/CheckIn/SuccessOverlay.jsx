@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useRef } from 'react';
+import useScrollLock from '../../hooks/useScrollLock';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 
@@ -43,25 +44,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [safeClose]);
 
-  // Robust scroll lock for mobile
-  useEffect(() => {
-    // Lock both html and body
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    
-    // Prevent touch scrolling on mobile (iOS Safari workaround)
-    const preventTouch = (e) => {
-      e.preventDefault();
-    };
-    
-    document.addEventListener('touchmove', preventTouch, { passive: false });
-
-    return () => {
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-      document.removeEventListener('touchmove', preventTouch);
-    };
-  }, []);
+  useScrollLock(true, true);
 
   return createPortal(
     <motion.div

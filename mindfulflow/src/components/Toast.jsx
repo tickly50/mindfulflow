@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 
-import { springConfigFast, easeConfig } from '../utils/animations';
 import { Check, X, Info, AlertTriangle } from 'lucide-react';
 
 export const Toast = ({ message, type, onClose }) => {

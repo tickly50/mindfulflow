@@ -1,20 +1,18 @@
-import { useState, memo, useEffect, useCallback } from 'react';
+import { useState, memo, useMemo, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { generateMonthlyReportData } from '../../utils/moodCalculations';
+import useScrollLock from '../../hooks/useScrollLock';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
 import { X, Award, Sparkles, Calendar } from 'lucide-react';
 
 const ReportSession = memo(function ReportSession({ onClose, entries }) {
   const [slide, setSlide] = useState(0);
-  const [reportData, setReportData] = useState(null);
 
-  useEffect(() => {
+  const reportData = useMemo(() => {
     const now = new Date();
-    // Default to current month
-    const data = generateMonthlyReportData(entries, now.getMonth(), now.getFullYear());
-    setReportData(data);
+    return generateMonthlyReportData(entries, now.getMonth(), now.getFullYear());
   }, [entries]);
 
   const nextSlide = useCallback(() => {
@@ -29,20 +27,16 @@ const ReportSession = memo(function ReportSession({ onClose, entries }) {
     setSlide(s => (s > 0 ? s - 1 : s));
   }, []);
 
-  // Lock body scroll and handle Escape
+  useScrollLock(true);
+
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') onClose();
       else if (e.key === 'ArrowRight') nextSlide();
       else if (e.key === 'ArrowLeft') prevSlide();
     };
-
-    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKey);
-    };
+    return () => window.removeEventListener('keydown', handleKey);
   }, [slide, reportData, nextSlide, prevSlide, onClose]);
 
   if (!reportData || reportData.totalEntries === 0) {

@@ -1,5 +1,5 @@
 import { db } from './db';
-import { calculateLongestStreak } from './moodCalculations';
+import { calculateLongestStreak, getTags } from './moodCalculations';
 
 export const ACHIEVEMENTS = [
   {
@@ -36,7 +36,7 @@ export const ACHIEVEMENTS = [
     icon: 'Flame',
     gradient: 'from-rose-400 to-red-600',
     shadow: 'shadow-glow-violet', // fallback
-    condition: (entries) => calculateLongestStreak(entries) >= 7
+    condition: (_entries, longestStreak) => longestStreak >= 7
   },
   {
     id: 'marathon',
@@ -45,7 +45,7 @@ export const ACHIEVEMENTS = [
     icon: 'Trophy',
     gradient: 'from-yellow-400 to-amber-600',
     shadow: 'shadow-glow-orange',
-    condition: (entries) => calculateLongestStreak(entries) >= 30
+    condition: (_entries, longestStreak) => longestStreak >= 30
   },
   {
     id: 'zen-master',
@@ -56,7 +56,7 @@ export const ACHIEVEMENTS = [
     shadow: 'shadow-glow-emerald',
     condition: (entries) => {
        const calmEntries = entries.filter(e => {
-         const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+         const tags = getTags(e);
          return tags.includes('sleep') || tags.includes('health');
        });
        return calmEntries.length >= 5;
@@ -108,7 +108,7 @@ export const ACHIEVEMENTS = [
     icon: 'Activity',
     gradient: 'from-indigo-300 to-cyan-500',
     shadow: 'shadow-glow-cyan',
-    condition: (entries) => new Set(entries.map(e => Math.round(e.score))).size >= 5
+    condition: (entries) => new Set(entries.map(e => Math.round(e.mood))).size >= 5
   },
   {
     id: 'perfect-week',
@@ -118,7 +118,7 @@ export const ACHIEVEMENTS = [
     gradient: 'from-amber-300 to-yellow-500',
     shadow: 'shadow-glow-orange',
     condition: (entries) => {
-      const goodEntries = entries.filter(e => e.score >= 4);
+      const goodEntries = entries.filter(e => e.mood >= 4);
       return calculateLongestStreak(goodEntries) >= 7;
     }
   },
@@ -129,7 +129,7 @@ export const ACHIEVEMENTS = [
     icon: 'Smile',
     gradient: 'from-green-400 to-emerald-600',
     shadow: 'shadow-glow-emerald',
-    condition: (entries) => entries.filter(e => Math.round(e.score) === 5).length >= 10
+    condition: (entries) => entries.filter(e => Math.round(e.mood) === 5).length >= 10
   },
   {
     id: 'social-butterfly',
@@ -140,7 +140,7 @@ export const ACHIEVEMENTS = [
     shadow: 'shadow-glow-red',
     condition: (entries) => {
        const socialEntries = entries.filter(e => {
-         const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+         const tags = getTags(e);
          return tags.includes('family') || tags.includes('social');
        });
        return socialEntries.length >= 10;
@@ -155,7 +155,7 @@ export const ACHIEVEMENTS = [
     shadow: 'shadow-glow-cyan',
     condition: (entries) => {
        const workEntries = entries.filter(e => {
-         const tags = Array.isArray(e.tags) ? e.tags : (Array.isArray(e.activities) ? e.activities : []);
+         const tags = getTags(e);
          return tags.includes('work');
        });
        return workEntries.length >= 10;
@@ -175,9 +175,12 @@ export const checkAndUnlockAchievements = async (entries) => {
     const existing = await db.achievements.toArray();
     const existingIds = new Set(existing.map(a => a.id));
 
+    // Cache streak computation — used by multiple achievement conditions
+    const _longestStreak = calculateLongestStreak(entries);
+
     for (const achievement of ACHIEVEMENTS) {
       if (!existingIds.has(achievement.id)) {
-        if (achievement.condition(entries)) {
+        if (achievement.condition(entries, _longestStreak)) {
           unlockedNow.push({
             id: achievement.id,
             unlockedAt: new Date().toISOString()

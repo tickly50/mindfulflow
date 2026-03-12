@@ -34,7 +34,7 @@ export default function ConfirmModal({
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, onConfirm]);
 
   if (typeof document === 'undefined') return null;
 

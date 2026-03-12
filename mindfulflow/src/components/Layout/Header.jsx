@@ -11,7 +11,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
 import { useSettings } from '../../context/SettingsContext';
 import { haptics } from '../../utils/haptics';
-import { Wind, Trash2, Flame, Settings, Download, Upload, X, Bell, Volume2, VolumeX, Smartphone, MonitorSmartphone } from 'lucide-react';
+import { Wind, Trash2, Flame, Settings, Download, Upload, X } from 'lucide-react';
 
 /**
  * Main application header with navigation, streak badge and settings.

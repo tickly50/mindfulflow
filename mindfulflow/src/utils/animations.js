@@ -4,32 +4,11 @@
 // Exits are always faster than entrances.
 
 // ─── Spring Presets ──────────────────────────────────────────────────────────
-export const springConfig = {
-  type: "spring",
-  stiffness: 240, // Softer for less jitter
-  damping: 26,
-  mass: 0.5,
-};
-
 export const springConfigFast = {
   type: "spring",
-  stiffness: 280, // Reduced from 300
+  stiffness: 280,
   damping: 28,
   mass: 0.4,
-};
-
-export const springConfigSlow = {
-  type: "spring",
-  stiffness: 160,
-  damping: 24,
-  mass: 0.8,
-};
-
-export const springBounce = {
-  type: "spring",
-  stiffness: 300,
-  damping: 18, // Reduced bounce
-  mass: 0.5,
 };
 
 // ─── Easing Curves ───────────────────────────────────────────────────────────
@@ -39,12 +18,6 @@ export const easeConfig = {
   bounce: [0.34, 1.56, 0.64, 1],
   inOut: [0.4, 0.0, 0.2, 1.0],
   out: [0.0, 0.0, 0.2, 1.0],
-};
-
-export const transitionConfig = {
-  fast: { duration: 0.15, ease: [0.4, 0.0, 0.2, 1.0] },
-  base: { duration: 0.25, ease: [0.4, 0.0, 0.2, 1.0] },
-  slow: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1.0] },
 };
 
 // ─── Page Transition Variants ─────────────────────────────────────────────────
@@ -348,18 +321,3 @@ export const microInteractions = {
   },
 };
 
-export const hoverVariants = {
-  lift: {
-    rest: { y: 0, scale: 1 },
-    hover: {
-      y: -5,
-      scale: 1.02,
-      transition: { type: "spring", stiffness: 300, damping: 20, mass: 0.6 },
-    },
-    tap: {
-      y: -2,
-      scale: 0.97,
-      transition: { type: "spring", stiffness: 400, damping: 22, mass: 0.5 },
-    },
-  },
-};

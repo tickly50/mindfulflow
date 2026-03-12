@@ -2,19 +2,12 @@ import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import { calculateActivityStats } from '../../utils/moodCalculations';
-import { MOOD_COLORS } from '../../utils/moodConstants';
+import { MOOD_COLORS, CONTEXT_TAG_ICONS } from '../../utils/moodConstants';
 import { springConfigFast } from '../../utils/animations';
-import { Briefcase, Moon, Users, Heart, DollarSign, MessageCircle, ActivityIcon, Tag } from 'lucide-react';
+import { ActivityIcon, Tag } from 'lucide-react';
+import GlassCard from '../common/GlassCard';
 
-const iconMap = {
-  Briefcase,
-  Moon,
-  Users,
-  Heart,
-  DollarSign,
-  MessageCircle,
-  Activity: ActivityIcon,
-};
+const iconMap = { ...CONTEXT_TAG_ICONS, Activity: ActivityIcon };
 
 /**
  * Activity Stats component
@@ -33,12 +26,11 @@ const ActivityStats = memo(function ActivityStats({ data }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={springConfigFast}
-      className="glass-card p-5 sm:p-6 rounded-[2rem] border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 shadow-glass-lg flex flex-col h-[350px] relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-[2rem]" />
-      <h3 className="text-lg font-bold text-white mb-4 relative z-10">Vliv aktivit na náladu</h3>
+      <GlassCard className="p-5 sm:p-6 flex flex-col h-[350px]">
+      <h3 className="text-lg font-bold text-white mb-4">Vliv aktivit na náladu</h3>
       
-      <div className="flex-1 space-y-3 overflow-y-auto pr-2 premium-scroll relative z-10">
+      <div className="flex-1 space-y-3 overflow-y-auto pr-2 premium-scroll">
         {topStats.map((stat, idx) => {
           const IconComponent = iconMap[stat.icon] || Tag;
           const hasRecords = stat.count > 0;
@@ -82,6 +74,7 @@ const ActivityStats = memo(function ActivityStats({ data }) {
            </div>
         )}
       </div>
+      </GlassCard>
     </motion.div>
   );
 });

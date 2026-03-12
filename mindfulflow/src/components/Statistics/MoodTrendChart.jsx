@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { motion, useReducedMotion } from 'framer-motion';
 import { MOOD_LABELS, MOOD_COLORS } from '../../utils/moodConstants';
-import { springConfigFast } from '../../utils/animations';
+import GlassCard from '../common/GlassCard';
 
 const EMPTY = [];
 
@@ -79,17 +79,16 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-      className="glass-card p-5 sm:p-6 rounded-[2rem] border border-white/10 ring-1 ring-white/5 backdrop-blur-xl bg-[#0f172a]/40 shadow-glass-lg h-[400px] w-full"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-[2rem]" />
-      <div className="mb-6 flex justify-between items-center relative z-10">
+      <GlassCard className="p-5 sm:p-6 h-[400px] w-full">
+      <div className="mb-6 flex justify-between items-center">
         <div>
           <h3 className="text-xl font-bold text-white">Vývoj Nálady</h3>
           <p className="text-white/60 text-sm">Tvoje emoční křivka v čase</p>
         </div>
       </div>
 
-      <div className="w-full h-[300px] relative z-10">
+      <div className="w-full h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
             <defs>
@@ -136,6 +135,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
           </AreaChart>
         </ResponsiveContainer>
       </div>
+      </GlassCard>
     </motion.div>
   );
 });

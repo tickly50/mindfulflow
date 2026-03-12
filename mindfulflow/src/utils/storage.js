@@ -23,14 +23,21 @@ export const saveMoodEntry = async (entry) => {
   }
 };
 
-/** Get all mood entries sorted oldest-first */
-export const getAllEntries = async () =>
-  db.moods.orderBy('timestamp').toArray();
-
 /** Calculate the current daily streak */
 export const calculateStreak = async () => {
   const entries = await db.moods.orderBy('timestamp').reverse().toArray();
   return calcStreak(entries);
+};
+
+/** Update specific fields of an existing mood entry by id */
+export const updateMoodEntry = async (id, updates) => {
+  try {
+    await db.moods.update(id, updates);
+    return true;
+  } catch (error) {
+    if (import.meta.env.DEV) console.error('Error updating mood entry:', error);
+    throw error;
+  }
 };
 
 /** Clear all data and fully reset the app */
