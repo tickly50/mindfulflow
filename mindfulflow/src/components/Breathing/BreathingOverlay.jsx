@@ -377,10 +377,10 @@ const BreathingSession = memo(function BreathingSession({ technique, onClose, on
 
       {/* ── Centre ── */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-6 px-5" aria-live="polite">
-        <div className="relative flex items-center justify-center" style={{ width: 260, height: 260 }}>
+        <div className="relative flex items-center justify-center" style={{ width: 'min(260px, 75vw)', height: 'min(260px, 75vw)' }}>
           {/* SVG ring */}
           <svg
-            width="260" height="260"
+            width="100%" height="100%"
             viewBox="0 0 260 260"
             className="absolute inset-0 pointer-events-none drop-shadow-xl"
             style={{ transform: 'rotate(-90deg)' }}

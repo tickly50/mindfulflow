@@ -23,7 +23,7 @@ export const Toast = ({ message, type, onClose }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 6, transition: { duration: 0.18, ease: [0.33, 1, 0.68, 1] } }}
       transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
-      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg min-w-[300px] ${bgColors[type] || bgColors.info} bg-[#0f172a]/95`}
+      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg w-full sm:min-w-[300px] sm:w-auto ${bgColors[type] || bgColors.info} bg-[#0f172a]/95`}
       style={{ 
         willChange: 'opacity'
       }}

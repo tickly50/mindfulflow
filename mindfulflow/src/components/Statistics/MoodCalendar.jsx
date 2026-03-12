@@ -96,7 +96,7 @@ const MoodCalendar = memo(function MoodCalendar({ entries }) {
   }
 
   return (
-    <div className="bg-white/5  rounded-2xl p-4 sm:p-5 relative">
+    <div className="bg-white/5 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
       {/* Background Blurs */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none overflow-hidden" />
       <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl pointer-events-none overflow-hidden" />
