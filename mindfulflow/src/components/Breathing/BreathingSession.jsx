@@ -212,7 +212,10 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
           return next;
         });
       } else {
-        setRemaining(left);
+        // Only update state when the displayed integer actually changes.
+        // React bails out (no re-render) when the new value is identical via Object.is,
+        // dropping re-renders from 12.5×/sec down to ~1×/sec (once per second tick).
+        setRemaining(prev => (prev !== left ? left : prev));
       }
     }, 80);
 

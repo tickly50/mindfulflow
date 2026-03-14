@@ -4,7 +4,8 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { memo, useState, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { calculateStreak, downloadBackup, importData, clearAllEntries } from '../../utils/storage';
+import { calculateStreak as calcStreakPure } from '../../utils/moodCalculations';
+import { downloadBackup, importData, clearAllEntries } from '../../utils/storage';
 import { useToast } from '../../context/ToastContext';
 import { springConfigFast, easeConfig, variants, microInteractions } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
@@ -23,9 +24,12 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
   const { success, error } = useToast();
   const { settings, updateSettings } = useSettings();
 
-  // Live streak update
+  // Live streak — only fetch entries from the last 400 days (streak cannot exceed that
+  // in practice) instead of loading the entire moods table on every DB write.
   const streak = useLiveQuery(async () => {
-    return await calculateStreak();
+    const cutoff = new Date(Date.now() - 400 * 86_400_000).toISOString();
+    const recentEntries = await db.moods.where('timestamp').above(cutoff).toArray();
+    return calcStreakPure(recentEntries);
   }, []) || 0;
 
   // Fetch settings on mount (e.g., if we added other settings)

@@ -10,7 +10,6 @@ export function ToastProvider({ children }) {
 
   const removeToast = useCallback((id) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
-    // Clear timeout if exists
     if (timeoutRefs.current.has(id)) {
       clearTimeout(timeoutRefs.current.get(id));
       timeoutRefs.current.delete(id);
@@ -38,11 +37,17 @@ export function ToastProvider({ children }) {
     };
   }, []);
 
-  const success = (msg) => addToast(msg, 'success');
-  const error = (msg) => addToast(msg, 'error');
-  const info = (msg) => addToast(msg, 'info');
+  // Stable helpers — each is memoized so consumers that destructure { success }
+  // and place it in their own useCallback/useMemo deps always hold a fresh,
+  // correct reference and never silently call a stale closure.
+  const success = useCallback((msg) => addToast(msg, 'success'), [addToast]);
+  const error   = useCallback((msg) => addToast(msg, 'error'),   [addToast]);
+  const info    = useCallback((msg) => addToast(msg, 'info'),    [addToast]);
 
-  const contextValue = useMemo(() => ({ addToast, removeToast, success, error, info }), [addToast, removeToast]);
+  const contextValue = useMemo(
+    () => ({ addToast, removeToast, success, error, info }),
+    [addToast, removeToast, success, error, info],
+  );
 
   return (
     <ToastContext.Provider value={contextValue}>

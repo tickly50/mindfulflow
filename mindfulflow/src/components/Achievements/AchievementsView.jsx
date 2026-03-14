@@ -1,4 +1,5 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { motion } from 'framer-motion';
 
 import { db } from '../../utils/db';
@@ -8,20 +9,27 @@ import { useMoodEntries } from '../../utils/queries';
 import { Award, Sun, BookOpen, Flame, Wind, Moon, Trophy, Star, Heart, Crown, Coffee, Activity, Sparkles, Smile, Users, Briefcase } from 'lucide-react';
 
 const AchievementsView = memo(function AchievementsView() {
-  const [unlockedIds, setUnlockedIds] = useState(new Set());
   const entries = useMoodEntries(false);
 
+  // Reactive read of the achievements table — re-renders only when rows are added
+  const unlockedAchievements = useLiveQuery(() => db.achievements.toArray(), []);
+  const unlockedIds = unlockedAchievements
+    ? new Set(unlockedAchievements.map(a => a.id))
+    : new Set();
+
+  // Track the last entry count we ran the check for so we only pay the O(n×m)
+  // cost when a genuinely new mood entry has been added, not on every DB write.
+  const lastCheckedCountRef = useRef(-1);
+
   useEffect(() => {
-    const loadAchievements = async () => {
-      // First, check if any new ones should be unlocked
-      if (entries && entries.length > 0) {
-        await checkAndUnlockAchievements(entries);
-      }
-      // Then load all unlocked ones
-      const existing = await db.achievements.toArray();
-      setUnlockedIds(new Set(existing.map(a => a.id)));
-    };
-    loadAchievements();
+    if (!entries) return;
+    const count = entries.length;
+    if (count === lastCheckedCountRef.current) return;
+    lastCheckedCountRef.current = count;
+
+    if (count > 0) {
+      checkAndUnlockAchievements(entries).catch(() => {});
+    }
   }, [entries]);
 
   return (
