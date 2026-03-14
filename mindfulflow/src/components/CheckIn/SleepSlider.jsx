@@ -7,6 +7,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef(null);
   const hasMoved = useRef(false);
+  const dragFromThumb = useRef(false);
   const pointerStartX = useRef(0);
   const valueBeforeDrag = useRef(value);
 
@@ -26,8 +27,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   }, [value, isDragging, x]);
 
   const handleInput = (e) => {
-    // Ignore input events that come from a click (no pointer movement)
-    if (!hasMoved.current) return;
+    if (!hasMoved.current || !dragFromThumb.current) return;
 
     const rawVal = parseFloat(e.target.value);
     
@@ -41,8 +41,18 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
 
   const handlePointerDown = (e) => {
     hasMoved.current = false;
+    dragFromThumb.current = false;
     pointerStartX.current = e.clientX;
     valueBeforeDrag.current = parseFloat(inputRef.current?.value ?? value);
+
+    // Only allow dragging when the pointer starts on the thumb
+    if (inputRef.current) {
+      const rect = inputRef.current.getBoundingClientRect();
+      const thumbPixelX = rect.left + (x.get() / 100) * rect.width;
+      const hitRadius = 24; // thumb is 24px wide + tolerance for touch
+      dragFromThumb.current = Math.abs(e.clientX - thumbPixelX) <= hitRadius;
+    }
+
     setIsDragging(true);
   };
 
@@ -56,8 +66,8 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
     setIsDragging(false);
     if (!inputRef.current) return;
 
-    // If the user only clicked without dragging, revert to the value before interaction
-    if (!hasMoved.current) {
+    // Revert if not dragging from thumb, or no actual movement
+    if (!hasMoved.current || !dragFromThumb.current) {
       inputRef.current.value = valueBeforeDrag.current;
       animate(x, (valueBeforeDrag.current / 12) * 100, { type: 'spring', stiffness: 500, damping: 30 });
       return;
