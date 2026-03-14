@@ -26,9 +26,8 @@ const StatisticsView = memo(function StatisticsView() {
     if (!entries) return [];
     if (timeRange === 'all') return entries;
 
-    const days = parseInt(timeRange);
-    const cutoff = new Date(Date.now() - days * 86_400_000);
-    return entries.filter((e) => new Date(e.timestamp) >= cutoff);
+    const cutoffMs = Date.now() - parseInt(timeRange) * 86_400_000;
+    return entries.filter((e) => +new Date(e.timestamp) >= cutoffMs);
   }, [entries, timeRange]);
 
   const stats = useMemo(() => calculateMoodStats(filteredEntries), [filteredEntries]);
@@ -106,7 +105,7 @@ const StatisticsView = memo(function StatisticsView() {
         {/* Left Column: Calendar & Insights (Always visible) */}
         <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-1 relative z-20 transform-gpu" style={{ willChange: 'opacity, transform' }}>
           <MoodCalendar entries={entries} />
-          <InsightsCard entries={filteredEntries} />
+          <InsightsCard entries={filteredEntries} avgMood={stats.average} />
         </motion.div>
 
         {/* Right Column: Charts */}

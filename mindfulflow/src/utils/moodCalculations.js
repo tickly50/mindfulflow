@@ -136,38 +136,40 @@ export const calculateStreak = (entries) => {
 
 /**
  * Calculate longest streak ever (consecutive days with entries)
+ * Uses local YYYY-MM-DD strings and Date arithmetic — immune to DST shifts.
  * @param {Array} entries - Array of mood entries
  * @returns {number} Max number of consecutive days
  */
 export const calculateLongestStreak = (entries) => {
   if (!entries || entries.length === 0) return 0;
 
-  const uniqueDates = Array.from(new Set(
-    entries.map((e) => new Date(e.timestamp).toDateString())
-  )).map(dateStr => new Date(dateStr).getTime()).sort((a, b) => a - b);
+  const toLocalISO = (ts) => {
+    const d = new Date(ts);
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${m}-${day}`;
+  };
 
-  if (uniqueDates.length === 0) return 0;
+  // ISO strings sort correctly as plain strings
+  const sorted = Array.from(new Set(entries.map((e) => toLocalISO(e.timestamp)))).sort();
+  if (sorted.length === 0) return 0;
 
   let maxStreak = 1;
   let currentStreak = 1;
 
-  for (let i = 1; i < uniqueDates.length; i++) {
-    const prevDate = uniqueDates[i - 1];
-    const currentDate = uniqueDates[i];
-    
-    // Check if dates are consecutive (difference is exactly 24 hours +/- small margin for DST/leap seconds logic if needed, 
-    // but here we are comparing timestamps of midnight/date-strings so roughly 86400000ms)
-    // Actually, since we converted toDateString() back to timestamp, they are exactly 24h apart if consecutive.
-    const oneDay = 24 * 60 * 60 * 1000;
-    
-    if (currentDate - prevDate === oneDay) {
+  for (let i = 1; i < sorted.length; i++) {
+    // Compute "prev + 1 day" via Date to handle month/year boundaries
+    const prev = new Date(sorted[i - 1] + 'T00:00:00');
+    const expectedNext = toLocalISO(new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() + 1));
+
+    if (sorted[i] === expectedNext) {
       currentStreak++;
     } else {
       maxStreak = Math.max(maxStreak, currentStreak);
       currentStreak = 1;
     }
   }
-  
+
   return Math.max(maxStreak, currentStreak);
 };
 
@@ -250,14 +252,16 @@ export const calculateAverageSleep = (entries) => {
 
 /**
  * Calculate simple insights based on entry correlations (Tags vs Mood)
+ * @param {Array} entries
+ * @param {number} [precomputedAvg] - Already-computed average mood to avoid a redundant stats pass
  */
-export const calculateInsights = (entries) => {
-  if (!entries || entries.length < 5) return []; // Require at least 5 entries for meaningful correlations
+export const calculateInsights = (entries, precomputedAvg) => {
+  if (!entries || entries.length < 5) return [];
 
   const insights = [];
   const tagMoods = {};
 
-  const avgMood = calculateMoodStats(entries).average;
+  const avgMood = precomputedAvg ?? calculateMoodStats(entries).average;
 
   entries.forEach(e => {
     const tags = getTags(e);

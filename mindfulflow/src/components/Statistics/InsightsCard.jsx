@@ -7,13 +7,13 @@ import GlassCard from '../common/GlassCard';
 
 const IconMap = { ...CONTEXT_TAG_ICONS, Lightbulb, Info };
 
-const InsightsCard = memo(function InsightsCard({ entries }) {
+const InsightsCard = memo(function InsightsCard({ entries, avgMood }) {
   const insights = useMemo(() => {
     if (entries && entries.length > 0) {
-      return calculateInsights(entries);
+      return calculateInsights(entries, avgMood);
     }
     return [];
-  }, [entries]);
+  }, [entries, avgMood]);
 
   if (insights.length === 0) return null;
 

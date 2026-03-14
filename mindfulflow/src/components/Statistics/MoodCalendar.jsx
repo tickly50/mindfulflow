@@ -4,6 +4,8 @@ import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
 import { getTags } from '../../utils/moodCalculations';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
+const computePct = (cellIndex) => ((cellIndex % 7 + 0.5) / 7) * 100;
+
 const formatDate = (date) => {
   const d = new Date(date);
   const month = '' + (d.getMonth() + 1);
@@ -27,15 +29,19 @@ const MONTH_NAMES = [
 const DAY_NAMES = ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'];
 
 // ─── Single memoized cell ─────────────────────────────────────────────────────
-// Receives stable `onEnter` / `onLeave` callbacks so it never re-renders when
-// a different cell is hovered — only the cell whose data changed will re-render.
-const CalendarCell = memo(function CalendarCell({ date, dateStr, dayData, isToday, onEnter, onLeave }) {
+// Each cell builds its own stable handler with useCallback so that changing
+// hoveredDay in the parent never forces unrelated cells to re-render.
+const CalendarCell = memo(function CalendarCell({ colIndex, date, dateStr, dayData, isToday, onEnter, onLeave }) {
+  const handleEnter = useCallback(() => {
+    onEnter(dateStr, dayData, date, computePct(colIndex));
+  }, [colIndex, dateStr, dayData, date, onEnter]);
+
   return (
     <div
       className="relative aspect-square"
-      onMouseEnter={onEnter}
+      onMouseEnter={handleEnter}
       onMouseLeave={onLeave}
-      onTouchStart={onEnter}
+      onTouchStart={handleEnter}
     >
       <motion.div
         whileHover={{ scale: 1.1, zIndex: 10 }}
@@ -161,23 +167,12 @@ const MoodCalendar = memo(function MoodCalendar({ entries }) {
     return cells;
   }, [currentYear, currentMonth, firstDay, daysInMonth]);
 
-  // Stable clear handler shared by all cells
   const handleLeave = useCallback(() => setHoveredDay(null), []);
 
-  // Build a stable enter handler per cell using useCallback with a key.
-  // We pass the handler factory into each CalendarCell via a per-cell stable ref.
-  // Because CalendarCell is memo'd and its props (dateStr, dayData, isToday) are
-  // stable across hover state changes, cells only re-render when their own data changes.
-  const handleEnterFactory = useCallback((dateStr, dayData, date, cellIndex) => {
-    // Return a stable reference tied to the cell index (not to hoveredDay state),
-    // so changing hoveredDay doesn't invalidate these closures.
-    return () => {
-      // Compute approximate horizontal centre of this cell for tooltip positioning.
-      // cellIndex within the 7-column week row: (cellIndex % 7) + 0.5 columns
-      const col = cellIndex % 7;
-      const pct = ((col + 0.5) / 7) * 100;
-      setHoveredDay({ dateStr, data: dayData, date, x: `${pct}%` });
-    };
+  // Single stable handler — each CalendarCell closes over its own args via its
+  // own useCallback, so changing hoveredDay never forces unrelated cells to re-render.
+  const handleEnter = useCallback((dateStr, dayData, date, pct) => {
+    setHoveredDay({ dateStr, data: dayData, date, x: `${pct}%` });
   }, []);
 
   return (
@@ -241,11 +236,12 @@ const MoodCalendar = memo(function MoodCalendar({ entries }) {
             return (
               <CalendarCell
                 key={dateStr}
+                colIndex={i}
                 date={date}
                 dateStr={dateStr}
                 dayData={dayData}
                 isToday={isToday}
-                onEnter={handleEnterFactory(dateStr, dayData, date, i)}
+                onEnter={handleEnter}
                 onLeave={handleLeave}
               />
             );

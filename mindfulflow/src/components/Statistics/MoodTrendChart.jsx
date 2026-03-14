@@ -54,19 +54,22 @@ const MoodTrendChart = memo(function MoodTrendChart({ data }) {
   const reducedMotion = useReducedMotion();
   const safeData = data ?? EMPTY;
 
-  // Format data for chart (memoized to avoid expensive date formatting on every render)
   const chartData = useMemo(() => {
-    return safeData.map((entry) => ({
-      ...entry,
-      date: new Date(entry.timestamp).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'short' }),
-      fullDate: new Date(entry.timestamp).toLocaleString('cs-CZ', {
-        day: 'numeric',
-        month: 'long',
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-      moodLabel: MOOD_LABELS[entry.mood],
-    }));
+    return safeData.map((entry) => {
+      const d = new Date(entry.timestamp);
+      return {
+        mood: entry.mood,
+        note: entry.note,
+        date: d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'short' }),
+        fullDate: d.toLocaleString('cs-CZ', {
+          day: 'numeric',
+          month: 'long',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        moodLabel: MOOD_LABELS[entry.mood],
+      };
+    });
   }, [safeData]);
 
   if (chartData.length === 0) return null;
