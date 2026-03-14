@@ -6,6 +6,9 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   const [displayValue, setDisplayValue] = useState(value);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef(null);
+  const hasMoved = useRef(false);
+  const pointerStartX = useRef(0);
+  const valueBeforeDrag = useRef(value);
 
   // Motion value target (0-100) maps directly to 0-12 hours
   const x = useMotionValue((value / 12) * 100);
@@ -23,6 +26,9 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   }, [value, isDragging, x]);
 
   const handleInput = (e) => {
+    // Ignore input events that come from a click (no pointer movement)
+    if (!hasMoved.current) return;
+
     const rawVal = parseFloat(e.target.value);
     
     // Smoothly update visual track directly via framer-motion (0 overhead)
@@ -33,13 +39,29 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
     setDisplayValue(prev => prev !== snapped ? snapped : prev);
   };
 
-  const handlePointerDown = () => {
+  const handlePointerDown = (e) => {
+    hasMoved.current = false;
+    pointerStartX.current = e.clientX;
+    valueBeforeDrag.current = parseFloat(inputRef.current?.value ?? value);
     setIsDragging(true);
+  };
+
+  const handlePointerMove = (e) => {
+    if (!hasMoved.current && Math.abs(e.clientX - pointerStartX.current) > 4) {
+      hasMoved.current = true;
+    }
   };
 
   const handlePointerUp = () => {
     setIsDragging(false);
     if (!inputRef.current) return;
+
+    // If the user only clicked without dragging, revert to the value before interaction
+    if (!hasMoved.current) {
+      inputRef.current.value = valueBeforeDrag.current;
+      animate(x, (valueBeforeDrag.current / 12) * 100, { type: 'spring', stiffness: 500, damping: 30 });
+      return;
+    }
 
     // Physical snap after release
     const rawVal = parseFloat(inputRef.current.value);
@@ -84,6 +106,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
           defaultValue={value}
           onInput={handleInput}
           onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           className="absolute inset-x-6 inset-y-0 h-full opacity-0 cursor-pointer z-50 m-0 w-[calc(100%-3rem)] touch-none"
