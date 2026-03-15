@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { motion } from 'framer-motion';
 
@@ -87,9 +87,14 @@ const AchievementsView = memo(function AchievementsView() {
               <h4 className="text-lg font-bold text-white text-center leading-tight mb-2">
                 {achievement.title}
               </h4>
-              <p className="text-sm text-center text-white/60 leading-snug">
-                {isUnlocked ? 'Odemčeno!' : achievement.description}
+              <p className="text-sm text-center text-white/60 leading-snug mb-2">
+                {achievement.description}
               </p>
+              {isUnlocked && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400/90 bg-amber-400/10 border border-amber-400/20 px-2.5 py-1 rounded-full">
+                  ✓ Odemčeno
+                </span>
+              )}
             </motion.div>
           );
         })}

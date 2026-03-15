@@ -5,6 +5,7 @@ import { BreathingCircle } from './BreathingCircle';
 import { Controls } from './Controls';
 import { useBreathingAudio } from './useBreathingAudio';
 import { haptics } from '../../utils/haptics';
+import { useSettings } from '../../context/SettingsContext';
 
 /* ─── Phase-reactive background ──────────────────────────────── */
 const BLOBS = [
@@ -125,6 +126,7 @@ const Particles = memo(function Particles({ accent }) {
 /* ─── Session screen ──────────────────────────────────────────── */
 export const BreathingSession = memo(function BreathingSession({ technique, onClose, onBack }) {
   const { phases, accent, bg, glow, fact, name } = technique;
+  const { settings } = useSettings();
 
   const [isRunning,   setIsRunning]   = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
@@ -132,7 +134,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
   const [phaseIdx,    setPhaseIdx]    = useState(0);
   const [remaining,   setRemaining]   = useState(phases[0].seconds);
   const [cycles,      setCycles]      = useState(0);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(() => settings.soundEnabled !== false);
 
   const startRef = useRef(0);
   const { playTone, setEnabled } = useBreathingAudio();
@@ -147,7 +149,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
     const req = async () => {
       try {
         if ('wakeLock' in navigator) lock = await navigator.wakeLock.request('screen');
-      } catch (_) {}
+      } catch (_err) { /* WakeLock not supported or denied */ }
     };
     req();
     return () => { if (lock) lock.release().catch(() => {}); };
@@ -167,6 +169,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
   // 3-2-1 prep countdown
   useEffect(() => {
     if (!isPreparing) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPrepCount(3);
     startRef.current = Date.now();
 
@@ -192,6 +195,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
     if (!isRunning || isPreparing) return;
     const phase = phases[phaseIdx];
     startRef.current = Date.now();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRemaining(phase.seconds);
 
     const id = setInterval(() => {

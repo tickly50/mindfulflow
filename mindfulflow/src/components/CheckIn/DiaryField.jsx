@@ -55,6 +55,9 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
           <span className="bg-gradient-to-r from-purple-100 to-fuchsia-200 bg-clip-text text-transparent">
             Osobní poznámka
           </span>
+          <span className="text-xs font-normal text-white/30 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">
+            nepovinné
+          </span>
         </h3>
 
         <div className="flex items-center gap-3" ref={menuRef}>

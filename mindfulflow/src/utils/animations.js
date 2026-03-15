@@ -46,21 +46,21 @@ export const easeConfig = {
 export const pageVariants = {
   initial: {
     opacity: 0,
-    y: 8,
+    y: 4,
   },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.35,
+      duration: 0.3,
       ease: [0.16, 1, 0.3, 1],
     },
   },
   exit: {
     opacity: 0,
-    y: -6,
+    y: -3,
     transition: {
-      duration: 0.2,
+      duration: 0.18,
       ease: [0.4, 0.0, 1, 1],
     },
   },
@@ -106,36 +106,36 @@ export const variants = {
 
   // Standard item: slide up + fade in
   item: {
-    hidden: { opacity: 0, y: 14 },
+    hidden: { opacity: 0, y: 8 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
         type: "spring",
-        stiffness: 240,
-        damping: 26,
-        mass: 0.6,
+        stiffness: 280,
+        damping: 28,
+        mass: 0.5,
       },
     },
     exit: {
       opacity: 0,
-      y: -6,
-      transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
+      y: -4,
+      transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
     },
   },
 
   // Gentle fade – for low-key elements
   fadeIn: {
-    hidden: { opacity: 0, y: 8 },
+    hidden: { opacity: 0, y: 5 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.35, ease: [0.4, 0.0, 0.2, 1.0] },
+      transition: { duration: 0.3, ease: [0.4, 0.0, 0.2, 1.0] },
     },
     exit: {
       opacity: 0,
-      y: -4,
-      transition: { duration: 0.18, ease: [0.4, 0.0, 0.2, 1.0] },
+      y: -3,
+      transition: { duration: 0.15, ease: [0.4, 0.0, 0.2, 1.0] },
     },
   },
 
@@ -180,21 +180,21 @@ export const variants = {
 
   // Slide up – toasts, banners, tray panels
   slideUp: {
-    hidden: { opacity: 0, y: 24 },
+    hidden: { opacity: 0, y: 12 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
         type: "spring",
-        stiffness: 260,
-        damping: 24,
-        mass: 0.7,
+        stiffness: 280,
+        damping: 26,
+        mass: 0.6,
       },
     },
     exit: {
       opacity: 0,
-      y: 12,
-      transition: { duration: 0.18, ease: [0.65, 0, 0.35, 1] },
+      y: 6,
+      transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
@@ -273,51 +273,50 @@ export const variants = {
 
   // Greeting hero elements
   heroTitle: {
-    hidden: { opacity: 0, y: -20 },
+    hidden: { opacity: 0, y: -10 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
         type: "spring",
-        stiffness: 200,
-        damping: 20,
-        mass: 0.8,
+        stiffness: 260,
+        damping: 24,
+        mass: 0.7,
         delay: 0.05,
       },
     },
   },
 
   heroEmoji: {
-    hidden: { opacity: 0, y: -30, rotate: -15, scale: 0.7 },
+    hidden: { opacity: 0, y: -12, scale: 0.85 },
     show: {
       opacity: 1,
       y: 0,
-      rotate: 0,
       scale: 1,
       transition: {
         type: "spring",
-        stiffness: 240,
-        damping: 16,
-        mass: 0.7,
+        stiffness: 280,
+        damping: 22,
+        mass: 0.6,
       },
     },
   },
 
   heroSubtitle: {
-    hidden: { opacity: 0, y: 12 },
+    hidden: { opacity: 0, y: 8 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: [0.2, 0.8, 0.2, 1], delay: 0.18 },
+      transition: { duration: 0.35, ease: [0.2, 0.8, 0.2, 1], delay: 0.14 },
     },
   },
 
   heroQuote: {
-    hidden: { opacity: 0, y: 16 },
+    hidden: { opacity: 0, y: 10 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.45, ease: [0.2, 0.8, 0.2, 1], delay: 0.28 },
+      transition: { duration: 0.4, ease: [0.2, 0.8, 0.2, 1], delay: 0.22 },
     },
   },
 };

@@ -18,8 +18,9 @@ export default function ConfirmModal({
       if (e.key === 'Escape') {
         onClose();
       } else if (e.key === 'Enter') {
-        onConfirm();
+        e.preventDefault();
         onClose();
+        onConfirm();
       }
     };
 
@@ -74,8 +75,8 @@ export default function ConfirmModal({
               </button>
               <button
                 onClick={() => {
-                  onConfirm();
                   onClose();
+                  onConfirm();
                 }}
                 className={`px-6 py-2.5 rounded-xl text-base font-medium text-white shadow-lg transition-transform active:scale-95 ${
                   isDangerous 

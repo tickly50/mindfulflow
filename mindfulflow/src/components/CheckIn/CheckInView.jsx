@@ -164,12 +164,6 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
 
   const handleSubmit = useCallback(async () => {
     if (!selectedMood) return;
-    
-    if (diaryText.trim() === '') {
-      if (error) error('Pro uložení záznamu musíš napsat osobní poznámku.');
-      return;
-    }
-    
     haptics.medium();
     try {
       const entry = {
@@ -205,20 +199,20 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
           <AnimatePresence mode="wait">
             {selectedMood && (
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ 
                     opacity: 1, 
                     y: 0,
                     transition: { 
-                        y: { type: "spring", stiffness: 400, damping: 25 },
-                        opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+                        y: { type: "spring", stiffness: 380, damping: 28, mass: 0.5 },
+                        opacity: { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
                     } 
                 }}
                 exit={{ 
                     opacity: 0, 
-                    y: 20,
+                    y: 6,
                     transition: { 
-                      duration: 0.2,
+                      duration: 0.18,
                       ease: [0.4, 0, 0.2, 1]
                     }
                 }}

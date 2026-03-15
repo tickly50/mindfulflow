@@ -29,23 +29,26 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
+    if (import.meta.env.DEV) console.error("Uncaught error:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-8 text-white text-center">
-          <h2 className="text-xl font-bold mb-2">Something went wrong</h2>
-          <pre className="bg-black/20 p-4 rounded text-left overflow-auto text-xs">
-            {this.state.error && this.state.error.toString()}
-          </pre>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-white/10 rounded hover:bg-white/20"
-          >
-            Reload
-          </button>
+        <div className="min-h-[100dvh] flex items-center justify-center p-8 text-white text-center">
+          <div className="max-w-md">
+            <div className="text-5xl mb-4">😵</div>
+            <h2 className="text-2xl font-bold mb-3">Něco se pokazilo</h2>
+            <p className="text-white/60 mb-6 text-sm leading-relaxed">
+              Došlo k neočekávané chybě. Zkus stránku znovu načíst.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 bg-violet-600 hover:bg-violet-500 rounded-xl font-semibold transition-colors"
+            >
+              Znovu načíst
+            </button>
+          </div>
         </div>
       );
     }
@@ -60,14 +63,13 @@ function AppContent() {
   const [backgroundMounted, setBackgroundMounted] = useState(false);
 
   useEffect(() => {
-    // Defer rendering the heavy background to optimize LCP
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBackgroundMounted(true);
-    
+
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
 
-    // Enforce default theme
     document.documentElement.removeAttribute("data-theme");
   }, []);
 
@@ -189,7 +191,7 @@ function AppContent() {
 
 function App() {
   return (
-    <MotionConfig reducedMotion="never">
+    <MotionConfig reducedMotion="user">
       <SettingsProvider>
         <ToastProvider>
           <AppContent />

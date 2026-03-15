@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 /* ============================================
+   LOCAL FONT — prevents FOUT (Flash of Unstyled Text)
+   Loaded from local PWA cache, no network round-trip needed.
+   Google Fonts is kept as a supplemental fallback only.
+   ============================================ */
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
    MINDFUL GLASS DESIGN SYSTEM - PREMIUM EDITION
    ============================================ */
 

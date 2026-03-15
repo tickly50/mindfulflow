@@ -95,6 +95,7 @@ const StatisticsView = memo(function StatisticsView() {
   const filteredEntries = useMemo(() => {
     if (!entries) return [];
     if (timeRange === 'all') return entries;
+    // eslint-disable-next-line react-hooks/purity
     const cutoff = Date.now() - parseInt(timeRange) * 86_400_000;
     return entries.filter((e) => +new Date(e.timestamp) >= cutoff);
   }, [entries, timeRange]);

@@ -3,6 +3,7 @@ import { db } from '../../utils/db';
 import { CONTEXT_TAGS } from '../../utils/moodConstants';
 import { useState, useMemo, memo, useCallback, useEffect } from 'react';
 import { useToast } from '../../context/ToastContext';
+import { updateMoodEntry } from '../../utils/storage';
 import JournalFilters from './JournalFilters';
 import JournalTimeline from './JournalTimeline';
 import JournalEditor from './JournalEditor';
@@ -87,6 +88,7 @@ const JournalView = memo(function JournalView() {
 
   // Reset to page 1 on any filter change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
   }, [filterMood, filterTag, searchQuery]);
 
@@ -94,6 +96,7 @@ const JournalView = memo(function JournalView() {
 
   useEffect(() => {
     if (currentPage > totalPages && totalPages > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentPage(totalPages);
     }
   }, [totalPages, currentPage]);
@@ -133,7 +136,6 @@ const JournalView = memo(function JournalView() {
   const handleUpdate = useCallback(async () => {
     if (!editingEntry) return;
     try {
-      const { updateMoodEntry } = await import('../../utils/storage');
       await updateMoodEntry(editingEntry.id, {
         mood: editForm.mood,
         tags: editForm.tags,
@@ -191,7 +193,9 @@ const JournalView = memo(function JournalView() {
                 ? 'Žádné záznamy'
                 : entries.length === 1
                 ? '1 záznam'
-                : `${entries.length} záznamy`}
+                : entries.length >= 2 && entries.length <= 4
+                ? `${entries.length} záznamy`
+                : `${entries.length} záznamů`}
             </span>
             {(filterMood || filterTag || searchQuery) && allEntries && (
               <span className="text-xs text-white/25">z {allEntries.length} celkem</span>
@@ -225,17 +229,24 @@ const JournalView = memo(function JournalView() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex justify-center items-center gap-2 mt-6 mb-8"
+          className="flex justify-center items-center gap-1.5 mt-6 mb-8 flex-wrap"
         >
-          {Array.from({ length: totalPages }).map((_, i) => {
-            const p = i + 1;
-            return (
+          {/* Prev button */}
+          <button
+            onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            disabled={currentPage === 1}
+            className="w-10 h-10 rounded-xl font-medium transition-colors bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Předchozí stránka"
+          >
+            ‹
+          </button>
+
+          {(() => {
+            const pages = [];
+            const addPage = (p) => pages.push(
               <button
                 key={p}
-                onClick={() => {
-                  setCurrentPage(p);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                onClick={() => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className={`w-10 h-10 rounded-xl font-medium transition-colors ${
                   currentPage === p
                     ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/30'
@@ -245,7 +256,31 @@ const JournalView = memo(function JournalView() {
                 {p}
               </button>
             );
-          })}
+            const addEllipsis = (key) => pages.push(
+              <span key={key} className="w-10 h-10 flex items-center justify-center text-white/30 text-lg">…</span>
+            );
+
+            if (totalPages <= 7) {
+              for (let i = 1; i <= totalPages; i++) addPage(i);
+            } else {
+              addPage(1);
+              if (currentPage > 3) addEllipsis('start');
+              for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) addPage(i);
+              if (currentPage < totalPages - 2) addEllipsis('end');
+              addPage(totalPages);
+            }
+            return pages;
+          })()}
+
+          {/* Next button */}
+          <button
+            onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            disabled={currentPage === totalPages}
+            className="w-10 h-10 rounded-xl font-medium transition-colors bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Další stránka"
+          >
+            ›
+          </button>
         </motion.div>
       )}
 

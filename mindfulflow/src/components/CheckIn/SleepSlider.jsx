@@ -20,6 +20,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
   // Sync external value changes ONLY when not dragging
   useEffect(() => {
     if (!isDragging) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayValue(value);
       if (inputRef.current) inputRef.current.value = value;
       animate(x, (value / 12) * 100, { type: 'spring', stiffness: 400, damping: 30 });

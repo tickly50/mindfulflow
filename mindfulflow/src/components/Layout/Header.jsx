@@ -12,7 +12,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
 import { useSettings } from '../../context/SettingsContext';
 import { haptics } from '../../utils/haptics';
-import { Wind, Trash2, Flame, Settings, Download, Upload, X } from 'lucide-react';
+import { Wind, Trash2, Flame, Settings, Download, Upload, X, Vibrate, Volume2 } from 'lucide-react';
 
 /**
  * Main application header with navigation, streak badge and settings.
@@ -31,11 +31,6 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
     const recentEntries = await db.moods.where('timestamp').above(cutoff).toArray();
     return calcStreakPure(recentEntries);
   }, []) || 0;
-
-  // Fetch settings on mount (e.g., if we added other settings)
-  useEffect(() => {
-    // Other setup logic could go here
-  }, [showSettings]);
 
   const handleImport = async (e) => {
     const file = e.target.files?.[0];
@@ -286,6 +281,65 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       <span className="px-2 py-1 rounded-md bg-violet-500/10 border border-violet-500/20 font-mono">v1.0</span>
                       <span>•</span>
                       <span>Offline Ready</span>
+                    </div>
+                  </div>
+
+                  <div className="p-6 rounded-2xl bg-white/5 border border-white/5 mb-4">
+                    <h3 className="font-semibold text-lg text-white mb-4">Předvolby</h3>
+                    <div className="space-y-4">
+                      {/* Haptics toggle */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center">
+                            <Vibrate className="w-4 h-4 text-white/60" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-white">Haptická odezva</p>
+                            <p className="text-xs text-white/40">Vibrace při interakcích</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => updateSettings({ hapticsEnabled: !settings.hapticsEnabled })}
+                          className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
+                            settings.hapticsEnabled ? 'bg-violet-500' : 'bg-white/10'
+                          }`}
+                          role="switch"
+                          aria-checked={settings.hapticsEnabled}
+                        >
+                          <span
+                            className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                              settings.hapticsEnabled ? 'translate-x-6' : 'translate-x-0'
+                            }`}
+                          />
+                        </button>
+                      </div>
+
+                      {/* Sound toggle */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center">
+                            <Volume2 className="w-4 h-4 text-white/60" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-white">Zvuky dýchání</p>
+                            <p className="text-xs text-white/40">Tóny při dechových cvičeních</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => updateSettings({ soundEnabled: !settings.soundEnabled })}
+                          className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
+                            settings.soundEnabled ? 'bg-violet-500' : 'bg-white/10'
+                          }`}
+                          role="switch"
+                          aria-checked={settings.soundEnabled}
+                        >
+                          <span
+                            className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                              settings.soundEnabled ? 'translate-x-6' : 'translate-x-0'
+                            }`}
+                          />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
