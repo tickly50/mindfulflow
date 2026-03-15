@@ -74,10 +74,12 @@ function AppContent() {
   const handleViewChange = useCallback((view) => {
     setCurrentView(view);
     if (view !== 'checkin') {
-      setActiveMood(null); // Reset mood glow when leaving check-in
+      setActiveMood(null);
     }
-    // Smooth scroll to top when changing views
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Delay scroll until after exit animation (200ms) to avoid jank
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }, 220);
   }, []);
 
   const handleBreathingOpen = useCallback(() => {

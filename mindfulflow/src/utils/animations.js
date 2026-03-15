@@ -12,18 +12,33 @@
 // ─── Spring Presets ──────────────────────────────────────────────────────────
 export const springConfigFast = {
   type: "spring",
-  stiffness: 280,
+  stiffness: 320,
+  damping: 32,
+  mass: 0.5,
+};
+
+export const springConfigGentle = {
+  type: "spring",
+  stiffness: 200,
   damping: 28,
+  mass: 0.8,
+};
+
+export const springConfigSnappy = {
+  type: "spring",
+  stiffness: 400,
+  damping: 35,
   mass: 0.4,
 };
 
 // ─── Easing Curves ───────────────────────────────────────────────────────────
 export const easeConfig = {
-  smooth: [0.4, 0.0, 0.2, 1.0], // Material standard, extremely organic
-  butter: [0.4, 0.0, 0.2, 1.0], 
+  smooth: [0.4, 0.0, 0.2, 1.0],
+  butter: [0.25, 0.1, 0.25, 1.0],
   bounce: [0.34, 1.56, 0.64, 1],
   inOut: [0.4, 0.0, 0.2, 1.0],
   out: [0.0, 0.0, 0.2, 1.0],
+  expo: [0.16, 1, 0.3, 1],
 };
 
 // ─── Page Transition Variants ─────────────────────────────────────────────────
@@ -31,22 +46,22 @@ export const easeConfig = {
 export const pageVariants = {
   initial: {
     opacity: 0,
-    scale: 0.98,
+    y: 8,
   },
   animate: {
     opacity: 1,
-    scale: 1,
+    y: 0,
     transition: {
-      duration: 0.4,
-      ease: [0.4, 0.0, 0.2, 1.0],
+      duration: 0.35,
+      ease: [0.16, 1, 0.3, 1],
     },
   },
   exit: {
     opacity: 0,
-    scale: 0.98,
+    y: -6,
     transition: {
       duration: 0.2,
-      ease: [0.4, 0.0, 0.2, 1.0],
+      ease: [0.4, 0.0, 1, 1],
     },
   },
 };
@@ -91,21 +106,21 @@ export const variants = {
 
   // Standard item: slide up + fade in
   item: {
-    hidden: { opacity: 0, y: 16 },
+    hidden: { opacity: 0, y: 14 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
         type: "spring",
-        stiffness: 220,
-        damping: 22,
-        mass: 0.7,
+        stiffness: 240,
+        damping: 26,
+        mass: 0.6,
       },
     },
     exit: {
       opacity: 0,
-      y: -8,
-      transition: { duration: 0.18, ease: [0.65, 0, 0.35, 1] },
+      y: -6,
+      transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
     },
   },
 
@@ -235,6 +250,24 @@ export const variants = {
       opacity: 0,
       scale: 0.7,
       transition: { duration: 0.12, ease: [0.65, 0, 0.35, 1] },
+    },
+  },
+
+  // Tab content switching — fade + tiny Y shift, fast exit
+  tabContent: {
+    hidden: { opacity: 0, y: 10 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.28,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -6,
+      transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
     },
   },
 

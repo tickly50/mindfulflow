@@ -1,7 +1,9 @@
 import { useState, useMemo, memo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useMoodEntries } from '../../utils/queries';
 import { useStatisticsData } from './useStatisticsData';
 import { MOOD_COLORS, CONTEXT_TAG_ICONS } from '../../utils/moodConstants';
+import { variants } from '../../utils/animations';
 
 import KpiCards from './KpiCards';
 import MoodTrendChart from './MoodTrendChart';
@@ -109,60 +111,97 @@ const StatisticsView = memo(function StatisticsView() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-24">
 
       {/* ── Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-1 stats-header">
+      <motion.div
+        variants={variants.slideUp}
+        initial="hidden"
+        animate="show"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-1"
+      >
         <div>
           <h2 className="text-2xl font-bold text-white">Statistiky</h2>
           <p className="text-white/50 text-sm">Analýza tvé duševní pohody</p>
         </div>
-        <div className="bg-white/5 p-1 rounded-xl flex gap-1 self-start sm:self-auto">
+        <div className="relative bg-white/5 p-1 rounded-xl flex gap-1 self-start sm:self-auto">
           {['7', '30', 'all'].map((range) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-150 outline-none ${
+              className={`relative px-4 py-1.5 rounded-lg text-sm font-medium outline-none z-10 transition-colors duration-200 ${
                 timeRange === range
-                  ? 'bg-white/15 text-white'
-                  : 'text-white/50 hover:text-white/80 hover:bg-white/8'
+                  ? 'text-white'
+                  : 'text-white/50 hover:text-white/80'
               }`}
             >
+              {timeRange === range && (
+                <motion.div
+                  layoutId="time-range-indicator"
+                  className="absolute inset-0 bg-white/15 rounded-lg -z-10"
+                  transition={{ type: 'spring', stiffness: 380, damping: 34, mass: 0.5 }}
+                  style={{ willChange: 'transform' }}
+                />
+              )}
               {range === 'all' ? 'Vše' : `${range} dní`}
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* ── KPI Cards ── */}
       <KpiCards stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
 
       {/* ── Tab navigation ── */}
-      <div className="flex gap-1 bg-white/5 p-1 rounded-xl mb-6 overflow-x-auto no-scrollbar">
+      <div className="relative flex gap-1 bg-white/5 p-1 rounded-xl mb-6 overflow-x-auto no-scrollbar">
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 min-w-max px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 outline-none whitespace-nowrap ${
+            className={`relative flex-1 min-w-max px-4 py-2 rounded-lg text-sm font-medium outline-none whitespace-nowrap z-10 transition-colors duration-200 ${
               activeTab === tab.id
-                ? 'bg-white/15 text-white'
-                : 'text-white/50 hover:text-white/80 hover:bg-white/8'
+                ? 'text-white'
+                : 'text-white/50 hover:text-white/80'
             }`}
+            style={{ WebkitTapHighlightColor: 'transparent' }}
           >
+            {activeTab === tab.id && (
+              <motion.div
+                layoutId="stats-tab-indicator"
+                className="absolute inset-0 bg-white/15 rounded-lg -z-10"
+                transition={{ type: 'spring', stiffness: 380, damping: 34, mass: 0.5 }}
+                style={{ willChange: 'transform' }}
+              />
+            )}
             {tab.label}
           </button>
         ))}
       </div>
 
       {/* ── Tab Content ── */}
-      <div className="tab-content">
-
+      <AnimatePresence mode="wait">
         {activeTab === 'overview' && (
-          <div className="flex flex-col gap-5">
+          <motion.div
+            key="overview"
+            variants={variants.tabContent}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="flex flex-col gap-5"
+            style={{ willChange: 'opacity, transform' }}
+          >
             <MoodDistributionBar distributionData={distributionData} />
             <ActivityList activityStats={activityStats} />
-          </div>
+          </motion.div>
         )}
 
         {activeTab === 'trend' && (
-          <div className="flex flex-col gap-5">
+          <motion.div
+            key="trend"
+            variants={variants.tabContent}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="flex flex-col gap-5"
+            style={{ willChange: 'opacity, transform' }}
+          >
             {chartData.length > 1 ? (
               <MoodTrendChart chartData={chartData} />
             ) : (
@@ -170,15 +209,32 @@ const StatisticsView = memo(function StatisticsView() {
                 <p className="text-white/50">Přidej alespoň 2 záznamy pro zobrazení grafu.</p>
               </GlassCard>
             )}
-          </div>
+          </motion.div>
         )}
 
         {activeTab === 'calendar' && (
-          <HeatmapCalendar heatmapData={heatmapData} />
+          <motion.div
+            key="calendar"
+            variants={variants.tabContent}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            style={{ willChange: 'opacity, transform' }}
+          >
+            <HeatmapCalendar heatmapData={heatmapData} />
+          </motion.div>
         )}
 
         {activeTab === 'insights' && (
-          <div className="flex flex-col gap-5">
+          <motion.div
+            key="insights"
+            variants={variants.tabContent}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="flex flex-col gap-5"
+            style={{ willChange: 'opacity, transform' }}
+          >
             {insights.length > 0 ? (
               <InsightsList insights={insights} />
             ) : (
@@ -188,10 +244,9 @@ const StatisticsView = memo(function StatisticsView() {
                 </p>
               </GlassCard>
             )}
-          </div>
+          </motion.div>
         )}
-
-      </div>
+      </AnimatePresence>
     </div>
   );
 });

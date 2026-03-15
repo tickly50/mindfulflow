@@ -158,7 +158,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
           </div>
 
           {/* Main navigation (hidden on mobile, moved to BottomNavigation) */}
-          <nav className="hidden sm:flex gap-2 overflow-x-auto hide-scrollbar">
+          <nav className="hidden sm:flex gap-1 overflow-x-auto hide-scrollbar bg-white/5 p-1 rounded-xl">
             {['checkin', 'journal', 'statistics', 'achievements'].map((view) => (
               <button
                 key={view}
@@ -166,33 +166,27 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                   if (currentView !== view) haptics.light();
                   onViewChange(view);
                 }}
-                className={`px-2 sm:px-3 lg:px-4 py-2 rounded-lg text-sm font-medium relative whitespace-nowrap ${
+                className={`relative px-3 lg:px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap z-10 transition-colors duration-200 ${
                   currentView === view
-                    ? 'bg-gradient-to-r from-violet-500/30 to-purple-500/30 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                    ? 'text-white'
+                    : 'text-white/55 hover:text-white/90'
                 }`}
-                style={{
-                  boxShadow: currentView === view 
-                    ? '0 0 20px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.1)' 
-                    : 'none',
-                  transition: 'background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                }}
               >
+                {currentView === view && (
+                  <motion.div
+                    layoutId="header-nav-indicator"
+                    className="absolute inset-0 bg-gradient-to-r from-violet-500/35 to-purple-500/35 rounded-lg -z-10"
+                    transition={{ type: 'spring', stiffness: 380, damping: 34, mass: 0.5 }}
+                    style={{ 
+                      willChange: 'transform',
+                      boxShadow: '0 0 18px rgba(139,92,246,0.35), inset 0 0 18px rgba(139,92,246,0.1)' 
+                    }}
+                  />
+                )}
                 {view === 'checkin' && 'Check-In'}
                 {view === 'journal' && 'Deník'}
                 {view === 'statistics' && 'Statistiky'}
                 {view === 'achievements' && 'Úspěchy'}
-                {currentView === view && (
-                  <motion.div
-                    key={view}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet-400 to-purple-400"
-                    style={{ borderRadius: '2px' }}
-                  />
-                )}
               </button>
             ))}
           </nav>

@@ -1,29 +1,26 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import { microInteractions } from '../../utils/animations';
 import { haptics } from '../../utils/haptics';
 import { Home, BookHeart, BarChart3, Award } from 'lucide-react';
 
-const BottomNavigation = memo(function BottomNavigation({ currentView, onViewChange }) {
-  const navItems = [
-    { id: 'checkin', icon: Home, label: 'Check-In', ariaLabel: 'Domů' },
-    { id: 'journal', icon: BookHeart, label: 'Deník', ariaLabel: 'Deník' },
-    { id: 'statistics', icon: BarChart3, label: 'Statistiky', ariaLabel: 'Statistiky' },
-    { id: 'achievements', icon: Award, label: 'Úspěchy', ariaLabel: 'Úspěchy' },
-  ];
+const navItems = [
+  { id: 'checkin', icon: Home, label: 'Check-In', ariaLabel: 'Domů' },
+  { id: 'journal', icon: BookHeart, label: 'Deník', ariaLabel: 'Deník' },
+  { id: 'statistics', icon: BarChart3, label: 'Statistiky', ariaLabel: 'Statistiky' },
+  { id: 'achievements', icon: Award, label: 'Úspěchy', ariaLabel: 'Úspěchy' },
+];
 
+const BottomNavigation = memo(function BottomNavigation({ currentView, onViewChange }) {
   return (
-    <nav 
+    <nav
       className="fixed z-50 sm:hidden w-full px-6 pointer-events-none flex justify-center"
-      style={{
-        bottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
-      }}
+      style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
     >
-      <div 
-        className="max-w-[340px] w-full flex justify-between items-center px-4 py-3 rounded-full relative overflow-hidden pointer-events-auto"
+      <div
+        className="max-w-[340px] w-full flex justify-between items-center px-2 py-2 rounded-full pointer-events-auto"
         style={{
-          background: 'linear-gradient(135deg, rgba(45, 25, 90, 0.95) 0%, rgba(15, 10, 40, 0.98) 100%)',
+          background: 'linear-gradient(135deg, rgba(45, 25, 90, 0.96) 0%, rgba(15, 10, 40, 0.99) 100%)',
           boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(139,92,246,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
           border: '1px solid rgba(139, 92, 246, 0.2)',
         }}
@@ -40,40 +37,43 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
                 onViewChange(item.id);
               }}
               aria-label={item.ariaLabel}
-              className={`group relative flex flex-col items-center justify-center min-w-[64px] h-[52px] rounded-2xl transition-colors duration-300 outline-none focus:outline-none touch-manipulation ${
-                isActive ? 'text-[var(--theme-accent,#a78bfa)]' : 'text-white/60 hover:text-white/70'
-              }`}
+              className="relative flex flex-col items-center justify-center min-w-[72px] h-[52px] rounded-2xl outline-none focus:outline-none touch-manipulation overflow-hidden"
             >
-              <div 
-                className="relative z-10 flex flex-col items-center gap-1 w-full h-full justify-center press-effect"
-              >
-                <Icon 
-                  className={`w-6 h-6 transition-transform duration-300 ease-out will-change-transform ${
-                    isActive 
-                      ? 'scale-110 text-violet-300' 
-                      : 'scale-100'
-                  }`} 
-                  strokeWidth={isActive ? 2.5 : 2}
-                  style={isActive ? { filter: 'drop-shadow(0 0 6px rgba(139,92,246,0.6))' } : undefined}
+              {/* Animated active pill background */}
+              {isActive && (
+                <motion.div
+                  layoutId="bottom-nav-pill"
+                  className="absolute inset-0 rounded-2xl bg-white/8"
+                  transition={{ type: 'spring', stiffness: 380, damping: 34, mass: 0.5 }}
+                  style={{ willChange: 'transform' }}
                 />
-                
-                <span 
-                  className={`text-[10px] font-bold tracking-wide transition-[transform,opacity,color] duration-300 ease-out will-change-transform ${
-                    isActive 
-                      ? 'opacity-100 translate-y-0 text-violet-200' 
-                      : 'opacity-0 translate-y-1 absolute -bottom-4'
+              )}
+
+              {/* Icon */}
+              <motion.div
+                animate={isActive ? { y: -2, scale: 1.1 } : { y: 0, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 340, damping: 28, mass: 0.5 }}
+                style={{ willChange: 'transform' }}
+              >
+                <Icon
+                  className={`w-[22px] h-[22px] transition-colors duration-220 ${
+                    isActive ? 'text-violet-300' : 'text-white/55'
                   }`}
-                >
-                  {item.label}
-                </span>
+                  strokeWidth={isActive ? 2.5 : 2}
+                  style={isActive ? { filter: 'drop-shadow(0 0 5px rgba(167,139,250,0.55))' } : undefined}
+                />
+              </motion.div>
 
-              </div>
-
-              <div 
-                className={`absolute inset-0 bg-white/5 rounded-2xl -z-10 transition-[transform,opacity] duration-300 pointer-events-none origin-bottom will-change-transform ${
-                   isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-                }`} 
-              />
+              {/* Label — always in flow, opacity-only transition (no layout shift) */}
+              <motion.span
+                animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 3 }}
+                transition={{ type: 'spring', stiffness: 340, damping: 28, mass: 0.5 }}
+                className="text-[9px] font-bold tracking-wide text-violet-200 mt-0.5 leading-none"
+                style={{ willChange: 'transform, opacity' }}
+                aria-hidden={!isActive}
+              >
+                {item.label}
+              </motion.span>
             </button>
           );
         })}
