@@ -53,36 +53,33 @@ const AchievementsView = memo(function AchievementsView() {
         initial="hidden"
         animate="show"
       >
-        {ACHIEVEMENTS.map((achievement, i) => {
+        {ACHIEVEMENTS.map((achievement) => {
           const isUnlocked = unlockedIds.has(achievement.id);
           const iconMap = { Sun, BookOpen, Flame, Wind, Award, Moon, Trophy, Star, Heart, Crown, Coffee, Activity, Sparkles, Smile, Users, Briefcase };
           const Icon = iconMap[achievement.icon] || Award;
 
           return (
-            <motion.div
+            <div
               key={achievement.id}
-              variants={variants.item}
-              whileHover={isUnlocked ? { scale: 1.03, transition: { type: "spring", stiffness: 300, damping: 20 } } : {}}
-              className={`relative flex flex-col items-center p-6 sm:p-8 rounded-[2.5rem] border transition-all duration-500 transform-gpu overflow-hidden ${
+              className={`relative flex flex-col items-center p-6 sm:p-8 rounded-[2.5rem] border overflow-hidden ${
                 isUnlocked 
                   ? 'bg-white/10 border-white/20'
-                  : 'glass bg-black/40 border-white/5 opacity-60 grayscale hover:opacity-100 hover:grayscale-[0.5]'
+                  : 'bg-black/40 border-white/5 opacity-50 grayscale'
               }`}
-              style={{ willChange: 'transform, opacity' }}
+              style={{ transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
               {isUnlocked && (
                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[2.5rem]" />
               )}
-              <motion.div 
+              <div 
                 className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-4 ${
                   isUnlocked ? `bg-gradient-to-br ${achievement.gradient} shadow-lg` : 'bg-white/10'
                 }`}
-                initial={isUnlocked ? { scale: 0.5, rotate: -45 } : false}
-                animate={isUnlocked ? { scale: 1, rotate: 0 } : false}
-                transition={{ type: "spring", stiffness: 200, damping: 15, delay: i * 0.05 + 0.2 }}
               >
                 <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${isUnlocked ? 'text-white' : 'text-white/60'}`} />
-              </motion.div>
+              </div>
               <h4 className="text-lg font-bold text-white text-center leading-tight mb-2">
                 {achievement.title}
               </h4>
@@ -94,7 +91,7 @@ const AchievementsView = memo(function AchievementsView() {
                   ✓ Odemčeno
                 </span>
               )}
-            </motion.div>
+            </div>
           );
         })}
       </motion.div>
