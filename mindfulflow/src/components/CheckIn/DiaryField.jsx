@@ -47,7 +47,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
       transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
       className="mb-10 w-full"
     >
-      <div className="flex items-center justify-between mb-4 px-1 flex-wrap gap-2">
+      <div className="relative flex items-center justify-between mb-4 px-1 flex-wrap gap-2">
         <h3 className="text-xl font-bold text-white flex items-center gap-3">
           <div className="p-2.5 bg-gradient-to-br from-purple-500/30 to-fuchsia-500/10 rounded-xl md:backdrop-blur-md shadow-glow-violet ring-1 ring-white/10">
             <PenTool className="w-5 h-5 text-purple-200" />
@@ -57,44 +57,42 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
           </span>
         </h3>
 
-        <div className="flex items-center gap-3">
-          <div className="relative" ref={menuRef}>
-            <motion.button
-              whileHover={microInteractions.button.hover}
-              whileTap={microInteractions.button.tap}
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative"
-            >
-              <Sparkles className="w-4 h-4 text-amber-300" />
-              Inspirace
-            </motion.button>
+        <div className="flex items-center gap-3" ref={menuRef}>
+          <motion.button
+            whileHover={microInteractions.button.hover}
+            whileTap={microInteractions.button.tap}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative"
+          >
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            Inspirace
+          </motion.button>
 
-            <AnimatePresence>
-              {isMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.18, ease: 'easeOut' }}
-                  className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-72 max-h-72 overflow-y-auto rounded-2xl bg-[#0f111a]/95 backdrop-blur-xl border border-white/10 shadow-2xl"
-                >
-                  <div className="p-3 flex flex-col gap-1.5">
-                    <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1 px-1">
-                      Otázky pro inspiraci
-                    </h4>
-                    {JOURNAL_PROMPTS.map((prompt, idx) => (
-                      <p
-                        key={idx}
-                        className="px-3 py-2.5 text-sm text-slate-300 bg-white/5 rounded-xl border border-white/5 leading-relaxed"
-                      >
-                        {prompt}
-                      </p>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="absolute left-0 right-0 sm:left-auto sm:right-0 sm:w-72 top-[calc(100%+0.5rem)] z-50 max-h-72 overflow-y-auto rounded-2xl bg-[#0f111a]/95 backdrop-blur-xl border border-white/10 shadow-2xl"
+              >
+                <div className="p-3 flex flex-col gap-1.5">
+                  <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1 px-1">
+                    Otázky pro inspiraci
+                  </h4>
+                  {JOURNAL_PROMPTS.map((prompt, idx) => (
+                    <p
+                      key={idx}
+                      className="px-3 py-2.5 text-sm text-slate-300 bg-white/5 rounded-xl border border-white/5 leading-relaxed"
+                    >
+                      {prompt}
+                    </p>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-white/40">{wordCount} slov</span>
