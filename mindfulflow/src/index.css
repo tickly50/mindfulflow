@@ -388,7 +388,7 @@ textarea,
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     touch-action: pan-y; /* Must allow pan-y because root has touch-action: none */
-    will-change: transform, scroll-position;
+    will-change: transform;
     transform: translateZ(0);
   }
 }
@@ -526,15 +526,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px var(--glow-violet);
-    filter: brightness(1);
-  }
-  50% {
-    box-shadow: 0 0 40px var(--glow-violet-strong);
-    filter: brightness(1.1);
-  }
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1;   }
 }
 
 @keyframes float {
@@ -715,8 +708,17 @@ body {
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  will-change: box-shadow, filter;
+  position: relative;
+}
+.animate-pulse-glow::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--glow-violet-strong) 0%, transparent 70%);
+  animation: pulse-glow 2s ease-in-out infinite;
+  will-change: opacity;
+  pointer-events: none;
 }
 
 .animate-float {
@@ -745,6 +747,15 @@ body {
 }
 
 /* ============================================
+   BREATHING RING – CSS-only stroke animation
+   Off the JS thread; restarts via key-based remount
+   ============================================ */
+@keyframes stroke-fill {
+  from { stroke-dashoffset: var(--circ); }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* ============================================
    STATISTICS – New component styles
    ============================================ */
 
@@ -754,7 +765,8 @@ body {
 }
 
 @keyframes bar-grow {
-  from { width: 0; }
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
 @keyframes insight-fade {
@@ -772,6 +784,7 @@ body {
 }
 
 .bar-fill {
+  transform-origin: left center;
   animation: bar-grow 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 

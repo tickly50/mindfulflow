@@ -70,7 +70,7 @@ export const BreathingCircle = memo(function BreathingCircle({
           strokeWidth="2"
         />
         {isRunning && (
-          <motion.circle
+          <circle
             key={isPreparing ? 'prep-ring' : `ring-${phaseIdx}`}
             cx={CX} cy={CY} r={R}
             fill="none"
@@ -78,11 +78,10 @@ export const BreathingCircle = memo(function BreathingCircle({
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeDasharray={CIRC}
-            initial={{ strokeDashoffset: CIRC }}
-            animate={{ strokeDashoffset: 0 }}
-            transition={{
-              duration: isPreparing ? 3 : phaseDuration,
-              ease: 'linear',
+            strokeDashoffset={CIRC}
+            style={{
+              '--circ': CIRC,
+              animation: `stroke-fill ${isPreparing ? 3 : phaseDuration}s linear forwards`,
             }}
           />
         )}

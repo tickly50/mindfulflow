@@ -29,15 +29,31 @@ export const Controls = memo(function Controls({
             className="flex items-center gap-2"
           >
             {Array.from({ length: totalPhases }).map((_, i) => (
-              <motion.div
+              <div
                 key={i}
-                animate={{
-                  width:      i === phaseIdx ? 28  : 8,
-                  background: i === phaseIdx ? accent : 'rgba(255,255,255,0.18)',
+                style={{
+                  width: 28,
+                  height: 6,
+                  borderRadius: 9999,
+                  overflow: 'hidden',
+                  background: 'rgba(255,255,255,0.18)',
+                  flexShrink: 0,
                 }}
-                transition={{ duration: 0.35 }}
-                className="h-1.5 rounded-full"
-              />
+              >
+                <motion.div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: accent,
+                    transformOrigin: 'left center',
+                  }}
+                  animate={{
+                    scaleX:  i === phaseIdx ? 1 : 8 / 28,
+                    opacity: i === phaseIdx ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.35 }}
+                />
+              </div>
             ))}
           </motion.div>
         )}
