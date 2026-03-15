@@ -66,9 +66,9 @@ const AchievementsView = memo(function AchievementsView() {
                   ? 'bg-white/10 border-white/20'
                   : 'bg-black/40 border-white/5 opacity-50 grayscale'
               }`}
-              style={{ transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+              style={isUnlocked ? { transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)' } : undefined}
+              onMouseEnter={isUnlocked ? e => e.currentTarget.style.transform = 'scale(1.04)' : undefined}
+              onMouseLeave={isUnlocked ? e => e.currentTarget.style.transform = 'scale(1)' : undefined}
             >
               {isUnlocked && (
                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[2.5rem]" />
