@@ -65,7 +65,7 @@ const AchievementsView = memo(function AchievementsView() {
               whileHover={isUnlocked ? { scale: 1.03, transition: { type: "spring", stiffness: 300, damping: 20 } } : {}}
               className={`relative flex flex-col items-center p-6 sm:p-8 rounded-[2.5rem] border transition-all duration-500 transform-gpu overflow-hidden ${
                 isUnlocked 
-                  ? 'bg-white/10 border-white/20 shadow-glass-lg ' + (achievement.shadow || 'shadow-glow-violet')
+                  ? 'bg-white/10 border-white/20'
                   : 'glass bg-black/40 border-white/5 opacity-60 grayscale hover:opacity-100 hover:grayscale-[0.5]'
               }`}
               style={{ willChange: 'transform, opacity' }}
