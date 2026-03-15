@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { memo, useState, useRef, useEffect, useCallback } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 
 import { microInteractions } from '../../utils/animations';
 import { PenTool, Sparkles } from 'lucide-react';
@@ -39,23 +39,6 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
-  const handlePromptClick = useCallback((prompt) => {
-    const current = value.trim();
-    const newValue = current
-      ? `${current}\n\n${prompt} `
-      : `${prompt} `;
-    if (newValue.length <= maxLength) {
-      onChange(newValue);
-    }
-    setIsMenuOpen(false);
-    setTimeout(() => {
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-        const len = textareaRef.current.value.length;
-        textareaRef.current.setSelectionRange(len, len);
-      }
-    }, 50);
-  }, [value, onChange, maxLength]);
 
   return (
     <motion.div
@@ -97,16 +80,15 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
                 >
                   <div className="p-3 flex flex-col gap-1.5">
                     <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1 px-1">
-                      Klikni a doplň otázku
+                      Otázky pro inspiraci
                     </h4>
                     {JOURNAL_PROMPTS.map((prompt, idx) => (
-                      <button
+                      <p
                         key={idx}
-                        onClick={() => handlePromptClick(prompt)}
-                        className="text-left px-3 py-2.5 text-sm text-slate-300 bg-white/5 hover:bg-white/10 hover:text-white rounded-xl border border-white/5 hover:border-white/15 leading-relaxed transition-all duration-150"
+                        className="px-3 py-2.5 text-sm text-slate-300 bg-white/5 rounded-xl border border-white/5 leading-relaxed"
                       >
                         {prompt}
-                      </button>
+                      </p>
                     ))}
                   </div>
                 </motion.div>
