@@ -2,32 +2,31 @@ import { useEffect } from 'react';
 
 /**
  * Lock body scroll when `active` is true.
+ * Always locks both body and html to prevent scroll transfer between them.
  * @param {boolean} active - Whether to lock scroll
- * @param {boolean} [fullLock=false] - Also lock documentElement and block touchmove (for iOS Safari)
+ * @param {boolean} [blockTouch=false] - Also block touchmove events (for iOS Safari)
  */
-const useScrollLock = (active, fullLock = false) => {
+const useScrollLock = (active, blockTouch = false) => {
   useEffect(() => {
     if (!active) return;
 
     document.body.style.overflow = 'hidden';
-    if (fullLock) {
-      document.documentElement.style.overflow = 'hidden';
-    }
+    document.documentElement.style.overflow = 'hidden';
 
     let preventTouch;
-    if (fullLock) {
+    if (blockTouch) {
       preventTouch = (e) => e.preventDefault();
       document.addEventListener('touchmove', preventTouch, { passive: false });
     }
 
     return () => {
       document.body.style.overflow = '';
-      if (fullLock) {
-        document.documentElement.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (blockTouch && preventTouch) {
         document.removeEventListener('touchmove', preventTouch);
       }
     };
-  }, [active, fullLock]);
+  }, [active, blockTouch]);
 };
 
 export default useScrollLock;

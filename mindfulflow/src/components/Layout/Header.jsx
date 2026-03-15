@@ -13,6 +13,7 @@ import { db } from '../../utils/db';
 import { useSettings } from '../../context/SettingsContext';
 import { haptics } from '../../utils/haptics';
 import { Wind, Trash2, Flame, Settings, Download, Upload, X, Vibrate, Volume2 } from 'lucide-react';
+import useScrollLock from '../../hooks/useScrollLock';
 
 /**
  * Main application header with navigation, streak badge and settings.
@@ -78,7 +79,9 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
     }
   };
 
-  // Lock body scroll and handle Escape key
+  useScrollLock(showSettings);
+
+  // Handle Escape key for settings modal
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
@@ -88,14 +91,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
     };
 
     if (showSettings) {
-      document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleEsc);
-    } else {
-      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
       window.removeEventListener('keydown', handleEsc);
     };
   }, [showSettings, showDeleteConfirm]);

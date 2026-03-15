@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
+import useScrollLock from '../../hooks/useScrollLock';
 
 export default function ConfirmModal({ 
   isOpen, 
@@ -12,7 +13,8 @@ export default function ConfirmModal({
   cancelText = 'Zrušit',
   isDangerous = false 
 }) {
-  // Lock body scroll when modal is open and handle ESC key
+  useScrollLock(isOpen);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -25,14 +27,10 @@ export default function ConfirmModal({
     };
 
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
-    } else {
-      document.body.style.overflow = '';
     }
     
     return () => {
-      document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose, onConfirm]);

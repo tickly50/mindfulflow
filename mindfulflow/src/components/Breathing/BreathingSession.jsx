@@ -6,6 +6,7 @@ import { Controls } from './Controls';
 import { useBreathingAudio } from './useBreathingAudio';
 import { haptics } from '../../utils/haptics';
 import { useSettings } from '../../context/SettingsContext';
+import useScrollLock from '../../hooks/useScrollLock';
 
 /* ─── Phase-reactive background ──────────────────────────────── */
 const BLOBS = [
@@ -155,13 +156,13 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
     return () => { if (lock) lock.release().catch(() => {}); };
   }, [isRunning]);
 
+  useScrollLock(true);
+
   // Keyboard escape
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
     const handler = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handler);
     return () => {
-      document.body.style.overflow = '';
       window.removeEventListener('keydown', handler);
     };
   }, [onClose]);
