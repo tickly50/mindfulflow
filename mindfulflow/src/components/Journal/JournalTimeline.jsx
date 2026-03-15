@@ -1,120 +1,171 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { memo } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { memo, useMemo } from 'react';
 
 import JournalCard from './JournalCard';
-import { variants } from '../../utils/animations';
 import { MessageSquare } from 'lucide-react';
 
-// Container: stagger each card from the left
-const listContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
-    },
-  },
-};
+// Easing used for all list entrances: fast out, smooth settle (quintic-out feel)
+const EASE_OUT = [0.22, 1, 0.36, 1];
+const EASE_IN  = [0.55, 0, 1, 0.45];
+
+function getDateLabel(timestamp) {
+  const date = new Date(timestamp);
+  const now  = new Date();
+
+  const startOfToday     = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startOfYesterday = new Date(startOfToday);
+  startOfYesterday.setDate(startOfYesterday.getDate() - 1);
+  const startOfWeek = new Date(startOfToday);
+  startOfWeek.setDate(startOfWeek.getDate() - 6);
+
+  if (date >= startOfToday)     return 'Dnes';
+  if (date >= startOfYesterday) return 'Včera';
+  if (date >= startOfWeek) {
+    return date.toLocaleDateString('cs-CZ', { weekday: 'long' });
+  }
+  return date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function groupEntriesByDate(entries) {
+  const groups = [];
+  let currentLabel = null;
+  let currentGroup = [];
+
+  for (const entry of entries) {
+    const label = getDateLabel(entry.timestamp);
+    if (label !== currentLabel) {
+      if (currentGroup.length > 0) groups.push({ label: currentLabel, entries: currentGroup });
+      currentLabel = label;
+      currentGroup = [entry];
+    } else {
+      currentGroup.push(entry);
+    }
+  }
+  if (currentGroup.length > 0) groups.push({ label: currentLabel, entries: currentGroup });
+  return groups;
+}
+
+// Pre-assign a global stagger index to every card across all groups
+function assignGlobalIndices(groups) {
+  let idx = 0;
+  return groups.map((group) => ({
+    ...group,
+    entries: group.entries.map((entry) => ({ entry, idx: idx++ })),
+  }));
+}
 
 const JournalTimeline = memo(function JournalTimeline({
   entries,
   filterMood,
   filterTag,
+  searchQuery,
   onEdit,
   onDelete,
   getContextLabel,
 }) {
+  const groups        = useMemo(() => groupEntriesByDate(entries), [entries]);
+  const indexedGroups = useMemo(() => assignGlobalIndices(groups), [groups]);
+
+  /* ─── Empty State ──────────────────────────────────────────────────── */
   if (entries.length === 0) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-        className="text-center py-20 bg-white/5 rounded-[2.5rem] border border-white/5 md:backdrop-blur-md shadow-2xl relative overflow-hidden"
+        key="empty"
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3, ease: EASE_OUT }}
+        className="text-center py-20 bg-white/5 rounded-[2.5rem] border border-white/5 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/5 pointer-events-none" />
         <motion.div
-          initial={{ scale: 0.7, opacity: 0 }}
+          initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.15, type: 'spring', stiffness: 350, damping: 15, mass: 0.5 }}
-          className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner ring-1 ring-white/20"
+          transition={{ delay: 0.1, duration: 0.4, ease: EASE_OUT }}
+          className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-white/20"
         >
-          <MessageSquare className="w-10 h-10 text-white/60" />
+          <MessageSquare className="w-10 h-10 text-white/50" />
         </motion.div>
+
         <motion.h3
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-          className="text-2xl font-bold text-white mb-3 tracking-tight"
-        >
-          {(filterMood || filterTag) ? 'Žádné záznamy nalezeny' : 'Zatím je tu ticho'}
-        </motion.h3>
-        <motion.p
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-          className="text-white/60 max-w-md mx-auto leading-relaxed px-6"
+          transition={{ delay: 0.18, duration: 0.3, ease: EASE_OUT }}
+          className="text-2xl font-bold text-white mb-3 tracking-tight"
         >
-          {(filterMood || filterTag)
-            ? 'Zkus upravit filtry, možná se tvé myšlenky skrývají jinde.'
+          {filterMood || filterTag || searchQuery ? 'Žádné záznamy nenalezeny' : 'Zatím je tu ticho'}
+        </motion.h3>
+
+        <motion.p
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.24, duration: 0.3, ease: EASE_OUT }}
+          className="text-white/50 max-w-md mx-auto leading-relaxed px-6"
+        >
+          {filterMood || filterTag || searchQuery
+            ? 'Zkus upravit filtry nebo vyhledávání.'
             : 'Tvůj deník čeká na první příběh. Až si zapíšeš svůj první Check-In, objeví se tady.'}
         </motion.p>
       </motion.div>
     );
   }
 
+  /* ─── List ─────────────────────────────────────────────────────────── */
   return (
-    <motion.div
-      className="space-y-6 pb-20 relative"
-      variants={listContainer}
-      initial="hidden"
-      animate="show"
-    >
-      {/* Decorative timeline line */}
-      <motion.div
-        className="absolute left-[39px] top-6 bottom-10 w-px bg-gradient-to-b from-white/20 via-white/10 to-transparent hidden sm:block"
-        initial={{ scaleY: 0, originY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: 0.15 }}
-      />
-
-      <AnimatePresence mode="wait">
-        {entries.map((entry, index) => (
+    <div className="space-y-8 pb-20">
+      {indexedGroups.map((group, groupIdx) => (
+        <div key={group.label}>
+          {/* Date group header — fades in slightly before its cards */}
           <motion.div
-            key={entry.id}
-            variants={variants.listItem}
-            initial="hidden"
-            animate="show"
-            exit={{
-              opacity: 0,
-              scale: 0.95,
-              transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
+            initial={{ opacity: 0, x: -6 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 0.28,
+              ease: EASE_OUT,
+              delay: group.entries[0]
+                ? Math.min(group.entries[0].idx, 7) * 0.042
+                : groupIdx * 0.06,
             }}
-            className="relative pl-0 sm:pl-20 will-change-transform will-change-opacity"
+            className="flex items-center gap-3 mb-4 px-1"
           >
-            {/* Timeline dot */}
-            <motion.div
-              className="absolute left-[33px] top-10 w-3 h-3 rounded-full bg-violet-400/60 border-2 border-[#1a1b26] hidden sm:block z-10"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{
-                delay: 0.1 + index * 0.06,
-                type: 'spring',
-                stiffness: 400,
-                damping: 18,
-              }}
-            />
-            <JournalCard
-              entry={entry}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              getContextLabel={getContextLabel}
-            />
+            <span className="text-xs font-bold uppercase tracking-widest text-white/40 first-letter:capitalize">
+              {group.label}
+            </span>
+            <div className="flex-1 h-px bg-white/10" />
           </motion.div>
-        ))}
-      </AnimatePresence>
-    </motion.div>
+
+          {/* Cards */}
+          <div className="space-y-3">
+            <AnimatePresence mode="sync">
+              {group.entries.map(({ entry, idx }) => (
+                <motion.div
+                  key={entry.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{
+                    opacity: 0,
+                    y: -8,
+                    scale: 0.97,
+                    transition: { duration: 0.2, ease: EASE_IN },
+                  }}
+                  transition={{
+                    duration: 0.32,
+                    ease: EASE_OUT,
+                    // Stagger: first 8 cards cascade, rest appear at max delay
+                    delay: Math.min(idx, 7) * 0.042,
+                  }}
+                >
+                  <JournalCard
+                    entry={entry}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    getContextLabel={getContextLabel}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 });
 

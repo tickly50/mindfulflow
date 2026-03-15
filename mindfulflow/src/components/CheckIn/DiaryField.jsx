@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { memo, useState, useRef, useEffect } from 'react';
+import { memo, useState, useRef, useEffect, useCallback } from 'react';
 
 import { microInteractions } from '../../utils/animations';
 import { PenTool, Sparkles } from 'lucide-react';
 
 const JOURNAL_PROMPTS = [
-  'Za co jsi dne vděčný?',
+  'Za co jsi dnes vděčný?',
   'Jaká byla nejlepší část dnešního dne?',
   'Co tě dnes překvapilo?',
   'Povedlo se ti dnes něco, na co jsi hrdý?',
@@ -14,17 +14,18 @@ const JOURNAL_PROMPTS = [
   'Co ti dnes dodalo nejvíce energie?',
   'O čem zrovna teď přemýšlíš?',
   'Jak jsi se dnes zachoval k ostatním?',
-  'Jak ses dnes postaral sám o sebe?'
+  'Jak ses dnes postaral sám o sebe?',
 ];
 
-/**
- * Diary text field - Premium Enhanced
- */
-const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }) {
+const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const remainingChars = maxLength - value.length;
+  const textareaRef = useRef(null);
+
+  const wordCount = value.trim() === '' ? 0 : value.trim().split(/\s+/).filter(Boolean).length;
+  const charCount = value.length;
+  const nearLimit = charCount > maxLength * 0.9;
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -33,13 +34,29 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
       }
     }
     if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
-  
+
+  const handlePromptClick = useCallback((prompt) => {
+    const current = value.trim();
+    const newValue = current
+      ? `${current}\n\n${prompt} `
+      : `${prompt} `;
+    if (newValue.length <= maxLength) {
+      onChange(newValue);
+    }
+    setIsMenuOpen(false);
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        const len = textareaRef.current.value.length;
+        textareaRef.current.setSelectionRange(len, len);
+      }
+    }, 50);
+  }, [value, onChange, maxLength]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -50,76 +67,95 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 280 }
       <div className="flex items-center justify-between mb-4 px-1 flex-wrap gap-2">
         <h3 className="text-xl font-bold text-white flex items-center gap-3">
           <div className="p-2.5 bg-gradient-to-br from-purple-500/30 to-fuchsia-500/10 rounded-xl md:backdrop-blur-md shadow-glow-violet ring-1 ring-white/10">
-             <PenTool className="w-5 h-5 text-purple-200" />
+            <PenTool className="w-5 h-5 text-purple-200" />
           </div>
-          <span className="bg-gradient-to-r from-purple-100 to-fuchsia-200 bg-clip-text text-transparent">Osobní poznámka</span>
+          <span className="bg-gradient-to-r from-purple-100 to-fuchsia-200 bg-clip-text text-transparent">
+            Osobní poznámka
+          </span>
         </h3>
-        
+
         <div className="flex items-center gap-3">
-            <div className="relative" ref={menuRef}>
-                <motion.button
-                    whileHover={microInteractions.button.hover}
-                    whileTap={microInteractions.button.tap}
-                    onClick={() => setIsMenuOpen((prev) => !prev)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative"
+          <div className="relative" ref={menuRef}>
+            <motion.button
+              whileHover={microInteractions.button.hover}
+              whileTap={microInteractions.button.tap}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative"
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              Inspirace
+            </motion.button>
+
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-72 max-h-72 overflow-y-auto rounded-2xl bg-[#0f111a]/95 backdrop-blur-xl border border-white/10 shadow-2xl"
                 >
-                    <Sparkles className="w-4 h-4 text-amber-300" />
-                    Inspirace
-                </motion.button>
-                
-                <AnimatePresence>
-                    {isMenuOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ duration: 0.2, ease: "easeOut" }}
-                            className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-72 max-h-72 overflow-y-auto rounded-2xl bg-[#0f111a]/95 backdrop-blur-xl border border-white/10 shadow-2xl scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent"
-                        >
-                            <div className="p-3 flex flex-col gap-2">
-                                <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1 px-1">Otázky k zamyšlení</h4>
-                                {JOURNAL_PROMPTS.map((prompt, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="text-left px-3 py-2.5 text-sm text-slate-300 bg-white/5 rounded-xl border border-white/5 leading-relaxed"
-                                    >
-                                        {prompt}
-                                    </div>
-                                ))}
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-            <span className={`text-xs font-mono font-medium py-1 px-3 rounded-full border transition-colors duration-300 ${
-                remainingChars < 20 
-                    ? 'text-rose-300 border-rose-500/30 bg-rose-500/10' 
-                    : 'text-white/60 border-white/10 bg-white/5'
-            }`}>
-                {remainingChars}
+                  <div className="p-3 flex flex-col gap-1.5">
+                    <h4 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1 px-1">
+                      Klikni a doplň otázku
+                    </h4>
+                    {JOURNAL_PROMPTS.map((prompt, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handlePromptClick(prompt)}
+                        className="text-left px-3 py-2.5 text-sm text-slate-300 bg-white/5 hover:bg-white/10 hover:text-white rounded-xl border border-white/5 hover:border-white/15 leading-relaxed transition-all duration-150"
+                      >
+                        {prompt}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-white/40">{wordCount} slov</span>
+            <span
+              className={`text-xs font-mono font-medium py-1 px-2.5 rounded-full border transition-colors duration-300 ${
+                nearLimit
+                  ? 'text-rose-300 border-rose-500/30 bg-rose-500/10'
+                  : 'text-white/50 border-white/10 bg-white/5'
+              }`}
+            >
+              {charCount}/{maxLength}
             </span>
+          </div>
         </div>
       </div>
-      
-      <div 
-        className="relative group"
-      >
-        {/* Subtle Outer Glow on Focus */}
-        <div className={`absolute -inset-1 rounded-[1.5rem] bg-violet-500/20 blur-xl transition-opacity duration-500 pointer-events-none ${isFocused ? 'opacity-100' : 'opacity-0'}`} />
-        
-        <div className={`relative rounded-[1.2rem] h-full overflow-hidden backdrop-blur-xl border transition-all duration-300 shadow-inner ${isFocused ? 'border-violet-400/50 bg-black/40 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]' : 'border-white/10 bg-black/20 hover:border-white/20 hover:bg-black/30'}`}>
-            <textarea
+
+      <div className="relative group">
+        <div
+          className={`absolute -inset-1 rounded-[1.5rem] bg-violet-500/20 blur-xl transition-opacity duration-500 pointer-events-none ${
+            isFocused ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        <div
+          className={`relative rounded-[1.2rem] h-full overflow-hidden backdrop-blur-xl border transition-all duration-300 shadow-inner ${
+            isFocused
+              ? 'border-violet-400/50 bg-black/40 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]'
+              : 'border-white/10 bg-black/20 hover:border-white/20 hover:bg-black/30'
+          }`}
+        >
+          <textarea
+            ref={textareaRef}
             value={value}
             onChange={(e) => {
-                if (e.target.value.length <= maxLength) {
+              if (e.target.value.length <= maxLength) {
                 onChange(e.target.value);
-                }
+              }
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder="Jak se cítíš? Co ti dnes udělalo radost, nebo naopak starosti? ..."
-            className="w-full h-full min-h-[140px] xs:min-h-[160px] bg-transparent p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
-            />
+            className="w-full h-full min-h-[160px] xs:min-h-[200px] bg-transparent p-4 xs:p-6 text-base xs:text-lg text-white placeholder-white/30 outline-none focus:outline-none focus:ring-0 resize-none leading-relaxed transition-all duration-300"
+          />
         </div>
       </div>
     </motion.div>
