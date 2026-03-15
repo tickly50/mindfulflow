@@ -72,7 +72,7 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
                 {entry.tags.map((ctxId) => (
                   <span
                     key={ctxId}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 text-xs text-white/50 border border-white/8"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 text-xs text-white/50"
                   >
                     <Tag className="w-3 h-3 opacity-40" />
                     {getContextLabel(ctxId)}

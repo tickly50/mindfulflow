@@ -134,28 +134,15 @@ const JournalTimeline = memo(function JournalTimeline({
 
           {/* Cards */}
           <div className="space-y-3">
-            <AnimatePresence mode="sync">
-              {group.entries.map(({ entry, idx }) => (
-                <motion.div
-                  key={entry.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, transition: { duration: 0.15, ease: EASE_IN } }}
-                  transition={{
-                    duration: 0.2,
-                    ease: EASE_OUT,
-                    delay: Math.min(idx, 6) * 0.03,
-                  }}
-                >
-                  <JournalCard
-                    entry={entry}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    getContextLabel={getContextLabel}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            {group.entries.map(({ entry }) => (
+              <JournalCard
+                key={entry.id}
+                entry={entry}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                getContextLabel={getContextLabel}
+              />
+            ))}
           </div>
         </div>
       ))}

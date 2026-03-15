@@ -52,11 +52,10 @@ const JournalFilters = memo(function JournalFilters({
       <div className="flex flex-wrap items-center justify-center gap-2">
         <div className="flex bg-white/5 p-1.5 rounded-3xl border border-white/10 shadow-glass">
           {[1, 2, 3, 4, 5].map((mood) => (
-            <motion.button
+            <button
               key={mood}
-              whileTap={{ scale: 0.88, transition: { duration: 0.1 } }}
               onClick={() => setFilterMood(filterMood === mood ? null : mood)}
-              className={`w-11 h-11 xs:w-12 xs:h-12 rounded-[1.1rem] flex items-center justify-center transition-[opacity,background-color,transform] duration-150 relative outline-none ${
+              className={`w-11 h-11 xs:w-12 xs:h-12 rounded-[1.1rem] flex items-center justify-center relative outline-none transition-none ${
                 filterMood === mood ? 'shadow-lg scale-110 z-10' : 'opacity-40 hover:opacity-80'
               }`}
               style={{
@@ -67,38 +66,22 @@ const JournalFilters = memo(function JournalFilters({
               aria-label={`Filtrovat ${MOOD_LABELS[mood]}`}
             >
               <span className="font-bold text-lg leading-none">{mood}</span>
-              <AnimatePresence>
-                {filterMood === mood && (
-                  <motion.span
-                    key="ring"
-                    initial={{ opacity: 0, scale: 0.75 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.75 }}
-                    transition={{ duration: 0.2, ease: EASE_OUT }}
-                    className="absolute inset-0 rounded-[1.1rem] border-[3px] border-white/35 pointer-events-none"
-                  />
-                )}
-              </AnimatePresence>
-            </motion.button>
+              {filterMood === mood && (
+                <span className="absolute inset-0 rounded-[1.1rem] border-[3px] border-white/35 pointer-events-none" />
+              )}
+            </button>
           ))}
         </div>
 
-        <AnimatePresence>
-          {hasActiveFilter && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8, x: -4 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.8, x: -4 }}
-              transition={{ duration: 0.2, ease: EASE_OUT }}
-              whileTap={{ scale: 0.92, transition: { duration: 0.1 } }}
-              onClick={() => { setFilterMood(null); setFilterTag(null); setSearchQuery(''); }}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 text-red-400 text-sm font-medium hover:bg-red-500/18 transition-colors duration-150 border border-red-500/20"
-            >
-              <X className="w-3.5 h-3.5" />
-              Vymazat vše
-            </motion.button>
-          )}
-        </AnimatePresence>
+        {hasActiveFilter && (
+          <button
+            onClick={() => { setFilterMood(null); setFilterTag(null); setSearchQuery(''); }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 text-red-400 text-sm font-medium hover:bg-red-500/18 transition-colors duration-150 border border-red-500/20"
+          >
+            <X className="w-3.5 h-3.5" />
+            Vymazat vše
+          </button>
+        )}
       </div>
 
       {/* ── Tag filters ───────────────────────────────────────── */}
