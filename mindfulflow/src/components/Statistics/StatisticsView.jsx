@@ -1,137 +1,197 @@
 import { useState, useMemo, memo } from 'react';
 import { useMoodEntries } from '../../utils/queries';
-import { calculateMoodStats, calculateStreak, calculateLongestStreak, calculateAverageSleep } from '../../utils/moodCalculations';
-import { motion } from 'framer-motion';
+import { useStatisticsData } from './useStatisticsData';
+import { MOOD_COLORS, CONTEXT_TAG_ICONS } from '../../utils/moodConstants';
 
-import EmptyState from './EmptyState';
-import InsightsCard from './InsightsCard';
-import StatsOverview from './StatsOverview';
-import MonthlyReportView from './MonthlyReportView';
-import MoodCalendar from './MoodCalendar';
+import KpiCards from './KpiCards';
 import MoodTrendChart from './MoodTrendChart';
-import MoodDistribution from './MoodDistribution';
-import ActivityStats from './ActivityStats';
+import MoodDistributionBar from './MoodDistributionBar';
+import HeatmapCalendar from './HeatmapCalendar';
+import InsightsList from './InsightsList';
+import GlassCard from '../common/GlassCard';
+import { Tag } from 'lucide-react';
 
-import { variants } from '../../utils/animations';
+const ICON_MAP = { ...CONTEXT_TAG_ICONS, Tag };
 
-/**
- * Statistics view – central dashboard with all mood insights.
- */
+// ─── Empty State ──────────────────────────────────────────────────────────────
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
+      <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-4xl">
+        📊
+      </div>
+      <h3 className="text-xl font-bold text-white">Zatím žádná data</h3>
+      <p className="text-white/50 max-w-xs text-sm leading-relaxed">
+        Přidej svůj první záznam nálady a tady uvidíš detailní statistiky tvé pohody.
+      </p>
+    </div>
+  );
+}
+
+// ─── Tab navigation ───────────────────────────────────────────────────────────
+const TABS = [
+  { id: 'overview', label: 'Přehled' },
+  { id: 'trend',    label: 'Trend' },
+  { id: 'calendar', label: 'Kalendář' },
+  { id: 'insights', label: 'Postřehy' },
+];
+
+// ─── Activity list (overview tab) ────────────────────────────────────────────
+function ActivityList({ activityStats }) {
+  if (!activityStats || activityStats.length === 0) return null;
+  const top = activityStats.slice(0, 6);
+
+  return (
+    <GlassCard className="p-5 sm:p-6">
+      <h3 className="text-lg font-bold text-white mb-1">Vliv aktivit</h3>
+      <p className="text-white/50 text-sm mb-4">Průměrná nálada dle aktivity</p>
+      <div className="flex flex-col gap-2">
+        {top.map(({ id, label, icon, count, average }) => {
+          const IconComp = ICON_MAP[icon] || Tag;
+          const moodLevel = count > 0 ? Math.round(average) : 3;
+          const moodColor = MOOD_COLORS[moodLevel]?.primary || '#8b5cf6';
+          return (
+            <div
+              key={id}
+              className="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/8 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                  <IconComp size={15} className="text-white/70" />
+                </div>
+                <div>
+                  <div className="text-white text-sm font-medium">{label}</div>
+                  <div className="text-white/40 text-xs">
+                    {count > 0 ? `${count} ${count === 1 ? 'záznam' : count < 5 ? 'záznamy' : 'záznamů'}` : 'žádný záznam'}
+                  </div>
+                </div>
+              </div>
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm text-white"
+                style={{
+                  background: count > 0 ? MOOD_COLORS[moodLevel]?.gradient : 'rgba(255,255,255,0.05)',
+                  boxShadow: count > 0 ? `0 4px 15px -3px ${moodColor}40` : 'none',
+                  color: count > 0 ? '#fff' : 'rgba(255,255,255,0.3)',
+                }}
+              >
+                {count > 0 ? average : '—'}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </GlassCard>
+  );
+}
+
+// ─── Main StatisticsView ──────────────────────────────────────────────────────
 const StatisticsView = memo(function StatisticsView() {
   const entries = useMoodEntries(false);
   const [timeRange, setTimeRange] = useState('30');
-  const [showMonthlyReport, setShowMonthlyReport] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
 
   const filteredEntries = useMemo(() => {
     if (!entries) return [];
     if (timeRange === 'all') return entries;
-
-    const cutoffMs = Date.now() - parseInt(timeRange) * 86_400_000;
-    return entries.filter((e) => +new Date(e.timestamp) >= cutoffMs);
+    const cutoff = Date.now() - parseInt(timeRange) * 86_400_000;
+    return entries.filter((e) => +new Date(e.timestamp) >= cutoff);
   }, [entries, timeRange]);
 
-  const stats = useMemo(() => calculateMoodStats(filteredEntries), [filteredEntries]);
-  const streak = useMemo(() => calculateStreak(entries), [entries]);
-  const longestStreak = useMemo(() => calculateLongestStreak(entries), [entries]);
-  const avgSleep = useMemo(() => calculateAverageSleep(filteredEntries), [filteredEntries]);
-
-  const isEndOfMonth = useMemo(() => {
-    const today = new Date();
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-    return today.getDate() >= lastDayOfMonth - 2; // Show in the last 3 days (e.g., 29..31 for a 31-day month)
-  }, []);
-
+  const { stats, streak, longestStreak, avgSleep, chartData, distributionData, activityStats, insights, heatmapData } =
+    useStatisticsData(entries || [], filteredEntries);
 
   if (!entries) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-24 pt-8 min-h-screen">
-      </div>
-    );
+    return <div className="max-w-4xl mx-auto px-4 pb-24 pt-8 min-h-screen" />;
   }
   if (entries.length === 0) return <EmptyState />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-24">
-      {/* Header & Controls */}
-      <motion.div
-        variants={variants.slideUp}
-        initial="hidden"
-        animate="show"
-        className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4"
-      >
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-24">
+
+      {/* ── Header ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-1 stats-header">
         <div>
-          <h2 className="text-3xl font-bold text-white mb-2">Přehled Zdraví</h2>
-          <p className="text-white/60">Komplexní analýza tvé duševní pohody</p>
+          <h2 className="text-2xl font-bold text-white">Statistiky</h2>
+          <p className="text-white/50 text-sm">Analýza tvé duševní pohody</p>
         </div>
-
-        <div className="flex items-center gap-4 flex-wrap justify-center">
-          {isEndOfMonth && (
-            <button 
-              onClick={() => setShowMonthlyReport(true)}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 font-medium hover:from-indigo-500/30 hover:to-purple-500/30 transition-all border border-indigo-500/30 flex items-center gap-2"
-            >
-              <span className="text-lg">✨</span> Měsíční report
-            </button>
-          )}
-
-          {/* Time range pills */}
-          <div className="bg-white/5  p-1 rounded-xl flex gap-1">
+        <div className="bg-white/5 p-1 rounded-xl flex gap-1 self-start sm:self-auto">
           {['7', '30', 'all'].map((range) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none !border-transparent ring-0 hover:scale-105 active:scale-95 transform-gpu ${
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-150 outline-none ${
                 timeRange === range
-                  ? 'bg-white/10 text-white'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  ? 'bg-white/15 text-white'
+                  : 'text-white/50 hover:text-white/80 hover:bg-white/8'
               }`}
             >
               {range === 'all' ? 'Vše' : `${range} dní`}
             </button>
           ))}
-          </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Metric Cards */}
-      <StatsOverview stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
+      {/* ── KPI Cards ── */}
+      <KpiCards stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
 
-      <motion.div
-        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
-        variants={variants.staggerContainer}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Left Column: Calendar & Insights (Always visible) */}
-        <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-1 relative z-20 transform-gpu" style={{ willChange: 'opacity, transform' }}>
-          <MoodCalendar entries={entries} />
-          <InsightsCard entries={filteredEntries} avgMood={stats.average} />
-        </motion.div>
+      {/* ── Tab navigation ── */}
+      <div className="flex gap-1 bg-white/5 p-1 rounded-xl mb-6 overflow-x-auto no-scrollbar">
+        {TABS.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex-1 min-w-max px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 outline-none whitespace-nowrap ${
+              activeTab === tab.id
+                ? 'bg-white/15 text-white'
+                : 'text-white/50 hover:text-white/80 hover:bg-white/8'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
-        {/* Right Column: Charts */}
-        <motion.div variants={variants.item} className="flex flex-col gap-6 lg:col-span-2 transform-gpu" style={{ willChange: 'opacity, transform' }}>
-          {stats.total > 0 ? (
-            <>
-              <MoodTrendChart data={filteredEntries} />
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <MoodDistribution data={filteredEntries} />
-                  <ActivityStats data={filteredEntries} />
-              </div>
-            </>
-          ) : (
-            <div className="glass p-12 rounded-[2rem] text-center !border-transparent h-full flex flex-col justify-center items-center">
-              <p className="text-white/60">Zatím tu nejsou žádná data pro grafy.</p>
-            </div>
-          )}
-        </motion.div>
-      </motion.div>
+      {/* ── Tab Content ── */}
+      <div className="tab-content">
 
-      <MonthlyReportView 
-        isOpen={showMonthlyReport} 
-        onClose={() => setShowMonthlyReport(false)} 
-        entries={entries} 
-      />
+        {activeTab === 'overview' && (
+          <div className="flex flex-col gap-5">
+            <MoodDistributionBar distributionData={distributionData} />
+            <ActivityList activityStats={activityStats} />
+          </div>
+        )}
+
+        {activeTab === 'trend' && (
+          <div className="flex flex-col gap-5">
+            {chartData.length > 1 ? (
+              <MoodTrendChart chartData={chartData} />
+            ) : (
+              <GlassCard className="p-12 text-center">
+                <p className="text-white/50">Přidej alespoň 2 záznamy pro zobrazení grafu.</p>
+              </GlassCard>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'calendar' && (
+          <HeatmapCalendar heatmapData={heatmapData} />
+        )}
+
+        {activeTab === 'insights' && (
+          <div className="flex flex-col gap-5">
+            {insights.length > 0 ? (
+              <InsightsList insights={insights} />
+            ) : (
+              <GlassCard className="p-12 text-center">
+                <p className="text-white/50">
+                  Potřebuji alespoň 5 záznamů a 3 záznamy se stejnou aktivitou pro zobrazení postřehů.
+                </p>
+              </GlassCard>
+            )}
+          </div>
+        )}
+
+      </div>
     </div>
   );
 });

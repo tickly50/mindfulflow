@@ -745,6 +745,49 @@ body {
 }
 
 /* ============================================
+   STATISTICS – New component styles
+   ============================================ */
+
+@keyframes stats-fade-in-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bar-grow {
+  from { width: 0; }
+}
+
+@keyframes insight-fade {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.stats-card {
+  opacity: 0;
+  animation: stats-fade-in-up 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.stats-header {
+  animation: stats-fade-in-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.bar-fill {
+  animation: bar-grow 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.insight-item {
+  opacity: 0;
+  animation: insight-fade 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.tab-content {
+  animation: stats-fade-in-up 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================
    RECHARTS – Remove all focus outlines (consolidated)
    ============================================ */
 .recharts-wrapper,
