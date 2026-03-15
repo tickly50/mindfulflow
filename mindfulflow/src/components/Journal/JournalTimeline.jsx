@@ -71,33 +71,33 @@ const JournalTimeline = memo(function JournalTimeline({
     return (
       <motion.div
         key="empty"
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3, ease: EASE_OUT }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25, ease: EASE_OUT }}
         className="text-center py-20 bg-white/5 rounded-[2.5rem] border border-white/5 relative overflow-hidden"
       >
         <motion.div
-          initial={{ scale: 0.6, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.4, ease: EASE_OUT }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.08, duration: 0.3, ease: EASE_OUT }}
           className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-white/20"
         >
           <MessageSquare className="w-10 h-10 text-white/50" />
         </motion.div>
 
         <motion.h3
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.18, duration: 0.3, ease: EASE_OUT }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.15, duration: 0.25, ease: EASE_OUT }}
           className="text-2xl font-bold text-white mb-3 tracking-tight"
         >
           {filterMood || filterTag || searchQuery ? 'Žádné záznamy nenalezeny' : 'Zatím je tu ticho'}
         </motion.h3>
 
         <motion.p
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.24, duration: 0.3, ease: EASE_OUT }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.25, ease: EASE_OUT }}
           className="text-white/50 max-w-md mx-auto leading-relaxed px-6"
         >
           {filterMood || filterTag || searchQuery
@@ -115,14 +115,14 @@ const JournalTimeline = memo(function JournalTimeline({
         <div key={group.label}>
           {/* Date group header — fades in slightly before its cards */}
           <motion.div
-            initial={{ opacity: 0, x: -6 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.28,
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+              duration: 0.2,
               ease: EASE_OUT,
               delay: group.entries[0]
-                ? Math.min(group.entries[0].idx, 7) * 0.042
-                : groupIdx * 0.06,
+                ? Math.min(group.entries[0].idx, 6) * 0.03
+                : groupIdx * 0.04,
             }}
             className="flex items-center gap-3 mb-4 px-1"
           >
@@ -138,19 +138,13 @@ const JournalTimeline = memo(function JournalTimeline({
               {group.entries.map(({ entry, idx }) => (
                 <motion.div
                   key={entry.id}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{
-                    opacity: 0,
-                    y: -8,
-                    scale: 0.97,
-                    transition: { duration: 0.2, ease: EASE_IN },
-                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.15, ease: EASE_IN } }}
                   transition={{
-                    duration: 0.32,
+                    duration: 0.2,
                     ease: EASE_OUT,
-                    // Stagger: first 8 cards cascade, rest appear at max delay
-                    delay: Math.min(idx, 7) * 0.042,
+                    delay: Math.min(idx, 6) * 0.03,
                   }}
                 >
                   <JournalCard

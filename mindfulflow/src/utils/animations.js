@@ -44,25 +44,14 @@ export const easeConfig = {
 // ─── Page Transition Variants ─────────────────────────────────────────────────
 // Used by App.jsx for view switching. Improved to prevent jumping and scrolling artifacts.
 export const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 4,
-  },
+  initial: { opacity: 0 },
   animate: {
     opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: [0.16, 1, 0.3, 1],
-    },
+    transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
   },
   exit: {
     opacity: 0,
-    y: -3,
-    transition: {
-      duration: 0.18,
-      ease: [0.4, 0.0, 1, 1],
-    },
+    transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
   },
 };
 
@@ -75,14 +64,13 @@ export const variants = {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.07,
-        delayChildren: 0.05,
-        when: "beforeChildren",
+        staggerChildren: 0.05,
+        delayChildren: 0.0,
       },
     },
     exit: {
       opacity: 0,
-      transition: { duration: 0.2, ease: [0.4, 0.0, 0.2, 1.0] },
+      transition: { duration: 0.15, ease: [0.4, 0.0, 0.2, 1.0] },
     },
   },
 
@@ -90,233 +78,171 @@ export const variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.06, delayChildren: 0.02 },
+      transition: { staggerChildren: 0.04, delayChildren: 0.0 },
     },
-    exit: { opacity: 0, transition: { duration: 0.15 } },
+    exit: { opacity: 0, transition: { duration: 0.12 } },
   },
 
   staggerContainerFast: {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.055, delayChildren: 0.0 },
+      transition: { staggerChildren: 0.035, delayChildren: 0.0 },
     },
     exit: { opacity: 0, transition: { duration: 0.1 } },
   },
 
-  // Standard item: slide up + fade in
+  // Standard item: fade in
   item: {
-    hidden: { opacity: 0, y: 8 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 280,
-        damping: 28,
-        mass: 0.5,
-      },
+      transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      y: -4,
       transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
     },
   },
 
   // Gentle fade – for low-key elements
   fadeIn: {
-    hidden: { opacity: 0, y: 5 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.3, ease: [0.4, 0.0, 0.2, 1.0] },
+      transition: { duration: 0.25, ease: [0.4, 0.0, 0.2, 1.0] },
     },
     exit: {
       opacity: 0,
-      y: -3,
       transition: { duration: 0.15, ease: [0.4, 0.0, 0.2, 1.0] },
     },
   },
 
-  // Scale pop – modals, overlays, success cards
+  // Fade – modals, overlays, success cards
   scale: {
-    hidden: { opacity: 0, scale: 0.93, y: 8 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 260,
-        damping: 22,
-        mass: 0.7,
-      },
+      transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      scale: 0.95,
-      y: 4,
-      transition: { duration: 0.18, ease: [0.65, 0, 0.35, 1] },
+      transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
-  // Modal: spring scale + subtle y
+  // Modal fade
   modalScale: {
-    hidden: { opacity: 0, scale: 0.93, y: 20 },
+    hidden: { opacity: 0, scale: 0.97 },
     show: {
       opacity: 1,
       scale: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 300, damping: 26, mass: 0.7 },
+      transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      scale: 0.96,
-      y: 10,
-      transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
+      scale: 0.98,
+      transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
   // Slide up – toasts, banners, tray panels
   slideUp: {
-    hidden: { opacity: 0, y: 12 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 280,
-        damping: 26,
-        mass: 0.6,
-      },
+      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      y: 6,
       transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
   // Slide right – horizontal lists, drawer-style
   slideRight: {
-    hidden: { opacity: 0, x: -16 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 220,
-        damping: 24,
-        mass: 0.7,
-      },
+      transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      x: -10,
       transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
   // List item – journal cards, any list
   listItem: {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 22,
-        mass: 0.8,
-      },
+      transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      x: 20,
-      transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
+      transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
   // Pop – badges, indicators
   pop: {
-    hidden: { opacity: 0, scale: 0.6 },
+    hidden: { opacity: 0, scale: 0.85 },
     show: {
       opacity: 1,
       scale: 1,
-      transition: { type: "spring", stiffness: 400, damping: 18, mass: 0.5 },
+      transition: { duration: 0.18, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      scale: 0.7,
+      scale: 0.9,
       transition: { duration: 0.12, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
-  // Tab content switching — fade + tiny Y shift, fast exit
+  // Tab content switching — clean crossfade
   tabContent: {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.28,
-        ease: [0.16, 1, 0.3, 1],
-      },
+      transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
-      y: -6,
-      transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
+      transition: { duration: 0.12, ease: [0.4, 0, 1, 1] },
     },
   },
 
-  // Greeting hero elements
+  // Greeting hero elements — pure fade, no movement
   heroTitle: {
-    hidden: { opacity: 0, y: -10 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 260,
-        damping: 24,
-        mass: 0.7,
-        delay: 0.05,
-      },
+      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.05 },
     },
   },
 
   heroEmoji: {
-    hidden: { opacity: 0, y: -12, scale: 0.85 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 280,
-        damping: 22,
-        mass: 0.6,
-      },
+      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
     },
   },
 
   heroSubtitle: {
-    hidden: { opacity: 0, y: 8 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.35, ease: [0.2, 0.8, 0.2, 1], delay: 0.14 },
+      transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1], delay: 0.12 },
     },
   },
 
   heroQuote: {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, ease: [0.2, 0.8, 0.2, 1], delay: 0.22 },
+      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.2 },
     },
   },
 };
@@ -375,13 +301,11 @@ export const microInteractions = {
   },
   card: {
     hover: {
-      y: -2,
       scale: 1.01,
       transition: { type: "spring", stiffness: 300, damping: 20, mass: 0.5 },
     },
     tap: {
       scale: 0.98,
-      y: 0,
       transition: { type: "spring", stiffness: 400, damping: 22, mass: 0.4 },
     },
   },

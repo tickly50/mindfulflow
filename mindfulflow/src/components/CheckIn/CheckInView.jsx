@@ -199,24 +199,10 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
           <AnimatePresence mode="wait">
             {selectedMood && (
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { 
-                        y: { type: "spring", stiffness: 380, damping: 28, mass: 0.5 },
-                        opacity: { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
-                    } 
-                }}
-                exit={{ 
-                    opacity: 0, 
-                    y: 6,
-                    transition: { 
-                      duration: 0.18,
-                      ease: [0.4, 0, 0.2, 1]
-                    }
-                }}
-                style={{ willChange: 'transform, opacity' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] } }}
+                exit={{ opacity: 0, transition: { duration: 0.15, ease: [0.4, 0, 1, 1] } }}
+                style={{ willChange: 'opacity' }}
               >
                 <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
@@ -256,24 +242,12 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                             {/* Custom Tag Input */}
                             <AnimatePresence>
                                 {isAddingTag && (
-                                    <motion.div 
-                                      initial={{ opacity: 0, scale: 0.95 }}
-                                      animate={{ 
-                                        opacity: 1, 
-                                        scale: 1,
-                                        transition: {
-                                          scale: { type: 'spring', stiffness: 400, damping: 20 },
-                                          opacity: { duration: 0.2 }
-                                        } 
-                                      }}
-                                      exit={{ 
-                                        opacity: 0, 
-                                        scale: 0.95,
-                                        transition: { duration: 0.18, ease: [0.65, 0, 0.35, 1] } 
-                                      }}
-                                      className="origin-top mb-4"
-                                      style={{ willChange: 'transform, opacity' }}
-                                    >
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                      exit={{ opacity: 0, transition: { duration: 0.12 } }}
+                      className="origin-top mb-4"
+                    >
                                       <div className="flex gap-2 items-center bg-black/30 p-1.5 xs:p-2 rounded-2xl border border-white/10 pr-1.5 xs:pr-2">
                                         <input
                                           type="text"

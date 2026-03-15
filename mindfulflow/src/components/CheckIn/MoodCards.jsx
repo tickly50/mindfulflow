@@ -74,19 +74,12 @@ const cardContainer = {
   },
 };
 
-// Individual card entrance – rises from below with spring
+// Individual card entrance – fade in only, no position change
 const cardItem = {
-  hidden: { opacity: 0, y: 24, scale: 0.93 },
+  hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 24,
-      mass: 0.5,
-    },
+    transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
   },
 };
 

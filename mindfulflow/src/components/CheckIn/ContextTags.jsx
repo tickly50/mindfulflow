@@ -16,9 +16,9 @@ const ICON_MAP = {
 };
 
 const tagVariants = {
-  hidden: { opacity: 0, scale: 0.85, y: 15 },
-  show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25, mass: 0.5 } },
-  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] } }
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.18, ease: [0.4, 0, 0.2, 1] } },
+  exit: { opacity: 0, transition: { duration: 0.12, ease: [0.65, 0, 0.35, 1] } }
 };
 
 /**

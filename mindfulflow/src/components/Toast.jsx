@@ -19,12 +19,10 @@ export const Toast = ({ message, type, onClose }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 8, scale: 0.97, transition: { duration: 0.18, ease: [0.4, 0, 1, 1] } }}
-      transition={{ type: 'spring', stiffness: 320, damping: 28, mass: 0.5 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
+      exit={{ opacity: 0, transition: { duration: 0.15, ease: [0.4, 0, 1, 1] } }}
       className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg w-full sm:min-w-[300px] sm:w-auto ${bgColors[type] || bgColors.info} bg-[#0f172a]/95`}
-      style={{ willChange: 'transform, opacity' }}
     >
       <div className="shrink-0">{icons[type] || icons.info}</div>
       <p className="text-white/90 text-sm font-medium flex-1">{message}</p>

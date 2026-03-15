@@ -44,7 +44,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
+      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
       className="mb-10 w-full"
     >
       <div className="relative flex items-center justify-between mb-4 px-1 flex-wrap gap-2">
@@ -74,10 +74,10 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                transition={{ duration: 0.18, ease: 'easeOut' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
                 className="absolute left-0 right-0 sm:left-auto sm:right-0 sm:w-72 top-[calc(100%+0.5rem)] z-50 max-h-72 overflow-y-auto rounded-2xl bg-[#0f111a]/95 backdrop-blur-xl border border-white/10 shadow-2xl"
               >
                 <div className="p-3 flex flex-col gap-1.5">

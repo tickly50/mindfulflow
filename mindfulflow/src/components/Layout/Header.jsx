@@ -7,7 +7,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { calculateStreak as calcStreakPure } from '../../utils/moodCalculations';
 import { downloadBackup, importData, clearAllEntries } from '../../utils/storage';
 import { useToast } from '../../context/ToastContext';
-import { springConfigFast, easeConfig, variants, microInteractions } from '../../utils/animations';
+import { easeConfig, variants, microInteractions } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
 import { useSettings } from '../../context/SettingsContext';
@@ -103,12 +103,8 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
   return (
     <>
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ 
-          y: 0, 
-          opacity: 1,
-          transition: springConfigFast
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } }}
         className="glass-strong rounded-2xl p-4 mb-8 sticky top-0 z-40"
         style={{
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
