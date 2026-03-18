@@ -1,5 +1,5 @@
 import { useState, useEffect, memo, useCallback, useMemo, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, animate } from 'framer-motion';
 import { microInteractions } from '../../utils/animations';
 
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -38,6 +38,8 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
   const prevShowSuccessRef = useRef(false);
   const scrollToTopAfterSuccessRef = useRef(false);
   const moodTimeoutRef = useRef(null);
+  const formAnchorRef = useRef(null);
+  const isMountedMoodRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -85,6 +87,31 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
     }
     prevShowSuccessRef.current = showSuccess;
   }, [showSuccess]);
+
+  // Scroll to form when mood selected, scroll to top when deselected
+  useEffect(() => {
+    if (!isMountedMoodRef.current) {
+      isMountedMoodRef.current = true;
+      return;
+    }
+    if (selectedMood !== null) {
+      setTimeout(() => {
+        if (!formAnchorRef.current) return;
+        const targetY = formAnchorRef.current.getBoundingClientRect().top + window.scrollY - 12;
+        animate(window.scrollY, targetY, {
+          duration: 0.85,
+          ease: [0.16, 1, 0.3, 1],
+          onUpdate: (v) => window.scrollTo(0, v),
+        });
+      }, 80);
+    } else {
+      animate(window.scrollY, 0, {
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+        onUpdate: (v) => window.scrollTo(0, v),
+      });
+    }
+  }, [selectedMood]);
 
   const handleTagToggle = useCallback((tagId) => {
     haptics.light();
@@ -194,6 +221,9 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                 selectedMood={selectedMood}
               />
           </div>
+
+          {/* Scroll anchor – scrolled into view when a mood is selected */}
+          <div ref={formAnchorRef} />
 
           {/* Section 2: Progressive Disclosure Details */}
           <AnimatePresence mode="wait">
