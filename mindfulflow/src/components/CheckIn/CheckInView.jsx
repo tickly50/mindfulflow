@@ -40,6 +40,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
   const moodTimeoutRef = useRef(null);
   const formAnchorRef = useRef(null);
   const isMountedMoodRef = useRef(false);
+  const isScrollAnimatingRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -88,6 +89,18 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
     prevShowSuccessRef.current = showSuccess;
   }, [showSuccess]);
 
+  // Block user scroll during programmatic scroll animation
+  const lockScroll = useCallback(() => {
+    isScrollAnimatingRef.current = true;
+    const prevent = (e) => { if (isScrollAnimatingRef.current) e.preventDefault(); };
+    window.addEventListener('wheel', prevent, { passive: false });
+    window.addEventListener('touchmove', prevent, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', prevent);
+      window.removeEventListener('touchmove', prevent);
+    };
+  }, []);
+
   // Scroll to form when mood selected, scroll to top when deselected
   useEffect(() => {
     if (!isMountedMoodRef.current) {
@@ -98,20 +111,24 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
       setTimeout(() => {
         if (!formAnchorRef.current) return;
         const targetY = formAnchorRef.current.getBoundingClientRect().top + window.scrollY - 12;
+        const unlock = lockScroll();
         animate(window.scrollY, targetY, {
           duration: 0.85,
           ease: [0.16, 1, 0.3, 1],
           onUpdate: (v) => window.scrollTo(0, v),
+          onComplete: () => { isScrollAnimatingRef.current = false; unlock(); },
         });
       }, 80);
     } else {
+      const unlock = lockScroll();
       animate(window.scrollY, 0, {
         duration: 0.7,
         ease: [0.16, 1, 0.3, 1],
         onUpdate: (v) => window.scrollTo(0, v),
+        onComplete: () => { isScrollAnimatingRef.current = false; unlock(); },
       });
     }
-  }, [selectedMood]);
+  }, [selectedMood, lockScroll]);
 
   const handleTagToggle = useCallback((tagId) => {
     haptics.light();
