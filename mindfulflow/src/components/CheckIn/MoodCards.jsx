@@ -107,7 +107,6 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               haptics.medium();
               onMoodSelect(mood);
             }}
-            whileTap={{ scale: 1.05, transition: { type: "spring", stiffness: 400, damping: 20 } }}
             aria-label={`Vybrat náladu: ${MOOD_LABELS[mood]}`}
             className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px] hover-lift
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
