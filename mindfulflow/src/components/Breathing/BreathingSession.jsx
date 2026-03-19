@@ -7,6 +7,7 @@ import { useBreathingAudio } from './useBreathingAudio';
 import { haptics } from '../../utils/haptics';
 import { useSettings } from '../../context/SettingsContext';
 import useScrollLock from '../../hooks/useScrollLock';
+import useIsLowEndDevice from '../../hooks/useIsLowEndDevice';
 
 /* ─── Phase-reactive background ──────────────────────────────── */
 const BLOBS = [
@@ -172,18 +173,8 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
   const { settings } = useSettings();
   const prefersReduced = useReducedMotion();
 
-  // Adaptive fidelity: keep full "premium" visuals on normal devices,
-  // but calm them down automatically on very low-end hardware.
-  let lowEnd = false;
-  try {
-    const dm = navigator?.deviceMemory;
-    const hc = navigator?.hardwareConcurrency;
-    lowEnd = (typeof dm === 'number' && dm <= 2) || (typeof hc === 'number' && hc <= 4);
-  } catch (_e) {
-    lowEnd = false;
-  }
-
   const enableParticles = !prefersReduced;
+  const lowEnd = useIsLowEndDevice();
   const highFidelity = enableParticles && !lowEnd;
 
   const [isRunning,   setIsRunning]   = useState(false);
@@ -227,24 +218,41 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
   // 3-2-1 prep countdown
   useEffect(() => {
     if (!isPreparing) return;
-    setPrepCount(3);
+    const PREP_SECONDS = 3;
     startRef.current = Date.now();
 
-    const id = setInterval(() => {
-      const left = Math.ceil(3 - (Date.now() - startRef.current) / 1000);
+    let timeoutId = null;
+
+    const tick = () => {
+      const elapsedSec = (Date.now() - startRef.current) / 1000;
+      const left = Math.ceil(PREP_SECONDS - elapsedSec);
+
       if (left <= 0) {
-        clearInterval(id);
         setIsPreparing(false);
         setPhaseIdx(0);
         setRemaining(phases[0].seconds);
         playTone(phases[0].name);
         haptics.breathingIn();
-      } else {
-        setPrepCount(left);
+        return;
       }
-    }, 80);
 
-    return () => clearInterval(id);
+      // Only update the displayed integer.
+      setPrepCount(left);
+
+      // Schedule the next tick exactly when the integer will change.
+      // left = ceil(PREP_SECONDS - elapsedSec)
+      // nextChange when PREP_SECONDS - elapsedSec <= left - 1
+      // => elapsedSec >= PREP_SECONDS - (left - 1)
+      const boundaryElapsedSec = PREP_SECONDS - (left - 1);
+      const timeUntilMs = (boundaryElapsedSec - elapsedSec) * 1000;
+      timeoutId = window.setTimeout(tick, Math.max(0, timeUntilMs));
+    };
+
+    timeoutId = window.setTimeout(tick, 0);
+
+    return () => {
+      if (timeoutId != null) window.clearTimeout(timeoutId);
+    };
   }, [isPreparing, phases, playTone]);
 
   // Main breathing timer
@@ -252,15 +260,16 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
     if (!isRunning || isPreparing) return;
     const phase = phases[phaseIdx];
     startRef.current = Date.now();
-    setRemaining(phase.seconds);
 
-    const id = setInterval(() => {
-      const elapsed = (Date.now() - startRef.current) / 1000;
-      const left    = Math.ceil(phase.seconds - elapsed);
+    let timeoutId = null;
+
+    const tick = () => {
+      const elapsedSec = (Date.now() - startRef.current) / 1000;
+      const left = Math.ceil(phase.seconds - elapsedSec);
 
       if (left <= 0) {
         setPhaseIdx((prev) => {
-          const next      = (prev + 1) % phases.length;
+          const next = (prev + 1) % phases.length;
           const nextPhase = phases[next];
 
           playTone(nextPhase.name);
@@ -271,15 +280,24 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
           if (next === 0) setCycles((c) => c + 1);
           return next;
         });
-      } else {
-        // Only update state when the displayed integer actually changes.
-        // React bails out (no re-render) when the new value is identical via Object.is,
-        // dropping re-renders from 12.5×/sec down to ~1×/sec (once per second tick).
-        setRemaining(prev => (prev !== left ? left : prev));
+        return;
       }
-    }, 80);
 
-    return () => clearInterval(id);
+      // Update only when the displayed integer changes.
+      setRemaining((prev) => (prev !== left ? left : prev));
+
+      // nextChange when phase.seconds - elapsedSec <= left - 1
+      // => elapsedSec >= phase.seconds - (left - 1)
+      const boundaryElapsedSec = phase.seconds - (left - 1);
+      const timeUntilMs = (boundaryElapsedSec - elapsedSec) * 1000;
+      timeoutId = window.setTimeout(tick, Math.max(0, timeUntilMs));
+    };
+
+    timeoutId = window.setTimeout(tick, 0);
+
+    return () => {
+      if (timeoutId != null) window.clearTimeout(timeoutId);
+    };
   }, [isRunning, isPreparing, phaseIdx, phases, playTone]);
 
   const handleTogglePlay = useCallback(() => {
@@ -294,6 +312,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
       // Start prep countdown
       setIsRunning(true);
       setIsPreparing(true);
+      setPrepCount(3);
     }
   }, [isRunning, isPreparing, phases]);
 

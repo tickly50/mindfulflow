@@ -8,6 +8,7 @@ import { SettingsProvider } from "./context/SettingsContext";
 import { pageVariants, reducedMotionVariants } from "./utils/animations";
 import BreathingOverlay from "./components/Breathing/BreathingOverlay";
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
+import useIsLowEndDevice from "./hooks/useIsLowEndDevice";
 
 import CheckInView from "./components/CheckIn/CheckInView";
 const JournalView = lazy(() => import("./components/Journal/JournalView"));
@@ -214,9 +215,10 @@ function AppContent() {
 }
 
 function App() {
+  const isLowEnd = useIsLowEndDevice();
   return (
     <LazyMotion features={domAnimation}>
-      <MotionConfig reducedMotion="user">
+      <MotionConfig reducedMotion={isLowEnd ? "always" : "user"}>
         <SettingsProvider>
           <ToastProvider>
             <AppContent />

@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import useIsLowEndDevice from '../../hooks/useIsLowEndDevice';
 
 /**
  * Premium dynamic Aurora background that reacts to the current mood.
@@ -27,17 +28,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
   const activeMoodKey = String(currentMood ?? 'null');
   const activeColors  = MOOD_PALETTES[activeMoodKey] ?? MOOD_PALETTES.null;
   const prefersReduced = useReducedMotion();
-
-  // Lightweight heuristic for low-end devices:
-  // If user didn't set reduced-motion but hardware is very limited, we reduce continuous animations.
-  let lowEnd = false;
-  try {
-    const dm = navigator?.deviceMemory;
-    const hc = navigator?.hardwareConcurrency;
-    lowEnd = (typeof dm === 'number' && dm <= 2) || (typeof hc === 'number' && hc <= 4);
-  } catch (_e) {
-    lowEnd = false;
-  }
+  const lowEnd = useIsLowEndDevice();
 
   const shouldAnimate = !prefersReduced && !lowEnd;
 
