@@ -367,6 +367,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
           prepCount={prepCount}
           remaining={remaining}
           phaseIdx={phaseIdx}
+          prefersReduced={prefersReduced}
         />
 
         {/* Hint text */}
@@ -394,6 +395,7 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
           totalPhases={phases.length}
           phaseIdx={phaseIdx}
           accent={accent}
+          prefersReduced={prefersReduced}
           onTogglePlay={handleTogglePlay}
           onToggleSound={() => setSoundEnabled((s) => !s)}
         />

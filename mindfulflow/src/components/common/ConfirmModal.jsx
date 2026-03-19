@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 import useScrollLock from '../../hooks/useScrollLock';
+import { easeConfig, variants } from '../../utils/animations';
 
 export default function ConfirmModal({ 
   isOpen, 
@@ -44,17 +45,18 @@ export default function ConfirmModal({
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.2, ease: easeConfig.smooth } }}
+            exit={{ opacity: 0, transition: { duration: 0.15, ease: easeConfig.out } }}
             onClick={onClose}
             className="absolute inset-0 bg-black/60 md:backdrop-blur-md"
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1, transition: { duration: 0.18, ease: [0.4, 0, 0.2, 1] } }}
-            exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.15 } }}
+            variants={variants.modalScale}
+            initial="hidden"
+            animate="show"
+            exit="exit"
             className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#1a1f2e]/90 p-8 shadow-2xl md:backdrop-blur-xl"
           >
             <div className="mb-8">

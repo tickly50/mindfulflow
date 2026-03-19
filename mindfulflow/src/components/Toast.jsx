@@ -1,8 +1,12 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { variants, reducedMotionVariants } from '../utils/animations';
 
 import { Check, X, Info, AlertTriangle } from 'lucide-react';
 
 export const Toast = ({ message, type, onClose }) => {
+  const prefersReduced = useReducedMotion();
+  const slideVariants = prefersReduced ? reducedMotionVariants.slideUp : variants.slideUp;
+
   const icons = {
     success: <Check className="w-5 h-5 text-emerald-400" />,
     error: <X className="w-5 h-5 text-red-400" />,
@@ -19,9 +23,10 @@ export const Toast = ({ message, type, onClose }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } }}
-      exit={{ opacity: 0, transition: { duration: 0.15, ease: [0.4, 0, 1, 1] } }}
+      variants={slideVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
       className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg w-full sm:min-w-[300px] sm:w-auto ${bgColors[type] || bgColors.info} bg-[#0f172a]/95`}
     >
       <div className="shrink-0">{icons[type] || icons.info}</div>

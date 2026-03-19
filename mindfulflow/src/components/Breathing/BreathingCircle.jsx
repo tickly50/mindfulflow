@@ -37,10 +37,11 @@ export const BreathingCircle = memo(function BreathingCircle({
   prepCount,
   remaining,
   phaseIdx,
+  prefersReduced,
 }) {
   const effectivePhase = isRunning && !isPreparing ? (phaseName ?? 'idle') : 'idle';
   const targetScale    = SCALE_BY_PHASE[effectivePhase] ?? 0.86;
-  const transition     = phaseTransition(effectivePhase, phaseDuration);
+  const transition     = prefersReduced ? { duration: 0 } : phaseTransition(effectivePhase, phaseDuration);
 
   // SVG ring geometry
   const R    = 116;
@@ -147,10 +148,10 @@ export const BreathingCircle = memo(function BreathingCircle({
         <AnimatePresence mode="wait">
           <motion.span
             key={isPreparing ? 'prep-lbl' : (orbLabel ?? 'idle-lbl')}
-            initial={{ opacity: 0, y: 5 }}
+            initial={prefersReduced ? { opacity: 0 } : { opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.22 }}
+            exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -5 }}
+            transition={{ duration: prefersReduced ? 0 : 0.22 }}
             className="font-bold tracking-[0.18em] text-white/88 uppercase"
             style={{ fontSize: 'clamp(8px, 2.3vw, 11px)' }}
           >
@@ -162,10 +163,10 @@ export const BreathingCircle = memo(function BreathingCircle({
         <AnimatePresence mode="wait">
           <motion.span
             key={`num-${orbCount}`}
-            initial={{ scale: 0.6,  opacity: 0 }}
-            animate={{ scale: 1,    opacity: 1 }}
-            exit={{    scale: 1.28, opacity: 0 }}
-            transition={{ duration: 0.18 }}
+            initial={prefersReduced ? { opacity: 0 } : { scale: 0.6, opacity: 0 }}
+            animate={prefersReduced ? { opacity: 1 } : { scale: 1, opacity: 1 }}
+            exit={prefersReduced ? { opacity: 0 } : { scale: 1.28, opacity: 0 }}
+            transition={{ duration: prefersReduced ? 0 : 0.18 }}
             className="font-black text-white tabular-nums"
             style={{
               fontSize: 'clamp(34px, 11vw, 54px)',
@@ -180,7 +181,7 @@ export const BreathingCircle = memo(function BreathingCircle({
 
       {/* Phase-transition ripple */}
       <AnimatePresence>
-        {isRunning && !isPreparing && (
+        {isRunning && !isPreparing && !prefersReduced && (
           <motion.div
             key={`ripple-${phaseIdx}`}
             className="absolute rounded-full pointer-events-none"

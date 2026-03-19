@@ -1,7 +1,8 @@
 import { memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import { haptics } from '../../utils/haptics';
+import { springConfigFast } from '../../utils/animations';
 import { Home, BookHeart, BarChart3, Award } from 'lucide-react';
 
 const navItems = [
@@ -50,7 +51,7 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
               {/* Icon */}
               <motion.div
                 animate={isActive ? { y: -1, scale: 1.05 } : { y: 0, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.5 }}
+                transition={springConfigFast}
                 style={{ willChange: 'transform' }}
               >
                 <Icon
@@ -65,7 +66,7 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
               {/* Label — always in flow, opacity-only transition (no layout shift) */}
               <motion.span
                 animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 3 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 28, mass: 0.5 }}
+                transition={springConfigFast}
                 className="text-[9px] font-bold tracking-wide text-violet-200 mt-0.5 leading-none"
                 style={{ willChange: 'transform, opacity' }}
                 aria-hidden={!isActive}

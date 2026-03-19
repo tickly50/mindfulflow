@@ -44,13 +44,17 @@ export const easeConfig = {
 // ─── Page Transition Variants ─────────────────────────────────────────────────
 // Used by App.jsx for view switching. Improved to prevent jumping and scrolling artifacts.
 export const pageVariants = {
-  initial: { opacity: 0 },
+  initial: { opacity: 0, y: 10, scale: 0.99 },
   animate: {
     opacity: 1,
+    y: 0,
+    scale: 1,
     transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
   },
   exit: {
     opacity: 0,
+    y: -8,
+    scale: 0.99,
     transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
   },
 };
@@ -148,13 +152,15 @@ export const variants = {
 
   // Slide up – toasts, banners, tray panels
   slideUp: {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 10 },
     show: {
       opacity: 1,
+      y: 0,
       transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
     },
     exit: {
       opacity: 0,
+      y: -6,
       transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
     },
   },

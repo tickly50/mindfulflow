@@ -12,6 +12,7 @@ export const Controls = memo(function Controls({
   accent,
   onTogglePlay,
   onToggleSound,
+  prefersReduced,
 }) {
   const isActive   = isRunning || isPreparing;
   const cycleLabel = cycles === 1 ? 'cyklus' : cycles < 5 ? 'cykly' : 'cyklů';
@@ -102,7 +103,7 @@ export const Controls = memo(function Controls({
           aria-label={isActive ? 'Zastavit' : 'Spustit'}
         >
           {/* Animated pulse ring when active */}
-          {isActive && (
+          {isActive && !prefersReduced && (
             <motion.div
               className="absolute inset-0 rounded-full"
               style={{ border: `1.5px solid ${accent}60` }}

@@ -103,7 +103,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
     <>
       <motion.header
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } }}
+        animate={{ opacity: 1, transition: { duration: 0.3, ease: easeConfig.smooth } }}
         className="glass-strong rounded-2xl p-4 mb-8 sticky top-0 z-40"
         style={{
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
@@ -236,7 +236,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.2, ease: easeConfig.smooth }}
               />
               <motion.div
                 variants={variants.modalScale}
