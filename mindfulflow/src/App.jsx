@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Suspense, lazy } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { AnimatePresence, motion, MotionConfig, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
@@ -11,9 +11,9 @@ import BackgroundAurora from "./components/Layout/BackgroundAurora";
 import useIsLowEndDevice from "./hooks/useIsLowEndDevice";
 
 import CheckInView from "./components/CheckIn/CheckInView";
-const JournalView = lazy(() => import("./components/Journal/JournalView"));
-const StatisticsView = lazy(() => import("./components/Statistics/StatisticsView"));
-const AchievementsView = lazy(() => import("./components/Achievements/AchievementsView"));
+import JournalView from "./components/Journal/JournalView";
+import StatisticsView from "./components/Statistics/StatisticsView";
+import AchievementsView from "./components/Achievements/AchievementsView";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -57,13 +57,11 @@ function AppContent() {
   const [currentView, setCurrentView] = useState("checkin");
   const [showBreathing, setShowBreathing] = useState(false);
   const [activeMood, setActiveMood] = useState(null);
-  const [backgroundMounted, setBackgroundMounted] = useState(false);
+  const [backgroundMounted] = useState(true);
   const prefersReduced = useReducedMotion();
   const activePageVariants = prefersReduced ? reducedMotionVariants.page : pageVariants;
 
   useEffect(() => {
-    setBackgroundMounted(true);
-
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
@@ -88,29 +86,6 @@ function AppContent() {
 
   const handleBreathingClose = useCallback(() => {
     setShowBreathing(false);
-  }, []);
-
-  // Warm up lazy chunks in background to keep future tab switches instant.
-  useEffect(() => {
-    // Warm-up can cause Lighthouse "unused JavaScript" on cold load.
-    // So we only do it during development; prod stays lean.
-    if (!import.meta.env.DEV) return;
-
-    const prefersSaveData = navigator?.connection?.saveData;
-    if (prefersSaveData) return;
-
-    const preload = () => {
-      // Check-In is intentionally not lazy-loaded to keep LCP fast.
-      import("./components/Journal/JournalView");
-      import("./components/Statistics/StatisticsView");
-      import("./components/Achievements/AchievementsView");
-    };
-
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(preload, { timeout: 2000 });
-    } else {
-      setTimeout(preload, 800);
-    }
   }, []);
 
   return (
@@ -141,7 +116,7 @@ function AppContent() {
         {/* Page transitions — slide + crossfade */}
         <ErrorBoundary>
           <main className="flex-1 w-full relative">
-            <AnimatePresence mode="wait" initial={true}>
+            <AnimatePresence mode="sync" initial={false}>
               {currentView === "checkin" && (
                 <motion.div
                   key="checkin"
@@ -164,9 +139,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <Suspense fallback={null}>
-                    <JournalView />
-                  </Suspense>
+                  <JournalView />
                 </motion.div>
               )}
 
@@ -179,9 +152,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <Suspense fallback={null}>
-                    <StatisticsView />
-                  </Suspense>
+                  <StatisticsView />
                 </motion.div>
               )}
 
@@ -194,9 +165,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <Suspense fallback={null}>
-                    <AchievementsView />
-                  </Suspense>
+                  <AchievementsView />
                 </motion.div>
               )}
             </AnimatePresence>
