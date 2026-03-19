@@ -59,7 +59,6 @@ function AppContent() {
   const [backgroundMounted, setBackgroundMounted] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBackgroundMounted(true);
 
     if (navigator.storage && navigator.storage.persist) {

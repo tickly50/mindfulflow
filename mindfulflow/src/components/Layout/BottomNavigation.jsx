@@ -18,11 +18,10 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
       style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
     >
       <div
-        className="max-w-[340px] w-full flex justify-between items-center px-2 py-2 rounded-full pointer-events-auto"
+        className="max-w-[340px] w-full flex justify-between items-center px-2 py-2 rounded-full pointer-events-auto backdrop-blur-xl bg-white/5"
         style={{
-          background: 'linear-gradient(135deg, rgba(45, 25, 90, 0.96) 0%, rgba(15, 10, 40, 0.99) 100%)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(139,92,246,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
-          border: '1px solid rgba(139, 92, 246, 0.2)',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
         }}
       >
         {navItems.map((item) => {
@@ -50,8 +49,8 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
 
               {/* Icon */}
               <motion.div
-                animate={isActive ? { y: -2, scale: 1.1 } : { y: 0, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 28, mass: 0.5 }}
+                animate={isActive ? { y: -1, scale: 1.05 } : { y: 0, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.5 }}
                 style={{ willChange: 'transform' }}
               >
                 <Icon

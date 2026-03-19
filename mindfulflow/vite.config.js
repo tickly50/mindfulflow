@@ -111,7 +111,6 @@ export default defineConfig({
       'react',
       'react-dom',
       'framer-motion',
-      'recharts',
       'lucide-react'
     ],
     exclude: []

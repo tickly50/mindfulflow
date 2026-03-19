@@ -227,7 +227,6 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
   // 3-2-1 prep countdown
   useEffect(() => {
     if (!isPreparing) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPrepCount(3);
     startRef.current = Date.now();
 
@@ -253,7 +252,6 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
     if (!isRunning || isPreparing) return;
     const phase = phases[phaseIdx];
     startRef.current = Date.now();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRemaining(phase.seconds);
 
     const id = setInterval(() => {
