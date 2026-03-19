@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, Suspense, lazy } from "react";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig, LazyMotion, domAnimation } from "framer-motion";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
 import BottomNavigation from "./components/Layout/BottomNavigation";
@@ -90,6 +90,10 @@ function AppContent() {
 
   // Warm up lazy chunks in background to keep future tab switches instant.
   useEffect(() => {
+    // Warm-up can cause Lighthouse "unused JavaScript" on cold load.
+    // So we only do it during development; prod stays lean.
+    if (!import.meta.env.DEV) return;
+
     const prefersSaveData = navigator?.connection?.saveData;
     if (prefersSaveData) return;
 
@@ -210,14 +214,16 @@ function AppContent() {
 
 function App() {
   return (
-    <MotionConfig reducedMotion="user">
-      <SettingsProvider>
-        <ToastProvider>
-          <AppContent />
-          {!import.meta.env.DEV && <VercelAnalytics />}
-        </ToastProvider>
-      </SettingsProvider>
-    </MotionConfig>
+    <LazyMotion features={domAnimation}>
+      <MotionConfig reducedMotion="user">
+        <SettingsProvider>
+          <ToastProvider>
+            <AppContent />
+            {!import.meta.env.DEV && <VercelAnalytics />}
+          </ToastProvider>
+        </SettingsProvider>
+      </MotionConfig>
+    </LazyMotion>
   );
 }
 

@@ -163,14 +163,14 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 }`}
               >
                 {currentView === view && (
-                  <motion.div
-                    layoutId="header-nav-indicator"
+                  <div
                     className="absolute inset-0 bg-gradient-to-r from-violet-500/35 to-purple-500/35 rounded-lg -z-10"
-                    transition={{ type: 'spring', stiffness: 380, damping: 34, mass: 0.5 }}
-                    style={{ 
-                      willChange: 'transform',
-                      boxShadow: '0 0 18px rgba(139,92,246,0.35), inset 0 0 18px rgba(139,92,246,0.1)' 
+                    style={{
+                      willChange: "transform",
+                      boxShadow:
+                        "0 0 18px rgba(139,92,246,0.35), inset 0 0 18px rgba(139,92,246,0.1)",
                     }}
+                    aria-hidden="true"
                   />
                 )}
                 {view === 'checkin' && 'Check-In'}

@@ -41,11 +41,10 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
             >
               {/* Animated active pill background */}
               {isActive && (
-                <motion.div
-                  layoutId="bottom-nav-pill"
+                <div
                   className="absolute inset-0 rounded-2xl bg-white/8"
-                  transition={{ type: 'spring', stiffness: 380, damping: 34, mass: 0.5 }}
-                  style={{ willChange: 'transform' }}
+                  style={{ willChange: "transform" }}
+                  aria-hidden="true"
                 />
               )}
 
