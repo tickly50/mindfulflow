@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useReducedMotion } from 'framer-motion';
 
 /**
  * Premium dynamic Aurora background that reacts to the current mood.
@@ -25,6 +26,20 @@ const MOOD_KEYS = Object.keys(MOOD_PALETTES);
 const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
   const activeMoodKey = String(currentMood ?? 'null');
   const activeColors  = MOOD_PALETTES[activeMoodKey] ?? MOOD_PALETTES.null;
+  const prefersReduced = useReducedMotion();
+
+  // Lightweight heuristic for low-end devices:
+  // If user didn't set reduced-motion but hardware is very limited, we reduce continuous animations.
+  let lowEnd = false;
+  try {
+    const dm = navigator?.deviceMemory;
+    const hc = navigator?.hardwareConcurrency;
+    lowEnd = (typeof dm === 'number' && dm <= 2) || (typeof hc === 'number' && hc <= 4);
+  } catch (_e) {
+    lowEnd = false;
+  }
+
+  const shouldAnimate = !prefersReduced && !lowEnd;
 
   return (
     <div
@@ -54,16 +69,29 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
       <div className="absolute inset-0 opacity-40">
         <div
           className="aurora-orb aurora-orb-1 absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full"
-          style={{ background: `radial-gradient(circle, ${activeColors.s} 0%, transparent 60%)` }}
+          style={{
+            background: `radial-gradient(circle, ${activeColors.s} 0%, transparent 60%)`,
+            animation: shouldAnimate ? undefined : 'none',
+          }}
         />
-        <div
-          className="aurora-orb aurora-orb-2 absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full"
-          style={{ background: `radial-gradient(circle, ${activeColors.t} 0%, transparent 60%)` }}
-        />
-        <div
-          className="aurora-orb aurora-orb-3 absolute top-[30%] left-[20%] w-[30%] h-[30%] rounded-full opacity-30"
-          style={{ background: `radial-gradient(circle, ${activeColors.p} 0%, transparent 60%)` }}
-        />
+        {shouldAnimate ? (
+          <>
+            <div
+              className="aurora-orb aurora-orb-2 absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full"
+              style={{
+                background: `radial-gradient(circle, ${activeColors.t} 0%, transparent 60%)`,
+                animation: shouldAnimate ? undefined : 'none',
+              }}
+            />
+            <div
+              className="aurora-orb aurora-orb-3 absolute top-[30%] left-[20%] w-[30%] h-[30%] rounded-full opacity-30"
+              style={{
+                background: `radial-gradient(circle, ${activeColors.p} 0%, transparent 60%)`,
+                animation: shouldAnimate ? undefined : 'none',
+              }}
+            />
+          </>
+        ) : null}
       </div>
     </div>
   );

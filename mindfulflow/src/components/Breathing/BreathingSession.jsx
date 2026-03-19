@@ -1,5 +1,5 @@
 import { memo, useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, X } from 'lucide-react';
 import { BreathingCircle } from './BreathingCircle';
 import { Controls } from './Controls';
@@ -15,7 +15,7 @@ const BLOBS = [
   { top: '35%', left: '48%' },
 ];
 
-const SessionBg = memo(function SessionBg({ bg, accent, glow, phaseName, isRunning }) {
+const SessionBg = memo(function SessionBg({ bg, accent, glow, phaseName, isRunning, highFidelity }) {
   const glowOpacity =
     !isRunning           ? 0.28
     : phaseName === 'inhale'           ? 1.0
@@ -30,43 +30,71 @@ const SessionBg = memo(function SessionBg({ bg, accent, glow, phaseName, isRunni
         style={{ background: `linear-gradient(160deg, ${bg[0]} 0%, ${bg[1]} 100%)` }}
       />
 
-      {/* Phase-reactive glow — animates opacity */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{ opacity: glowOpacity }}
-        transition={{ duration: 1.4, ease: 'easeInOut' }}
-        style={{
-          background: `radial-gradient(ellipse 80% 70% at 50% 55%, ${glow}48 0%, ${glow}10 50%, transparent 72%)`,
-        }}
-      />
-
-      {/* Slow-drifting ambient blobs */}
-      {BLOBS.map((b, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
+      {/* Phase-reactive glow — animates opacity (or static on reduced motion) */}
+      {!highFidelity ? (
+        <div
+          className="absolute inset-0"
           style={{
-            width:  320 + i * 80,
-            height: 320 + i * 80,
-            background: `radial-gradient(circle, ${accent}${['15', '0d', '08'][i]} 0%, transparent 70%)`,
-            top:  b.top,
-            left: b.left,
-            translateX: '-50%',
-            translateY: '-50%',
-          }}
-          animate={{
-            scale: [1, 1.12 + i * 0.04, 1],
-            x: [0, (i % 2 === 0 ?  22 : -22), 0],
-            y: [0, (i % 2 === 0 ?  16 : -16), 0],
-          }}
-          transition={{
-            duration: 9 + i * 3,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: i * 1.8,
+            opacity: glowOpacity,
+            transition: 'opacity 1.4s ease-in-out',
+            background: `radial-gradient(ellipse 80% 70% at 50% 55%, ${glow}48 0%, ${glow}10 50%, transparent 72%)`,
           }}
         />
-      ))}
+      ) : (
+        <motion.div
+          className="absolute inset-0"
+          animate={{ opacity: glowOpacity }}
+          transition={{ duration: 1.4, ease: 'easeInOut' }}
+          style={{
+            background: `radial-gradient(ellipse 80% 70% at 50% 55%, ${glow}48 0%, ${glow}10 50%, transparent 72%)`,
+          }}
+        />
+      )}
+
+      {/* Slow-drifting ambient blobs */}
+      {!highFidelity
+        ? BLOBS.map((b, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width:  320 + i * 80,
+                height: 320 + i * 80,
+                background: `radial-gradient(circle, ${accent}${['15', '0d', '08'][i]} 0%, transparent 70%)`,
+                top:  b.top,
+                left: b.left,
+                translateX: '-50%',
+                translateY: '-50%',
+                opacity: 0.85,
+              }}
+            />
+          ))
+        : BLOBS.map((b, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width:  320 + i * 80,
+                height: 320 + i * 80,
+                background: `radial-gradient(circle, ${accent}${['15', '0d', '08'][i]} 0%, transparent 70%)`,
+                top:  b.top,
+                left: b.left,
+                translateX: '-50%',
+                translateY: '-50%',
+              }}
+              animate={{
+                scale: [1, 1.12 + i * 0.04, 1],
+                x: [0, (i % 2 === 0 ?  22 : -22), 0],
+                y: [0, (i % 2 === 0 ?  16 : -16), 0],
+              }}
+              transition={{
+                duration: 9 + i * 3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: i * 1.8,
+              }}
+            />
+          ))}
 
       {/* Noise texture */}
       <div
@@ -81,21 +109,35 @@ const SessionBg = memo(function SessionBg({ bg, accent, glow, phaseName, isRunni
 });
 
 /* ─── Floating particles ──────────────────────────────────────── */
-const PARTICLES = Array.from({ length: 10 }, (_, i) => ({
-  id:    i,
-  x:     8  + Math.random() * 84,
-  y:     8  + Math.random() * 84,
-  size:  2  + Math.random() * 3.5,
-  dur:   8  + Math.random() * 12,
+const PARTICLES_HIGH = Array.from({ length: 10 }, (_, i) => ({
+  id: i,
+  x: 8 + Math.random() * 84,
+  y: 8 + Math.random() * 84,
+  size: 2 + Math.random() * 3.5,
+  dur: 8 + Math.random() * 12,
   delay: Math.random() * 7,
-  dx:    (Math.random() - 0.5) * 22,
-  dy:    -(18 + Math.random() * 28),
+  dx: (Math.random() - 0.5) * 22,
+  dy: -(18 + Math.random() * 28),
 }));
 
-const Particles = memo(function Particles({ accent }) {
+const PARTICLES_LOW = Array.from({ length: 7 }, (_, i) => ({
+  id: i,
+  x: 8 + Math.random() * 84,
+  y: 8 + Math.random() * 84,
+  size: 2 + Math.random() * 3.5,
+  dur: 8 + Math.random() * 12,
+  delay: Math.random() * 7,
+  dx: (Math.random() - 0.5) * 18,
+  dy: -(14 + Math.random() * 22),
+}));
+
+const Particles = memo(function Particles({ accent, enableParticles, highFidelity }) {
+  if (!enableParticles) return null;
+
+  const particles = highFidelity ? PARTICLES_HIGH : PARTICLES_LOW;
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {PARTICLES.map((p) => (
+      {particles.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full"
@@ -107,10 +149,10 @@ const Particles = memo(function Particles({ accent }) {
             background: accent,
           }}
           animate={{
-            x:       [0, p.dx, 0],
-            y:       [0, p.dy, 0],
+            x: highFidelity ? [0, p.dx, 0] : [0, 0, 0],
+            y: [0, p.dy, 0],
             opacity: [0, 0.45, 0],
-            scale:   [0.7, 1.3, 0.7],
+            scale: highFidelity ? [0.7, 1.3, 0.7] : [0.75, 1.18, 0.75],
           }}
           transition={{
             duration: p.dur,
@@ -128,6 +170,21 @@ const Particles = memo(function Particles({ accent }) {
 export const BreathingSession = memo(function BreathingSession({ technique, onClose, onBack }) {
   const { phases, accent, bg, glow, fact, name } = technique;
   const { settings } = useSettings();
+  const prefersReduced = useReducedMotion();
+
+  // Adaptive fidelity: keep full "premium" visuals on normal devices,
+  // but calm them down automatically on very low-end hardware.
+  let lowEnd = false;
+  try {
+    const dm = navigator?.deviceMemory;
+    const hc = navigator?.hardwareConcurrency;
+    lowEnd = (typeof dm === 'number' && dm <= 2) || (typeof hc === 'number' && hc <= 4);
+  } catch (_e) {
+    lowEnd = false;
+  }
+
+  const enableParticles = !prefersReduced;
+  const highFidelity = enableParticles && !lowEnd;
 
   const [isRunning,   setIsRunning]   = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
@@ -266,8 +323,9 @@ export const BreathingSession = memo(function BreathingSession({ technique, onCl
         glow={glow}
         phaseName={currentPhase}
         isRunning={isRunning}
+        highFidelity={highFidelity}
       />
-      <Particles accent={accent} />
+      <Particles accent={accent} enableParticles={enableParticles} highFidelity={highFidelity} />
 
       {/* ── Top bar ── */}
       <div className="relative z-10 flex items-center justify-between px-5 pt-12 pb-2">

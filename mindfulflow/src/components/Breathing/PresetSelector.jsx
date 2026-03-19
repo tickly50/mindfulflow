@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ChevronRight, X } from 'lucide-react';
 
 const TechCard = memo(function TechCard({ t, index, onSelect }) {
@@ -57,6 +57,8 @@ const TechCard = memo(function TechCard({ t, index, onSelect }) {
 });
 
 export const PresetSelector = memo(function PresetSelector({ techniques, onSelect, onClose }) {
+  const prefersReduced = useReducedMotion();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -70,28 +72,53 @@ export const PresetSelector = memo(function PresetSelector({ techniques, onSelec
     >
       {/* Ambient blobs — one per technique */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {techniques.map((t, i) => (
-          <motion.div
-            key={t.id}
-            className="absolute rounded-full"
-            style={{
-              width: 360,
-              height: 360,
-              background: `radial-gradient(circle, ${t.glow}18 0%, transparent 70%)`,
-              top:  `${[6, 52, 88][i]}%`,
-              left: `${[78, 4,  68][i]}%`,
-              translateX: '-50%',
-              translateY: '-50%',
-            }}
-            animate={{ scale: [1, 1.12, 1], opacity: [0.65, 1, 0.65] }}
-            transition={{
-              duration: 8 + i * 2.5,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 1.8,
-            }}
-          />
-        ))}
+        {techniques.map((t, i) => {
+          const top = `${[6, 52, 88][i]}%`;
+          const left = `${[78, 4, 68][i]}%`;
+
+          if (prefersReduced) {
+            // Static blobs on reduced-motion devices.
+            return (
+              <div
+                key={t.id}
+                className="absolute rounded-full"
+                style={{
+                  width: 360,
+                  height: 360,
+                  background: `radial-gradient(circle, ${t.glow}18 0%, transparent 70%)`,
+                  top,
+                  left,
+                  translateX: '-50%',
+                  translateY: '-50%',
+                  opacity: 0.85,
+                }}
+              />
+            );
+          }
+
+          return (
+            <motion.div
+              key={t.id}
+              className="absolute rounded-full"
+              style={{
+                width: 360,
+                height: 360,
+                background: `radial-gradient(circle, ${t.glow}18 0%, transparent 70%)`,
+                top,
+                left,
+                translateX: '-50%',
+                translateY: '-50%',
+              }}
+              animate={{ scale: [1, 1.07, 1], opacity: [0.65, 0.95, 0.65] }}
+              transition={{
+                duration: 10 + i * 3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: i * 1.8,
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* Header */}

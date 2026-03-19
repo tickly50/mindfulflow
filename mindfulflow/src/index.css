@@ -832,3 +832,71 @@ path:focus {
   outline: none !important;
   stroke-width: 0 !important;
 }
+
+/* ============================================
+   PERF SAFETY — Hover-only micro-shimmer
+   (replaces a framer infinite animation)
+   ============================================ */
+@keyframes chevron-nudge {
+  0% {
+    transform: translateX(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 0.85;
+  }
+}
+
+.chevron-shimmer {
+  animation: chevron-nudge 1.2s ease-in-out infinite;
+  animation-play-state: paused;
+  will-change: transform;
+}
+
+/* Parent button already uses `group` class */
+.group:hover .chevron-shimmer {
+  animation-play-state: running;
+}
+
+/* ============================================
+   Reduced motion — pause continuous animations
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  /* Aurora orbs */
+  .aurora-orb-1,
+  .aurora-orb-2,
+  .aurora-orb-3 {
+    animation: none !important;
+  }
+
+  /* Gradient background drift */
+  .gradient-bg::before {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Shared infinite utility animations */
+  .animate-breathing,
+  .animate-gradient,
+  .animate-pulse-glow,
+  .animate-float,
+  .animate-rotate,
+  .animate-scale-pulse,
+  .animate-shimmer {
+    animation: none !important;
+  }
+
+  .animate-pulse-glow::after {
+    animation: none !important;
+  }
+
+  /* Micro hover nudge */
+  .chevron-shimmer {
+    animation: none !important;
+  }
+}

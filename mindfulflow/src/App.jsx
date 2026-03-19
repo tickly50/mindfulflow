@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, Suspense, lazy } from "react";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
@@ -6,17 +6,13 @@ import BottomNavigation from "./components/Layout/BottomNavigation";
 import { ToastProvider } from "./context/ToastContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { pageVariants } from "./utils/animations";
-
-import CheckInView from "./components/CheckIn/CheckInView";
-
-import JournalView from "./components/Journal/JournalView";
-import StatisticsView from "./components/Statistics/StatisticsView";
-import AchievementsView from "./components/Achievements/AchievementsView";
-
 import BreathingOverlay from "./components/Breathing/BreathingOverlay";
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
 
-import React from "react";
+import CheckInView from "./components/CheckIn/CheckInView";
+const JournalView = lazy(() => import("./components/Journal/JournalView"));
+const StatisticsView = lazy(() => import("./components/Statistics/StatisticsView"));
+const AchievementsView = lazy(() => import("./components/Achievements/AchievementsView"));
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -92,6 +88,25 @@ function AppContent() {
     setShowBreathing(false);
   }, []);
 
+  // Warm up lazy chunks in background to keep future tab switches instant.
+  useEffect(() => {
+    const prefersSaveData = navigator?.connection?.saveData;
+    if (prefersSaveData) return;
+
+    const preload = () => {
+      // Check-In is intentionally not lazy-loaded to keep LCP fast.
+      import("./components/Journal/JournalView");
+      import("./components/Statistics/StatisticsView");
+      import("./components/Achievements/AchievementsView");
+    };
+
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(preload, { timeout: 2000 });
+    } else {
+      setTimeout(preload, 800);
+    }
+  }, []);
+
   return (
     <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative">
       
@@ -130,9 +145,7 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <CheckInView 
-                    onMoodChange={setActiveMood} 
-                  />
+                  <CheckInView onMoodChange={setActiveMood} />
                 </motion.div>
               )}
 
@@ -145,7 +158,9 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <JournalView />
+                  <Suspense fallback={null}>
+                    <JournalView />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -158,7 +173,9 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <StatisticsView />
+                  <Suspense fallback={null}>
+                    <StatisticsView />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -171,7 +188,9 @@ function AppContent() {
                   exit="exit"
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <AchievementsView />
+                  <Suspense fallback={null}>
+                    <AchievementsView />
+                  </Suspense>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -195,7 +214,7 @@ function App() {
       <SettingsProvider>
         <ToastProvider>
           <AppContent />
-          <VercelAnalytics />
+          {!import.meta.env.DEV && <VercelAnalytics />}
         </ToastProvider>
       </SettingsProvider>
     </MotionConfig>

@@ -63,7 +63,14 @@ export default defineConfig({
         moduleSideEffects: false
       },
       output: {
-        manualChunks: undefined
+        // Force some big, stable vendor deps into separate chunks.
+        // Helps initial payload parsing/execution (LCP) and improves caching.
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          framer: ['framer-motion'],
+          dexie: ['dexie', 'dexie-react-hooks'],
+          lucide: ['lucide-react']
+        }
       }
     },
     

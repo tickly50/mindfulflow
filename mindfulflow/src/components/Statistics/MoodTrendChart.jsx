@@ -40,6 +40,10 @@ function buildFill(points) {
 const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
   const [tooltip, setTooltip] = useState(null);
   const svgRef = useRef(null);
+  const rectRef = useRef(null);
+  const rafRef = useRef(0);
+  const pendingIndexRef = useRef(null);
+  const lastIndexRef = useRef(-1);
 
   const { points, xLabels, yTicks } = useMemo(() => {
     if (!chartData || chartData.length === 0) return { points: [], xLabels: [], yTicks: [] };
@@ -69,23 +73,55 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
   const linePath = useMemo(() => buildPath(points), [points]);
   const fillPath = useMemo(() => buildFill(points), [points]);
 
+  const handleMouseEnter = useCallback(() => {
+    if (!svgRef.current) return;
+    rectRef.current = svgRef.current.getBoundingClientRect();
+  }, []);
+
   const handleMouseMove = useCallback(
     (e) => {
-      if (!svgRef.current || points.length === 0) return;
-      const rect = svgRef.current.getBoundingClientRect();
+      if (!svgRef.current) return;
+      const n = points.length;
+      if (n === 0) return;
+
+      const rect = rectRef.current ?? svgRef.current.getBoundingClientRect();
+      rectRef.current = rect;
+
       const svgX = ((e.clientX - rect.left) / rect.width) * W;
-      let closest = points[0];
-      let minDist = Math.abs(svgX - points[0].x);
-      for (const p of points) {
-        const d = Math.abs(svgX - p.x);
-        if (d < minDist) { minDist = d; closest = p; }
-      }
-      setTooltip({ x: closest.x, y: closest.y, data: closest.data });
+
+      // points[i].x = PAD.left + (i/(n-1))*CHART_W
+      const denom = Math.max(CHART_W, 1);
+      const raw = ((svgX - PAD.left) / denom) * Math.max(n - 1, 1);
+      const idx = Math.max(0, Math.min(n - 1, Math.round(raw)));
+
+      if (idx === lastIndexRef.current) return;
+      pendingIndexRef.current = idx;
+
+      // Only commit tooltip once per animation frame.
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0;
+        const targetIdx = pendingIndexRef.current;
+        pendingIndexRef.current = null;
+        if (targetIdx == null) return;
+        if (targetIdx === lastIndexRef.current) return;
+
+        lastIndexRef.current = targetIdx;
+        const p = points[targetIdx];
+        setTooltip({ x: p.x, y: p.y, data: p.data });
+      });
     },
     [points]
   );
 
-  const handleMouseLeave = useCallback(() => setTooltip(null), []);
+  const handleMouseLeave = useCallback(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
+    rectRef.current = null;
+    pendingIndexRef.current = null;
+    lastIndexRef.current = -1;
+    setTooltip(null);
+  }, []);
 
   if (!chartData || chartData.length === 0) return null;
 
@@ -105,6 +141,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
           preserveAspectRatio="none"
           className="w-full"
           style={{ height: 220, display: 'block' }}
+          onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >

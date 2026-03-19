@@ -353,13 +353,13 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                 {/* Button Content */}
                                 <div className="relative px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3">
                                     <span className="text-lg xs:text-xl font-bold text-white tracking-wide">Uložit záznam</span>
-                                    <motion.div 
-                                      className="bg-white/20 p-1.5 rounded-lg"
-                                      animate={{ x: [0, 3, 0] }}
-                                      transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut', repeatDelay: 1 }}
+                                    <div
+                                      className="bg-white/20 p-1.5 rounded-lg chevron-shimmer"
+                                      style={{ willChange: 'transform' }}
+                                      aria-hidden="true"
                                     >
                                         <ChevronRight className="w-5 h-5 text-white" />
-                                    </motion.div>
+                                    </div>
                                 </div>
                                 
                                 {/* Ring */}
