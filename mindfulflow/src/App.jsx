@@ -4,15 +4,15 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Header from "./components/Layout/Header";
 import BottomNavigation from "./components/Layout/BottomNavigation";
 import { ToastProvider } from "./context/ToastContext";
-import { SettingsProvider } from "./context/SettingsContext";
+import { SettingsProvider } from "./features/settings/SettingsContext";
 import { pageVariants, reducedMotionVariants } from "./utils/animations";
 import BreathingOverlay from "./components/Breathing/BreathingOverlay";
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
 import useIsLowEndDevice from "./hooks/useIsLowEndDevice";
 
-import CheckInView from "./components/CheckIn/CheckInView";
-import JournalView from "./components/Journal/JournalView";
-import StatisticsView from "./components/Statistics/StatisticsView";
+import CheckInView from "./features/checkin/CheckInView";
+import JournalView from "./features/journal/JournalView";
+import StatisticsView from "./features/statistics/StatisticsView";
 import AchievementsView from "./components/Achievements/AchievementsView";
 
 class ErrorBoundary extends React.Component {

@@ -10,7 +10,7 @@ import { useToast } from '../../context/ToastContext';
 import { easeConfig, variants, microInteractions } from '../../utils/animations';
 import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
-import { useSettings } from '../../context/SettingsContext';
+import { useSettings } from '../../features/settings/SettingsContext';
 import { haptics } from '../../utils/haptics';
 import { Wind, Trash2, Flame, Settings, Download, Upload, X, Vibrate, Volume2 } from 'lucide-react';
 import useScrollLock from '../../hooks/useScrollLock';

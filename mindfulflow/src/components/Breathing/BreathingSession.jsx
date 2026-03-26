@@ -5,7 +5,7 @@ import { BreathingCircle } from './BreathingCircle';
 import { Controls } from './Controls';
 import { useBreathingAudio } from './useBreathingAudio';
 import { haptics } from '../../utils/haptics';
-import { useSettings } from '../../context/SettingsContext';
+import { useSettings } from '../../features/settings/SettingsContext';
 import useScrollLock from '../../hooks/useScrollLock';
 import useIsLowEndDevice from '../../hooks/useIsLowEndDevice';
 
