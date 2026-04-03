@@ -80,9 +80,9 @@ export default function InstallLanding() {
             variants={variants.item}
             className="text-white/65 text-sm md:text-fluid-base leading-relaxed max-w-md mx-auto"
           >
-            MindfulFlow je tvůj klidný prostor pro sledování nálady, deník a přehledy — data zůstávají u tebe
-            lokálně. <span className="text-white/90">V běžné záložce prohlížeče aplikaci nespustíš</span> — funguje
-            jen jako nainstalovaná PWA (ikona na ploše nebo v menu aplikací).
+            Každý den je jiný. MindfulFlow ti pomáhá zachytit, jak se skutečně cítíš — bez komplikací, bez
+            zbytečností. Stačí pár vteřin denně a za týden začneš vidět vzorce, které jsi dřív přehlížel. Poznej sám
+            sebe trochu lépe.
           </motion.p>
         </motion.div>
 
