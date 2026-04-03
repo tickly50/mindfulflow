@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import GlassCard from '../common/GlassCard';
+import GlassCard from '../../components/common/GlassCard';
 import { MOOD_COLORS, MOOD_LABELS } from '../../utils/moodConstants';
 import { Clock, Tag, Pencil, Trash2, Calendar, Moon } from 'lucide-react';
 

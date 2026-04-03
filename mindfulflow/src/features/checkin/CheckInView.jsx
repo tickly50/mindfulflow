@@ -13,7 +13,7 @@ import SuccessOverlay from './SuccessOverlay';
 import { saveMoodEntry } from '../../utils/storage';
 import { CONTEXT_TAGS } from '../../utils/moodConstants';
 import { useToast } from '../../context/ToastContext';
-import ConfirmModal from '../common/ConfirmModal';
+import ConfirmModal from '../../components/common/ConfirmModal';
 import { haptics } from '../../utils/haptics';
 import { Sparkles, Plus, ChevronRight } from 'lucide-react';
 
