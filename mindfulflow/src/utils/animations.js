@@ -43,19 +43,21 @@ export const easeConfig = {
 
 // ─── Page Transition Variants ─────────────────────────────────────────────────
 // Used by App.jsx for view switching. Improved to prevent jumping and scrolling artifacts.
+const easeStudio = [0.16, 1, 0.3, 1];
+
 export const pageVariants = {
-  initial: { opacity: 0, y: 10, scale: 0.99 },
+  initial: { opacity: 0, y: 28, scale: 0.985 },
   animate: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+    transition: { duration: 0.48, ease: easeStudio },
   },
   exit: {
     opacity: 0,
-    y: -8,
+    y: -18,
     scale: 0.99,
-    transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
+    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] },
   },
 };
 
@@ -68,8 +70,8 @@ export const variants = {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.0,
+        staggerChildren: 0.09,
+        delayChildren: 0.06,
       },
     },
     exit: {
@@ -82,7 +84,7 @@ export const variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.04, delayChildren: 0.0 },
+      transition: { staggerChildren: 0.07, delayChildren: 0.04 },
     },
     exit: { opacity: 0, transition: { duration: 0.12 } },
   },
@@ -91,21 +93,23 @@ export const variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.035, delayChildren: 0.0 },
+      transition: { staggerChildren: 0.05, delayChildren: 0.02 },
     },
     exit: { opacity: 0, transition: { duration: 0.1 } },
   },
 
-  // Standard item: fade in
+  // Standard item: cinematic rise
   item: {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 24 },
     show: {
       opacity: 1,
-      transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] },
+      y: 0,
+      transition: { duration: 0.5, ease: easeStudio },
     },
     exit: {
       opacity: 0,
-      transition: { duration: 0.15, ease: [0.4, 0, 1, 1] },
+      y: 12,
+      transition: { duration: 0.2, ease: [0.4, 0, 1, 1] },
     },
   },
 
@@ -152,16 +156,16 @@ export const variants = {
 
   // Slide up – toasts, banners, tray panels
   slideUp: {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 28 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+      transition: { duration: 0.52, ease: easeStudio },
     },
     exit: {
       opacity: 0,
-      y: -6,
-      transition: { duration: 0.15, ease: [0.65, 0, 0.35, 1] },
+      y: -12,
+      transition: { duration: 0.2, ease: [0.65, 0, 0.35, 1] },
     },
   },
 
@@ -221,34 +225,39 @@ export const variants = {
 
   // Greeting hero elements — pure fade, no movement
   heroTitle: {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 36 },
     show: {
       opacity: 1,
-      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.05 },
+      y: 0,
+      transition: { duration: 0.62, ease: easeStudio, delay: 0.08 },
     },
   },
 
   heroEmoji: {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: -28, scale: 0.85 },
     show: {
       opacity: 1,
-      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 260, damping: 22, mass: 0.7 },
     },
   },
 
   heroSubtitle: {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
-      transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1], delay: 0.12 },
+      y: 0,
+      transition: { duration: 0.5, ease: easeStudio, delay: 0.14 },
     },
   },
 
   heroQuote: {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 28 },
     show: {
       opacity: 1,
-      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.2 },
+      y: 0,
+      transition: { duration: 0.55, ease: easeStudio, delay: 0.22 },
     },
   },
 };
@@ -285,11 +294,11 @@ export const reducedMotionVariants = {
     show: { opacity: 1, transition: { duration: 0.15 } },
     exit: { opacity: 0, transition: { duration: 0.1 } },
   },
-  // Page transition — just a fast crossfade
+  // Page transition — opacity-only for a11y
   page: {
     initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] } },
-    exit: { opacity: 0, transition: { duration: 0.12 } },
+    animate: { opacity: 1, transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1] } },
+    exit: { opacity: 0, transition: { duration: 0.14 } },
   },
 };
 
@@ -297,34 +306,34 @@ export const reducedMotionVariants = {
 export const microInteractions = {
   button: {
     hover: {
-      scale: 1.02,
-      transition: { type: "spring", stiffness: 400, damping: 25, mass: 0.5 },
+      scale: 1.035,
+      transition: { type: "spring", stiffness: 420, damping: 26, mass: 0.45 },
     },
     tap: {
-      scale: 0.96,
-      transition: { type: "spring", stiffness: 600, damping: 25, mass: 0.4 },
+      scale: 0.94,
+      transition: { type: "spring", stiffness: 620, damping: 28, mass: 0.35 },
     },
   },
   card: {
     hover: {
-      scale: 1.01,
-      transition: { type: "spring", stiffness: 300, damping: 20, mass: 0.5 },
+      scale: 1.018,
+      transition: { type: "spring", stiffness: 340, damping: 26, mass: 0.5 },
     },
     tap: {
-      scale: 0.98,
-      transition: { type: "spring", stiffness: 400, damping: 22, mass: 0.4 },
+      scale: 0.97,
+      transition: { type: "spring", stiffness: 450, damping: 24, mass: 0.4 },
     },
   },
   icon: {
     hover: {
-      scale: 1.1,
-      rotate: 3,
-      transition: { type: "spring", stiffness: 400, damping: 18, mass: 0.4 },
+      scale: 1.12,
+      rotate: 5,
+      transition: { type: "spring", stiffness: 440, damping: 19, mass: 0.4 },
     },
     tap: {
-      scale: 0.9,
-      rotate: -3,
-      transition: { type: "spring", stiffness: 600, damping: 20, mass: 0.3 },
+      scale: 0.88,
+      rotate: -5,
+      transition: { type: "spring", stiffness: 650, damping: 22, mass: 0.3 },
     },
   },
 };

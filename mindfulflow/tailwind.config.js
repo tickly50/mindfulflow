@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        display: ['"Syne"', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+      },
       colors: {
         // Mood-based gradient colors
         mood: {
@@ -79,11 +83,16 @@ export default {
       boxShadow: {
         'glow-violet': '0 0 30px rgba(139, 92, 246, 0.5)',
         'glow-violet-strong': '0 0 50px rgba(139, 92, 246, 0.7)',
+        'glow-fuchsia': '0 0 40px rgba(217, 70, 239, 0.45)',
+        'glow-cyan': '0 0 36px rgba(34, 211, 238, 0.35)',
         'glow-emerald': '0 0 30px rgba(16, 185, 129, 0.4)',
         'glow-emerald-strong': '0 0 50px rgba(16, 185, 129, 0.6)',
         'glow-orange': '0 0 30px rgba(234, 88, 12, 0.5)',
+        'depth-sm': '0 4px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255,255,255,0.06) inset',
+        'depth-lg': '0 24px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255,255,255,0.08) inset',
         'glass': '0 8px 32px rgba(0, 0, 0, 0.1)',
         'glass-lg': '0 16px 48px rgba(0, 0, 0, 0.15)',
+        'studio': '0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 80px rgba(139, 92, 246, 0.12)',
       },
       backdropBlur: {
         'xs': '4px',

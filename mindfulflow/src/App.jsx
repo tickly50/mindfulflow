@@ -8,7 +8,10 @@ import { SettingsProvider } from "./features/settings/SettingsContext";
 import { pageVariants, reducedMotionVariants } from "./utils/animations";
 import BreathingOverlay from "./components/Breathing/BreathingOverlay";
 import BackgroundAurora from "./components/Layout/BackgroundAurora";
+import FloatingParticles from "./components/Layout/FloatingParticles";
 import useIsLowEndDevice from "./hooks/useIsLowEndDevice";
+import { isStandaloneDisplay } from "./utils/standalone";
+import InstallLanding from "./components/InstallLanding/InstallLanding";
 
 import CheckInView from "./features/checkin/CheckInView";
 import JournalView from "./features/journal/JournalView";
@@ -89,16 +92,26 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative">
+    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative font-sans antialiased">
       
       {/* Dynamic Aurora Background - syncs with checkin mood or sets general themes per view */}
       {backgroundMounted && (
-        <BackgroundAurora currentMood={
-          currentView === 'checkin' ? activeMood : 
-          currentView === 'journal' ? 4 : 
-          currentView === 'statistics' ? 5 : 
-          currentView === 'achievements' ? 3 : null
-        } />
+        <>
+          <BackgroundAurora
+            currentMood={
+              currentView === "checkin"
+                ? activeMood
+                : currentView === "journal"
+                  ? 4
+                  : currentView === "statistics"
+                    ? 5
+                    : currentView === "achievements"
+                      ? 3
+                      : null
+            }
+          />
+          <FloatingParticles />
+        </>
       )}
 
       {/* 
@@ -185,12 +198,14 @@ function AppContent() {
 
 function App() {
   const isLowEnd = useIsLowEndDevice();
+  const allowFullApp = isStandaloneDisplay();
+
   return (
     <LazyMotion features={domAnimation}>
       <MotionConfig reducedMotion={isLowEnd ? "always" : "user"}>
         <SettingsProvider>
           <ToastProvider>
-            <AppContent />
+            {allowFullApp ? <AppContent /> : <InstallLanding />}
             {!import.meta.env.DEV && <VercelAnalytics />}
           </ToastProvider>
         </SettingsProvider>
