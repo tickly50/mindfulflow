@@ -150,7 +150,7 @@ export default function InstallLanding() {
           <motion.div
             variants={variants.item}
             id="install-fallback"
-            className="rounded-2xl border border-white/12 bg-white/[0.04] backdrop-blur-md px-4 py-3 text-sm text-white/60 shadow-depth-sm"
+            className="rounded-2xl border-2 border-white bg-white/[0.04] backdrop-blur-md px-4 py-3 text-sm text-white/60"
           >
             <p className="font-medium text-white/80 mb-1">iPhone nebo iPad (Safari)</p>
             <p>
