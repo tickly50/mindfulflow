@@ -307,7 +307,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                           value={newTagLabel}
                                           onChange={(e) => setNewTagLabel(e.target.value)}
                                           placeholder="Název nového tagu..."
-                                          className="flex-1 bg-transparent border-none px-3 py-2 text-sm xs:text-base text-white placeholder-white/30 focus:outline-none min-w-0"
+                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500/65 xs:text-base"
                                           onKeyDown={(e) => e.key === 'Enter' && handleAddCustomTag()}
                                           autoFocus
                                         />
