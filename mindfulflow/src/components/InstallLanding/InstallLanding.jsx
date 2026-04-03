@@ -56,7 +56,7 @@ export default function InstallLanding() {
       <BackgroundAurora currentMood={null} />
       <FloatingParticles />
 
-      <div className="relative z-10 w-full max-w-lg mx-auto px-4 py-10 sm:py-14 flex flex-col flex-1">
+      <div className="relative z-10 w-full max-w-prose-narrow mx-auto px-[var(--container-pad-x)] py-[clamp(1.5rem,6vh,3.5rem)] flex flex-col flex-1 min-w-0">
         <motion.div
           variants={variants.container}
           initial="hidden"
@@ -72,13 +72,13 @@ export default function InstallLanding() {
           </motion.div>
           <motion.h1
             variants={variants.item}
-            className="font-display text-3xl sm:text-[2.35rem] font-extrabold tracking-tight text-white mb-4 bg-gradient-to-br from-white via-violet-100 to-fuchsia-200/90 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(139,92,246,0.35)]"
+            className="font-display font-extrabold tracking-tight text-white mb-4 md:mb-5 bg-gradient-to-br from-white via-violet-100 to-fuchsia-200/90 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(139,92,246,0.35)] leading-[1.08] text-[clamp(2.125rem,calc(1.25rem+5.5vw),3.75rem)]"
           >
             Péče o náladu v&nbsp;jedné aplikaci
           </motion.h1>
           <motion.p
             variants={variants.item}
-            className="text-white/65 text-[15px] leading-relaxed max-w-md mx-auto"
+            className="text-white/65 text-sm md:text-fluid-base leading-relaxed max-w-md mx-auto"
           >
             MindfulFlow je tvůj klidný prostor pro sledování nálady, deník a přehledy — data zůstávají u tebe
             lokálně. <span className="text-white/90">V běžné záložce prohlížeče aplikaci nespustíš</span> — funguje
@@ -104,8 +104,8 @@ export default function InstallLanding() {
                       <Icon className="w-5 h-5 text-violet-200" aria-hidden />
                     </span>
                     <div>
-                      <p className="font-semibold text-white text-sm font-display">{title}</p>
-                      <p className="text-white/55 text-sm leading-snug mt-0.5">{text}</p>
+                      <p className="font-semibold text-white text-[0.9375rem] font-display">{title}</p>
+                      <p className="text-white/55 text-[0.8125rem] leading-snug mt-0.5">{text}</p>
                     </div>
                   </li>
                 ))}

@@ -13,6 +13,11 @@
   --font-display: "DM Sans", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
 
+  /* Fluid layout — mobile-first scale */
+  --container-pad-x: clamp(0.75rem, 4vw, 2.5rem);
+  --section-pad-y: clamp(0.75rem, 2.5vw, 1.5rem);
+  --touch-min: 44px;
+
   font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
@@ -132,6 +137,36 @@ body {
   -moz-user-select: auto;
   -ms-user-select: auto;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Landscape phones / short viewports — reduce vertical rhythm clashes */
+@media (orientation: landscape) and (max-height: 520px) {
+  body {
+    --section-pad-y: clamp(0.5rem, 2vh, 1rem);
+  }
+}
+
+/* Minimum touch targets — primary controls (exclude compact switches / decorative) */
+@layer base {
+  button:not([role="switch"]):not([data-touch-skip]),
+  [role="button"]:not([data-touch-skip]) {
+    min-height: var(--touch-min);
+    min-width: var(--touch-min);
+  }
+}
+
+@layer components {
+  .touch-target {
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  a.touch-target:not([class*="inline-flex"]) {
+    display: inline-flex;
+  }
 }
 
 /* Film grain / noise — subtle depth without heavy GPU cost */

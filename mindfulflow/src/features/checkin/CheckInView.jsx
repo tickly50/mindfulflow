@@ -235,7 +235,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
   const canSubmit = selectedMood !== null;
 
   return (
-    <div className="max-w-4xl mx-auto pb-20 px-4 md:px-0">
+    <div className="w-full max-w-content mx-auto pb-8 md:pb-12 min-w-0 px-0 sm:px-1">
           {/* Section 1: Introduction & Mood */}
           <div className="scroll-mt-4">
               <Greeting />
@@ -260,7 +260,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                 <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
                      <div 
-                        className="glass-panel p-4 sm:p-6 md:p-10 rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent shadow-2xl overflow-hidden relative w-full"
+                        className="glass-panel p-[clamp(1rem,3vw,2.5rem)] rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent shadow-2xl overflow-hidden relative w-full min-w-0"
                         style={{ 
                             WebkitFontSmoothing: 'antialiased',
                             backfaceVisibility: 'hidden'

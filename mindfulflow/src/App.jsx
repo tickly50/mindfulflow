@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { MotionConfig, LazyMotion, domAnimation } from 'framer-motion';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import Header from './components/Layout/Header';
-import BottomNavigation from './components/Layout/BottomNavigation';
 import { ToastProvider } from './context/ToastContext';
 import { SettingsProvider } from './features/settings/SettingsContext';
 import BreathingOverlay from './components/Breathing/BreathingOverlay';
@@ -68,7 +67,7 @@ function AppContent() {
         </>
       )}
 
-      <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-10 py-3 md:py-6 flex-1 pb-28 sm:pb-10 flex flex-col relative z-10">
+      <div className="w-full max-w-screen-2xl mx-auto px-[var(--container-pad-x)] py-[var(--section-pad-y)] md:py-6 flex-1 pb-6 md:pb-8 flex flex-col relative z-10 min-w-0">
         <Header
           onBreathingClick={handleBreathingOpen}
           currentView={currentView}
@@ -84,8 +83,6 @@ function AppContent() {
           </main>
         </ErrorBoundary>
       </div>
-
-      <BottomNavigation currentView={currentView} onViewChange={handleViewChange} />
 
       {showBreathing && <BreathingOverlay isOpen={showBreathing} onClose={handleBreathingClose} />}
     </div>

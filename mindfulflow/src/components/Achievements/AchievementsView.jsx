@@ -33,22 +33,22 @@ const AchievementsView = memo(function AchievementsView() {
   }, [entries]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-24">
+    <div className="max-w-content mx-auto px-[var(--container-pad-x)] pb-16 md:pb-24 w-full min-w-0">
       <motion.div
         variants={variants.slideUp}
         initial="hidden"
         animate="show"
         className="mb-8"
       >
-        <h2 className="text-3xl font-bold text-white flex items-center gap-3 mb-2">
+        <h2 className="text-fluid-3xl font-bold text-white flex flex-wrap items-center gap-3 mb-2">
           <Award className="w-8 h-8 text-amber-400" />
           Tvé Úspěchy
         </h2>
-        <p className="text-white/60">Sbírej odznaky za plnění svých cílů a péči o zdraví.</p>
+        <p className="text-white/60 text-fluid-base max-w-prose">Sbírej odznaky za plnění svých cílů a péči o zdraví.</p>
       </motion.div>
 
       <motion.div 
-        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
+        className="grid grid-cols-1 min-[380px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[clamp(1rem,3vw,1.5rem)]"
         variants={variants.staggerContainer}
         initial="hidden"
         animate="show"

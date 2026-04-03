@@ -27,14 +27,14 @@ export const Toast = ({ message, type, onClose }) => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg w-full sm:min-w-[300px] sm:w-auto ${bgColors[type] || bgColors.info} bg-[#0f172a]/95`}
+      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg w-full max-w-[min(100%,24rem)] sm:min-w-[min(100%,300px)] sm:w-auto ${bgColors[type] || bgColors.info} bg-[#0f172a]/95 min-w-0`}
     >
       <div className="shrink-0">{icons[type] || icons.info}</div>
       <p className="text-white/90 text-sm font-medium flex-1">{message}</p>
       <motion.button 
         onClick={onClose} 
         aria-label="Zavřít okno"
-        className="text-white/60 hover:text-white p-2 sm:p-3 -mr-2"
+        className="text-white/60 hover:text-white min-w-[44px] min-h-[44px] inline-flex items-center justify-center shrink-0 -mr-1 rounded-lg"
         whileHover={{ 
           rotate: 90,
           transition: { duration: 0.2 }

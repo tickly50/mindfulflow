@@ -6,6 +6,26 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        'fluid-xs': ['clamp(0.6875rem, 0.5vw + 0.6rem, 0.75rem)', { lineHeight: '1.35' }],
+        'fluid-sm': ['clamp(0.8125rem, 0.35vw + 0.75rem, 0.9375rem)', { lineHeight: '1.45' }],
+        'fluid-base': ['clamp(0.9375rem, 0.4vw + 0.82rem, 1.0625rem)', { lineHeight: '1.55' }],
+        'fluid-lg': ['clamp(1.0625rem, 0.9vw + 0.75rem, 1.25rem)', { lineHeight: '1.4' }],
+        'fluid-xl': ['clamp(1.25rem, 1.2vw + 0.85rem, 1.5rem)', { lineHeight: '1.3' }],
+        'fluid-2xl': ['clamp(1.5rem, 2vw + 0.75rem, 2rem)', { lineHeight: '1.2' }],
+        'fluid-3xl': ['clamp(1.75rem, 3.5vw + 0.65rem, 2.75rem)', { lineHeight: '1.15' }],
+        'fluid-4xl': ['clamp(2rem, 5vw + 0.5rem, 3.75rem)', { lineHeight: '1.1' }],
+        'fluid-5xl': ['clamp(2.25rem, 6vw + 0.5rem, 4.5rem)', { lineHeight: '1.08' }],
+      },
+      spacing: {
+        'fluid-section': 'clamp(2rem, 6vw, 5rem)',
+        'fluid-card': 'clamp(1rem, 3vw, 2.5rem)',
+        'fluid-gap': 'clamp(0.75rem, 2vw, 1.5rem)',
+      },
+      maxWidth: {
+        'content': 'min(100%, 80rem)',
+        'prose-narrow': 'min(100%, 42rem)',
+      },
       fontFamily: {
         display: ['"DM Sans"', 'system-ui', 'sans-serif'],
         sans: ['"DM Sans"', 'system-ui', 'sans-serif'],

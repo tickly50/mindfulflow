@@ -66,10 +66,10 @@ export default function ConfirmModal({
               </p>
             </div>
 
-            <div className="flex gap-4 justify-end">
+            <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end w-full">
               <button
                 onClick={onClose}
-                className="px-5 py-2.5 rounded-xl text-base font-medium text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                className="w-full sm:w-auto px-5 py-3 min-h-[48px] rounded-xl text-fluid-base font-medium text-white/70 hover:text-white hover:bg-white/10 transition-colors touch-manipulation"
               >
                 {cancelText}
               </button>
@@ -78,7 +78,7 @@ export default function ConfirmModal({
                   onClose();
                   onConfirm();
                 }}
-                className={`px-6 py-2.5 rounded-xl text-base font-medium text-white shadow-lg transition-transform active:scale-95 ${
+                className={`w-full sm:w-auto px-6 py-3 min-h-[48px] rounded-xl text-fluid-base font-medium text-white shadow-lg transition-transform active:scale-95 touch-manipulation ${
                   isDangerous 
                     ? 'bg-red-500/80 hover:bg-red-500 shadow-red-500/20' 
                     : 'bg-violet-600 hover:bg-violet-500 shadow-violet-500/20'

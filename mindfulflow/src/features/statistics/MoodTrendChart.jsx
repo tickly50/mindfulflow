@@ -128,10 +128,10 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
   const tooltipColor = tooltip ? MOOD_COLORS_MAP[tooltip.data.mood] || '#8b5cf6' : '#8b5cf6';
 
   return (
-    <GlassCard className="p-5 sm:p-6">
+    <GlassCard className="p-5 sm:p-6 min-w-0">
       <div className="mb-4">
-        <h3 className="text-xl font-bold text-white">Vývoj nálady</h3>
-        <p className="text-white/50 text-sm">Emoční křivka v čase</p>
+        <h3 className="text-fluid-xl font-bold text-white">Vývoj nálady</h3>
+        <p className="text-white/50 text-fluid-sm">Emoční křivka v čase</p>
       </div>
 
       <div className="w-full overflow-hidden">
@@ -139,11 +139,10 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
           ref={svgRef}
           viewBox={`0 0 ${W} ${H}`}
           preserveAspectRatio="none"
-          className="w-full"
-          style={{ height: 220, display: 'block' }}
-          onMouseEnter={handleMouseEnter}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
+          className="w-full max-w-full block h-[clamp(11rem,42vw,14rem)]"
+          onPointerEnter={handleMouseEnter}
+          onPointerMove={handleMouseMove}
+          onPointerLeave={handleMouseLeave}
         >
           <defs>
             <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">

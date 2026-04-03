@@ -24,7 +24,7 @@ const Greeting = memo(function Greeting() {
 
   return (
     <motion.div
-      className="text-center mb-12 relative z-10"
+      className="text-center mb-8 md:mb-12 relative z-10 px-1"
       variants={prefersReduced ? reducedMotionVariants.container : variants.container}
       initial="hidden"
       animate="show"
@@ -34,7 +34,7 @@ const Greeting = memo(function Greeting() {
         variants={prefersReduced ? reducedMotionVariants.item : variants.heroEmoji}
         className="inline-block mb-4"
       >
-        <span className="text-6xl md:text-7xl filter drop-shadow-lg select-none">
+        <span className="text-[clamp(2.75rem,12vw,4.5rem)] md:text-7xl filter drop-shadow-lg select-none leading-none block">
           {greeting.emoji}
         </span>
       </motion.div>
@@ -45,7 +45,7 @@ const Greeting = memo(function Greeting() {
         className="relative mb-3"
       >
         <h2
-          className={`font-display text-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent drop-shadow-[0_0_48px_rgba(139,92,246,0.25)]`}
+          className={`font-display text-fluid-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent drop-shadow-[0_0_48px_rgba(139,92,246,0.25)]`}
           style={{ lineHeight: 1.12, letterSpacing: '-0.02em' }}
         >
           {greeting.text}
@@ -59,7 +59,7 @@ const Greeting = memo(function Greeting() {
       {/* Subtitle */}
       <motion.p
         variants={prefersReduced ? reducedMotionVariants.item : variants.heroSubtitle}
-        className="text-white/75 text-xl font-medium tracking-wide mb-8 font-sans"
+        className="text-white/75 text-fluid-xl font-medium tracking-wide mb-6 md:mb-8 font-sans px-2"
       >
         Jak se dnes cítíš?
       </motion.p>
@@ -69,10 +69,10 @@ const Greeting = memo(function Greeting() {
         variants={prefersReduced ? reducedMotionVariants.item : variants.heroQuote}
         className="max-w-xl mx-auto"
       >
-        <div className="relative">
-          <div className="relative glass px-8 py-6 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/5 transition-colors duration-300">
+        <div className="relative w-full max-w-prose-narrow mx-auto">
+          <div className="relative glass px-[clamp(1rem,4vw,2rem)] py-[clamp(1rem,3vw,1.5rem)] rounded-3xl border border-white/10 shadow-2xl hover:bg-white/5 transition-colors duration-300">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
-            <p className="text-white/90 text-lg italic font-medium leading-relaxed font-serif tracking-wide">
+            <p className="text-white/90 text-fluid-lg italic font-medium leading-relaxed font-serif tracking-wide">
               "{quote}"
             </p>
           </div>

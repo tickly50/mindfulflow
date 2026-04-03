@@ -71,7 +71,7 @@ const KpiCards = memo(function KpiCards({ stats, streak, longestStreak, avgSleep
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
+    <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-[clamp(0.75rem,2vw,1rem)] mb-6 sm:mb-8 w-full min-w-0">
       {CARDS.map(({ key, label, Icon, color, bg, border }, i) => (
         <div
           key={key}

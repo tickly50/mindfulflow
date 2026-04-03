@@ -1,0 +1,182 @@
+# Responsive Design & Mobile Rules
+# Přidej tento obsah do svého `.cursorrules` souboru
+
+You are an expert in responsive, mobile-first design. Every interface you create must work perfectly on all screen sizes — from small phones (320px) to large desktops (2560px). No layout breaks, no overflow, no misalignment — ever.
+
+## Mobile-First Approach
+
+ALWAYS start with mobile layout and scale UP, never the opposite.
+
+```css
+/* Mobile first — base styles are for mobile */
+.container { padding: 16px; }
+
+/* Then scale up */
+@media (min-width: 768px) { .container { padding: 32px; } }
+@media (min-width: 1280px) { .container { padding: 64px; } }
+```
+
+## Breakpoints to Always Use
+
+```css
+:root {
+  /* Breakpoints */
+  --bp-xs: 320px;   /* Small phones */
+  --bp-sm: 480px;   /* Large phones */
+  --bp-md: 768px;   /* Tablets */
+  --bp-lg: 1024px;  /* Small laptops */
+  --bp-xl: 1280px;  /* Desktops */
+  --bp-2xl: 1536px; /* Large desktops */
+}
+
+/* Usage */
+@media (min-width: 480px) { }
+@media (min-width: 768px) { }
+@media (min-width: 1024px) { }
+@media (min-width: 1280px) { }
+```
+
+## Layout Rules
+
+### Flexbox & Grid
+- Use `flex-wrap: wrap` on all flex containers so items wrap on small screens
+- Use `grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))` for responsive grids
+- Never use fixed pixel widths on containers — use %, max-width, or fr units
+- Always set `max-width` on content containers with `margin: 0 auto` to center
+
+```css
+/* Responsive grid that works everywhere */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(16px, 3vw, 32px);
+}
+
+/* Safe container */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 64px);
+}
+```
+
+### Typography — Fluid Scaling
+- Use `clamp()` for fluid font sizes that scale smoothly between breakpoints
+- Never use fixed px font sizes for headings
+
+```css
+h1 { font-size: clamp(2rem, 5vw, 5rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 3rem); }
+h3 { font-size: clamp(1.2rem, 2.5vw, 2rem); }
+p  { font-size: clamp(0.95rem, 1.5vw, 1.1rem); }
+```
+
+### Spacing — Fluid Gaps & Padding
+```css
+.section { padding: clamp(48px, 8vw, 120px) 0; }
+.card    { padding: clamp(16px, 3vw, 40px); gap: clamp(12px, 2vw, 24px); }
+```
+
+## Touch & Mobile UX
+
+### Touch Targets
+- All buttons and links must be at least **44x44px** (Apple HIG standard)
+- Add padding to small icons so touch area is large enough
+
+```css
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 20px;
+}
+```
+
+### Mobile Navigation
+- Hamburger menu on mobile (below 768px)
+- Full-screen or slide-in nav overlay
+- Close on backdrop click and Escape key
+- Never show desktop horizontal nav on mobile
+
+### Scrolling
+- Use `-webkit-overflow-scrolling: touch` for smooth iOS scrolling
+- Prevent body scroll when modal/drawer is open
+- No horizontal scroll ever — `overflow-x: hidden` on body
+
+```css
+body { overflow-x: hidden; }
+html { scroll-behavior: smooth; }
+```
+
+### Images
+- Always use `max-width: 100%` on images
+- Use `object-fit: cover` for images in fixed containers
+- Use `aspect-ratio` to prevent layout shift
+
+```css
+img { max-width: 100%; height: auto; display: block; }
+.card-image { aspect-ratio: 16/9; object-fit: cover; width: 100%; }
+```
+
+## Common Patterns — Responsive Fixes
+
+### Stack on mobile, side-by-side on desktop
+```css
+.split {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .split { flex-direction: row; align-items: center; }
+}
+```
+
+### Hide/Show elements per device
+```css
+.mobile-only  { display: block; }
+.desktop-only { display: none; }
+
+@media (min-width: 768px) {
+  .mobile-only  { display: none; }
+  .desktop-only { display: block; }
+}
+```
+
+### Responsive table
+```css
+/* Wrap tables on mobile */
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+```
+
+## Hard Rules
+
+NEVER:
+- Use fixed pixel widths wider than the smallest breakpoint
+- Use `position: absolute` without checking mobile overflow
+- Use hover-only interactions (mobile has no hover)
+- Make font sizes smaller than 14px on mobile
+- Place two columns side by side on mobile without checking
+- Use `vw` units for font sizes without `clamp()` min/max
+
+ALWAYS:
+- Test at 320px, 375px, 768px, 1024px, 1280px widths
+- Use `clamp()` for fluid spacing and typography
+- Add `loading="lazy"` to all images below the fold
+- Ensure tap targets are 44px minimum
+- Test actual touch scrolling behavior
+- Check landscape orientation on phones
+
+## Checklist Before Done
+
+- [ ] Looks good at 320px (smallest phone)
+- [ ] Looks good at 375px (iPhone SE)
+- [ ] Looks good at 768px (tablet portrait)
+- [ ] Looks good at 1024px (tablet landscape / small laptop)
+- [ ] Looks good at 1280px+ (desktop)
+- [ ] No horizontal scroll at any size
+- [ ] All text readable without zooming
+- [ ] All buttons tappable (44px+)
+- [ ] Images not stretched or cropped wrongly
+- [ ] Navigation works on mobile
+- [ ] Forms usable on mobile keyboard

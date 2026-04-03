@@ -97,7 +97,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
       variants={containerVariant}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-2 lg:grid-cols-5 gap-3 xs:gap-4 lg:gap-5 mb-8 lg:mb-12 max-w-5xl mx-auto"
+      className="grid grid-cols-2 lg:grid-cols-5 gap-[clamp(0.5rem,2vw,1.25rem)] mb-6 md:mb-10 lg:mb-12 w-full max-w-[90rem] mx-auto"
     >
       {[1, 2, 3, 4, 5].map((mood) => {
         const Icon = MOOD_ICONS[mood];
@@ -118,7 +118,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
               onMoodSelect(mood);
             }}
             aria-label={`Vybrat náladu: ${MOOD_LABELS[mood]}`}
-            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px] font-display
+            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[clamp(7.5rem,28vw,12.5rem)] lg:min-h-[200px] font-display
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
                 ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#020617] ${MOOD_RING_COLORS[mood]}`

@@ -64,25 +64,25 @@ const HeatmapCalendar = memo(function HeatmapCalendar({ heatmapData }) {
   return (
     <GlassCard className="p-5 sm:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-white">Kalendář nálad</h3>
-        <div className="flex items-center gap-1">
+      <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3 mb-4 min-w-0">
+        <h3 className="text-fluid-lg font-bold text-white shrink-0">Kalendář nálad</h3>
+        <div className="flex items-center gap-1 min-w-0 flex-1 justify-end sm:justify-center sm:flex-initial">
           <button
             onClick={prevMonth}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            className="min-w-[44px] min-h-[44px] rounded-lg inline-flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors shrink-0"
             aria-label="Předchozí měsíc"
           >
-            <ChevronLeft size={15} />
+            <ChevronLeft size={18} />
           </button>
-          <span className="text-white/80 text-sm font-medium px-1 min-w-[110px] text-center">
+          <span className="text-white/80 text-fluid-sm font-medium px-1 min-w-0 flex-1 sm:flex-initial sm:min-w-[9rem] text-center truncate">
             {MONTH_NAMES[viewMonth]} {viewYear}
           </span>
           <button
             onClick={nextMonth}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            className="min-w-[44px] min-h-[44px] rounded-lg inline-flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors shrink-0"
             aria-label="Další měsíc"
           >
-            <ChevronRight size={15} />
+            <ChevronRight size={18} />
           </button>
         </div>
       </div>
@@ -97,7 +97,7 @@ const HeatmapCalendar = memo(function HeatmapCalendar({ heatmapData }) {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-[clamp(0.125rem,0.8vw,0.35rem)] w-full min-w-0">
         {grid.map((item, i) => {
           if (!item) return <div key={`empty-${i}`} />;
 

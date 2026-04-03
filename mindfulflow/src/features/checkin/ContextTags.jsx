@@ -47,7 +47,7 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                   whileTap={microInteractions.button.tap}
                   onClick={() => onTagToggle(tag.id)}
                   className={`
-                    relative px-3 py-2 xs:px-5 xs:py-3 rounded-2xl flex items-center gap-2 xs:gap-2.5 transition-all duration-300 border overflow-hidden group/tag outline-none focus:outline-none focus-visible:outline-none
+                    relative px-3 py-2.5 min-h-[44px] xs:px-5 xs:py-3 rounded-2xl flex items-center gap-2 xs:gap-2.5 transition-all duration-300 border overflow-hidden group/tag outline-none focus:outline-none focus-visible:outline-none
                     ${isSelected 
                       ? 'bg-gradient-to-br from-violet-600 to-fuchsia-600 border-violet-400/50 text-white shadow-glow-violet' 
                       : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20 hover:text-white backdrop-blur-sm'
@@ -79,14 +79,14 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                           role="button"
                           aria-label={`Smazat tag ${tag.label}`}
                           onClick={(e) => onDeleteTag(tag.id, e)}
-                          className={`absolute right-1 top-1/2 -translate-y-1/2 p-1 xs:p-1.5 rounded-full transition-colors outline-none focus:outline-none focus-visible:outline-none
+                          className={`absolute right-0.5 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-xl transition-colors outline-none focus:outline-none focus-visible:outline-none
                               ${isSelected 
                                   ? 'hover:bg-white/20 text-white/70 hover:text-white' 
                                   : 'hover:bg-white/10 text-white/60 hover:text-white/90'
                               }
                           `}
                       >
-                          <X className="w-3.5 h-3.5" />
+                          <X className="w-4 h-4" />
                       </div>
                   )}
                 </motion.button>

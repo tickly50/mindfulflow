@@ -46,17 +46,17 @@ export default function SettingsModal({
             initial="hidden"
             animate="show"
             exit="exit"
-            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl pb-8 px-8 shadow-2xl overflow-hidden text-left max-h-[90vh] overflow-y-auto premium-scroll pointer-events-auto"
+            className="relative w-full min-w-0 max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl pb-6 sm:pb-8 px-[clamp(1rem,4vw,2rem)] shadow-2xl overflow-hidden text-left max-h-[min(90vh,100dvh)] overflow-y-auto premium-scroll pointer-events-auto"
             onClick={(e) => e.stopPropagation()}
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div className="flex items-center justify-between mb-8 sticky top-0 bg-[#0f172a] pt-8 z-10 pb-4 border-b border-white/5">
-              <h2 className="text-2xl font-bold text-white">Nastavení</h2>
+            <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8 sticky top-0 bg-[#0f172a] pt-6 sm:pt-8 z-10 pb-4 border-b border-white/5">
+              <h2 className="text-fluid-2xl font-bold text-white truncate">Nastavení</h2>
               <motion.button
                 type="button"
                 onClick={onClose}
                 aria-label="Zavřít"
-                className="p-2 hover:bg-white/10 rounded-full"
+                className="touch-target shrink-0 hover:bg-white/10 rounded-full"
                 whileHover={{
                   rotate: 90,
                   transition: { duration: 0.2, ease: easeConfig.smooth },
