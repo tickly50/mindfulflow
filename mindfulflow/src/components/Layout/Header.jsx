@@ -1,7 +1,7 @@
 
 
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { memo, useState, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { calculateStreak as calcStreakPure } from '../../utils/moodCalculations';
@@ -102,12 +102,13 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
   return (
     <>
       <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { duration: 0.3, ease: easeConfig.smooth } }}
-        className="glass-strong rounded-2xl p-4 mb-8 sticky top-0 z-40"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
+        className="glass-strong rounded-2xl p-4 mb-8 sticky top-0 z-40 font-sans border border-white/10 shadow-studio backdrop-blur-2xl"
         style={{
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
-          backfaceVisibility: 'hidden'
+          boxShadow:
+            '0 20px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 0 40px rgba(139, 92, 246, 0.08)',
+          backfaceVisibility: 'hidden',
         }}
       >
         <div className="flex items-center justify-between gap-3">
@@ -119,7 +120,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               <div className="absolute inset-0 bg-white/10 group-hover:bg-white/20 transition-colors" />
               <span className="text-2xl relative z-10 drop-shadow-md">🧘</span>
             </div>
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-violet-300 via-fuchsia-300 to-indigo-300 bg-clip-text text-transparent tracking-tight hidden md:block drop-shadow-sm">
+            <h1 className="font-display text-lg sm:text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-violet-200 via-fuchsia-200 to-indigo-200 bg-clip-text text-transparent tracking-tight hidden md:block drop-shadow-[0_0_24px_rgba(167,139,250,0.35)]">
               MindfulFlow
             </h1>
 
@@ -148,54 +149,61 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
           </div>
 
           {/* Main navigation (hidden on mobile, moved to BottomNavigation) */}
-          <nav className="hidden sm:flex gap-1 overflow-x-auto hide-scrollbar bg-white/5 p-1 rounded-xl">
-            {['checkin', 'journal', 'statistics', 'achievements'].map((view) => (
-              <button
-                key={view}
-                onClick={() => {
-                  if (currentView !== view) haptics.light();
-                  onViewChange(view);
-                }}
-                className={`relative px-3 lg:px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap z-10 transition-colors duration-200 ${
-                  currentView === view
-                    ? 'text-white'
-                    : 'text-white/55 hover:text-white/90'
-                }`}
-              >
-                {currentView === view && (
-                  <div
-                    className="absolute inset-0 bg-gradient-to-r from-violet-500/35 to-purple-500/35 rounded-lg -z-10"
-                    style={{
-                      willChange: "transform",
-                      boxShadow:
-                        "0 0 18px rgba(139,92,246,0.35), inset 0 0 18px rgba(139,92,246,0.1)",
-                    }}
-                    aria-hidden="true"
-                  />
-                )}
-                {view === 'checkin' && 'Check-In'}
-                {view === 'journal' && 'Deník'}
-                {view === 'statistics' && 'Statistiky'}
-                {view === 'achievements' && 'Úspěchy'}
-              </button>
-            ))}
-          </nav>
+          <LayoutGroup id="header-nav">
+            <nav className="hidden sm:flex gap-0.5 overflow-x-auto hide-scrollbar bg-black/25 p-1 rounded-2xl border border-white/10 shadow-depth-sm">
+              {['checkin', 'journal', 'statistics', 'achievements'].map((view) => (
+                <button
+                  key={view}
+                  onClick={() => {
+                    if (currentView !== view) haptics.light();
+                    onViewChange(view);
+                  }}
+                  className={`relative px-3 lg:px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap z-10 transition-colors duration-300 font-display ${
+                    currentView === view
+                      ? 'text-white'
+                      : 'text-white/55 hover:text-white/95'
+                  }`}
+                >
+                  {currentView === view && (
+                    <motion.div
+                      layout
+                      layoutId="header-nav-pill"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-violet-600/50 to-fuchsia-600/40 -z-10"
+                      style={{
+                        boxShadow:
+                          '0 0 28px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.12)',
+                      }}
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {view === 'checkin' && 'Check-In'}
+                  {view === 'journal' && 'Deník'}
+                  {view === 'statistics' && 'Statistiky'}
+                  {view === 'achievements' && 'Úspěchy'}
+                </button>
+              ))}
+            </nav>
+          </LayoutGroup>
 
           <div className="flex items-center gap-2 ml-auto sm:ml-0">
             {/* SOS Breathing Button */}
-            <button
+            <motion.button
               onClick={() => {
                 haptics.medium();
                 onBreathingClick();
               }}
               aria-label="Dechová cvičení"
-              className="group bg-gradient-to-r from-orange-500 to-rose-600 px-4 py-2 rounded-xl font-bold text-white flex items-center gap-2 shadow-glow-orange relative overflow-hidden transition-all hover:scale-105 active:scale-95 outline-none focus:outline-none"
+              whileHover={{ scale: 1.05, boxShadow: '0 0 32px rgba(249, 115, 22, 0.45)' }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 24 }}
+              className="group bg-gradient-to-r from-orange-500 to-rose-600 px-4 py-2 rounded-xl font-bold text-white flex items-center gap-2 shadow-glow-orange relative overflow-hidden outline-none focus:outline-none font-display border border-white/10"
             >
               {/* Animated glimmer effect */}
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <Wind className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 drop-shadow-md" />
               <span className="hidden lg:inline relative z-10 drop-shadow-md tracking-wide">Dýchání</span>
-            </button>
+            </motion.button>
           
             {/* Settings Toggle */}
             <motion.button

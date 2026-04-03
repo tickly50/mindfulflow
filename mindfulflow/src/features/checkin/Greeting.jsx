@@ -45,8 +45,8 @@ const Greeting = memo(function Greeting() {
         className="relative mb-3"
       >
         <h2
-          className={`text-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent`}
-          style={{ lineHeight: 1.2, letterSpacing: '0.03em' }}
+          className={`font-display text-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent drop-shadow-[0_0_48px_rgba(139,92,246,0.25)]`}
+          style={{ lineHeight: 1.12, letterSpacing: '-0.02em' }}
         >
           {greeting.text}
         </h2>
@@ -59,7 +59,7 @@ const Greeting = memo(function Greeting() {
       {/* Subtitle */}
       <motion.p
         variants={prefersReduced ? reducedMotionVariants.item : variants.heroSubtitle}
-        className="text-white/70 text-xl font-light tracking-wide mb-8"
+        className="text-white/75 text-xl font-medium tracking-wide mb-8 font-sans"
       >
         Jak se dnes cítíš?
       </motion.p>

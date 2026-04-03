@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 
 import { haptics } from '../../utils/haptics';
 import { springConfigFast } from '../../utils/animations';
@@ -18,35 +18,40 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
       className="fixed z-50 sm:hidden w-full px-6 pointer-events-none flex justify-center"
       style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
     >
-      <div
-        className="max-w-[340px] w-full flex justify-between items-center px-2 py-2 rounded-full pointer-events-auto backdrop-blur-xl bg-white/5"
-        style={{
-          boxShadow: '0 12px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-        }}
-      >
-        {navItems.map((item) => {
-          const isActive = currentView === item.id;
-          const Icon = item.icon;
+      <LayoutGroup id="bottom-nav">
+        <div
+          className="max-w-[340px] w-full flex justify-between items-center px-2 py-2 rounded-full pointer-events-auto backdrop-blur-2xl bg-black/35 border border-white/12 shadow-studio"
+          style={{
+            boxShadow:
+              '0 16px 48px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 32px rgba(139,92,246,0.12)',
+          }}
+        >
+          {navItems.map((item) => {
+            const isActive = currentView === item.id;
+            const Icon = item.icon;
 
-          return (
-            <button
-              key={item.id}
-              onClick={() => {
-                if (!isActive) haptics.light();
-                onViewChange(item.id);
-              }}
-              aria-label={item.ariaLabel}
-              className="relative flex flex-col items-center justify-center min-w-[72px] h-[52px] rounded-2xl outline-none focus:outline-none touch-manipulation overflow-hidden"
-            >
-              {/* Animated active pill background */}
-              {isActive && (
-                <div
-                  className="absolute inset-0 rounded-2xl bg-white/8"
-                  style={{ willChange: "transform" }}
-                  aria-hidden="true"
-                />
-              )}
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  if (!isActive) haptics.light();
+                  onViewChange(item.id);
+                }}
+                aria-label={item.ariaLabel}
+                className="relative flex flex-col items-center justify-center min-w-[72px] h-[52px] rounded-2xl outline-none focus:outline-none touch-manipulation overflow-visible"
+              >
+                {isActive && (
+                  <motion.div
+                    layout
+                    layoutId="bottom-nav-pill"
+                    className="absolute inset-0 rounded-2xl bg-gradient-to-b from-violet-500/35 to-fuchsia-600/25 border border-white/10"
+                    style={{
+                      boxShadow: '0 0 24px rgba(139,92,246,0.35), inset 0 1px 0 rgba(255,255,255,0.1)',
+                    }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                    aria-hidden="true"
+                  />
+                )}
 
               {/* Icon */}
               <motion.div
@@ -73,10 +78,11 @@ const BottomNavigation = memo(function BottomNavigation({ currentView, onViewCha
               >
                 {item.label}
               </motion.span>
-            </button>
-          );
-        })}
-      </div>
+              </button>
+            );
+          })}
+        </div>
+      </LayoutGroup>
     </nav>
   );
 });

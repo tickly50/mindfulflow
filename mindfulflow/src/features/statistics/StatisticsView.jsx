@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react';
+import { useState, useMemo, memo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMoodEntriesCount, useMoodEntriesRange, useMoodEntryTimestamps } from '../../utils/queries';
 import { useStatisticsData } from './useStatisticsData';
@@ -22,7 +22,7 @@ function EmptyState() {
       <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-4xl">
         📊
       </div>
-      <h3 className="text-xl font-bold text-white">Zatím žádná data</h3>
+      <h3 className="text-xl font-bold text-white font-display">Zatím žádná data</h3>
       <p className="text-white/50 max-w-xs text-sm leading-relaxed">
         Přidej svůj první záznam nálady a tady uvidíš detailní statistiky tvé pohody.
       </p>
@@ -90,6 +90,14 @@ function ActivityList({ activityStats }) {
 const StatisticsView = memo(function StatisticsView() {
   const [timeRange, setTimeRange] = useState('30');
   const [activeTab, setActiveTab] = useState('overview');
+  const [rangeEndMs, setRangeEndMs] = useState(() => Date.now());
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      setRangeEndMs(Date.now());
+    });
+    return () => cancelAnimationFrame(id);
+  }, [timeRange]);
 
   const rangeQuery = useMemo(() => {
     if (timeRange === 'all') {
@@ -98,10 +106,10 @@ const StatisticsView = memo(function StatisticsView() {
 
     return {
       reverse: false,
-      startDate: new Date(Date.now() - parseInt(timeRange, 10) * 86_400_000),
-      endDate: new Date(),
+      startDate: new Date(rangeEndMs - parseInt(timeRange, 10) * 86_400_000),
+      endDate: new Date(rangeEndMs),
     };
-  }, [timeRange]);
+  }, [timeRange, rangeEndMs]);
 
   const entries = useMoodEntriesRange(rangeQuery);
   const totalEntries = useMoodEntriesCount();
@@ -130,7 +138,7 @@ const StatisticsView = memo(function StatisticsView() {
         className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-1"
       >
         <div>
-          <h2 className="text-2xl font-bold text-white">Statistiky</h2>
+          <h2 className="text-2xl font-bold text-white font-display tracking-tight">Statistiky</h2>
           <p className="text-white/50 text-sm">Analýza tvé duševní pohody</p>
         </div>
         <div className="relative bg-white/5 p-1 rounded-xl flex gap-1 self-start sm:self-auto">

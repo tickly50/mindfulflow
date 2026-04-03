@@ -62,24 +62,28 @@ const MOOD_INDICATOR_COLORS = {
   5: 'bg-amber-500 shadow-amber-500/40',
 };
 
+const easeStudio = [0.16, 1, 0.3, 1];
+
 // Stagger container for mood cards
 const cardContainer = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.1,
+      staggerChildren: 0.1,
+      delayChildren: 0.14,
     },
   },
 };
 
-// Individual card entrance – fade in only, no position change
+// Individual card — cinematic rise
 const cardItem = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, y: 36, scale: 0.94 },
   show: {
     opacity: 1,
-    transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.58, ease: easeStudio },
   },
 };
 
@@ -103,21 +107,27 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
           <motion.button
             key={mood}
             variants={itemVariant}
+            whileHover={
+              prefersReduced
+                ? undefined
+                : { scale: 1.03, y: -6, transition: { type: 'spring', stiffness: 360, damping: 22 } }
+            }
+            whileTap={prefersReduced ? undefined : { scale: 0.96 }}
             onClick={() => {
               haptics.medium();
               onMoodSelect(mood);
             }}
             aria-label={`Vybrat náladu: ${MOOD_LABELS[mood]}`}
-            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px] hover-lift
+            className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[140px] xs:min-h-[180px] lg:min-h-[200px] font-display
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
-                ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#0f172a] ${MOOD_RING_COLORS[mood]}`
+                ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#020617] ${MOOD_RING_COLORS[mood]}`
                 : 'ring-0'
               }
             `}
             style={{
               backfaceVisibility: 'hidden',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.35), 0 0 1px rgba(255,255,255,0.06)',
               transform: 'translateZ(0)',
             }}
           >

@@ -20,8 +20,8 @@ export default defineConfig({
         name: 'MindfulFlow',
         short_name: 'MindfulFlow',
         description: 'Sledování mentálního zdraví a nálad',
-        theme_color: '#000000',
-        background_color: '#000000',
+        theme_color: '#020617',
+        background_color: '#020617',
         display: 'standalone',
         orientation: 'portrait',
         icons: [
