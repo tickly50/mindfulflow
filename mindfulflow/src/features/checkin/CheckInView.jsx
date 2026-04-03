@@ -11,6 +11,7 @@ import DiaryField from './DiaryField';
 import SleepSlider from './SleepSlider';
 import SuccessOverlay from './SuccessOverlay';
 import { saveMoodEntry } from '../../utils/storage';
+import { devError } from '../../utils/devLog';
 import { CONTEXT_TAGS } from '../../utils/moodConstants';
 import { useToast } from '../../context/ToastContext';
 import ConfirmModal from '../../components/common/ConfirmModal';
@@ -25,6 +26,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
   const [sleepHours, setSleepHours] = useState(7);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successCycle, setSuccessCycle] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
   // Custom Tag State
   const [isAddingTag, setIsAddingTag] = useState(false);
   const [newTagLabel, setNewTagLabel] = useState('');
@@ -207,8 +209,9 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
   }, [resetCheckInState]);
 
   const handleSubmit = useCallback(async () => {
-    if (!selectedMood) return;
+    if (!selectedMood || isSaving) return;
     haptics.medium();
+    setIsSaving(true);
     try {
       const entry = {
         mood: selectedMood,
@@ -217,14 +220,17 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
         sleep: sleepHours,
         timestamp: new Date().toISOString(),
       };
-      
+
       await saveMoodEntry(entry);
       setShowSuccess(true);
       setSuccessCycle((c) => c + 1);
-    } catch (_err) {
-      if (error) error('Nepodařilo se uložit záznam.');
+    } catch (err) {
+      devError(err);
+      error('Nepodařilo se uložit záznam.');
+    } finally {
+      setIsSaving(false);
     }
-  }, [selectedMood, selectedTags, diaryText, sleepHours, error]);
+  }, [selectedMood, selectedTags, diaryText, sleepHours, error, isSaving]);
 
   const canSubmit = selectedMood !== null;
 
@@ -332,7 +338,8 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                         <div className="flex justify-center mt-6 sm:mt-8">
                             <motion.button
                                 onClick={handleSubmit}
-                                disabled={!canSubmit || showSuccess}
+                                disabled={!canSubmit || showSuccess || isSaving}
+                                aria-busy={isSaving}
                                 whileHover={{ 
                                   scale: 1.02,
                                   y: -1,
@@ -352,7 +359,9 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                 
                                 {/* Button Content */}
                                 <div className="relative px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3">
-                                    <span className="text-lg xs:text-xl font-bold text-white tracking-wide">Uložit záznam</span>
+                                    <span className="text-lg xs:text-xl font-bold text-white tracking-wide">
+                                      {isSaving ? 'Ukládám…' : 'Uložit záznam'}
+                                    </span>
                                     <div
                                       className="bg-white/20 p-1.5 rounded-lg chevron-shimmer"
                                       style={{ willChange: 'transform' }}

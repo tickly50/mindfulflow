@@ -3,6 +3,8 @@ import { db } from '../../utils/db';
 import { CONTEXT_TAGS } from '../../utils/moodConstants';
 import { useState, useMemo, memo, useCallback, useEffect } from 'react';
 import { useMoodEntriesCount, useMoodEntriesPage } from '../../utils/queries';
+import { useDebouncedValue } from '../../hooks/useDebouncedValue';
+import { devError } from '../../utils/devLog';
 import { useToast } from '../../context/ToastContext';
 import { updateMoodEntry } from '../../utils/storage';
 import JournalFilters from './JournalFilters';
@@ -42,7 +44,8 @@ function SkeletonCard({ delay = 0 }) {
 const JournalView = memo(function JournalView() {
   const [filterMood, setFilterMood] = useState(null);
   const [filterTag, setFilterTag] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const debouncedSearch = useDebouncedValue(searchInput, 280);
   const [editingEntry, setEditingEntry] = useState(null);
   const [editForm, setEditForm] = useState({ mood: 3, tags: [], diary: '', sleep: 7 });
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, entryId: null });
@@ -53,7 +56,10 @@ const JournalView = memo(function JournalView() {
   const customTagsSettings = useLiveQuery(() => db.settings.get('customTags'));
   const customTags = useMemo(() => customTagsSettings?.value || [], [customTagsSettings]);
   const allTags = useMemo(() => [...CONTEXT_TAGS, ...customTags], [customTags]);
-  const normalizedSearchQuery = useMemo(() => searchQuery.trim().toLowerCase(), [searchQuery]);
+  const normalizedSearchQuery = useMemo(
+    () => debouncedSearch.trim().toLowerCase(),
+    [debouncedSearch]
+  );
   const tagLabelsById = useMemo(
     () =>
       Object.fromEntries(
@@ -105,7 +111,7 @@ const JournalView = memo(function JournalView() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
-  }, [filterMood, filterTag, searchQuery]);
+  }, [filterMood, filterTag, debouncedSearch]);
 
   const totalPages = Math.max(1, Math.ceil((filteredEntriesCount || 0) / itemsPerPage));
 
@@ -129,7 +135,7 @@ const JournalView = memo(function JournalView() {
       await db.moods.delete(id);
       success('Záznam smazán');
     } catch (err) {
-      if (import.meta.env.DEV) console.error(err);
+      devError(err);
       error('Nepodařilo se smazat záznam');
     }
     setDeleteModal({ isOpen: false, entryId: null });
@@ -157,7 +163,7 @@ const JournalView = memo(function JournalView() {
       setEditingEntry(null);
       success('Záznam aktualizován');
     } catch (err) {
-      if (import.meta.env.DEV) console.error('Failed to update entry:', err);
+      devError('Failed to update entry:', err);
       error('Nepodařilo se aktualizovat záznam');
     }
   }, [editingEntry, editForm, success, error]);
@@ -187,8 +193,8 @@ const JournalView = memo(function JournalView() {
           filterTag={filterTag}
           setFilterTag={setFilterTag}
           allTags={allTags}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
+          searchQuery={searchInput}
+          setSearchQuery={setSearchInput}
         />
       </motion.div>
 
@@ -211,7 +217,7 @@ const JournalView = memo(function JournalView() {
                 ? `${filteredEntriesCount} záznamy`
                 : `${filteredEntriesCount} záznamů`}
             </span>
-            {(filterMood || filterTag || searchQuery) && allEntriesCount !== undefined && (
+            {(filterMood || filterTag || searchInput) && allEntriesCount !== undefined && (
               <span className="text-xs text-white/25">z {allEntriesCount} celkem</span>
             )}
           </motion.div>
@@ -231,7 +237,7 @@ const JournalView = memo(function JournalView() {
           allEntriesCount={allEntriesCount ?? 0}
           filterMood={filterMood}
           filterTag={filterTag}
-          searchQuery={searchQuery}
+          searchQuery={searchInput}
           onEdit={startEdit}
           onDelete={handleDeleteClick}
           getContextLabel={getContextLabel}

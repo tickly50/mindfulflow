@@ -1,4 +1,5 @@
 import { db } from './db';
+import { devError } from './devLog';
 import { calculateLongestStreak, getTags } from './moodCalculations';
 
 export const ACHIEVEMENTS = [
@@ -193,7 +194,7 @@ export const checkAndUnlockAchievements = async (entries) => {
       await db.achievements.bulkAdd(unlockedNow);
     }
   } catch (err) {
-    console.error("Failed to check achievements", err);
+    devError('Failed to check achievements', err);
   }
 
   return unlockedNow.map(a => a.id);
