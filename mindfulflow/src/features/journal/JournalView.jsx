@@ -11,7 +11,6 @@ import JournalFilters from './JournalFilters';
 import JournalTimeline from './JournalTimeline';
 import JournalEditor from './JournalEditor';
 import { motion, AnimatePresence } from 'framer-motion';
-import { variants } from '../../utils/animations';
 import ConfirmModal from '../../components/common/ConfirmModal';
 
 function SkeletonCard({ delay = 0 }) {
@@ -176,27 +175,20 @@ const JournalView = memo(function JournalView() {
   return (
     <div className="max-w-4xl mx-auto px-4 pb-20">
       {/* Header */}
-      <motion.div
-        variants={variants.slideUp}
-        initial="hidden"
-        animate="show"
-        className="mb-8 text-center"
-      >
+      <div className="mb-8 text-center">
         <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Tvůj Deník</h2>
         <p className="text-white/60 text-lg">Všechny tvé myšlenky a pocity na jednom místě</p>
-      </motion.div>
+      </div>
 
-      <motion.div variants={variants.fadeIn} initial="hidden" animate="show">
-        <JournalFilters
-          filterMood={filterMood}
-          setFilterMood={setFilterMood}
-          filterTag={filterTag}
-          setFilterTag={setFilterTag}
-          allTags={allTags}
-          searchQuery={searchInput}
-          setSearchQuery={setSearchInput}
-        />
-      </motion.div>
+      <JournalFilters
+        filterMood={filterMood}
+        setFilterMood={setFilterMood}
+        filterTag={filterTag}
+        setFilterTag={setFilterTag}
+        allTags={allTags}
+        searchQuery={searchInput}
+        setSearchQuery={setSearchInput}
+      />
 
       {/* Entry count */}
       <AnimatePresence mode="wait">
