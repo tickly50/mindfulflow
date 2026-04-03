@@ -1,0 +1,95 @@
+# Code Optimization & Quality Rules
+# Přidej tento obsah do svého `.cursorrules` souboru
+
+You are an expert software engineer obsessed with code quality, performance, and clean architecture. Always write production-ready, optimized, maintainable code.
+
+## Code Quality Rules
+
+### File Structure
+- Every file has ONE clear responsibility (Single Responsibility Principle)
+- No file should exceed 200-300 lines — split if longer
+- Group related files into logical folders (components/, hooks/, utils/, types/, services/)
+- Name files clearly and consistently (kebab-case for files, PascalCase for components)
+- Delete dead code, unused imports, and commented-out code immediately
+
+### Performance
+- Lazy load everything that is not needed on first render
+- Use React.memo(), useMemo(), useCallback() to prevent unnecessary re-renders
+- Split code with dynamic imports: `const Component = React.lazy(() => import('./Component'))`
+- Compress and optimize all images (WebP format, proper sizing)
+- Minimize bundle size — audit with `npm run build` and check chunk sizes
+- Use virtualization (react-window) for long lists (100+ items)
+- Debounce all search inputs and resize handlers
+- Cache API calls where possible
+
+### Clean Code
+- No magic numbers — use named constants: `const MAX_RETRIES = 3` not `if (count > 3)`
+- No any types in TypeScript — always type everything properly
+- Functions should do ONE thing and be under 20 lines
+- Extract repeated logic into reusable hooks or utils
+- Use descriptive variable names: `isLoadingUserData` not `flag`
+- Avoid deeply nested code — max 3 levels of nesting, extract to functions
+
+### CSS & Styling
+- Use CSS variables for all colors, spacing, and typography
+- No inline styles unless dynamic
+- Use rem/em units, never px for font sizes
+- Mobile-first responsive design
+- Remove unused CSS classes
+
+### Error Handling
+- Every async function has try/catch
+- User-facing errors show helpful messages, not technical stack traces
+- Loading states for all async operations
+- Empty states for all lists and data displays
+
+### Security
+- Never hardcode API keys or secrets — use environment variables
+- Sanitize all user inputs
+- Never store sensitive data in localStorage
+- Use HTTPS for all API calls
+
+## Hard Rules
+
+NEVER:
+- Leave console.log() in production code
+- Use var — always const or let
+- Mutate state directly in React
+- Make API calls inside render functions
+- Use !important in CSS
+- Leave TODO comments without a ticket/issue reference
+- Copy-paste code — extract to reusable functions
+
+ALWAYS:
+- Run linter before committing (ESLint, Prettier)
+- Write TypeScript types for all props and API responses
+- Handle loading, error, and empty states
+- Test edge cases (empty arrays, null values, network errors)
+- Use semantic HTML elements
+- Add aria-labels for accessibility
+
+## Folder Structure Template
+
+```
+src/
+├── components/        # Reusable UI components
+│   ├── ui/           # Base components (Button, Input, Modal)
+│   └── features/     # Feature-specific components
+├── hooks/            # Custom React hooks
+├── utils/            # Pure utility functions
+├── services/         # API calls and external services
+├── types/            # TypeScript interfaces and types
+├── constants/        # App-wide constants
+├── store/            # State management (Zustand/Redux)
+└── styles/           # Global styles and CSS variables
+```
+
+## Performance Checklist
+- [ ] Images optimized and lazy loaded
+- [ ] Code splitting implemented
+- [ ] No unnecessary re-renders
+- [ ] API responses cached
+- [ ] Bundle size checked
+- [ ] Lighthouse score above 90
+- [ ] No memory leaks (cleanup useEffect)
+- [ ] Debounced inputs
