@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Syne + DM Sans — loaded from Google Fonts (index.html) */
+/* DM Sans — loaded from Google Fonts (index.html) */
 
 /* ============================================
    MINDFUL GLASS DESIGN SYSTEM — STUDIO EDITION
@@ -10,7 +10,7 @@
 
 /* Root variables and base styles */
 :root {
-  --font-display: "Syne", system-ui, sans-serif;
+  --font-display: "DM Sans", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
 
   font-family: var(--font-body);

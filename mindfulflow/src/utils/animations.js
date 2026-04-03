@@ -42,24 +42,22 @@ export const easeConfig = {
 };
 
 // ─── Page Transition Variants ─────────────────────────────────────────────────
-// Used by App.jsx for view switching. Improved to prevent jumping and scrolling artifacts.
-const easeStudio = [0.16, 1, 0.3, 1];
+// Used by App.jsx — opacity-only crossfade so views swap immediately without vertical jump.
+const easeCrossfade = [0.4, 0, 0.2, 1];
 
 export const pageVariants = {
-  initial: { opacity: 0, y: 28, scale: 0.985 },
+  initial: { opacity: 0 },
   animate: {
     opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.48, ease: easeStudio },
+    transition: { duration: 0.18, ease: easeCrossfade },
   },
   exit: {
     opacity: 0,
-    y: -18,
-    scale: 0.99,
-    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] },
+    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] },
   },
 };
+
+const easeStudio = [0.16, 1, 0.3, 1];
 
 // ─── Component Variants ───────────────────────────────────────────────────────
 

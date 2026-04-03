@@ -55,9 +55,7 @@ function AppContent() {
     if (view !== 'checkin') {
       setActiveMood(null);
     }
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }, 220);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
   const handleBreathingOpen = useCallback(() => {
@@ -107,7 +105,7 @@ function AppContent() {
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    style={{ willChange: 'opacity, transform' }}
+                    style={{ willChange: 'opacity' }}
                   >
                     <CheckInView onMoodChange={setActiveMood} />
                   </motion.div>
@@ -120,7 +118,7 @@ function AppContent() {
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    style={{ willChange: 'opacity, transform' }}
+                    style={{ willChange: 'opacity' }}
                   >
                     <JournalView />
                   </motion.div>
@@ -133,7 +131,7 @@ function AppContent() {
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    style={{ willChange: 'opacity, transform' }}
+                    style={{ willChange: 'opacity' }}
                   >
                     <StatisticsView />
                   </motion.div>
@@ -146,7 +144,7 @@ function AppContent() {
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    style={{ willChange: 'opacity, transform' }}
+                    style={{ willChange: 'opacity' }}
                   >
                     <AchievementsView />
                   </motion.div>
