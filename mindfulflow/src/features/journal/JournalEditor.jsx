@@ -5,7 +5,7 @@ import { MOOD_COLORS, CONTEXT_TAGS } from '../../utils/moodConstants';
 import useScrollLock from '../../hooks/useScrollLock';
 import { useToast } from '../../context/ToastContext';
 import { variants } from '../../utils/animations';
-import SleepSlider from '../CheckIn/SleepSlider';
+import SleepSlider from '../checkin/SleepSlider';
 import { Pencil, Save, X } from 'lucide-react';
 
 const EDITOR_MAX_LENGTH = 1000;
