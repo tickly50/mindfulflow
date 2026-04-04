@@ -29,7 +29,7 @@ const JournalFilters = memo(function JournalFilters({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Hledat v záznámech..."
-          className="w-full min-w-0 bg-white/5 border border-white/10 rounded-2xl pl-10 pr-12 py-3.5 min-h-[48px] text-fluid-sm text-white placeholder-white/35 focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500/28 hover:border-white/18 transition-[border-color,box-shadow] duration-150"
+          className="w-full min-w-0 bg-white/5 border border-white/10 rounded-2xl pl-10 pr-12 py-3.5 min-h-[48px] text-fluid-sm text-white placeholder-white/35 focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/28 hover:border-white/18 transition-[border-color,box-shadow] duration-150"
         />
         <AnimatePresence>
           {searchQuery && (
@@ -94,7 +94,7 @@ const JournalFilters = memo(function JournalFilters({
               onClick={() => setFilterTag(filterTag === tag.id ? null : tag.id)}
               className={`px-4 py-2.5 min-h-[44px] rounded-xl text-fluid-xs sm:text-fluid-sm font-bold tracking-wide transition-[background-color,border-color,color,box-shadow,transform] duration-150 border outline-none inline-flex items-center justify-center ${
                 filterTag === tag.id
-                  ? 'bg-teal-600 text-white border-teal-400/50 shadow-glow-accent scale-105'
+                  ? 'bg-violet-600 text-white border-violet-400/50 shadow-glow-accent scale-105'
                   : 'bg-white/5 text-white/55 border-white/10 hover:border-white/20 hover:text-white/85 hover:bg-white/8'
               }`}
             >

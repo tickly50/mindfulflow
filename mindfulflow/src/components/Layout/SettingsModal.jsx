@@ -70,14 +70,14 @@ export default function SettingsModal({
             </div>
 
             <div className="space-y-6 select-none">
-              <div className="p-6 rounded-2xl bg-teal-500/6 border border-teal-500/15 mb-4">
-                <h3 className="font-semibold text-lg text-teal-300 mb-2 font-display">O aplikaci</h3>
-                <p className="text-sm text-teal-200/75 leading-relaxed mb-4">
+              <div className="p-6 rounded-2xl bg-violet-500/6 border border-violet-500/15 mb-4">
+                <h3 className="font-semibold text-lg text-violet-300 mb-2 font-display">O aplikaci</h3>
+                <p className="text-sm text-violet-200/75 leading-relaxed mb-4">
                   MindfulFlow je tvůj osobní průvodce pro sledování nálady a péči o duševní zdraví. Vytvořeno s
                   důrazem na soukromí a klid.
                 </p>
-                <div className="flex items-center gap-3 text-sm text-teal-300/65">
-                  <span className="px-2 py-1 rounded-md bg-teal-500/12 border border-teal-400/25 font-mono">
+                <div className="flex items-center gap-3 text-sm text-violet-300/65">
+                  <span className="px-2 py-1 rounded-md bg-violet-500/12 border border-violet-400/25 font-mono">
                     v1.0
                   </span>
                   <span>•</span>
@@ -102,7 +102,7 @@ export default function SettingsModal({
                       type="button"
                       onClick={() => updateSettings({ hapticsEnabled: !settings.hapticsEnabled })}
                       className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
-                        settings.hapticsEnabled ? 'bg-teal-500' : 'bg-white/10'
+                        settings.hapticsEnabled ? 'bg-violet-500' : 'bg-white/10'
                       }`}
                       role="switch"
                       aria-checked={settings.hapticsEnabled}
@@ -129,7 +129,7 @@ export default function SettingsModal({
                       type="button"
                       onClick={() => updateSettings({ soundEnabled: !settings.soundEnabled })}
                       className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
-                        settings.soundEnabled ? 'bg-teal-500' : 'bg-white/10'
+                        settings.soundEnabled ? 'bg-violet-500' : 'bg-white/10'
                       }`}
                       role="switch"
                       aria-checked={settings.soundEnabled}
@@ -154,7 +154,7 @@ export default function SettingsModal({
                     onClick={onDownloadBackup}
                     whileHover={microInteractions.button.hover}
                     whileTap={microInteractions.button.tap}
-                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-medium text-base whitespace-nowrap font-display"
+                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-base whitespace-nowrap font-display"
                     style={{
                       transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
                     }}

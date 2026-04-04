@@ -87,7 +87,7 @@ export default function JournalEditor({
                 </button>
 
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-5 sm:mb-7 flex items-center gap-2 sm:gap-3 select-none flex-shrink-0">
-                  <span className="p-2 sm:p-3 bg-teal-500/12 rounded-xl text-teal-300">
+                  <span className="p-2 sm:p-3 bg-violet-500/12 rounded-xl text-violet-300">
                     <Pencil className="w-5 h-5 sm:w-6 sm:h-6" />
                   </span>
                   Upravit záznam
@@ -132,7 +132,7 @@ export default function JournalEditor({
                           onClick={() => toggleEditTag(tag.id)}
                           className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all border ${
                             editForm.tags.includes(tag.id)
-                              ? 'bg-teal-500/22 text-teal-100 border-teal-400/35 shadow-[0_0_10px_-3px_var(--tw-shadow-color)] shadow-teal-500/28'
+                              ? 'bg-violet-500/22 text-violet-100 border-violet-400/35 shadow-[0_0_10px_-3px_var(--tw-shadow-color)] shadow-violet-500/28'
                               : 'bg-white/5 text-white/60 border-transparent hover:bg-white/10 hover:text-white/80'
                           }`}
                         >
@@ -178,7 +178,7 @@ export default function JournalEditor({
                           setEditForm({ ...editForm, diary: e.target.value });
                         }
                       }}
-                      className="w-full min-h-[140px] sm:min-h-[180px] bg-black/20 border border-white/10 rounded-2xl p-4 sm:p-5 text-base sm:text-lg text-white resize-none focus:outline-none focus:ring-2 focus:ring-teal-500/50 ring-inset focus:border-transparent hover:border-white/20 transition-colors select-text leading-relaxed"
+                      className="w-full min-h-[140px] sm:min-h-[180px] bg-black/20 border border-white/10 rounded-2xl p-4 sm:p-5 text-base sm:text-lg text-white resize-none focus:outline-none focus:ring-2 focus:ring-violet-500/50 ring-inset focus:border-transparent hover:border-white/20 transition-colors select-text leading-relaxed"
                       placeholder="Co se ti honí hlavou?"
                     />
                   </div>
@@ -193,7 +193,7 @@ export default function JournalEditor({
                     </button>
                     <button
                       onClick={handleSave}
-                      className="flex-[2] px-4 py-3 sm:py-4 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-700 text-white font-bold hover:shadow-lg hover:shadow-teal-600/25 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-sm sm:text-base font-display"
+                      className="flex-[2] px-4 py-3 sm:py-4 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 text-white font-bold hover:shadow-lg hover:shadow-violet-600/25 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-sm sm:text-base font-display"
                     >
                       <Save className="w-4 h-4 sm:w-5 sm:h-5" />
                       Uložit změny

@@ -8,14 +8,14 @@ export const Toast = ({ message, type, onClose }) => {
   const slideVariants = prefersReduced ? reducedMotionVariants.slideUp : variants.slideUp;
 
   const icons = {
-    success: <Check className="w-5 h-5 text-emerald-400" />,
+    success: <Check className="w-5 h-5 text-violet-400" />,
     error: <X className="w-5 h-5 text-red-400" />,
     info: <Info className="w-5 h-5 text-blue-400" />,
     warning: <AlertTriangle className="w-5 h-5 text-orange-400" />
   };
 
   const bgColors = {
-    success: 'bg-emerald-500/10 border-emerald-500/20',
+    success: 'bg-violet-500/10 border-violet-500/20',
     error: 'bg-red-500/10 border-red-500/20',
     info: 'bg-blue-500/10 border-blue-500/20',
     warning: 'bg-orange-500/10 border-orange-500/20'
