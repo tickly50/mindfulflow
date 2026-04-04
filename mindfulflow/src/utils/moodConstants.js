@@ -54,10 +54,10 @@ export const MOOD_COLORS = {
     text: "#6ee7b7",
   },
   5: {
-    // Great -> Deep Violet/Fuchsia
-    primary: "#8b5cf6",
-    gradient: "linear-gradient(135deg, #2e1065 0%, #4c1d95 50%, #5b21b6 100%)",
-    text: "#c4b5fd",
+    // Great -> Molten gold / ember (no purple)
+    primary: "#f59e0b",
+    gradient: "linear-gradient(135deg, #422006 0%, #78350f 45%, #b45309 100%)",
+    text: "#fde68a",
   },
 };
 

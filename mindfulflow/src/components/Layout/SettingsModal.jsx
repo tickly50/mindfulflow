@@ -46,12 +46,12 @@ export default function SettingsModal({
             initial="hidden"
             animate="show"
             exit="exit"
-            className="relative w-full min-w-0 max-w-2xl bg-[#0f172a] border border-white/10 rounded-3xl pb-6 sm:pb-8 px-[clamp(1rem,4vw,2rem)] shadow-2xl overflow-hidden text-left max-h-[min(90vh,100dvh)] overflow-y-auto premium-scroll pointer-events-auto"
+            className="relative w-full min-w-0 max-w-2xl bg-[#0c141c] border border-white/12 rounded-3xl pb-6 sm:pb-8 px-[clamp(1rem,4vw,2rem)] shadow-2xl overflow-hidden text-left max-h-[min(90vh,100dvh)] overflow-y-auto premium-scroll pointer-events-auto"
             onClick={(e) => e.stopPropagation()}
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8 sticky top-0 bg-[#0f172a] pt-6 sm:pt-8 z-10 pb-4 border-b border-white/5">
-              <h2 className="text-fluid-2xl font-bold text-white truncate">Nastavení</h2>
+            <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8 sticky top-0 bg-[#0c141c] pt-6 sm:pt-8 z-10 pb-4 border-b border-white/8">
+              <h2 className="text-fluid-2xl font-bold text-white truncate font-display">Nastavení</h2>
               <motion.button
                 type="button"
                 onClick={onClose}
@@ -70,14 +70,14 @@ export default function SettingsModal({
             </div>
 
             <div className="space-y-6 select-none">
-              <div className="p-6 rounded-2xl bg-violet-500/5 border border-violet-500/10 mb-4">
-                <h3 className="font-semibold text-lg text-violet-400 mb-2">O aplikaci</h3>
-                <p className="text-sm text-violet-400/80 leading-relaxed mb-4">
+              <div className="p-6 rounded-2xl bg-teal-500/6 border border-teal-500/15 mb-4">
+                <h3 className="font-semibold text-lg text-teal-300 mb-2 font-display">O aplikaci</h3>
+                <p className="text-sm text-teal-200/75 leading-relaxed mb-4">
                   MindfulFlow je tvůj osobní průvodce pro sledování nálady a péči o duševní zdraví. Vytvořeno s
                   důrazem na soukromí a klid.
                 </p>
-                <div className="flex items-center gap-3 text-sm text-violet-400/60">
-                  <span className="px-2 py-1 rounded-md bg-violet-500/10 border border-violet-500/20 font-mono">
+                <div className="flex items-center gap-3 text-sm text-teal-300/65">
+                  <span className="px-2 py-1 rounded-md bg-teal-500/12 border border-teal-400/25 font-mono">
                     v1.0
                   </span>
                   <span>•</span>
@@ -102,7 +102,7 @@ export default function SettingsModal({
                       type="button"
                       onClick={() => updateSettings({ hapticsEnabled: !settings.hapticsEnabled })}
                       className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
-                        settings.hapticsEnabled ? 'bg-violet-500' : 'bg-white/10'
+                        settings.hapticsEnabled ? 'bg-teal-500' : 'bg-white/10'
                       }`}
                       role="switch"
                       aria-checked={settings.hapticsEnabled}
@@ -129,7 +129,7 @@ export default function SettingsModal({
                       type="button"
                       onClick={() => updateSettings({ soundEnabled: !settings.soundEnabled })}
                       className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
-                        settings.soundEnabled ? 'bg-violet-500' : 'bg-white/10'
+                        settings.soundEnabled ? 'bg-teal-500' : 'bg-white/10'
                       }`}
                       role="switch"
                       aria-checked={settings.soundEnabled}
@@ -154,7 +154,7 @@ export default function SettingsModal({
                     onClick={onDownloadBackup}
                     whileHover={microInteractions.button.hover}
                     whileTap={microInteractions.button.tap}
-                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-base whitespace-nowrap"
+                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-medium text-base whitespace-nowrap font-display"
                     style={{
                       transition: 'background-color 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
                     }}

@@ -27,17 +27,17 @@ export default {
         'prose-narrow': 'min(100%, 42rem)',
       },
       fontFamily: {
-        display: ['"DM Sans"', 'system-ui', 'sans-serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Syne"', 'system-ui', 'sans-serif'],
+        sans: ['"Source Serif 4"', 'Georgia', 'serif'],
       },
       colors: {
         // Mood-based gradient colors
         mood: {
-          1: '#ef4444', // red-500 (Špatně)
-          2: '#f59e0b', // amber-500 (Ve stresu)
-          3: '#eab308', // yellow-500 (Unaveně)
-          4: '#10b981', // emerald-500 (Klidně)
-          5: '#8b5cf6', // violet-500 (Skvěle)
+          1: '#ef4444',
+          2: '#f59e0b',
+          3: '#eab308',
+          4: '#14b8a6',
+          5: '#f59e0b',
         },
         // Extended palette for premium design
         glass: {
@@ -72,8 +72,8 @@ export default {
           '100%': { backgroundPosition: '200% center' },
         },
         'pulse-glow': {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)' },
-          '50%': { boxShadow: '0 0 40px rgba(139, 92, 246, 0.7)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(45, 212, 191, 0.45)' },
+          '50%': { boxShadow: '0 0 42px rgba(45, 212, 191, 0.72)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
@@ -101,18 +101,22 @@ export default {
         },
       },
       boxShadow: {
-        'glow-violet': '0 0 30px rgba(139, 92, 246, 0.5)',
-        'glow-violet-strong': '0 0 50px rgba(139, 92, 246, 0.7)',
-        'glow-fuchsia': '0 0 40px rgba(217, 70, 239, 0.45)',
+        'glow-accent': '0 0 34px rgba(45, 212, 191, 0.42)',
+        'glow-accent-strong': '0 0 52px rgba(45, 212, 191, 0.65)',
+        'glow-violet': '0 0 34px rgba(45, 212, 191, 0.42)',
+        'glow-violet-strong': '0 0 52px rgba(45, 212, 191, 0.65)',
+        'glow-hot': '0 0 38px rgba(251, 113, 133, 0.4)',
+        'glow-fuchsia': '0 0 40px rgba(251, 113, 133, 0.38)',
         'glow-cyan': '0 0 36px rgba(34, 211, 238, 0.35)',
         'glow-emerald': '0 0 30px rgba(16, 185, 129, 0.4)',
         'glow-emerald-strong': '0 0 50px rgba(16, 185, 129, 0.6)',
-        'glow-orange': '0 0 30px rgba(234, 88, 12, 0.5)',
-        'depth-sm': '0 4px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255,255,255,0.06) inset',
-        'depth-lg': '0 24px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255,255,255,0.08) inset',
-        'glass': '0 8px 32px rgba(0, 0, 0, 0.1)',
-        'glass-lg': '0 16px 48px rgba(0, 0, 0, 0.15)',
-        'studio': '0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 80px rgba(139, 92, 246, 0.12)',
+        'glow-orange': '0 0 32px rgba(249, 115, 22, 0.48)',
+        'glow-red': '0 0 28px rgba(244, 63, 94, 0.35)',
+        'depth-sm': '0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.07) inset',
+        'depth-lg': '0 28px 90px rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(255,255,255,0.09) inset',
+        'glass': '0 8px 32px rgba(0, 0, 0, 0.22)',
+        'glass-lg': '0 16px 48px rgba(0, 0, 0, 0.28)',
+        'studio': '0 28px 56px -14px rgba(0, 0, 0, 0.72), 0 0 90px rgba(45, 212, 191, 0.1)',
       },
       backdropBlur: {
         'xs': '4px',

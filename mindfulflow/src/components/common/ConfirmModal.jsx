@@ -81,7 +81,7 @@ export default function ConfirmModal({
                 className={`w-full sm:w-auto px-6 py-3 min-h-[48px] rounded-xl text-fluid-base font-medium text-white shadow-lg transition-transform active:scale-95 touch-manipulation ${
                   isDangerous 
                     ? 'bg-red-500/80 hover:bg-red-500 shadow-red-500/20' 
-                    : 'bg-violet-600 hover:bg-violet-500 shadow-violet-500/20'
+                    : 'bg-teal-600 hover:bg-teal-500 shadow-teal-500/25'
                 }`}
               >
                 {confirmText}

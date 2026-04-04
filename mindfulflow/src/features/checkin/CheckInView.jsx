@@ -268,8 +268,8 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                      >
                         
                         {/* Decorative background gradients (no blur for performance) */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/8 rounded-full -z-10 pointer-events-none" />
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/8 rounded-full -z-10 pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-72 h-72 bg-teal-500/10 rounded-full -z-10 pointer-events-none blur-3xl" />
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-500/8 rounded-full -z-10 pointer-events-none blur-3xl" />
 
                         {/* Sleep Slider */}
                         <SleepSlider value={sleepHours} onChange={setSleepHours} />
@@ -285,7 +285,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                   whileHover={microInteractions.button.hover}
                                   whileTap={microInteractions.button.tap}
                                   onClick={() => setIsAddingTag(!isAddingTag)}
-                                  className="text-xs font-bold text-violet-200 hover:text-white px-4 py-2 bg-violet-500/20 hover:bg-violet-500/40 rounded-xl transition-colors flex items-center justify-center gap-1.5 group w-full sm:w-auto"
+                                  className="text-xs font-bold text-teal-100 hover:text-white px-4 py-2 bg-teal-600/25 hover:bg-teal-500/45 rounded-xl transition-colors flex items-center justify-center gap-1.5 group w-full sm:w-auto font-display"
                                 >
                                   <Plus className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" />
                                   {isAddingTag ? 'Zavřít' : 'Vlastní tag'}
@@ -307,13 +307,13 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                           value={newTagLabel}
                                           onChange={(e) => setNewTagLabel(e.target.value)}
                                           placeholder="Název nového tagu..."
-                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500/65 xs:text-base"
+                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal-500/65 xs:text-base"
                                           onKeyDown={(e) => e.key === 'Enter' && handleAddCustomTag()}
                                           autoFocus
                                         />
                                         <button
                                           onClick={handleAddCustomTag}
-                                          className="bg-violet-600 hover:bg-violet-500 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-violet-600/20 text-sm xs:text-base whitespace-nowrap"
+                                          className="bg-teal-600 hover:bg-teal-500 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-teal-600/25 text-sm xs:text-base whitespace-nowrap font-display"
                                         >
                                           Přidat
                                         </button>
@@ -352,8 +352,8 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                 }}
                                 className="relative group overflow-hidden rounded-2xl w-full md:w-auto md:min-w-[280px]"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 shadow-glow-violet" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-teal-600 via-emerald-500 to-amber-500 shadow-glow-accent" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-cyan-400 to-rose-400 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
                                 {/* Shimmer */}
                                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg]" />
                                 

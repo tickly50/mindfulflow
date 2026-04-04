@@ -8,10 +8,10 @@ import { Check } from 'lucide-react';
 
 const PARTICLE_COLORS = [
   'from-yellow-300 to-amber-500',
-  'from-violet-400 to-purple-600',
+  'from-teal-400 to-cyan-600',
   'from-emerald-300 to-teal-500',
-  'from-rose-400 to-pink-600',
-  'from-sky-300 to-blue-500',
+  'from-rose-400 to-orange-500',
+  'from-sky-300 to-teal-500',
   'from-orange-300 to-red-500',
 ];
 

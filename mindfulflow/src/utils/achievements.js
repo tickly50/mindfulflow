@@ -17,8 +17,8 @@ export const ACHIEVEMENTS = [
     title: 'Noční sova',
     description: 'Záznam vytvořený po 22:00.',
     icon: 'Moon',
-    gradient: 'from-indigo-400 to-purple-600',
-    shadow: 'shadow-glow-violet',
+    gradient: 'from-slate-500 to-teal-700',
+    shadow: 'shadow-glow-accent',
     condition: (entries) => entries.some(e => new Date(e.timestamp).getHours() >= 22)
   },
   {
@@ -26,8 +26,8 @@ export const ACHIEVEMENTS = [
     title: 'Spisovatel',
     description: 'Deníkový záznam delší než 50 slov.',
     icon: 'BookOpen',
-    gradient: 'from-violet-400 to-purple-600',
-    shadow: 'shadow-glow-violet',
+    gradient: 'from-amber-400 to-orange-600',
+    shadow: 'shadow-glow-orange',
     condition: (entries) => entries.some(e => e.diary && e.diary.split(/\s+/).length >= 50)
   },
   {
@@ -36,7 +36,7 @@ export const ACHIEVEMENTS = [
     description: 'Zaznamenávání nálady 7 dní v řadě.',
     icon: 'Flame',
     gradient: 'from-rose-400 to-red-600',
-    shadow: 'shadow-glow-violet', // fallback
+    shadow: 'shadow-glow-hot',
     condition: (_entries, longestStreak) => longestStreak >= 7
   },
   {
@@ -86,8 +86,8 @@ export const ACHIEVEMENTS = [
     title: 'Stovka',
     description: 'Zaznamenáno celkem 100 dnů.',
     icon: 'Crown',
-    gradient: 'from-fuchsia-400 to-purple-600',
-    shadow: 'shadow-glow-violet',
+    gradient: 'from-rose-400 to-amber-600',
+    shadow: 'shadow-glow-hot',
     condition: (entries) => entries.length >= 100
   },
   {

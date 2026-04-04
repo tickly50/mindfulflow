@@ -72,7 +72,7 @@ export default function InstallLanding() {
           </motion.div>
           <motion.h1
             variants={variants.item}
-            className="font-display font-extrabold tracking-tight text-white mb-4 md:mb-5 bg-gradient-to-br from-white via-violet-100 to-fuchsia-200/90 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(139,92,246,0.35)] leading-[1.08] text-[clamp(2.125rem,calc(1.25rem+5.5vw),3.75rem)]"
+            className="font-display font-extrabold tracking-tight text-white mb-4 md:mb-5 bg-gradient-to-br from-white via-teal-100 to-amber-200/95 bg-clip-text text-transparent drop-shadow-[0_0_48px_rgba(45,212,191,0.28)] leading-[1.08] text-[clamp(2.125rem,calc(1.25rem+5.5vw),3.75rem)]"
           >
             Péče o náladu v&nbsp;jedné aplikaci
           </motion.h1>
@@ -94,14 +94,14 @@ export default function InstallLanding() {
         >
           <motion.div variants={variants.item}>
             <GlassCard className="p-5 sm:p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300/95 mb-5 font-display">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-teal-300/95 mb-5 font-display">
                 Co v aplikaci najdeš
               </p>
               <ul className="space-y-4">
                 {features.map(({ icon: Icon, title, text }) => (
                   <li key={title} className="flex gap-3 group/item">
-                    <span className="flex-shrink-0 w-11 h-11 rounded-2xl bg-gradient-to-br from-white/12 to-white/5 flex items-center justify-center border border-white/15 shadow-depth-sm transition-transform duration-300 group-hover/item:scale-110 group-hover/item:border-violet-400/40">
-                      <Icon className="w-5 h-5 text-violet-200" aria-hidden />
+                    <span className="flex-shrink-0 w-11 h-11 rounded-2xl bg-gradient-to-br from-white/12 to-white/5 flex items-center justify-center border border-white/15 shadow-depth-sm transition-transform duration-300 group-hover/item:scale-110 group-hover/item:border-teal-400/45">
+                      <Icon className="w-5 h-5 text-teal-200" aria-hidden />
                     </span>
                     <div>
                       <p className="font-semibold text-white text-[0.9375rem] font-display">{title}</p>
@@ -124,10 +124,10 @@ export default function InstallLanding() {
             variants={variants.item}
             type="button"
             onClick={handleDownload}
-            whileHover={{ scale: 1.02, boxShadow: "0 0 48px rgba(139, 92, 246, 0.45)" }}
+            whileHover={{ scale: 1.02, boxShadow: "0 0 52px rgba(45, 212, 191, 0.42)" }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-violet-600 bg-[length:200%_100%] hover:bg-right text-white font-bold text-base shadow-depth-lg border border-white/10 transition-[background-position] duration-500 ease-out"
+            className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-teal-600 via-emerald-500 to-amber-500 bg-[length:200%_100%] hover:bg-right text-white font-bold text-base shadow-depth-lg border border-white/12 transition-[background-position] duration-500 ease-out font-display"
           >
             <Download className="w-5 h-5" aria-hidden />
             Stáhnout aplikaci

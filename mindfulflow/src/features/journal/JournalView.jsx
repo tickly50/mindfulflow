@@ -261,7 +261,7 @@ const JournalView = memo(function JournalView() {
                 onClick={() => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className={`min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors inline-flex items-center justify-center ${
                   currentPage === p
-                    ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/30'
+                    ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/30'
                     : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white'
                 }`}
               >

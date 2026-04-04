@@ -40,7 +40,7 @@ const AchievementsView = memo(function AchievementsView() {
         animate="show"
         className="mb-8"
       >
-        <h2 className="text-fluid-3xl font-bold text-white flex flex-wrap items-center gap-3 mb-2">
+        <h2 className="text-fluid-3xl font-bold text-white flex flex-wrap items-center gap-3 mb-2 font-display tracking-tight">
           <Award className="w-8 h-8 text-amber-400" />
           Tvé Úspěchy
         </h2>
@@ -59,16 +59,16 @@ const AchievementsView = memo(function AchievementsView() {
           const Icon = iconMap[achievement.icon] || Award;
 
           return (
-            <div
+            <motion.div
               key={achievement.id}
+              layout
+              whileHover={isUnlocked ? { scale: 1.035, y: -4 } : undefined}
+              transition={{ type: 'spring', stiffness: 380, damping: 28 }}
               className={`relative flex flex-col items-center p-6 sm:p-8 rounded-[2.5rem] border overflow-hidden ${
                 isUnlocked 
-                  ? 'bg-white/10 border-white/20'
+                  ? 'bg-white/[0.09] border-white/22 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.65)]'
                   : 'bg-black/40 border-white/5 opacity-50 grayscale'
               }`}
-              style={isUnlocked ? { transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)' } : undefined}
-              onMouseEnter={isUnlocked ? e => e.currentTarget.style.transform = 'scale(1.04)' : undefined}
-              onMouseLeave={isUnlocked ? e => e.currentTarget.style.transform = 'scale(1)' : undefined}
             >
               {isUnlocked && (
                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[2.5rem]" />
@@ -80,7 +80,7 @@ const AchievementsView = memo(function AchievementsView() {
               >
                 <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${isUnlocked ? 'text-white' : 'text-white/60'}`} />
               </div>
-              <h4 className="text-lg font-bold text-white text-center leading-tight mb-2">
+              <h4 className="text-lg font-bold text-white text-center leading-tight mb-2 font-display">
                 {achievement.title}
               </h4>
               <p className="text-sm text-center text-white/60 leading-snug mb-2">
@@ -91,7 +91,7 @@ const AchievementsView = memo(function AchievementsView() {
                   ✓ Odemčeno
                 </span>
               )}
-            </div>
+            </motion.div>
           );
         })}
       </motion.div>

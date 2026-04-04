@@ -24,41 +24,41 @@ const MOOD_EMOJI = {
 
 const MOOD_GRADIENTS = {
   1: 'from-red-600/50 to-red-900/50',
-  2: 'from-blue-900/40 to-slate-900/40',
-  3: 'from-indigo-900/40 to-slate-900/40',
-  4: 'from-violet-600/30 to-fuchsia-600/30',
-  5: 'from-amber-400/30 to-orange-500/30',
+  2: 'from-sky-900/40 to-slate-900/40',
+  3: 'from-slate-800/45 to-zinc-900/50',
+  4: 'from-teal-600/35 to-emerald-900/40',
+  5: 'from-amber-400/35 to-orange-600/40',
 };
 
 const MOOD_BORDER_ACTIVE = {
   1: 'border-red-500/60',
-  2: 'border-blue-400/60',
-  3: 'border-indigo-400/60',
-  4: 'border-violet-400/60',
+  2: 'border-sky-400/60',
+  3: 'border-slate-400/55',
+  4: 'border-teal-400/60',
   5: 'border-amber-400/60',
 };
 
 const MOOD_RING_COLORS = {
   1: 'ring-red-500/60',
-  2: 'ring-blue-500/60',
-  3: 'ring-indigo-500/60',
-  4: 'ring-violet-500/60',
+  2: 'ring-sky-500/60',
+  3: 'ring-slate-500/60',
+  4: 'ring-teal-500/60',
   5: 'ring-amber-500/60',
 };
 
 const MOOD_GLOW_COLORS = {
   1: 'rgba(239,68,68,0.25)',
-  2: 'rgba(59,130,246,0.20)',
-  3: 'rgba(99,102,241,0.20)',
-  4: 'rgba(139,92,246,0.25)',
-  5: 'rgba(245,158,11,0.25)',
+  2: 'rgba(56,189,248,0.22)',
+  3: 'rgba(148,163,184,0.20)',
+  4: 'rgba(45,212,191,0.28)',
+  5: 'rgba(245,158,11,0.28)',
 };
 
 const MOOD_INDICATOR_COLORS = {
   1: 'bg-red-500 shadow-red-500/40',
-  2: 'bg-blue-500 shadow-blue-500/40',
-  3: 'bg-indigo-500 shadow-indigo-500/40',
-  4: 'bg-violet-500 shadow-violet-500/40',
+  2: 'bg-sky-500 shadow-sky-500/40',
+  3: 'bg-slate-400 shadow-slate-500/35',
+  4: 'bg-teal-500 shadow-teal-500/40',
   5: 'bg-amber-500 shadow-amber-500/40',
 };
 
@@ -121,7 +121,7 @@ const MoodCards = memo(function MoodCards({ onMoodSelect, selectedMood }) {
             className={`group relative rounded-2xl xs:rounded-[2rem] p-1 h-full min-h-[clamp(7.5rem,28vw,12.5rem)] lg:min-h-[200px] font-display
               ${mood === 5 ? 'col-span-2 lg:col-span-1' : ''}
               ${isSelected
-                ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#020617] ${MOOD_RING_COLORS[mood]}`
+                ? `ring-2 xs:ring-4 ring-offset-2 xs:ring-offset-4 ring-offset-[#0a0f14] ${MOOD_RING_COLORS[mood]}`
                 : 'ring-0'
               }
             `}

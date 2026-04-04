@@ -42,22 +42,21 @@ export const easeConfig = {
 };
 
 // ─── Page Transition Variants ─────────────────────────────────────────────────
-// Used by App.jsx — opacity-only crossfade so views swap immediately without vertical jump.
-const easeCrossfade = [0.4, 0, 0.2, 1];
+const easeStudio = [0.16, 1, 0.3, 1];
 
 export const pageVariants = {
-  initial: { opacity: 0 },
+  initial: { opacity: 0, y: 20 },
   animate: {
     opacity: 1,
-    transition: { duration: 0.18, ease: easeCrossfade },
+    y: 0,
+    transition: { duration: 0.38, ease: easeStudio },
   },
   exit: {
     opacity: 0,
-    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] },
+    y: -14,
+    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] },
   },
 };
-
-const easeStudio = [0.16, 1, 0.3, 1];
 
 // ─── Component Variants ───────────────────────────────────────────────────────
 
@@ -295,8 +294,8 @@ export const reducedMotionVariants = {
   // Page transition — opacity-only for a11y
   page: {
     initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1] } },
-    exit: { opacity: 0, transition: { duration: 0.14 } },
+    animate: { opacity: 1, transition: { duration: 0.32, ease: [0.4, 0, 0.2, 1] } },
+    exit: { opacity: 0, transition: { duration: 0.18 } },
   },
 };
 

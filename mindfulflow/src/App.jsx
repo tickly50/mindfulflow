@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { MotionConfig, LazyMotion, domAnimation } from 'framer-motion';
+import { MotionConfig, LazyMotion, domAnimation, AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import Header from './components/Layout/Header';
 import { ToastProvider } from './context/ToastContext';
@@ -15,8 +15,12 @@ import CheckInView from './features/checkin/CheckInView';
 import JournalView from './features/journal/JournalView';
 import StatisticsView from './features/statistics/StatisticsView';
 import AchievementsView from './components/Achievements/AchievementsView';
+import CustomCursor from './components/Layout/CustomCursor';
+import { pageVariants, reducedMotionVariants } from './utils/animations';
 
 function AppContent() {
+  const prefersReduced = useReducedMotion();
+  const viewMotion = prefersReduced ? reducedMotionVariants.page : pageVariants;
   const [currentView, setCurrentView] = useState('checkin');
   const [showBreathing, setShowBreathing] = useState(false);
   const [activeMood, setActiveMood] = useState(null);
@@ -47,7 +51,7 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative font-sans antialiased">
+    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative font-sans antialiased selection:bg-teal-500/25 selection:text-white">
       {backgroundMounted && (
         <>
           <BackgroundAurora
@@ -75,11 +79,57 @@ function AppContent() {
         />
 
         <ErrorBoundary>
-          <main className="flex-1 w-full relative">
-            {currentView === 'checkin' && <CheckInView onMoodChange={setActiveMood} />}
-            {currentView === 'journal' && <JournalView />}
-            {currentView === 'statistics' && <StatisticsView />}
-            {currentView === 'achievements' && <AchievementsView />}
+          <main className="flex-1 w-full relative overflow-x-hidden">
+            <AnimatePresence mode="wait">
+              {currentView === 'checkin' && (
+                <motion.div
+                  key="checkin"
+                  variants={viewMotion}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full min-w-0"
+                >
+                  <CheckInView onMoodChange={setActiveMood} />
+                </motion.div>
+              )}
+              {currentView === 'journal' && (
+                <motion.div
+                  key="journal"
+                  variants={viewMotion}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full min-w-0"
+                >
+                  <JournalView />
+                </motion.div>
+              )}
+              {currentView === 'statistics' && (
+                <motion.div
+                  key="statistics"
+                  variants={viewMotion}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full min-w-0"
+                >
+                  <StatisticsView />
+                </motion.div>
+              )}
+              {currentView === 'achievements' && (
+                <motion.div
+                  key="achievements"
+                  variants={viewMotion}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full min-w-0"
+                >
+                  <AchievementsView />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </main>
         </ErrorBoundary>
       </div>
@@ -98,6 +148,7 @@ function App() {
       <MotionConfig reducedMotion={isLowEnd ? 'always' : 'user'}>
         <SettingsProvider>
           <ToastProvider>
+            <CustomCursor />
             {allowFullApp ? <AppContent /> : <InstallLanding />}
             {!import.meta.env.DEV && <VercelAnalytics />}
           </ToastProvider>

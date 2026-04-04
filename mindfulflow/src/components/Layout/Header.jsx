@@ -131,10 +131,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
       <motion.header
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
-        className="glass-strong rounded-2xl p-3 sm:p-4 mb-6 md:mb-8 sticky top-0 z-40 font-sans border border-white/10 shadow-studio backdrop-blur-2xl max-w-full min-w-0"
+        className="glass-strong rounded-2xl p-3 sm:p-4 mb-6 md:mb-8 sticky top-0 z-40 font-sans border border-white/12 shadow-studio backdrop-blur-2xl max-w-full min-w-0"
         style={{
           boxShadow:
-            '0 20px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 0 40px rgba(139, 92, 246, 0.08)',
+            '0 24px 70px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.09) inset, 0 0 48px rgba(45, 212, 191, 0.07)',
           backfaceVisibility: 'hidden',
         }}
       >
@@ -153,11 +153,11 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             >
               {mobileNavOpen ? <X className="w-6 h-6" strokeWidth={2} /> : <Menu className="w-6 h-6" strokeWidth={2} />}
             </motion.button>
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-glow-violet overflow-hidden">
-              <div className="absolute inset-0 bg-white/10 group-hover:bg-white/20 transition-colors" />
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl bg-gradient-to-br from-teal-400 via-emerald-600 to-amber-500 flex items-center justify-center shadow-glow-accent overflow-hidden ring-1 ring-white/15">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-white/15 opacity-90 group-hover:opacity-100 transition-opacity" />
               <span className="text-xl sm:text-2xl relative z-10 drop-shadow-md">🧘</span>
             </div>
-            <h1 className="font-display text-fluid-2xl md:text-fluid-3xl lg:text-fluid-4xl font-extrabold bg-gradient-to-r from-violet-200 via-fuchsia-200 to-indigo-200 bg-clip-text text-transparent tracking-tight truncate min-w-0 drop-shadow-[0_0_24px_rgba(167,139,250,0.35)] leading-none">
+            <h1 className="font-display text-fluid-2xl md:text-fluid-3xl lg:text-fluid-4xl font-extrabold bg-gradient-to-r from-amber-100 via-teal-100 to-rose-100 bg-clip-text text-transparent tracking-tight truncate min-w-0 drop-shadow-[0_0_28px_rgba(45,212,191,0.28)] leading-none">
               MindfulFlow
             </h1>
 
@@ -205,10 +205,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                     <motion.div
                       layout
                       layoutId="header-nav-pill"
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-violet-600/50 to-fuchsia-600/40 -z-10"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-600/55 to-amber-600/35 -z-10"
                       style={{
                         boxShadow:
-                          '0 0 28px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.12)',
+                          '0 0 32px rgba(45,212,191,0.35), inset 0 1px 0 rgba(255,255,255,0.14)',
                       }}
                       transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                       aria-hidden="true"
@@ -232,10 +232,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 onBreathingClick();
               }}
               aria-label="Dechová cvičení"
-              whileHover={{ scale: 1.05, boxShadow: '0 0 32px rgba(249, 115, 22, 0.45)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 36px rgba(251, 113, 133, 0.42)' }}
               whileTap={{ scale: 0.94 }}
               transition={{ type: 'spring', stiffness: 420, damping: 24 }}
-              className="group bg-gradient-to-r from-orange-500 to-rose-600 px-3 sm:px-4 min-h-[44px] min-w-[44px] sm:min-w-0 rounded-xl font-bold text-sm text-white inline-flex items-center justify-center gap-2 shadow-glow-orange relative overflow-hidden outline-none focus:outline-none font-display border border-white/10"
+              className="group bg-gradient-to-r from-rose-500 via-orange-500 to-amber-500 px-3 sm:px-4 min-h-[44px] min-w-[44px] sm:min-w-0 rounded-xl font-bold text-sm text-white inline-flex items-center justify-center gap-2 shadow-glow-orange relative overflow-hidden outline-none focus:outline-none font-display border border-white/15"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <Wind className="w-5 h-5 relative z-10 drop-shadow-md shrink-0" />
@@ -290,7 +290,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 380, damping: 38 }}
-              className="fixed top-0 right-0 bottom-0 z-[46] w-[min(100%,20rem)] max-w-full flex flex-col bg-[#0b1020]/95 backdrop-blur-xl border-l border-white/10 shadow-2xl pt-safe pb-6 px-4 md:hidden"
+              className="fixed top-0 right-0 bottom-0 z-[46] w-[min(100%,20rem)] max-w-full flex flex-col bg-[#0a1218]/96 backdrop-blur-xl border-l border-white/12 shadow-2xl pt-safe pb-6 px-4 md:hidden"
             >
               <div className="flex items-center justify-between gap-2 py-4 border-b border-white/10 mb-4 shrink-0">
                 <span className="font-display font-bold text-fluid-base text-white truncate">Menu</span>
@@ -313,7 +313,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                         onClick={() => handleMobileNav(id)}
                         className={`w-full flex items-center gap-3 rounded-2xl px-4 py-3.5 min-h-[52px] text-left font-display font-semibold text-fluid-base transition-colors ${
                           active
-                            ? 'bg-gradient-to-r from-violet-600/45 to-fuchsia-600/35 text-white border border-white/15'
+                            ? 'bg-gradient-to-r from-teal-700/50 to-amber-700/35 text-white border border-white/18 shadow-[0_0_24px_rgba(45,212,191,0.15)]'
                             : 'text-white/75 hover:bg-white/10 hover:text-white border border-transparent'
                         }`}
                       >

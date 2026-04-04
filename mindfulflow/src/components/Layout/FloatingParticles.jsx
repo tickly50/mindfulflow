@@ -19,7 +19,8 @@ const FloatingParticles = memo(function FloatingParticles({ className = "" }) {
       duration: 14 + (i % 9) * 2,
       delay: -(i * 0.7) % 12,
       opacity: 0.12 + (i % 7) * 0.04,
-      hue: (i * 47) % 360,
+      /* Teal → amber band — avoids generic rainbow */
+      hue: 160 + ((i * 37) % 80),
     }));
   }, [lowEnd]);
 

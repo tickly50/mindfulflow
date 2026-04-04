@@ -100,7 +100,7 @@ const JournalCard = memo(function JournalCard({ entry, onEdit, onDelete, getCont
                 whileTap={{ scale: 0.85, transition: { duration: 0.1 } }}
                 onClick={() => onEdit(entry)}
                 aria-label="Upravit záznam"
-                className="p-3.5 sm:p-2.5 text-white/45 hover:text-violet-300 hover:bg-violet-500/10 rounded-full transition-colors duration-150"
+                className="p-3.5 sm:p-2.5 text-white/45 hover:text-teal-300 hover:bg-teal-500/12 rounded-full transition-colors duration-150"
               >
                 <Pencil className="w-4 h-4" />
               </motion.button>

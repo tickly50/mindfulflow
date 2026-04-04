@@ -7,12 +7,12 @@ import useIsLowEndDevice from '../../hooks/useIsLowEndDevice';
  */
 
 const MOOD_PALETTES = {
-  null: { p: '#312e81', s: '#7c3aed', t: '#0e7490', mesh: '#4f46e5' },
+  null: { p: '#0c1822', s: '#14b8a6', t: '#fb7185', mesh: '#2dd4bf' },
   1: { p: '#7f1d1d', s: '#dc2626', t: '#991b1b', mesh: '#ef4444' },
   2: { p: '#9a3412', s: '#ea580c', t: '#c2410c', mesh: '#fb923c' },
   3: { p: '#854d0e', s: '#ca8a04', t: '#a16207', mesh: '#facc15' },
-  4: { p: '#064e3b', s: '#10b981', t: '#047857', mesh: '#34d399' },
-  5: { p: '#4c1d95', s: '#a855f7', t: '#7c3aed', mesh: '#c084fc' },
+  4: { p: '#064e3b', s: '#10b981', t: '#0d9488', mesh: '#5eead4' },
+  5: { p: '#78350f', s: '#f59e0b', t: '#ea580c', mesh: '#fbbf24' },
 };
 
 const MOOD_KEYS = Object.keys(MOOD_PALETTES);
@@ -27,7 +27,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
 
   return (
     <div
-      className="fixed inset-0 -z-50 overflow-hidden bg-[#020617] pointer-events-none"
+      className="fixed inset-0 -z-50 overflow-hidden bg-[var(--theme-bg)] pointer-events-none"
       aria-hidden="true"
       style={{ contain: 'paint style' }}
     >
@@ -101,7 +101,7 @@ const BackgroundAurora = memo(function BackgroundAurora({ currentMood }) {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to top, rgba(2,6,23,0.95) 0%, transparent 35%, transparent 100%)',
+            'linear-gradient(to top, rgba(10,15,20,0.94) 0%, transparent 38%, transparent 100%)',
         }}
       />
     </div>

@@ -11,6 +11,7 @@ import MoodDistributionBar from './MoodDistributionBar';
 import HeatmapCalendar from './HeatmapCalendar';
 import InsightsList from './InsightsList';
 import GlassCard from '../../components/common/GlassCard';
+import RevealOnScroll from '../../components/common/RevealOnScroll';
 import { Tag } from 'lucide-react';
 
 const ICON_MAP = { ...CONTEXT_TAG_ICONS, Tag };
@@ -18,12 +19,12 @@ const ICON_MAP = { ...CONTEXT_TAG_ICONS, Tag };
 // ─── Empty State ──────────────────────────────────────────────────────────────
 function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center py-16 md:py-24 gap-4 text-center px-[var(--container-pad-x)] max-w-content mx-auto w-full min-w-0">
-      <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-4xl shrink-0">
-        📊
+    <div className="flex flex-col items-center justify-center py-16 md:py-24 gap-5 text-center px-[var(--container-pad-x)] max-w-content mx-auto w-full min-w-0">
+      <div className="relative w-20 h-20 rounded-[1.35rem] rotate-3 bg-gradient-to-br from-teal-500/25 to-amber-500/20 border border-white/15 flex items-center justify-center text-4xl shrink-0 shadow-glow-accent">
+        <span className="-rotate-3">📊</span>
       </div>
-      <h3 className="text-fluid-2xl font-bold text-white font-display">Zatím žádná data</h3>
-      <p className="text-white/50 max-w-xs text-fluid-sm leading-relaxed">
+      <h3 className="text-fluid-2xl font-bold text-white font-display tracking-tight">Zatím žádná data</h3>
+      <p className="text-white/50 max-w-md text-fluid-sm leading-relaxed font-serif-body">
         Přidej svůj první záznam nálady a tady uvidíš detailní statistiky tvé pohody.
       </p>
     </div>
@@ -51,7 +52,7 @@ function ActivityList({ activityStats }) {
         {top.map(({ id, label, icon, count, average }) => {
           const IconComp = ICON_MAP[icon] || Tag;
           const moodLevel = count > 0 ? Math.round(average) : 3;
-          const moodColor = MOOD_COLORS[moodLevel]?.primary || '#8b5cf6';
+          const moodColor = MOOD_COLORS[moodLevel]?.primary || '#2dd4bf';
           return (
             <div
               key={id}
@@ -169,7 +170,9 @@ const StatisticsView = memo(function StatisticsView() {
       </motion.div>
 
       {/* ── KPI Cards ── */}
-      <KpiCards stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
+      <RevealOnScroll delay={0.04} y={24}>
+        <KpiCards stats={stats} streak={streak} longestStreak={longestStreak} avgSleep={avgSleep} />
+      </RevealOnScroll>
 
       {/* ── Tab navigation ── */}
       <div className="relative flex gap-1 bg-white/5 p-1 rounded-xl mb-6 overflow-x-auto no-scrollbar snap-x snap-mandatory [-webkit-overflow-scrolling:touch]">
