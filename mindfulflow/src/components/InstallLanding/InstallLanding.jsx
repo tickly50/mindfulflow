@@ -2,8 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Download, Heart, BookOpen, BarChart3, Wind, Trophy, Sparkles } from "lucide-react";
 import GlassCard from "../common/GlassCard";
-import BackgroundAurora from "../Layout/BackgroundAurora";
-import FloatingParticles from "../Layout/FloatingParticles";
 import { usePwaInstallPrompt } from "../../hooks/usePwaInstallPrompt";
 import { variants } from "../../utils/animations";
 
@@ -52,10 +50,7 @@ export default function InstallLanding() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-[var(--theme-bg)] flex flex-col relative overflow-x-hidden pt-safe font-sans">
-      <BackgroundAurora currentMood={null} />
-      <FloatingParticles />
-
+    <div className="min-h-[100dvh] bg-theme-bg flex flex-col relative overflow-x-hidden pt-safe font-sans">
       <div className="relative z-10 w-full max-w-prose-narrow mx-auto px-[var(--container-pad-x)] py-[clamp(1.5rem,6vh,3.5rem)] flex flex-col flex-1 min-w-0">
         <motion.div
           variants={variants.container}
@@ -67,12 +62,12 @@ export default function InstallLanding() {
             variants={variants.item}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-white/85 mb-5 shadow-depth-sm backdrop-blur-md"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-300/90" aria-hidden />
+            <Sparkles className="w-3.5 h-3.5 text-violet-300/90" aria-hidden />
             MindfulFlow
           </motion.div>
           <motion.h1
             variants={variants.item}
-            className="font-display font-extrabold tracking-tight text-white mb-4 md:mb-5 bg-gradient-to-br from-white via-teal-100 to-amber-200/95 bg-clip-text text-transparent drop-shadow-[0_0_48px_rgba(45,212,191,0.28)] leading-[1.08] text-[clamp(2.125rem,calc(1.25rem+5.5vw),3.75rem)]"
+            className="font-display font-extrabold tracking-tight mb-4 md:mb-5 bg-gradient-to-br from-white via-violet-100 to-violet-300/90 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(124,58,237,0.25)] leading-[1.08] text-[clamp(2.125rem,calc(1.25rem+5.5vw),3.75rem)]"
           >
             Péče o náladu v&nbsp;jedné aplikaci
           </motion.h1>
@@ -94,14 +89,14 @@ export default function InstallLanding() {
         >
           <motion.div variants={variants.item}>
             <GlassCard className="p-5 sm:p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-teal-300/95 mb-5 font-display">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300/95 mb-5 font-display">
                 Co v aplikaci najdeš
               </p>
               <ul className="space-y-4">
                 {features.map(({ icon: Icon, title, text }) => (
                   <li key={title} className="flex gap-3 group/item">
-                    <span className="flex-shrink-0 w-11 h-11 rounded-2xl bg-gradient-to-br from-white/12 to-white/5 flex items-center justify-center border border-white/15 shadow-depth-sm transition-transform duration-300 group-hover/item:scale-110 group-hover/item:border-teal-400/45">
-                      <Icon className="w-5 h-5 text-teal-200" aria-hidden />
+                    <span className="flex-shrink-0 w-11 h-11 rounded-2xl bg-gradient-to-br from-white/12 to-white/5 flex items-center justify-center border border-white/15 shadow-depth-sm transition-transform duration-300 group-hover/item:scale-110 group-hover/item:border-violet-400/45">
+                      <Icon className="w-5 h-5 text-violet-200" aria-hidden />
                     </span>
                     <div>
                       <p className="font-semibold text-white text-[0.9375rem] font-display">{title}</p>
@@ -124,10 +119,10 @@ export default function InstallLanding() {
             variants={variants.item}
             type="button"
             onClick={handleDownload}
-            whileHover={{ scale: 1.02, boxShadow: "0 0 52px rgba(45, 212, 191, 0.42)" }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.01, boxShadow: "0 0 28px rgba(124, 58, 237, 0.35)" }}
+            whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-teal-600 via-emerald-500 to-amber-500 bg-[length:200%_100%] hover:bg-right text-white font-bold text-base shadow-depth-lg border border-white/12 transition-[background-position] duration-500 ease-out font-display"
+            className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-base shadow-depth-lg border border-violet-500 transition-colors font-display"
           >
             <Download className="w-5 h-5" aria-hidden />
             Stáhnout aplikaci
@@ -140,7 +135,7 @@ export default function InstallLanding() {
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center text-amber-200/90 text-xs leading-relaxed rounded-xl bg-amber-500/10 border border-amber-500/20 px-3 py-2"
+              className="text-center text-violet-200/90 text-xs leading-relaxed rounded-xl bg-violet-500/15 border border-violet-500/25 px-3 py-2"
             >
               V tomto prohlížeči nemusí být instalace k dispozici. Zkus Chrome nebo Edge, případně v menu prohlížeče
               zvol „Instalovat aplikaci“ nebo „Přidat na plochu“.

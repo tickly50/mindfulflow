@@ -7,12 +7,12 @@ import { haptics } from '../../utils/haptics';
 import { Check } from 'lucide-react';
 
 const PARTICLE_COLORS = [
-  'from-yellow-300 to-amber-500',
-  'from-teal-400 to-cyan-600',
-  'from-emerald-300 to-teal-500',
-  'from-rose-400 to-orange-500',
-  'from-sky-300 to-teal-500',
-  'from-orange-300 to-red-500',
+  'from-violet-300 to-violet-500',
+  'from-violet-400 to-violet-600',
+  'from-violet-500 to-violet-700',
+  'from-fuchsia-400 to-violet-600',
+  'from-violet-200 to-violet-400',
+  'from-purple-400 to-violet-600',
 ];
 
 const PARTICLE_SHAPES = ['rounded-full', 'rounded-sm', 'rounded-md'];
@@ -106,7 +106,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
       {/* Main dialog card */}
       <motion.div
-        className="relative bg-[#0f172a] border border-white/10 rounded-[3rem] p-12 text-center max-w-sm w-full overflow-hidden shadow-2xl"
+        className="relative bg-zinc-900 border border-zinc-600 rounded-3xl p-12 text-center max-w-sm w-full overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         initial={prefersReduced ? { opacity: 0 } : { scale: 0.7, y: 60, opacity: 0 }}
         animate={
@@ -122,13 +122,13 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
         style={{ willChange: 'transform, opacity' }}
       >
         {/* BG gradient */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-emerald-500/15 to-teal-500/5 z-0" />
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-400/30 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-violet-500/15 to-violet-500/5 z-0" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-400/30 to-transparent" />
 
         <div className="relative z-10 flex flex-col items-center">
           {/* Check circle */}
           <motion.div
-            className="w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-400 to-green-500 flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/40"
+            className="w-24 h-24 rounded-full bg-gradient-to-tr from-violet-500 to-violet-700 flex items-center justify-center mb-6 shadow-xl shadow-violet-600/35"
             initial={prefersReduced ? { opacity: 0 } : { scale: 0, rotate: -90 }}
             animate={prefersReduced ? { opacity: 1 } : { scale: 1, rotate: 0 }}
             transition={

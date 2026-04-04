@@ -8,7 +8,7 @@ export const ACHIEVEMENTS = [
     title: 'Ranní ptáče',
     description: 'Záznam vytvořený před 8:00 ráno.',
     icon: 'Sun',
-    gradient: 'from-amber-300 to-orange-500',
+    gradient: 'from-violet-400 to-violet-700',
     shadow: 'shadow-glow-orange',
     condition: (entries) => entries.some(e => new Date(e.timestamp).getHours() < 8)
   },
@@ -17,7 +17,7 @@ export const ACHIEVEMENTS = [
     title: 'Noční sova',
     description: 'Záznam vytvořený po 22:00.',
     icon: 'Moon',
-    gradient: 'from-slate-500 to-teal-700',
+    gradient: 'from-violet-800 to-violet-950',
     shadow: 'shadow-glow-accent',
     condition: (entries) => entries.some(e => new Date(e.timestamp).getHours() >= 22)
   },
@@ -26,7 +26,7 @@ export const ACHIEVEMENTS = [
     title: 'Spisovatel',
     description: 'Deníkový záznam delší než 50 slov.',
     icon: 'BookOpen',
-    gradient: 'from-amber-400 to-orange-600',
+    gradient: 'from-violet-500 to-violet-800',
     shadow: 'shadow-glow-orange',
     condition: (entries) => entries.some(e => e.diary && e.diary.split(/\s+/).length >= 50)
   },
@@ -35,7 +35,7 @@ export const ACHIEVEMENTS = [
     title: 'Konzistentní',
     description: 'Zaznamenávání nálady 7 dní v řadě.',
     icon: 'Flame',
-    gradient: 'from-rose-400 to-red-600',
+    gradient: 'from-fuchsia-500 to-violet-800',
     shadow: 'shadow-glow-hot',
     condition: (_entries, longestStreak) => longestStreak >= 7
   },
@@ -44,7 +44,7 @@ export const ACHIEVEMENTS = [
     title: 'Maratonec',
     description: 'Zaznamenávání nálady 30 dní v řadě.',
     icon: 'Trophy',
-    gradient: 'from-yellow-400 to-amber-600',
+    gradient: 'from-violet-300 to-violet-600',
     shadow: 'shadow-glow-orange',
     condition: (_entries, longestStreak) => longestStreak >= 30
   },
@@ -53,7 +53,7 @@ export const ACHIEVEMENTS = [
     title: 'Zen Master',
     description: 'Časté využívání štítku Zdraví nebo Spánek (alespoň 5x).',
     icon: 'Wind',
-    gradient: 'from-emerald-400 to-teal-600',
+    gradient: 'from-violet-400 to-violet-700',
     shadow: 'shadow-glow-emerald',
     condition: (entries) => {
        const calmEntries = entries.filter(e => {
@@ -68,7 +68,7 @@ export const ACHIEVEMENTS = [
     title: 'Nováček',
     description: 'První úspěšně vytvořený záznam.',
     icon: 'Star',
-    gradient: 'from-sky-300 to-blue-500',
+    gradient: 'from-violet-300 to-violet-600',
     shadow: 'shadow-glow-cyan',
     condition: (entries) => entries.length >= 1
   },
@@ -77,7 +77,7 @@ export const ACHIEVEMENTS = [
     title: 'Oddaný',
     description: 'Zaznamenáno celkem 50 dnů.',
     icon: 'Heart',
-    gradient: 'from-rose-400 to-pink-600',
+    gradient: 'from-fuchsia-400 to-violet-700',
     shadow: 'shadow-glow-red',
     condition: (entries) => entries.length >= 50
   },
@@ -86,7 +86,7 @@ export const ACHIEVEMENTS = [
     title: 'Stovka',
     description: 'Zaznamenáno celkem 100 dnů.',
     icon: 'Crown',
-    gradient: 'from-rose-400 to-amber-600',
+    gradient: 'from-violet-500 to-violet-900',
     shadow: 'shadow-glow-hot',
     condition: (entries) => entries.length >= 100
   },
@@ -95,7 +95,7 @@ export const ACHIEVEMENTS = [
     title: 'Víkendový chill',
     description: 'Záznam vytvořený o víkendu.',
     icon: 'Coffee',
-    gradient: 'from-orange-300 to-amber-500',
+    gradient: 'from-violet-400 to-violet-700',
     shadow: 'shadow-glow-orange',
     condition: (entries) => entries.some(e => {
       const day = new Date(e.timestamp).getDay();
@@ -107,7 +107,7 @@ export const ACHIEVEMENTS = [
     title: 'Na houpačce',
     description: 'Zaznamenáno 5 různých nálad.',
     icon: 'Activity',
-    gradient: 'from-indigo-300 to-cyan-500',
+    gradient: 'from-violet-400 to-fuchsia-600',
     shadow: 'shadow-glow-cyan',
     condition: (entries) => new Set(entries.map(e => Math.round(e.mood))).size >= 5
   },
@@ -116,7 +116,7 @@ export const ACHIEVEMENTS = [
     title: 'Skvělý týden',
     description: '7 dní v řadě se skvělou náladou (4 nebo 5).',
     icon: 'Sparkles',
-    gradient: 'from-amber-300 to-yellow-500',
+    gradient: 'from-violet-300 to-violet-500',
     shadow: 'shadow-glow-orange',
     condition: (entries) => {
       const goodEntries = entries.filter(e => e.mood >= 4);
@@ -128,7 +128,7 @@ export const ACHIEVEMENTS = [
     title: 'Optimista',
     description: 'Zaznamenána nálada s nejvyšším skóre (5) alespoň 10x.',
     icon: 'Smile',
-    gradient: 'from-green-400 to-emerald-600',
+    gradient: 'from-violet-400 to-violet-600',
     shadow: 'shadow-glow-emerald',
     condition: (entries) => entries.filter(e => Math.round(e.mood) === 5).length >= 10
   },
@@ -137,7 +137,7 @@ export const ACHIEVEMENTS = [
     title: 'Společenský typ',
     description: 'Alespoň 10 záznamů s tagy Rodina nebo Sociální život.',
     icon: 'Users',
-    gradient: 'from-pink-400 to-rose-600',
+    gradient: 'from-fuchsia-400 to-violet-700',
     shadow: 'shadow-glow-red',
     condition: (entries) => {
        const socialEntries = entries.filter(e => {
@@ -152,7 +152,7 @@ export const ACHIEVEMENTS = [
     title: 'Pracant',
     description: 'Alespoň 10 záznamů s tagem Práce.',
     icon: 'Briefcase',
-    gradient: 'from-slate-400 to-gray-600',
+    gradient: 'from-violet-500 to-zinc-700',
     shadow: 'shadow-glow-cyan',
     condition: (entries) => {
        const workEntries = entries.filter(e => {

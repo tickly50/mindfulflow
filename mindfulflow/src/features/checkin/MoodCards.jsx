@@ -23,43 +23,43 @@ const MOOD_EMOJI = {
 };
 
 const MOOD_GRADIENTS = {
-  1: 'from-red-600/50 to-red-900/50',
-  2: 'from-sky-900/40 to-slate-900/40',
-  3: 'from-slate-800/45 to-zinc-900/50',
-  4: 'from-teal-600/35 to-emerald-900/40',
-  5: 'from-amber-400/35 to-orange-600/40',
+  1: 'from-violet-950/55 to-zinc-950/80',
+  2: 'from-violet-900/45 to-violet-950/60',
+  3: 'from-violet-800/40 to-violet-950/55',
+  4: 'from-violet-700/38 to-violet-900/50',
+  5: 'from-violet-600/35 to-violet-800/45',
 };
 
 const MOOD_BORDER_ACTIVE = {
-  1: 'border-red-500/60',
-  2: 'border-sky-400/60',
-  3: 'border-slate-400/55',
-  4: 'border-teal-400/60',
-  5: 'border-amber-400/60',
+  1: 'border-violet-500/55',
+  2: 'border-violet-400/55',
+  3: 'border-violet-400/50',
+  4: 'border-violet-300/55',
+  5: 'border-violet-300/60',
 };
 
 const MOOD_RING_COLORS = {
-  1: 'ring-red-500/60',
-  2: 'ring-sky-500/60',
-  3: 'ring-slate-500/60',
-  4: 'ring-teal-500/60',
-  5: 'ring-amber-500/60',
+  1: 'ring-violet-600/55',
+  2: 'ring-violet-500/55',
+  3: 'ring-violet-500/50',
+  4: 'ring-violet-400/55',
+  5: 'ring-violet-300/55',
 };
 
 const MOOD_GLOW_COLORS = {
-  1: 'rgba(239,68,68,0.25)',
-  2: 'rgba(56,189,248,0.22)',
-  3: 'rgba(148,163,184,0.20)',
-  4: 'rgba(45,212,191,0.28)',
-  5: 'rgba(245,158,11,0.28)',
+  1: 'rgba(91,33,182,0.28)',
+  2: 'rgba(109,40,217,0.26)',
+  3: 'rgba(124,58,237,0.24)',
+  4: 'rgba(139,92,246,0.26)',
+  5: 'rgba(167,139,250,0.28)',
 };
 
 const MOOD_INDICATOR_COLORS = {
-  1: 'bg-red-500 shadow-red-500/40',
-  2: 'bg-sky-500 shadow-sky-500/40',
-  3: 'bg-slate-400 shadow-slate-500/35',
-  4: 'bg-teal-500 shadow-teal-500/40',
-  5: 'bg-amber-500 shadow-amber-500/40',
+  1: 'bg-violet-800 shadow-violet-900/45',
+  2: 'bg-violet-700 shadow-violet-800/40',
+  3: 'bg-violet-600 shadow-violet-700/40',
+  4: 'bg-violet-500 shadow-violet-600/40',
+  5: 'bg-violet-400 shadow-violet-500/45',
 };
 
 const easeStudio = [0.16, 1, 0.3, 1];

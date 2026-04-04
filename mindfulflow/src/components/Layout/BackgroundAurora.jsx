@@ -7,12 +7,12 @@ import useIsLowEndDevice from '../../hooks/useIsLowEndDevice';
  */
 
 const MOOD_PALETTES = {
-  null: { p: '#0c1822', s: '#14b8a6', t: '#fb7185', mesh: '#2dd4bf' },
-  1: { p: '#7f1d1d', s: '#dc2626', t: '#991b1b', mesh: '#ef4444' },
-  2: { p: '#9a3412', s: '#ea580c', t: '#c2410c', mesh: '#fb923c' },
-  3: { p: '#854d0e', s: '#ca8a04', t: '#a16207', mesh: '#facc15' },
-  4: { p: '#064e3b', s: '#10b981', t: '#0d9488', mesh: '#5eead4' },
-  5: { p: '#78350f', s: '#f59e0b', t: '#ea580c', mesh: '#fbbf24' },
+  null: { p: '#120a18', s: '#5b21b6', t: '#a78bfa', mesh: '#7c3aed' },
+  1: { p: '#1e1b4b', s: '#4c1d95', t: '#6d28d9', mesh: '#5b21b6' },
+  2: { p: '#2e1065', s: '#5b21b6', t: '#7c3aed', mesh: '#6d28d9' },
+  3: { p: '#3b0764', s: '#6d28d9', t: '#8b5cf6', mesh: '#7c3aed' },
+  4: { p: '#4c1d95', s: '#7c3aed', t: '#a78bfa', mesh: '#8b5cf6' },
+  5: { p: '#5b21b6', s: '#8b5cf6', t: '#c4b5fd', mesh: '#a78bfa' },
 };
 
 const MOOD_KEYS = Object.keys(MOOD_PALETTES);

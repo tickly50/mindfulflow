@@ -8,11 +8,11 @@ const CHART_W = W - PAD.left - PAD.right;
 const CHART_H = H - PAD.top - PAD.bottom;
 
 const MOOD_COLORS_MAP = {
-  1: '#ef4444',
-  2: '#f59e0b',
-  3: '#94a3b8',
-  4: '#14b8a6',
-  5: '#f59e0b',
+  1: '#5b21b6',
+  2: '#6d28d9',
+  3: '#7c3aed',
+  4: '#8b5cf6',
+  5: '#a78bfa',
 };
 
 /** Convert data points to SVG smooth bezier path */
@@ -125,7 +125,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
 
   if (!chartData || chartData.length === 0) return null;
 
-  const tooltipColor = tooltip ? MOOD_COLORS_MAP[tooltip.data.mood] || '#2dd4bf' : '#2dd4bf';
+  const tooltipColor = tooltip ? MOOD_COLORS_MAP[tooltip.data.mood] || '#7c3aed' : '#7c3aed';
 
   return (
     <GlassCard className="p-5 sm:p-6 min-w-0">
@@ -146,8 +146,8 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
         >
           <defs>
             <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0.38" />
-              <stop offset="100%" stopColor="#14b8a6" stopOpacity="0" />
+              <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#5b21b6" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -174,7 +174,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
           <path
             d={linePath}
             fill="none"
-            stroke="#2dd4bf"
+            stroke="#a78bfa"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"

@@ -18,14 +18,11 @@ const Greeting = memo(function Greeting() {
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12)
-      return { text: 'Dobré ráno', emoji: '🌅', gradient: 'from-amber-300 via-orange-400 to-rose-500' };
-    else if (hour >= 12 && hour < 17)
-      return { text: 'Dobré odpoledne', emoji: '☀️', gradient: 'from-yellow-300 via-amber-400 to-orange-500' };
-    else if (hour >= 17 && hour < 22)
-      return { text: 'Dobrý večer', emoji: '🌆', gradient: 'from-amber-200 via-rose-400 to-teal-500' };
-    else
-      return { text: 'Dobrá noc', emoji: '🌙', gradient: 'from-slate-300 via-teal-500 to-amber-600' };
+    const grad = 'from-violet-200 via-violet-400 to-violet-700';
+    if (hour >= 5 && hour < 12) return { text: 'Dobré ráno', emoji: '🌅', gradient: grad };
+    if (hour >= 12 && hour < 17) return { text: 'Dobré odpoledne', emoji: '☀️', gradient: grad };
+    if (hour >= 17 && hour < 22) return { text: 'Dobrý večer', emoji: '🌆', gradient: grad };
+    return { text: 'Dobrá noc', emoji: '🌙', gradient: grad };
   }, []);
 
   const quote = useMemo(() => getDailyQuote(), []);
@@ -54,7 +51,7 @@ const Greeting = memo(function Greeting() {
         className="relative mb-3"
       >
         <motion.h2
-          className={`font-display text-fluid-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent drop-shadow-[0_0_52px_rgba(45,212,191,0.22)]`}
+          className={`font-display text-fluid-4xl md:text-6xl font-black tracking-tight bg-gradient-to-r ${greeting.gradient} bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(124,58,237,0.25)]`}
           style={{ lineHeight: 1.12, letterSpacing: '-0.03em' }}
           y={parallaxY}
         >
@@ -70,7 +67,7 @@ const Greeting = memo(function Greeting() {
       {/* Subtitle */}
       <motion.p
         variants={prefersReduced ? reducedMotionVariants.item : variants.heroSubtitle}
-        className="text-white/75 text-fluid-xl font-medium tracking-wide mb-6 md:mb-8 font-sans px-2"
+        className="text-zinc-400 text-fluid-xl font-medium tracking-wide mb-6 md:mb-8 font-sans px-2"
       >
         Jak se dnes cítíš?
       </motion.p>
@@ -81,10 +78,8 @@ const Greeting = memo(function Greeting() {
         className="max-w-xl mx-auto"
       >
         <div className="relative w-full max-w-prose-narrow mx-auto -rotate-1 sm:rotate-0">
-          <div className="relative glass px-[clamp(1rem,4vw,2rem)] py-[clamp(1rem,3vw,1.5rem)] rounded-3xl border border-white/12 shadow-2xl hover:border-teal-400/25 hover:bg-white/[0.06] transition-all duration-300">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-teal-300/35 to-transparent opacity-70" />
-            <div className="absolute -left-px top-6 bottom-6 w-px bg-gradient-to-b from-teal-400/40 via-transparent to-amber-400/30 opacity-80" aria-hidden />
-            <p className="text-white/90 text-fluid-lg italic font-medium leading-relaxed font-serif-body tracking-wide pl-2">
+          <div className="relative px-[clamp(1rem,4vw,2rem)] py-[clamp(1rem,3vw,1.5rem)] rounded-2xl border border-zinc-600 bg-zinc-900/90 hover:border-violet-500/40 transition-colors duration-200">
+            <p className="text-zinc-200 text-fluid-lg italic font-medium leading-relaxed font-serif-body tracking-wide pl-1">
               "{quote}"
             </p>
           </div>

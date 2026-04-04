@@ -5,8 +5,6 @@ import Header from './components/Layout/Header';
 import { ToastProvider } from './context/ToastContext';
 import { SettingsProvider } from './features/settings/SettingsContext';
 import BreathingOverlay from './components/Breathing/BreathingOverlay';
-import BackgroundAurora from './components/Layout/BackgroundAurora';
-import FloatingParticles from './components/Layout/FloatingParticles';
 import useIsLowEndDevice from './hooks/useIsLowEndDevice';
 import { isStandaloneDisplay } from './utils/standalone';
 import InstallLanding from './components/InstallLanding/InstallLanding';
@@ -15,7 +13,6 @@ import CheckInView from './features/checkin/CheckInView';
 import JournalView from './features/journal/JournalView';
 import StatisticsView from './features/statistics/StatisticsView';
 import AchievementsView from './components/Achievements/AchievementsView';
-import CustomCursor from './components/Layout/CustomCursor';
 import { pageVariants, reducedMotionVariants } from './utils/animations';
 
 function AppContent() {
@@ -24,14 +21,11 @@ function AppContent() {
   const [currentView, setCurrentView] = useState('checkin');
   const [showBreathing, setShowBreathing] = useState(false);
   const [activeMood, setActiveMood] = useState(null);
-  const [backgroundMounted] = useState(true);
 
   useEffect(() => {
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist();
     }
-
-    document.documentElement.removeAttribute('data-theme');
   }, []);
 
   const handleViewChange = useCallback((view) => {
@@ -51,27 +45,8 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-[var(--theme-bg)] transition-colors duration-500 flex flex-col pt-safe relative font-sans antialiased selection:bg-teal-500/25 selection:text-white">
-      {backgroundMounted && (
-        <>
-          <BackgroundAurora
-            currentMood={
-              currentView === 'checkin'
-                ? activeMood
-                : currentView === 'journal'
-                  ? 4
-                  : currentView === 'statistics'
-                    ? 5
-                    : currentView === 'achievements'
-                      ? 3
-                      : null
-            }
-          />
-          <FloatingParticles />
-        </>
-      )}
-
-      <div className="w-full max-w-screen-2xl mx-auto px-[var(--container-pad-x)] py-[var(--section-pad-y)] md:py-6 flex-1 pb-6 md:pb-8 flex flex-col relative z-10 min-w-0">
+    <div className="min-h-[100dvh] bg-theme-bg text-theme-text flex flex-col pt-safe font-sans antialiased selection:bg-violet-500/30">
+      <div className="w-full max-w-screen-2xl mx-auto px-[var(--container-pad-x)] py-[var(--section-pad-y)] md:py-6 flex-1 pb-6 md:pb-8 flex flex-col min-w-0">
         <Header
           onBreathingClick={handleBreathingOpen}
           currentView={currentView}
@@ -148,7 +123,6 @@ function App() {
       <MotionConfig reducedMotion={isLowEnd ? 'always' : 'user'}>
         <SettingsProvider>
           <ToastProvider>
-            <CustomCursor />
             {allowFullApp ? <AppContent /> : <InstallLanding />}
             {!import.meta.env.DEV && <VercelAnalytics />}
           </ToastProvider>

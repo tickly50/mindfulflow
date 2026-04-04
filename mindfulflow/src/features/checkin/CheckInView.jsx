@@ -259,33 +259,22 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
               >
                 <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
-                     <div 
-                        className="glass-panel p-[clamp(1rem,3vw,2.5rem)] rounded-3xl xs:rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/5 to-transparent shadow-2xl overflow-hidden relative w-full min-w-0"
-                        style={{ 
-                            WebkitFontSmoothing: 'antialiased',
-                            backfaceVisibility: 'hidden'
-                        }}
-                     >
-                        
-                        {/* Decorative background gradients (no blur for performance) */}
-                        <div className="absolute top-0 right-0 w-72 h-72 bg-teal-500/10 rounded-full -z-10 pointer-events-none blur-3xl" />
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-500/8 rounded-full -z-10 pointer-events-none blur-3xl" />
-
+                     <div className="p-[clamp(1rem,3vw,2.5rem)] rounded-2xl border border-zinc-600 bg-zinc-900/90 w-full min-w-0">
                         {/* Sleep Slider */}
                         <SleepSlider value={sleepHours} onChange={setSleepHours} />
 
                         {/* Tags Section */}
                         <div className="mb-6 sm:mb-8">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
-                                <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                                    <Sparkles className="w-5 h-5 text-amber-300" />
+                                <h3 className="text-lg sm:text-xl font-bold text-zinc-100 flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 text-violet-400" />
                                     Co ovlivnilo tvou náladu?
                                 </h3>
                                 <motion.button 
                                   whileHover={microInteractions.button.hover}
                                   whileTap={microInteractions.button.tap}
                                   onClick={() => setIsAddingTag(!isAddingTag)}
-                                  className="text-xs font-bold text-teal-100 hover:text-white px-4 py-2 bg-teal-600/25 hover:bg-teal-500/45 rounded-xl transition-colors flex items-center justify-center gap-1.5 group w-full sm:w-auto font-display"
+                                  className="text-xs font-bold text-violet-100 hover:text-white px-4 py-2 bg-violet-600/25 hover:bg-violet-500/45 rounded-xl transition-colors flex items-center justify-center gap-1.5 group w-full sm:w-auto font-display"
                                 >
                                   <Plus className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" />
                                   {isAddingTag ? 'Zavřít' : 'Vlastní tag'}
@@ -307,13 +296,13 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                           value={newTagLabel}
                                           onChange={(e) => setNewTagLabel(e.target.value)}
                                           placeholder="Název nového tagu..."
-                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal-500/65 xs:text-base"
+                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500/65 xs:text-base"
                                           onKeyDown={(e) => e.key === 'Enter' && handleAddCustomTag()}
                                           autoFocus
                                         />
                                         <button
                                           onClick={handleAddCustomTag}
-                                          className="bg-teal-600 hover:bg-teal-500 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-teal-600/25 text-sm xs:text-base whitespace-nowrap font-display"
+                                          className="bg-violet-600 hover:bg-violet-500 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-violet-600/25 text-sm xs:text-base whitespace-nowrap font-display"
                                         >
                                           Přidat
                                         </button>
@@ -337,42 +326,14 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                         {/* Made button extra wide on mobile (w-full) and stick to bottom inside its container */}
                         <div className="flex justify-center mt-6 sm:mt-8">
                             <motion.button
+                                type="button"
                                 onClick={handleSubmit}
                                 disabled={!canSubmit || showSuccess || isSaving}
                                 aria-busy={isSaving}
-                                whileHover={{ 
-                                  scale: 1.02,
-                                  y: -1,
-                                  transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.5 }
-                                }}
-                                whileTap={{ 
-                                  scale: 0.97,
-                                  y: 0,
-                                  transition: { type: 'spring', stiffness: 600, damping: 25, mass: 0.4 }
-                                }}
-                                className="relative group overflow-hidden rounded-2xl w-full md:w-auto md:min-w-[280px]"
+                                className="w-full md:w-auto md:min-w-[280px] rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3 text-lg font-semibold text-white border border-violet-500 transition-colors"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-teal-600 via-emerald-500 to-amber-500 shadow-glow-accent" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-cyan-400 to-rose-400 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                                {/* Shimmer */}
-                                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg]" />
-                                
-                                {/* Button Content */}
-                                <div className="relative px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3">
-                                    <span className="text-lg xs:text-xl font-bold text-white tracking-wide">
-                                      {isSaving ? 'Ukládám…' : 'Uložit záznam'}
-                                    </span>
-                                    <div
-                                      className="bg-white/20 p-1.5 rounded-lg chevron-shimmer"
-                                      style={{ willChange: 'transform' }}
-                                      aria-hidden="true"
-                                    >
-                                        <ChevronRight className="w-5 h-5 text-white" />
-                                    </div>
-                                </div>
-                                
-                                {/* Ring */}
-                                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20 group-hover:ring-white/40 transition-all" />
+                              <span>{isSaving ? 'Ukládám…' : 'Uložit záznam'}</span>
+                              <ChevronRight className="w-5 h-5 shrink-0" aria-hidden />
                             </motion.button>
                         </div>
 

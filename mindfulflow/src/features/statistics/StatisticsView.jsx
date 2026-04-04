@@ -20,7 +20,7 @@ const ICON_MAP = { ...CONTEXT_TAG_ICONS, Tag };
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-16 md:py-24 gap-5 text-center px-[var(--container-pad-x)] max-w-content mx-auto w-full min-w-0">
-      <div className="relative w-20 h-20 rounded-[1.35rem] rotate-3 bg-gradient-to-br from-teal-500/25 to-amber-500/20 border border-white/15 flex items-center justify-center text-4xl shrink-0 shadow-glow-accent">
+      <div className="relative w-20 h-20 rounded-[1.35rem] rotate-3 bg-gradient-to-br from-violet-500/25 to-violet-700/20 border border-white/15 flex items-center justify-center text-4xl shrink-0 shadow-glow-accent">
         <span className="-rotate-3">📊</span>
       </div>
       <h3 className="text-fluid-2xl font-bold text-white font-display tracking-tight">Zatím žádná data</h3>
@@ -52,7 +52,7 @@ function ActivityList({ activityStats }) {
         {top.map(({ id, label, icon, count, average }) => {
           const IconComp = ICON_MAP[icon] || Tag;
           const moodLevel = count > 0 ? Math.round(average) : 3;
-          const moodColor = MOOD_COLORS[moodLevel]?.primary || '#2dd4bf';
+          const moodColor = MOOD_COLORS[moodLevel]?.primary || '#7c3aed';
           return (
             <div
               key={id}

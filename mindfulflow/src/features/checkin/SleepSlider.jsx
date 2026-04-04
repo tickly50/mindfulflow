@@ -94,14 +94,14 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
     <div className="mb-10 w-full select-none">
       <div className="flex items-center justify-between mb-4 px-1">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-gradient-to-br from-cyan-500/30 to-teal-600/15 rounded-xl text-cyan-200 shadow-glow-accent ring-1 ring-white/12">
+          <div className="p-2.5 bg-gradient-to-br from-violet-500/30 to-violet-600/15 rounded-xl text-violet-200 shadow-glow-accent ring-1 ring-white/12">
             <Moon className="w-6 h-6 drop-shadow-md" />
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-200 to-teal-300 bg-clip-text text-transparent font-display">Spánek</h3>
+          <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-violet-200 to-violet-300 bg-clip-text text-transparent font-display">Spánek</h3>
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-black text-cyan-300 tabular-nums font-display">{displayValue}</span>
-          <span className="text-sm font-medium text-cyan-400/55">hodin</span>
+          <span className="text-3xl font-black text-violet-300 tabular-nums font-display">{displayValue}</span>
+          <span className="text-sm font-medium text-violet-400/55">hodin</span>
         </div>
       </div>
 
@@ -133,7 +133,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
           <div className="absolute top-1/2 left-0 right-0 h-3 bg-black/40 rounded-full -translate-y-1/2 overflow-hidden shadow-inner">
             {/* Filled Gradient */}
             <motion.div
-              className="h-full bg-gradient-to-r from-cyan-500 via-teal-500 to-amber-400 will-change-transform"
+              className="h-full bg-gradient-to-r from-violet-600 via-violet-500 to-violet-400 will-change-transform"
               style={{ width }}
             />
           </div>
@@ -144,7 +144,7 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
               <div key={tick} className="flex flex-col items-center gap-2.5">
                 <div
                   className={`w-0.5 h-8 -mt-0.5 rounded-full transition-colors duration-100 ${
-                    tick <= displayValue ? 'bg-teal-400/50' : 'bg-white/5'
+                    tick <= displayValue ? 'bg-violet-400/50' : 'bg-white/5'
                   }`}
                 />
                 <span
@@ -160,11 +160,11 @@ const SleepSlider = memo(function SleepSlider({ value, onChange }) {
 
           {/* Thumb */}
           <motion.div
-            className="absolute top-1/2 -ml-3 w-6 h-6 bg-white rounded-full shadow-[0_0_18px_rgba(45,212,191,0.55)] z-10 pointer-events-none will-change-transform"
+            className="absolute top-1/2 -ml-3 w-6 h-6 bg-white rounded-full shadow-[0_0_14px_rgba(124,58,237,0.45)] z-10 pointer-events-none will-change-transform"
             style={{ left, y: '-50%' }}
           >
             {/* Pulse effect while dragging */}
-            <div className={`absolute inset-0 bg-teal-500 rounded-full animate-ping ${isDragging ? 'opacity-30' : 'opacity-0'}`} />
+            <div className={`absolute inset-0 bg-violet-500 rounded-full animate-ping ${isDragging ? 'opacity-30' : 'opacity-0'}`} />
             <div className="absolute inset-0 rounded-full ring-2 ring-white/5 group-hover:ring-white/10" />
           </motion.div>
         </div>

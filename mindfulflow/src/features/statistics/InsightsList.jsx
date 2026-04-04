@@ -10,7 +10,7 @@ const InsightsList = memo(function InsightsList({ insights }) {
   return (
     <GlassCard className="p-5 sm:p-6">
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-amber-600 flex items-center justify-center flex-shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-violet-800 flex items-center justify-center flex-shrink-0">
           <Lightbulb size={18} className="text-white" />
         </div>
         <div>

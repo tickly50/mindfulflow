@@ -50,7 +50,7 @@ export function useStatisticsData(entries, filteredEntries) {
             day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit',
           }),
           moodLabel: MOOD_LABELS[entry.mood],
-          color: MOOD_COLORS[entry.mood]?.primary || '#2dd4bf',
+          color: MOOD_COLORS[entry.mood]?.primary || '#7c3aed',
           ts: d.getTime(),
         };
       });
@@ -67,7 +67,7 @@ export function useStatisticsData(entries, filteredEntries) {
         label: MOOD_LABELS[m],
         count: moodCounts[m],
         pct: Math.round((moodCounts[m] / filteredEntries.length) * 100),
-        color: MOOD_COLORS[m]?.primary || '#2dd4bf',
+        color: MOOD_COLORS[m]?.primary || '#7c3aed',
       }));
 
     // Heatmap: map dateStr → { average, count, moods[] }

@@ -49,10 +49,10 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
     >
       <div className="relative flex items-center justify-between mb-4 px-1 flex-wrap gap-2">
         <h3 className="text-xl font-bold text-white flex items-center gap-3">
-          <div className="p-2.5 bg-gradient-to-br from-teal-500/35 to-rose-500/15 rounded-xl md:backdrop-blur-md shadow-glow-accent ring-1 ring-white/12">
-            <PenTool className="w-5 h-5 text-teal-200" />
+          <div className="p-2.5 bg-gradient-to-br from-violet-500/35 to-violet-800/20 rounded-xl md:backdrop-blur-md shadow-glow-accent ring-1 ring-white/12">
+            <PenTool className="w-5 h-5 text-violet-200" />
           </div>
-          <span className="bg-gradient-to-r from-teal-100 to-amber-100 bg-clip-text text-transparent font-display">
+          <span className="bg-gradient-to-r from-violet-100 to-violet-200 bg-clip-text text-transparent font-display">
             Osobní poznámka
           </span>
           <span className="text-xs font-normal text-white/30 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">
@@ -65,9 +65,9 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
             whileHover={microInteractions.button.hover}
             whileTap={microInteractions.button.tap}
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600/25 hover:bg-teal-500/45 text-teal-100 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative font-display"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-600/25 hover:bg-violet-500/45 text-violet-100 hover:text-white rounded-lg transition-colors text-sm font-medium z-10 relative font-display"
           >
-            <Sparkles className="w-4 h-4 text-amber-300" />
+            <Sparkles className="w-4 h-4 text-violet-300" />
             Inspirace
           </motion.button>
 
@@ -114,7 +114,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
 
       <div className="relative group">
         <div
-          className={`absolute -inset-1 rounded-[1.5rem] bg-teal-500/25 blur-xl transition-opacity duration-500 pointer-events-none ${
+          className={`absolute -inset-1 rounded-[1.5rem] bg-violet-500/25 blur-xl transition-opacity duration-500 pointer-events-none ${
             isFocused ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -122,7 +122,7 @@ const DiaryField = memo(function DiaryField({ value, onChange, maxLength = 1000 
         <div
           className={`relative rounded-[1.2rem] h-full overflow-hidden backdrop-blur-xl border transition-all duration-300 shadow-inner ${
             isFocused
-              ? 'border-teal-400/50 bg-black/40 shadow-[inset_0_0_22px_rgba(45,212,191,0.12)]'
+              ? 'border-violet-400/50 bg-black/40 shadow-[inset_0_0_18px_rgba(124,58,237,0.12)]'
               : 'border-white/10 bg-black/20 hover:border-white/20 hover:bg-black/30'
           }`}
         >

@@ -41,7 +41,7 @@ const AchievementsView = memo(function AchievementsView() {
         className="mb-8"
       >
         <h2 className="text-fluid-3xl font-bold text-white flex flex-wrap items-center gap-3 mb-2 font-display tracking-tight">
-          <Award className="w-8 h-8 text-amber-400" />
+          <Award className="w-8 h-8 text-violet-400" />
           Tvé Úspěchy
         </h2>
         <p className="text-white/60 text-fluid-base max-w-prose">Sbírej odznaky za plnění svých cílů a péči o zdraví.</p>
@@ -87,7 +87,7 @@ const AchievementsView = memo(function AchievementsView() {
                 {achievement.description}
               </p>
               {isUnlocked && (
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400/90 bg-amber-400/10 border border-amber-400/20 px-2.5 py-1 rounded-full">
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-violet-300/95 bg-violet-500/15 border border-violet-400/25 px-2.5 py-1 rounded-full">
                   ✓ Odemčeno
                 </span>
               )}
