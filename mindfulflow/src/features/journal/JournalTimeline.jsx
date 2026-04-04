@@ -74,22 +74,22 @@ const JournalTimeline = memo(function JournalTimeline({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.25, ease: EASE_OUT }}
-        className="text-center py-20 bg-white/5 rounded-[2.5rem] border border-white/5 relative overflow-hidden"
+        className="text-center py-20 bg-theme-elevated/60 rounded-[2.5rem] border border-theme-border relative overflow-hidden"
       >
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.08, duration: 0.3, ease: EASE_OUT }}
-          className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-white/20"
+          className="w-20 h-20 bg-[var(--accent-glow)] rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-[var(--accent)]/25"
         >
-          <MessageSquare className="w-10 h-10 text-white/50" />
+          <MessageSquare className="w-10 h-10 text-[var(--accent-soft)]" />
         </motion.div>
 
         <motion.h3
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.15, duration: 0.25, ease: EASE_OUT }}
-          className="text-2xl font-bold text-white mb-3 tracking-tight"
+          className="text-2xl font-bold text-theme-text mb-3 tracking-tight"
         >
           {filterMood || filterTag || searchQuery ? 'Žádné záznamy nenalezeny' : 'Zatím je tu ticho'}
         </motion.h3>
@@ -98,7 +98,7 @@ const JournalTimeline = memo(function JournalTimeline({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.25, ease: EASE_OUT }}
-          className="text-white/50 max-w-md mx-auto leading-relaxed px-6"
+          className="text-theme-muted max-w-md mx-auto leading-relaxed px-6"
         >
           {filterMood || filterTag || searchQuery
             ? 'Zkus upravit filtry nebo vyhledávání.'
@@ -126,10 +126,10 @@ const JournalTimeline = memo(function JournalTimeline({
             }}
             className="flex items-center gap-3 mb-4 px-1"
           >
-            <span className="text-xs font-bold uppercase tracking-widest text-white/40 first-letter:capitalize">
+            <span className="text-xs font-bold uppercase tracking-widest text-theme-muted first-letter:capitalize">
               {group.label}
             </span>
-            <div className="flex-1 h-px bg-white/10" />
+            <div className="flex-1 h-px bg-theme-border" />
           </motion.div>
 
           {/* Cards */}

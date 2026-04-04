@@ -7,12 +7,12 @@ import { haptics } from '../../utils/haptics';
 import { Check } from 'lucide-react';
 
 const PARTICLE_COLORS = [
-  'from-violet-300 to-violet-500',
-  'from-violet-400 to-violet-600',
-  'from-violet-500 to-violet-700',
-  'from-fuchsia-400 to-violet-600',
-  'from-violet-200 to-violet-400',
-  'from-purple-400 to-violet-600',
+  'from-[var(--accent-soft)] to-[var(--accent)]',
+  'from-teal-300 to-[var(--accent)]',
+  'from-[var(--accent)] to-teal-600',
+  'from-fuchsia-400 to-[var(--accent)]',
+  'from-violet-200 to-teal-400',
+  'from-[var(--accent-soft)] to-teal-500',
 ];
 
 const PARTICLE_SHAPES = ['rounded-full', 'rounded-sm', 'rounded-md'];
@@ -66,7 +66,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.75)',
+        backgroundColor: 'color-mix(in srgb, var(--bg) 82%, transparent)',
       }}
       className="touch-none"
     >
@@ -106,7 +106,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
       {/* Main dialog card */}
       <motion.div
-        className="relative bg-zinc-900 border border-zinc-600 rounded-3xl p-12 text-center max-w-sm w-full overflow-hidden shadow-2xl"
+        className="relative bg-theme-card border border-theme-border rounded-3xl p-12 text-center max-w-sm w-full overflow-hidden shadow-depth-lg transition-colors duration-theme"
         onClick={(e) => e.stopPropagation()}
         initial={prefersReduced ? { opacity: 0 } : { scale: 0.7, y: 60, opacity: 0 }}
         animate={
@@ -122,13 +122,13 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
         style={{ willChange: 'transform, opacity' }}
       >
         {/* BG gradient */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-violet-500/15 to-violet-500/5 z-0" />
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-400/30 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[var(--accent-glow)] to-teal-500/5 z-0" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--accent-soft)]/35 to-transparent" />
 
         <div className="relative z-10 flex flex-col items-center">
           {/* Check circle */}
           <motion.div
-            className="w-24 h-24 rounded-full bg-gradient-to-tr from-violet-500 to-violet-700 flex items-center justify-center mb-6 shadow-xl shadow-violet-600/35"
+            className="w-24 h-24 rounded-full bg-gradient-to-tr from-[var(--accent)] to-teal-600 flex items-center justify-center mb-6 shadow-glow-accent"
             initial={prefersReduced ? { opacity: 0 } : { scale: 0, rotate: -90 }}
             animate={prefersReduced ? { opacity: 1 } : { scale: 1, rotate: 0 }}
             transition={
@@ -149,7 +149,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
           {/* Title */}
           <motion.h2
-            className="text-3xl font-black text-white mb-2"
+            className="text-3xl font-black text-theme-text mb-2 tracking-tight"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
@@ -159,7 +159,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
           {/* Subtitle */}
           <motion.p
-            className="text-white/60 font-medium leading-relaxed"
+            className="text-theme-muted font-medium leading-relaxed"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.42, duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
@@ -171,7 +171,7 @@ const SuccessOverlay = memo(function SuccessOverlay({ successParticles, onClose 
 
           {/* Tap hint */}
           <motion.p
-            className="text-white/25 text-xs mt-5 font-medium"
+            className="text-theme-muted/60 text-xs mt-5 font-medium"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.4 }}

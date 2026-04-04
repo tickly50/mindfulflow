@@ -2,30 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-/* MindfulFlow — jednoduchý vzhled, fialová značka (#7c3aed) */
+/* MindfulFlow — premium wellness UI (Calm × Linear) */
 
 :root {
-  --container-pad-x: clamp(0.75rem, 4vw, 2rem);
+  --container-pad-x: clamp(1rem, 4vw, 1.5rem);
   --section-pad-y: clamp(0.75rem, 2vw, 1.25rem);
+  --space: 24px;
   --touch-min: 44px;
 
-  --bg: #120a18;
-  --bg-card: #1a1124;
-  --text: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --accent: #7c3aed;
-  --accent-hover: #6d28d9;
-  --border: #3f3f46;
-
+  /* Dark (default) */
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --bg-elevated: #1c2333;
+  --text: #e6edf3;
+  --text-muted: #7d8590;
+  --accent: #8b5cf6;
+  --accent-soft: #a78bfa;
+  --accent-glow: rgba(139, 92, 246, 0.15);
+  --accent-secondary: #5eead4;
+  --accent-secondary-soft: rgba(94, 234, 212, 0.12);
+  --positive: #34d399;
+  --border: rgba(255, 255, 255, 0.08);
   --theme-bg: var(--bg);
+  --ring-offset: var(--bg);
 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.65;
   color: var(--text);
   background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+[data-theme="light"] {
+  --bg: #fafaf9;
+  --bg-card: #ffffff;
+  --bg-elevated: #f4f4f5;
+  --text: #18181b;
+  --text-muted: #71717a;
+  --accent: #8b5cf6;
+  --accent-soft: #7c3aed;
+  --accent-glow: rgba(139, 92, 246, 0.12);
+  --accent-secondary: #0d9488;
+  --accent-secondary-soft: rgba(13, 148, 136, 0.1);
+  --positive: #059669;
+  --border: rgba(24, 24, 27, 0.08);
+  --ring-offset: var(--bg);
 }
 
 html {
@@ -35,6 +58,9 @@ html {
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 * {
@@ -53,6 +79,9 @@ body {
   color: var(--text);
   overflow-x: clip;
   -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 @layer base {
@@ -71,14 +100,26 @@ body {
     align-items: center;
     justify-content: center;
   }
+
+  .card-surface {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+  }
+
+  .nav-pill-active {
+    background: var(--accent);
+    color: #fff;
+  }
 }
 
 h1,
 h2,
 h3 {
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--text);
+  line-height: 1.2;
 }
 
 *:focus,
@@ -111,7 +152,10 @@ h6,
 }
 
 #root {
-  animation: app-in 0.35s ease-out both;
+  animation: app-in 0.5s ease-out both;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 @keyframes app-in {
@@ -127,6 +171,12 @@ h6,
   #root {
     animation: none;
   }
+
+  html,
+  body,
+  #root {
+    transition: none;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -141,7 +191,7 @@ h6,
   border-radius: 4px;
 }
 * {
-  scrollbar-color: var(--border) var(--bg);
+  scrollbar-color: var(--text-muted) var(--bg);
   scrollbar-width: thin;
 }
 

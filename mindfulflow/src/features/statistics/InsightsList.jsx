@@ -10,12 +10,12 @@ const InsightsList = memo(function InsightsList({ insights }) {
   return (
     <GlassCard className="p-5 sm:p-6">
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-violet-800 flex items-center justify-center flex-shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent)] to-teal-700 flex items-center justify-center flex-shrink-0">
           <Lightbulb size={18} className="text-white" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white">Chytré postřehy</h3>
-          <p className="text-white/50 text-xs">Analýza tvých dat</p>
+          <h3 className="text-lg font-bold text-theme-text tracking-tight">Chytré postřehy</h3>
+          <p className="text-theme-muted text-xs">Analýza tvých dat</p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ const InsightsList = memo(function InsightsList({ insights }) {
                 >
                   {insight.title}
                 </h4>
-                <p className="text-white/70 text-sm leading-relaxed">{insight.text}</p>
+                <p className="text-theme-text/85 text-sm leading-relaxed">{insight.text}</p>
               </div>
             </div>
           );

@@ -49,8 +49,8 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                   className={`
                     relative px-3 py-2.5 min-h-[44px] xs:px-5 xs:py-3 rounded-2xl flex items-center gap-2 xs:gap-2.5 transition-all duration-300 border overflow-hidden group/tag outline-none focus:outline-none focus-visible:outline-none
                     ${isSelected 
-                      ? 'bg-gradient-to-br from-violet-600 to-violet-700 border-violet-300/50 text-white shadow-glow-accent' 
-                      : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20 hover:text-white backdrop-blur-sm'
+                      ? 'bg-[var(--accent)] border-[var(--accent-soft)]/35 text-white shadow-glow-accent' 
+                      : 'bg-theme-elevated border-theme-border text-theme-muted hover:bg-[var(--accent-glow)] hover:border-[var(--accent)]/25 hover:text-theme-text'
                     }
                     ${isCustom ? 'pr-8 xs:pr-9' : ''} 
                   `}
@@ -61,16 +61,16 @@ const ContextTags = memo(function ContextTags({ selectedTags, onTagToggle, avail
                   {/* Glow effect for selected items */}
                   {isSelected && (
                       <motion.div 
-                          className="absolute inset-0 rounded-2xl bg-violet-400/22 blur-md -z-10"
+                          className="absolute inset-0 rounded-2xl bg-[var(--accent-soft)]/20 blur-md -z-10"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                       />
                   )}
 
-                  {Icon && <Icon className={`w-3.5 h-3.5 xs:w-4 xs:h-4 ${isSelected ? 'text-white' : 'text-white/90'}`} />}
+                  {Icon && <Icon className={`w-3.5 h-3.5 xs:w-4 xs:h-4 ${isSelected ? 'text-white' : 'text-theme-muted'}`} />}
                   
-                  <span className={`text-xs xs:text-sm tracking-wide font-bold ${isSelected ? 'text-white' : 'text-white/60 group-hover:text-white'}`}>
+                  <span className={`text-xs xs:text-sm tracking-wide font-bold ${isSelected ? 'text-white' : 'text-theme-muted group-hover:text-theme-text'}`}>
                       {tag.label}
                   </span>
 

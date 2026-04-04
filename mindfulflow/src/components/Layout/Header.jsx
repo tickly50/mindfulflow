@@ -8,7 +8,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import { db } from '../../utils/db';
 import { useSettings } from '../../features/settings/SettingsContext';
 import { haptics } from '../../utils/haptics';
-import { Wind, Flame, Settings, Menu, X, Home, BookHeart, BarChart3, Award } from 'lucide-react';
+import { Wind, Flame, Settings, Menu, X, Home, BookHeart, BarChart3, Award, Sun, Moon } from 'lucide-react';
 import useScrollLock from '../../hooks/useScrollLock';
 import SettingsModal from './SettingsModal';
 
@@ -121,12 +121,12 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
 
   return (
     <>
-      <header className="rounded-xl border border-zinc-600/90 bg-zinc-900/95 p-3 sm:p-4 mb-6 md:mb-8 sticky top-0 z-40 max-w-full min-w-0">
+      <header className="border-b border-theme-border py-3 sm:py-4 sticky top-0 z-40 w-full min-w-0 transition-[border-color] duration-theme">
         <div className="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 md:flex-initial">
             <button
               type="button"
-              className="md:hidden touch-target shrink-0 rounded-lg border border-zinc-600 bg-zinc-800 text-zinc-100 hover:bg-zinc-700 -ml-1"
+              className="md:hidden touch-target shrink-0 rounded-xl border border-theme-border bg-theme-elevated text-theme-text hover:bg-theme-card -ml-1 transition-colors duration-theme"
               aria-expanded={mobileNavOpen}
               aria-controls="mobile-nav-drawer"
               aria-label={mobileNavOpen ? 'Zavřít menu' : 'Otevřít menu'}
@@ -137,26 +137,26 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             >
               {mobileNavOpen ? <X className="w-6 h-6" strokeWidth={2} /> : <Menu className="w-6 h-6" strokeWidth={2} />}
             </button>
-            <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-lg bg-violet-600 flex items-center justify-center border border-violet-500">
-              <span className="text-xl sm:text-2xl leading-none">🧘</span>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-lg bg-theme-elevated flex items-center justify-center border border-theme-border">
+              <span className="text-lg sm:text-xl leading-none">🧘</span>
             </div>
-            <h1 className="font-bold text-fluid-2xl md:text-fluid-3xl text-zinc-100 truncate min-w-0 leading-tight">
+            <h1 className="font-semibold text-lg sm:text-xl text-theme-text truncate min-w-0 tracking-tight">
               MindfulFlow
             </h1>
 
             {streak > 0 && (
               <div
-                className="flex items-center gap-1 px-2 py-1 rounded-lg border border-violet-500/40 bg-violet-950/50 text-violet-200 text-sm font-semibold ml-2 shrink-0"
+                className="flex items-center gap-1 text-sm text-theme-muted ml-2 shrink-0 tabular-nums"
                 title={`${streak} dní v řadě!`}
               >
-                <Flame className="w-4 h-4 text-violet-400 shrink-0" />
+                <Flame className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden />
                 <span>{streak}</span>
               </div>
             )}
           </div>
 
           <nav
-            className="hidden md:flex gap-1 p-1 rounded-lg border border-zinc-700 bg-zinc-950/80 max-w-full min-w-0"
+            className="hidden md:flex gap-5 lg:gap-6 max-w-full min-w-0 items-center"
             aria-label="Hlavní navigace"
           >
             {NAV.map(({ id, label }) => (
@@ -167,10 +167,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                   if (currentView !== id) haptics.light();
                   onViewChange(id);
                 }}
-                className={`px-3 lg:px-4 py-2 min-h-[44px] rounded-md text-xs lg:text-sm font-semibold whitespace-nowrap transition-colors ${
+                className={`py-2 min-h-[44px] text-sm font-medium whitespace-nowrap transition-colors duration-200 ${
                   currentView === id
-                    ? 'bg-violet-600 text-white'
-                    : 'text-zinc-400 hover:text-zinc-100'
+                    ? 'text-theme-text'
+                    : 'text-theme-muted hover:text-theme-text'
                 }`}
               >
                 {label}
@@ -182,12 +182,25 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             <button
               type="button"
               onClick={() => {
+                haptics.light();
+                setMobileNavOpen(false);
+                updateSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' });
+              }}
+              aria-label={settings.theme === 'dark' ? 'Světlý režim' : 'Tmavý režim'}
+              className="touch-target rounded-lg border border-theme-border bg-theme-card text-theme-muted hover:text-theme-text hover:bg-theme-elevated shrink-0 transition-[background-color,color,border-color] duration-theme ease-out"
+            >
+              {settings.theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
                 haptics.medium();
                 setMobileNavOpen(false);
                 onBreathingClick();
               }}
               aria-label="Dechová cvičení"
-              className="px-3 sm:px-4 min-h-[44px] rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm inline-flex items-center justify-center gap-2 border border-violet-500 transition-colors"
+              className="px-3 sm:px-4 min-h-[44px] rounded-lg border border-theme-border bg-transparent text-theme-text hover:bg-theme-elevated text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors duration-200"
             >
               <Wind className="w-5 h-5 shrink-0" />
               <span className="hidden lg:inline">Dýchání</span>
@@ -201,7 +214,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                 setShowSettings(true);
               }}
               aria-label="Nastavení"
-              className="touch-target rounded-lg border border-zinc-600 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white shrink-0"
+              className="touch-target rounded-lg border border-theme-border bg-theme-card text-theme-muted hover:text-theme-text hover:bg-theme-elevated shrink-0 transition-[background-color,color,border-color] duration-theme ease-out"
             >
               <Settings className="w-5 h-5" />
             </button>
@@ -215,7 +228,7 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
             <button
               type="button"
               aria-label="Zavřít menu"
-              className="fixed inset-0 z-[45] bg-black/60 md:hidden"
+              className="fixed inset-0 z-[45] bg-[var(--bg)]/70 backdrop-blur-sm md:hidden"
               onClick={() => setMobileNavOpen(false)}
             />
             <nav
@@ -223,13 +236,13 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
               role="dialog"
               aria-modal="true"
               aria-label="Navigace aplikace"
-              className="fixed top-0 right-0 bottom-0 z-[46] w-[min(100%,20rem)] flex flex-col border-l border-zinc-600 bg-zinc-950 pt-safe pb-6 px-4 md:hidden"
+              className="fixed top-0 right-0 bottom-0 z-[46] w-[min(100%,20rem)] flex flex-col border-l border-theme-border bg-theme-card pt-safe pb-6 px-4 md:hidden transition-colors duration-theme"
             >
-              <div className="flex items-center justify-between gap-2 py-4 border-b border-zinc-700 mb-4 shrink-0">
-                <span className="font-semibold text-zinc-100 truncate">Menu</span>
+              <div className="flex items-center justify-between gap-2 py-4 border-b border-theme-border mb-4 shrink-0">
+                <span className="font-semibold text-theme-text truncate">Menu</span>
                 <button
                   type="button"
-                  className="touch-target rounded-lg border border-zinc-600 bg-zinc-800"
+                  className="touch-target rounded-xl border border-theme-border bg-theme-elevated"
                   aria-label="Zavřít menu"
                   onClick={() => setMobileNavOpen(false)}
                 >
@@ -244,10 +257,10 @@ const Header = memo(function Header({ onBreathingClick, currentView, onViewChang
                       <button
                         type="button"
                         onClick={() => handleMobileNav(id)}
-                        className={`w-full flex items-center gap-3 rounded-lg px-4 py-3 min-h-[48px] text-left font-semibold transition-colors ${
+                        className={`w-full flex items-center gap-3 rounded-lg px-4 py-3 min-h-[48px] text-left text-sm font-medium transition-colors duration-200 ${
                           active
-                            ? 'bg-violet-600 text-white'
-                            : 'text-zinc-300 hover:bg-zinc-800'
+                            ? 'bg-theme-elevated text-theme-text'
+                            : 'text-theme-muted hover:text-theme-text hover:bg-theme-elevated/60'
                         }`}
                       >
                         <Icon className="w-6 h-6 shrink-0" strokeWidth={2} />

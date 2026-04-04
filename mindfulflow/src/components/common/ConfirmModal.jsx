@@ -48,7 +48,7 @@ export default function ConfirmModal({
             animate={{ opacity: 1, transition: { duration: 0.2, ease: easeConfig.smooth } }}
             exit={{ opacity: 0, transition: { duration: 0.15, ease: easeConfig.out } }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60 md:backdrop-blur-md"
+            className="absolute inset-0 bg-[var(--bg)]/75 md:backdrop-blur-md"
           />
 
           {/* Modal */}
@@ -57,11 +57,11 @@ export default function ConfirmModal({
             initial="hidden"
             animate="show"
             exit="exit"
-            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#1a1f2e]/90 p-8 shadow-2xl md:backdrop-blur-xl"
+            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-theme-border bg-theme-card p-8 shadow-depth-lg md:backdrop-blur-xl transition-colors duration-theme"
           >
             <div className="mb-8">
-              <h3 className="text-2xl font-bold text-white mb-3">{title}</h3>
-              <p className="text-white/70 leading-relaxed text-base">
+              <h3 className="text-2xl font-bold text-theme-text mb-3 tracking-tight">{title}</h3>
+              <p className="text-theme-muted leading-relaxed text-base">
                 {message}
               </p>
             </div>
@@ -69,7 +69,7 @@ export default function ConfirmModal({
             <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end w-full">
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto px-5 py-3 min-h-[48px] rounded-xl text-fluid-base font-medium text-white/70 hover:text-white hover:bg-white/10 transition-colors touch-manipulation"
+                className="w-full sm:w-auto px-5 py-3 min-h-[48px] rounded-xl text-fluid-base font-medium text-theme-muted hover:text-theme-text hover:bg-[var(--accent-glow)] transition-colors touch-manipulation"
               >
                 {cancelText}
               </button>
@@ -81,7 +81,7 @@ export default function ConfirmModal({
                 className={`w-full sm:w-auto px-6 py-3 min-h-[48px] rounded-xl text-fluid-base font-medium text-white shadow-lg transition-transform active:scale-95 touch-manipulation ${
                   isDangerous 
                     ? 'bg-red-500/80 hover:bg-red-500 shadow-red-500/20' 
-                    : 'bg-violet-600 hover:bg-violet-500 shadow-violet-500/25'
+                    : 'bg-[var(--accent)] hover:opacity-95 shadow-glow-accent'
                 }`}
               >
                 {confirmText}

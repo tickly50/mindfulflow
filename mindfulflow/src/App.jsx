@@ -45,8 +45,8 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] bg-theme-bg text-theme-text flex flex-col pt-safe font-sans antialiased selection:bg-violet-500/30">
-      <div className="w-full max-w-screen-2xl mx-auto px-[var(--container-pad-x)] py-[var(--section-pad-y)] md:py-6 flex-1 pb-6 md:pb-8 flex flex-col min-w-0">
+    <div className="min-h-[100dvh] bg-theme-bg text-theme-text flex flex-col pt-safe font-sans antialiased selection:bg-[var(--accent-glow)]/50 transition-[background-color,color] duration-theme ease-out">
+      <div className="w-full max-w-app mx-auto px-[var(--container-pad-x)] py-[var(--section-pad-y)] md:py-8 flex-1 pb-8 md:pb-12 flex flex-col min-w-0 gap-8">
         <Header
           onBreathingClick={handleBreathingOpen}
           currentView={currentView}

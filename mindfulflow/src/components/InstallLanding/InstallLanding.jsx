@@ -60,9 +60,9 @@ export default function InstallLanding() {
         >
           <motion.div
             variants={variants.item}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-white/85 mb-5 shadow-depth-sm backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--accent-glow)] border border-theme-border text-xs font-semibold text-theme-text mb-5 shadow-depth-sm backdrop-blur-md"
           >
-            <Sparkles className="w-3.5 h-3.5 text-violet-300/90" aria-hidden />
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent-soft)]" aria-hidden />
             MindfulFlow
           </motion.div>
           <motion.h1
@@ -73,7 +73,7 @@ export default function InstallLanding() {
           </motion.h1>
           <motion.p
             variants={variants.item}
-            className="text-white/65 text-sm md:text-fluid-base leading-relaxed max-w-md mx-auto"
+            className="text-theme-muted text-sm md:text-fluid-base leading-relaxed max-w-md mx-auto"
           >
             Každý den je jiný. MindfulFlow ti pomáhá zachytit, jak se skutečně cítíš — bez komplikací, bez
             zbytečností. Stačí pár vteřin denně a za týden začneš vidět vzorce, které jsi dřív přehlížel. Poznej sám
@@ -89,7 +89,7 @@ export default function InstallLanding() {
         >
           <motion.div variants={variants.item}>
             <GlassCard className="p-5 sm:p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300/95 mb-5 font-display">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent-soft)] mb-5">
                 Co v aplikaci najdeš
               </p>
               <ul className="space-y-4">
@@ -99,8 +99,8 @@ export default function InstallLanding() {
                       <Icon className="w-5 h-5 text-violet-200" aria-hidden />
                     </span>
                     <div>
-                      <p className="font-semibold text-white text-[0.9375rem] font-display">{title}</p>
-                      <p className="text-white/55 text-[0.8125rem] leading-snug mt-0.5">{text}</p>
+                      <p className="font-semibold text-theme-text text-[0.9375rem]">{title}</p>
+                      <p className="text-theme-muted text-[0.8125rem] leading-snug mt-0.5">{text}</p>
                     </div>
                   </li>
                 ))}
@@ -122,12 +122,12 @@ export default function InstallLanding() {
             whileHover={{ scale: 1.01, boxShadow: "0 0 28px rgba(124, 58, 237, 0.35)" }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-base shadow-depth-lg border border-violet-500 transition-colors font-display"
+            className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-[var(--accent)] hover:opacity-95 text-white font-bold text-base shadow-depth-lg border border-white/15 transition-opacity"
           >
             <Download className="w-5 h-5" aria-hidden />
             Stáhnout aplikaci
           </motion.button>
-          <motion.p variants={variants.item} className="text-center text-white/45 text-xs leading-relaxed">
+          <motion.p variants={variants.item} className="text-center text-theme-muted text-xs leading-relaxed">
             Po instalaci spusť MindfulFlow z ikony na ploše nebo v menu aplikací — tam poběží v plném režimu.
           </motion.p>
 

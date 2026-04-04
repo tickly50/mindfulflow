@@ -45,16 +45,16 @@ export const easeConfig = {
 const easeStudio = [0.16, 1, 0.3, 1];
 
 export const pageVariants = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 8 },
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.38, ease: easeStudio },
+    transition: { duration: 0.28, ease: easeStudio },
   },
   exit: {
     opacity: 0,
-    y: -14,
-    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] },
+    y: -4,
+    transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
   },
 };
 
@@ -67,8 +67,8 @@ export const variants = {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.09,
-        delayChildren: 0.06,
+        staggerChildren: 0.04,
+        delayChildren: 0.02,
       },
     },
     exit: {
@@ -303,8 +303,8 @@ export const reducedMotionVariants = {
 export const microInteractions = {
   button: {
     hover: {
-      scale: 1.035,
-      transition: { type: "spring", stiffness: 420, damping: 26, mass: 0.45 },
+      scale: 1.02,
+      transition: { type: "spring", stiffness: 420, damping: 28, mass: 0.45 },
     },
     tap: {
       scale: 0.94,

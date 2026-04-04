@@ -235,7 +235,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
   const canSubmit = selectedMood !== null;
 
   return (
-    <div className="w-full max-w-content mx-auto pb-8 md:pb-12 min-w-0 px-0 sm:px-1">
+    <div className="w-full max-w-app mx-auto pb-8 md:pb-12 min-w-0 px-0 sm:px-1">
           {/* Section 1: Introduction & Mood */}
           <div className="scroll-mt-4">
               <Greeting />
@@ -259,22 +259,22 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
               >
                 <div className="pt-4 xs:pt-6 scroll-mt-4">
                      {/* Glass Container for Details */}
-                     <div className="p-[clamp(1rem,3vw,2.5rem)] rounded-2xl border border-zinc-600 bg-zinc-900/90 w-full min-w-0">
+                     <div className="p-5 sm:p-6 rounded-xl border border-theme-border bg-theme-card w-full min-w-0 transition-[background-color,border-color] duration-theme">
                         {/* Sleep Slider */}
                         <SleepSlider value={sleepHours} onChange={setSleepHours} />
 
                         {/* Tags Section */}
                         <div className="mb-6 sm:mb-8">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
-                                <h3 className="text-lg sm:text-xl font-bold text-zinc-100 flex items-center gap-2">
-                                    <Sparkles className="w-5 h-5 text-violet-400" />
+                                <h3 className="text-lg sm:text-xl font-bold text-theme-text flex items-center gap-2 tracking-tight">
+                                    <Sparkles className="w-5 h-5 text-[var(--accent-soft)]" />
                                     Co ovlivnilo tvou náladu?
                                 </h3>
                                 <motion.button 
                                   whileHover={microInteractions.button.hover}
                                   whileTap={microInteractions.button.tap}
                                   onClick={() => setIsAddingTag(!isAddingTag)}
-                                  className="text-xs font-bold text-violet-100 hover:text-white px-4 py-2 bg-violet-600/25 hover:bg-violet-500/45 rounded-xl transition-colors flex items-center justify-center gap-1.5 group w-full sm:w-auto font-display"
+                                  className="text-xs font-bold text-theme-text px-4 py-2 bg-[var(--accent-glow)] hover:bg-[var(--accent)]/20 rounded-xl transition-[background-color] duration-theme flex items-center justify-center gap-1.5 group w-full sm:w-auto"
                                 >
                                   <Plus className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" />
                                   {isAddingTag ? 'Zavřít' : 'Vlastní tag'}
@@ -290,19 +290,19 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                       exit={{ opacity: 0, transition: { duration: 0.12 } }}
                       className="origin-top mb-4"
                     >
-                                      <div className="flex gap-2 items-center bg-black/30 p-1.5 xs:p-2 rounded-2xl border border-white/10 pr-1.5 xs:pr-2">
+                                      <div className="flex gap-2 items-center bg-theme-elevated p-1.5 xs:p-2 rounded-2xl border border-theme-border pr-1.5 xs:pr-2">
                                         <input
                                           type="text"
                                           value={newTagLabel}
                                           onChange={(e) => setNewTagLabel(e.target.value)}
                                           placeholder="Název nového tagu..."
-                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500/65 xs:text-base"
+                                          className="flex-1 min-w-0 rounded-2xl border-none bg-transparent px-3 py-2 text-sm text-theme-text placeholder-theme-muted focus:outline-none focus-visible:!outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--accent)]/50 xs:text-base"
                                           onKeyDown={(e) => e.key === 'Enter' && handleAddCustomTag()}
                                           autoFocus
                                         />
                                         <button
                                           onClick={handleAddCustomTag}
-                                          className="bg-violet-600 hover:bg-violet-500 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-violet-600/25 text-sm xs:text-base whitespace-nowrap font-display"
+                                          className="bg-[var(--accent)] hover:opacity-95 text-white px-4 xs:px-6 py-2 rounded-xl font-bold transition-opacity duration-theme shadow-glow-accent text-sm xs:text-base whitespace-nowrap"
                                         >
                                           Přidat
                                         </button>
@@ -330,7 +330,7 @@ const CheckInView = memo(function CheckInView({ onMoodChange }) {
                                 onClick={handleSubmit}
                                 disabled={!canSubmit || showSuccess || isSaving}
                                 aria-busy={isSaving}
-                                className="w-full md:w-auto md:min-w-[280px] rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3 text-lg font-semibold text-white border border-violet-500 transition-colors"
+                                className="w-full md:w-auto md:min-w-[280px] rounded-xl bg-[var(--accent)] hover:opacity-95 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-4 md:px-8 md:py-5 flex items-center justify-center gap-3 text-lg font-semibold text-white border border-white/15 transition-opacity duration-theme"
                             >
                               <span>{isSaving ? 'Ukládám…' : 'Uložit záznam'}</span>
                               <ChevronRight className="w-5 h-5 shrink-0" aria-hidden />

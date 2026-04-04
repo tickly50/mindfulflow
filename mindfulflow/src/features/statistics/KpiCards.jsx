@@ -13,17 +13,17 @@ const CARDS = [
     key: 'streak',
     label: 'Série',
     Icon: Flame,
-    color: '#f97316',
-    bg: 'rgba(249,115,22,0.12)',
-    border: 'rgba(249,115,22,0.25)',
+    color: '#fb923c',
+    bg: 'rgba(251,146,60,0.12)',
+    border: 'rgba(251,146,60,0.22)',
   },
   {
     key: 'total',
     label: 'Záznamy',
     Icon: BarChart3,
-    color: '#60a5fa',
-    bg: 'rgba(96,165,250,0.12)',
-    border: 'rgba(96,165,250,0.25)',
+    color: '#5eead4',
+    bg: 'rgba(94,234,212,0.1)',
+    border: 'rgba(94,234,212,0.22)',
   },
   {
     key: 'mood',
@@ -31,7 +31,7 @@ const CARDS = [
     Icon: TrendingUp,
     color: '#34d399',
     bg: 'rgba(52,211,153,0.12)',
-    border: 'rgba(52,211,153,0.25)',
+    border: 'rgba(52,211,153,0.22)',
   },
   {
     key: 'stability',
@@ -39,7 +39,7 @@ const CARDS = [
     Icon: Activity,
     color: '#a78bfa',
     bg: 'rgba(167,139,250,0.12)',
-    border: 'rgba(167,139,250,0.25)',
+    border: 'rgba(167,139,250,0.22)',
   },
   {
     key: 'sleep',
@@ -47,7 +47,7 @@ const CARDS = [
     Icon: Moon,
     color: '#818cf8',
     bg: 'rgba(129,140,248,0.12)',
-    border: 'rgba(129,140,248,0.25)',
+    border: 'rgba(129,140,248,0.22)',
   },
 ];
 
@@ -75,11 +75,10 @@ const KpiCards = memo(function KpiCards({ stats, streak, longestStreak, avgSleep
       {CARDS.map(({ key, label, Icon, color, bg, border }, i) => (
         <div
           key={key}
-          className="relative rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden stats-card"
+          className="relative rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden transition-[background-color,border-color] duration-theme"
           style={{
-            background: 'rgba(15,23,42,0.55)',
+            background: 'var(--bg-card)',
             border: `1px solid ${border}`,
-            backdropFilter: 'blur(16px)',
             animationDelay: `${i * 60}ms`,
           }}
         >
@@ -94,11 +93,11 @@ const KpiCards = memo(function KpiCards({ stats, streak, longestStreak, avgSleep
             <Icon size={18} style={{ color }} />
           </div>
           <div className="relative z-10">
-            <div className="text-xl sm:text-2xl font-bold text-white leading-none mb-1">
+            <div className="text-xl sm:text-2xl font-bold text-theme-text leading-none mb-1">
               {values[key]}
             </div>
-            <div className="text-xs sm:text-sm text-white/60 font-medium mb-0.5">{label}</div>
-            <div className="text-[10px] sm:text-xs text-white/40 leading-tight">{descs[key]}</div>
+            <div className="text-xs sm:text-sm text-theme-muted font-medium mb-0.5">{label}</div>
+            <div className="text-[10px] sm:text-xs text-theme-muted/80 leading-tight">{descs[key]}</div>
           </div>
         </div>
       ))}

@@ -8,14 +8,14 @@ export const Toast = ({ message, type, onClose }) => {
   const slideVariants = prefersReduced ? reducedMotionVariants.slideUp : variants.slideUp;
 
   const icons = {
-    success: <Check className="w-5 h-5 text-violet-400" />,
+    success: <Check className="w-5 h-5 text-[var(--accent-soft)]" />,
     error: <X className="w-5 h-5 text-red-400" />,
     info: <Info className="w-5 h-5 text-blue-400" />,
     warning: <AlertTriangle className="w-5 h-5 text-orange-400" />
   };
 
   const bgColors = {
-    success: 'bg-violet-500/10 border-violet-500/20',
+    success: 'bg-[var(--accent-glow)] border-[var(--accent)]/25',
     error: 'bg-red-500/10 border-red-500/20',
     info: 'bg-blue-500/10 border-blue-500/20',
     warning: 'bg-orange-500/10 border-orange-500/20'
@@ -27,14 +27,14 @@ export const Toast = ({ message, type, onClose }) => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg w-full max-w-[min(100%,24rem)] sm:min-w-[min(100%,300px)] sm:w-auto ${bgColors[type] || bgColors.info} bg-[#0f172a]/95 min-w-0`}
+      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-depth-sm w-full max-w-[min(100%,24rem)] sm:min-w-[min(100%,300px)] sm:w-auto ${bgColors[type] || bgColors.info} bg-theme-card min-w-0 transition-colors duration-theme`}
     >
       <div className="shrink-0">{icons[type] || icons.info}</div>
-      <p className="text-white/90 text-sm font-medium flex-1">{message}</p>
+      <p className="text-theme-text text-sm font-medium flex-1">{message}</p>
       <motion.button 
         onClick={onClose} 
         aria-label="Zavřít okno"
-        className="text-white/60 hover:text-white min-w-[44px] min-h-[44px] inline-flex items-center justify-center shrink-0 -mr-1 rounded-lg"
+        className="text-theme-muted hover:text-theme-text min-w-[44px] min-h-[44px] inline-flex items-center justify-center shrink-0 -mr-1 rounded-lg"
         whileHover={{ 
           rotate: 90,
           transition: { duration: 0.2 }

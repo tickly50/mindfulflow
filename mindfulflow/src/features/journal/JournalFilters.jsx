@@ -22,14 +22,14 @@ const JournalFilters = memo(function JournalFilters({
 
       {/* ── Search input ──────────────────────────────────────── */}
       <div className="relative w-full min-w-0">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35 pointer-events-none z-[1]" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-theme-muted pointer-events-none z-[1]" />
         <input
           ref={searchRef}
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Hledat v záznámech..."
-          className="w-full min-w-0 bg-white/5 border border-white/10 rounded-2xl pl-10 pr-12 py-3.5 min-h-[48px] text-fluid-sm text-white placeholder-white/35 focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/28 hover:border-white/18 transition-[border-color,box-shadow] duration-150"
+          className="w-full min-w-0 bg-theme-elevated border border-theme-border rounded-2xl pl-10 pr-12 py-3.5 min-h-[48px] text-fluid-sm text-theme-text placeholder-theme-muted focus:ring-2 focus:ring-[var(--accent)]/35 focus:border-[var(--accent)]/30 hover:border-[var(--accent)]/20 transition-[border-color,box-shadow] duration-theme"
         />
         <AnimatePresence>
           {searchQuery && (
@@ -39,7 +39,7 @@ const JournalFilters = memo(function JournalFilters({
               exit={{ opacity: 0, scale: 0.7 }}
               transition={{ duration: 0.15, ease: EASE_OUT }}
               onClick={() => { setSearchQuery(''); searchRef.current?.focus(); }}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-white/40 hover:text-white/80 rounded-xl hover:bg-white/10 transition-colors duration-150"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-theme-muted hover:text-theme-text rounded-xl hover:bg-[var(--accent-glow)] transition-colors duration-theme"
               aria-label="Vymazat hledání"
             >
               <X className="w-5 h-5" />
@@ -50,7 +50,7 @@ const JournalFilters = memo(function JournalFilters({
 
       {/* ── Mood filters + clear button ───────────────────────── */}
       <div className="flex flex-wrap items-center justify-center gap-2">
-        <div className="flex bg-white/5 p-1.5 rounded-3xl border border-white/10 shadow-glass">
+        <div className="flex bg-theme-elevated p-1.5 rounded-3xl border border-theme-border shadow-glass">
           {[1, 2, 3, 4, 5].map((mood) => (
             <button
               key={mood}
@@ -67,7 +67,7 @@ const JournalFilters = memo(function JournalFilters({
             >
               <span className="font-bold text-lg leading-none">{mood}</span>
               {filterMood === mood && (
-                <span className="absolute inset-0 rounded-[1.1rem] border-[3px] border-white/35 pointer-events-none" />
+                <span className="absolute inset-0 rounded-[1.1rem] border-[3px] border-white/40 pointer-events-none" />
               )}
             </button>
           ))}
@@ -94,8 +94,8 @@ const JournalFilters = memo(function JournalFilters({
               onClick={() => setFilterTag(filterTag === tag.id ? null : tag.id)}
               className={`px-4 py-2.5 min-h-[44px] rounded-xl text-fluid-xs sm:text-fluid-sm font-bold tracking-wide transition-[background-color,border-color,color,box-shadow,transform] duration-150 border outline-none inline-flex items-center justify-center ${
                 filterTag === tag.id
-                  ? 'bg-violet-600 text-white border-violet-400/50 shadow-glow-accent scale-105'
-                  : 'bg-white/5 text-white/55 border-white/10 hover:border-white/20 hover:text-white/85 hover:bg-white/8'
+                  ? 'bg-[var(--accent)] text-white border-[var(--accent-soft)]/40 shadow-glow-accent scale-105'
+                  : 'bg-theme-elevated text-theme-muted border-theme-border hover:border-[var(--accent)]/25 hover:text-theme-text hover:bg-[var(--accent-glow)]'
               }`}
             >
               {tag.label}

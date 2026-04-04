@@ -1,10 +1,10 @@
 /**
- * Jednoduchá karta — tmavé pozadí, okraj (žádné sklo).
+ * Karta — měkký okraj, bez ostrých stínů (design systém MindfulFlow).
  */
 export default function GlassCard({ children, className = '' }) {
   return (
     <div
-      className={`rounded-xl border border-zinc-600/80 bg-zinc-900/90 ${className}`}
+      className={`rounded-xl border border-theme-border bg-theme-card transition-[background-color,border-color] duration-theme ease-out ${className}`}
     >
       {children}
     </div>

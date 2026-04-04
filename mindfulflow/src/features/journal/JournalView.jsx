@@ -19,7 +19,7 @@ function SkeletonCard({ delay = 0 }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1], delay }}
-      className="rounded-[2rem] border border-white/8 bg-white/4 p-5 sm:p-6"
+      className="rounded-[2rem] border border-theme-border bg-theme-elevated/80 p-5 sm:p-6"
     >
       <div className="flex gap-4 items-start justify-between">
         <div className="flex-1 space-y-3">
@@ -173,11 +173,11 @@ const JournalView = memo(function JournalView() {
     allEntriesCount === undefined;
 
   return (
-    <div className="max-w-content mx-auto px-[var(--container-pad-x)] pb-12 md:pb-16 w-full min-w-0">
+    <div className="max-w-app mx-auto w-full min-w-0 pb-12 md:pb-16">
       {/* Header */}
       <div className="mb-6 md:mb-8 text-center px-1">
-        <h2 className="text-fluid-4xl font-bold text-white mb-2 tracking-tight">Tvůj Deník</h2>
-        <p className="text-white/60 text-fluid-lg">Všechny tvé myšlenky a pocity na jednom místě</p>
+        <h2 className="text-fluid-3xl font-semibold text-theme-text mb-2 tracking-tight">Tvůj Deník</h2>
+        <p className="text-theme-muted text-fluid-lg leading-relaxed">Všechny tvé myšlenky a pocity na jednom místě</p>
       </div>
 
       <JournalFilters
@@ -200,7 +200,7 @@ const JournalView = memo(function JournalView() {
             transition={{ duration: 0.15 }}
             className="mb-5 flex items-center gap-2"
           >
-            <span className="text-sm text-white/40">
+            <span className="text-sm text-theme-muted">
               {filteredEntriesCount === 0
                 ? 'Žádné záznamy'
                 : filteredEntriesCount === 1
@@ -210,7 +210,7 @@ const JournalView = memo(function JournalView() {
                 : `${filteredEntriesCount} záznamů`}
             </span>
             {(filterMood || filterTag || searchInput) && allEntriesCount !== undefined && (
-              <span className="text-xs text-white/25">z {allEntriesCount} celkem</span>
+              <span className="text-xs text-theme-muted/70">z {allEntriesCount} celkem</span>
             )}
           </motion.div>
         )}
@@ -247,7 +247,7 @@ const JournalView = memo(function JournalView() {
           <button
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             disabled={currentPage === 1}
-            className="min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed inline-flex items-center justify-center text-lg"
+            className="min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors duration-theme bg-theme-elevated border border-theme-border text-theme-muted hover:bg-[var(--accent-glow)] hover:text-theme-text disabled:opacity-30 disabled:cursor-not-allowed inline-flex items-center justify-center text-lg"
             aria-label="Předchozí stránka"
           >
             ‹
@@ -259,17 +259,17 @@ const JournalView = memo(function JournalView() {
               <button
                 key={p}
                 onClick={() => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className={`min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors inline-flex items-center justify-center ${
+                className={`min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors duration-theme inline-flex items-center justify-center ${
                   currentPage === p
-                    ? 'bg-violet-600 text-white shadow-lg shadow-violet-500/30'
-                    : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white'
+                    ? 'bg-[var(--accent)] text-white shadow-glow-accent'
+                    : 'bg-theme-elevated border border-theme-border text-theme-muted hover:bg-[var(--accent-glow)] hover:text-theme-text'
                 }`}
               >
                 {p}
               </button>
             );
             const addEllipsis = (key) => pages.push(
-              <span key={key} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-white/30 text-lg">…</span>
+              <span key={key} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-theme-muted text-lg">…</span>
             );
 
             if (totalPages <= 7) {
@@ -288,7 +288,7 @@ const JournalView = memo(function JournalView() {
           <button
             onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             disabled={currentPage === totalPages}
-            className="min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed inline-flex items-center justify-center text-lg"
+            className="min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl font-medium transition-colors duration-theme bg-theme-elevated border border-theme-border text-theme-muted hover:bg-[var(--accent-glow)] hover:text-theme-text disabled:opacity-30 disabled:cursor-not-allowed inline-flex items-center justify-center text-lg"
             aria-label="Další stránka"
           >
             ›

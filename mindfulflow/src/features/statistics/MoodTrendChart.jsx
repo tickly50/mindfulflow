@@ -130,8 +130,8 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
   return (
     <GlassCard className="p-5 sm:p-6 min-w-0">
       <div className="mb-4">
-        <h3 className="text-fluid-xl font-bold text-white">Vývoj nálady</h3>
-        <p className="text-white/50 text-fluid-sm">Emoční křivka v čase</p>
+        <h3 className="text-fluid-xl font-bold text-theme-text tracking-tight">Vývoj nálady</h3>
+        <p className="text-theme-muted text-fluid-sm leading-relaxed">Emoční křivka v čase</p>
       </div>
 
       <div className="w-full overflow-hidden">
@@ -146,8 +146,9 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
         >
           <defs>
             <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#5b21b6" stopOpacity="0" />
+              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.4" />
+              <stop offset="55%" stopColor="#14b8a6" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -156,11 +157,12 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
             <g key={label}>
               <line
                 x1={PAD.left} y1={y} x2={W - PAD.right} y2={y}
-                stroke="rgba(255,255,255,0.06)" strokeWidth="1"
+                stroke="var(--border)"
+                strokeWidth="1"
               />
               <text
                 x={PAD.left - 6} y={y + 4}
-                textAnchor="end" fill="rgba(255,255,255,0.35)" fontSize="11"
+                textAnchor="end" fill="var(--text-muted)" fontSize="11"
               >
                 {label}
               </text>
@@ -174,7 +176,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
           <path
             d={linePath}
             fill="none"
-            stroke="#a78bfa"
+            stroke="var(--accent-soft)"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -185,7 +187,7 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
             <text
               key={i}
               x={x} y={H - 6}
-              textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="11"
+              textAnchor="middle" fill="var(--text-muted)" fontSize="11"
             >
               {label}
             </text>
@@ -207,20 +209,18 @@ const MoodTrendChart = memo(function MoodTrendChart({ chartData }) {
       {/* Tooltip box */}
       {tooltip && (
         <div
-          className="mt-2 px-3 py-2 rounded-xl text-sm"
+          className="mt-2 px-3 py-2 rounded-xl text-sm border border-theme-border bg-theme-elevated/95 backdrop-blur-sm"
           style={{
-            background: 'rgba(15,23,42,0.85)',
-            border: `1px solid ${tooltipColor}40`,
-            backdropFilter: 'blur(8px)',
+            borderColor: `${tooltipColor}55`,
           }}
         >
-          <span className="text-white/50 text-xs">{tooltip.data.fullDate} · </span>
+          <span className="text-theme-muted text-xs">{tooltip.data.fullDate} · </span>
           <span className="font-semibold" style={{ color: tooltipColor }}>
             {tooltip.data.moodLabel}
           </span>
-          <span className="text-white/40 text-xs ml-1">({tooltip.data.mood}/5)</span>
+          <span className="text-theme-muted text-xs ml-1">({tooltip.data.mood}/5)</span>
           {tooltip.data.note && (
-            <p className="text-white/70 text-xs mt-1 italic">"{tooltip.data.note}"</p>
+            <p className="text-theme-text/80 text-xs mt-1 italic">&ldquo;{tooltip.data.note}&rdquo;</p>
           )}
         </div>
       )}
